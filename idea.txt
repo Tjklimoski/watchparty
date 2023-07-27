@@ -1,0 +1,7 @@
+A site where you can create an account and find movies that you want to watch and add them to your watch list.
+
+When you add a movie you see a count of how many others have that movie in their watch list within a user specified radius to your location. You can create an event - a WatchParty - for a specific movie in your watch lists. you invite the other users to join, or the other users can find the watchparty and join themselves.
+
+Use themovieDB api for images and data.
+
+Should it be that when the user creates an event for when and where they're going to watch the movie anyone with that same movie in their watchlist and in their radius gets auitomatically notified? -- yes
