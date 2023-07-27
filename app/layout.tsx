@@ -15,8 +15,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html data-theme="dark" lang="en">
-      <body className={rubik.className}>{children}</body>
+    <html data-theme="watchPartyDark" lang="en">
+      <body className={`${rubik.className} bg-neutral`}>{children}</body>
     </html>
   )
 }
