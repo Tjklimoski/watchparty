@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html data-theme="watchPartyDark" lang="en">
-      <body className={`${rubik.className} bg-neutral`}>{children}</body>
+      <body className={`${rubik.className}`}>{children}</body>
     </html>
   )
 }
