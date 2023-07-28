@@ -6,15 +6,12 @@ export default function MainMenu() {
 
   return (
     // menu-horizontal contains a display: inline-flex
-    <ul className="menu lg:menu-horizontal rounded-box">
+    <ul className="menu lg:menu-horizontal rounded-box w-full">
       <li className="text-lg">
         <a tabIndex={0}>🎬 Movies & TV</a>
       </li>
       <li className="text-lg">
-        <a tabIndex={0}>
-          🎉 Watch Parties
-          <span className="badge badge-sm badge-accent">5+</span>
-        </a>
+        <a tabIndex={0}>🎉 Watch Parties</a>
       </li>
     </ul>
   );

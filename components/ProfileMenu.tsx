@@ -3,7 +3,7 @@ import { BsBellFill, BsFillGearFill } from "react-icons/bs";
 
 export default function ProfileMenu() {
   return (
-    <ul className="menu menu-md">
+    <ul className="menu menu-md w-full">
       <li>
         <a>
           <BsBellFill size={18} />
