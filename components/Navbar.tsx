@@ -1,21 +1,45 @@
-import PrimaryBtn from "./PrimaryBtn";
-import AccentBtn from "./AccentBtn";
 import MainMenu from "./MainMenu";
-import Image from "next/image";
-import NavbarProfileContainer from "./NavbarProfileContainer";
 import SignInProfileContainer from "./SignInProfileContainer";
 import NavbarLogo from "./NavbarLogo";
+import { FiMenu } from "react-icons/fi";
+import { IoClose } from "react-icons/io5";
+import ProfileIcon from "./ProfileIcon";
+import ProfileMenu from "./ProfileMenu";
+import PrimaryBtn from "./PrimaryBtn";
+import AccentBtn from "./AccentBtn";
 
 export default function Navbar() {
   return (
-    <div className="fixed top-0 w-full max-w-screen-2xl h-24 px-6 py-2 md:px-12 md:py-4 flex items-center gap-4 md:gap-6 bg-base-100 bg-opacity-75 backdrop-blur-md z-20">
+    <div className="fixed top-0 w-full max-w-screen-2xl h-20 sm:h-24 px-6 py-2 md:px-12 md:py-4 flex items-center gap-4 md:gap-6 bg-base-100 bg-opacity-75 backdrop-blur-md z-20">
       <NavbarLogo />
 
       {/* Menu container */}
-      <div className="flex flex-1 justify-between items-center">
+      <div className="hidden lg:flex flex-1 justify-between items-center">
         <MainMenu />
-        <div className="ml-auto">
-          <SignInProfileContainer />
+        <SignInProfileContainer />
+      </div>
+
+      {/* Mobile menu */}
+      <div className="lg:hidden ml-auto">
+        <div className="hover:cursor-pointer z-30">
+          <FiMenu size={40} className="w-6 h-6 sm:w-10 sm:h-10" />
+          <IoClose size={40} className="w-6 h-6 sm:w-10 sm:h-10" />
+        </div>
+        {/* slide out container */}
+        <div className="absolute top-20 sm:top-24 right-0 z-20 translate-x-0 transition duration-200">
+          <div className="w-full h-full bg-base-100 bg-opacity-75 backdrop-blur-md rounded-bl-xl flex flex-col items-center p-4">
+            {/* NEED TO CHECK AUTH STATE TO TOGGLE BETWEEN CTA AND MENU */}
+            <div className="flex gap-2 items-center">
+              {/* NEED TO PASS IN LOGIN FUNC TO PRIMARYBTN */}
+              <PrimaryBtn>Sign In</PrimaryBtn>
+              <AccentBtn>Sign Up</AccentBtn>
+            </div>
+            <div className="p-2 bg-neutral rounded-md flex flex-col items-center">
+              <ProfileIcon />
+              <ProfileMenu />
+            </div>
+            <MainMenu />
+          </div>
         </div>
       </div>
     </div>

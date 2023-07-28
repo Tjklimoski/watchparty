@@ -20,7 +20,9 @@ export default function SignInProfileContainer() {
       {isAuth ? (
         <NavbarProfileContainer />
       ) : (
-        <div className="flex gap-2 items-center">
+        // ml-auto in order to keep auth buttons on the right of navbar
+        // since user isn't authenticated, main menu will not be present
+        <div className="flex gap-2 items-center ml-auto">
           <PrimaryBtn onClick={login}>Sign In</PrimaryBtn>
           <AccentBtn>Sign Up</AccentBtn>
         </div>
