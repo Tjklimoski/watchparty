@@ -5,7 +5,13 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  theme: {},
+  theme: {
+    extend: {
+      backgroundImage: {
+        'main-pattern': "url('/img/wp-main-bg.png')"
+      }
+    }
+  },
   plugins: [require("daisyui")],
   daisyui: {
     themes: [
