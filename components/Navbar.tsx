@@ -1,5 +1,4 @@
 import MainMenu from "./MainMenu";
-import SignInProfileContainer from "./SignInProfileContainer";
 import NavbarLogo from "./NavbarLogo";
 import { FiMenu } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
@@ -7,6 +6,9 @@ import ProfileIcon from "./ProfileIcon";
 import ProfileMenu from "./ProfileMenu";
 import PrimaryBtn from "./PrimaryBtn";
 import AccentBtn from "./AccentBtn";
+import NavbarProfileContainer from "./NavbarProfileContainer";
+
+const isAuth = false;
 
 export default function Navbar() {
   return (
@@ -16,7 +18,17 @@ export default function Navbar() {
       {/* Menu container */}
       <div className="hidden lg:flex flex-1 justify-between items-center">
         <MainMenu />
-        <SignInProfileContainer />
+        {isAuth ? (
+          <NavbarProfileContainer />
+        ) : (
+          // ml-auto in order to keep auth buttons on the right of navbar
+          // since user isn't authenticated, main menu will not be present
+          <div className="flex gap-2 items-center ml-auto">
+            {/* Pass link to direct user to /auth */}
+            <PrimaryBtn>Sign In</PrimaryBtn>
+            <AccentBtn>Sign Up</AccentBtn>
+          </div>
+        )}
       </div>
 
       {/* Mobile menu */}
@@ -30,7 +42,7 @@ export default function Navbar() {
           <div className="w-full h-full bg-base-100 bg-opacity-75 backdrop-blur-md rounded-bl-xl flex flex-col items-center p-4">
             {/* NEED TO CHECK AUTH STATE TO TOGGLE BETWEEN CTA AND MENU */}
             <div className="flex gap-2 items-center">
-              {/* NEED TO PASS IN LOGIN FUNC TO PRIMARYBTN */}
+              {/* Pass link to direct user to /auth */}
               <PrimaryBtn>Sign In</PrimaryBtn>
               <AccentBtn>Sign Up</AccentBtn>
             </div>
