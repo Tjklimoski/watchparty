@@ -4,7 +4,7 @@ export default function NavbarLogo() {
   return (
     <div className="flex items-center gap-2 group/logo hover:cursor-pointer">
       <Image
-        src="watchparty-logo.svg"
+        src="img/watchparty-logo.svg"
         alt="WatchParty Icon"
         height={40}
         width={40}

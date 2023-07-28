@@ -7,7 +7,7 @@ export default function ProfileIcon() {
         <Image
           width={40}
           height={40}
-          src="/profile_img/profile.jpg"
+          src="/img/profile/avatar.jpg"
           alt="profile image"
         />
       </div>
