@@ -1,0 +1,9 @@
+Will contain a list of all of the user's created watch parties.
+
+This list will link to their page @ /watchparty/[partyid]
+This list will also contain a link to edit the party @ /watchparty/[partyId]/edit
+this list will have a button to delete the party
+
+There will be a create button at the top right of the page, before the list. will navigate the user to /watchparty/create
+
+If they're the owner of the watchparty, and go to /watchparty/[partyid] they will see an edit and delete button on that watchparty page too.

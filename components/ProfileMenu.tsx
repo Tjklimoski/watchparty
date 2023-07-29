@@ -1,5 +1,6 @@
-import { BiLogOut } from "react-icons/bi";
+import { BiLogOut, BiSolidParty } from "react-icons/bi";
 import { BsBellFill, BsFillGearFill } from "react-icons/bs";
+import { RiMovieFill } from "react-icons/ri";
 
 export default function ProfileMenu() {
   return (
