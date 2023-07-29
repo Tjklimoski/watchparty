@@ -14,6 +14,18 @@ export default function ProfileMenu() {
       </li>
       <li>
         <a>
+          <BiSolidParty size={18} />
+          My Parties
+        </a>
+      </li>
+      <li>
+        <a>
+          <RiMovieFill size={18} />
+          My List
+        </a>
+      </li>
+      <li>
+        <a>
           <BsFillGearFill size={18} />
           Settings
         </a>
