@@ -8,9 +8,10 @@ import PrimaryBtn from "./PrimaryBtn";
 import AccentBtn from "./AccentBtn";
 import NavbarProfileContainer from "./NavbarProfileContainer";
 import auth from "@/lib/authenticate";
+import MobileMenu from "./MobileMenu";
 
 export default async function Navbar() {
-  const isAuth = await auth(true);
+  const isAuth = await auth();
 
   return (
     <div className="fixed top-0 w-full max-w-screen-2xl h-20 sm:h-24 px-6 py-2 md:px-12 md:py-4 flex items-center gap-4 md:gap-6 bg-base-100 bg-opacity-75 backdrop-blur-md z-20">
@@ -36,32 +37,7 @@ export default async function Navbar() {
 
       {/* Mobile menu */}
       <div className="lg:hidden ml-auto">
-        <div className="hover:cursor-pointer z-30">
-          {/* <FiMenu size={40} className="w-6 h-6 sm:w-10 sm:h-10" /> */}
-          <IoClose size={40} className="w-6 h-6 sm:w-10 sm:h-10" />
-        </div>
-        {/* slide out container */}
-        <div className="absolute top-20 sm:top-24 right-0 z-20 translate-x-0 transition duration-200 pt-1">
-          <div className="w-full h-full bg-base-100 bg-opacity-75 backdrop-blur-md rounded-s-xl flex flex-col items-center p-4">
-            {isAuth ? (
-              <>
-                <div className="p-2 bg-neutral rounded-md flex flex-col items-center">
-                  <ProfileIcon />
-                  <ProfileMenu />
-                </div>
-                <div className="w-full">
-                  <MainMenu />
-                </div>
-              </>
-            ) : (
-              <div className="flex gap-2 items-center">
-                {/* Pass link to direct user to /auth */}
-                <PrimaryBtn>Sign In</PrimaryBtn>
-                <AccentBtn>Sign Up</AccentBtn>
-              </div>
-            )}
-          </div>
-        </div>
+        <MobileMenu isAuth={isAuth} />
       </div>
     </div>
   );
