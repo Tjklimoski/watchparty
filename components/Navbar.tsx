@@ -7,19 +7,22 @@ import ProfileMenu from "./ProfileMenu";
 import PrimaryBtn from "./PrimaryBtn";
 import AccentBtn from "./AccentBtn";
 import NavbarProfileContainer from "./NavbarProfileContainer";
+import auth from "@/lib/authenticate";
 
-const isAuth = true;
+export default async function Navbar() {
+  const isAuth = await auth(true);
 
-export default function Navbar() {
   return (
     <div className="fixed top-0 w-full max-w-screen-2xl h-20 sm:h-24 px-6 py-2 md:px-12 md:py-4 flex items-center gap-4 md:gap-6 bg-base-100 bg-opacity-75 backdrop-blur-md z-20">
       <NavbarLogo />
 
       {/* Menu container */}
       <div className="hidden lg:flex flex-1 justify-between items-center">
-        <MainMenu />
         {isAuth ? (
-          <NavbarProfileContainer />
+          <>
+            <MainMenu />
+            <NavbarProfileContainer />
+          </>
         ) : (
           // ml-auto in order to keep auth buttons on the right of navbar
           // since user isn't authenticated, main menu will not be present
@@ -46,7 +49,9 @@ export default function Navbar() {
                   <ProfileIcon />
                   <ProfileMenu />
                 </div>
-                <MainMenu />
+                <div className="w-full">
+                  <MainMenu />
+                </div>
               </>
             ) : (
               <div className="flex gap-2 items-center">
