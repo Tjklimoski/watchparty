@@ -1,9 +1,5 @@
 import MainMenu from "./MainMenu";
 import NavbarLogo from "./NavbarLogo";
-import { FiMenu } from "react-icons/fi";
-import { IoClose } from "react-icons/io5";
-import ProfileIcon from "./ProfileIcon";
-import ProfileMenu from "./ProfileMenu";
 import PrimaryBtn from "./PrimaryBtn";
 import AccentBtn from "./AccentBtn";
 import NavbarProfileContainer from "./NavbarProfileContainer";

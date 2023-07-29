@@ -1,6 +1,5 @@
 "use client";
 
-import auth from "@/lib/authenticate";
 import { FiMenu } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import ProfileIcon from "./ProfileIcon";
@@ -30,7 +29,8 @@ export default function MobileMenu({ isAuth }: MobileMenuProps) {
           <FiMenu size={40} className="w-6 h-6 sm:w-10 sm:h-10" />
         )}
       </div>
-      {/* slide out container */}
+
+      {/* Container that slides out */}
       <div
         className={`absolute top-20 sm:top-24 right-0 pt-1 z-20 transition duration-300  ${
           isOpen ? "translate-x-0" : "translate-x-full"
