@@ -2,9 +2,13 @@ export default function Home() {
   return (
     <main>
       <div className="flex gap-2 h-screen items-center justify-center">
-        <label>Movie:</label>
-        <input type="search" className="input bg-neutral" />
-        <button className="btn btn-primary">SEARCH</button>
+        <h1 className="text-5xl text-center -skew-y-3">
+          Welcome to
+          <br />
+          <span className="text-6xl">
+            Watch<span className="text-primary">Party</span>!
+          </span>
+        </h1>
       </div>
     </main>
   );
