@@ -8,7 +8,7 @@ import PrimaryBtn from "./PrimaryBtn";
 import AccentBtn from "./AccentBtn";
 import NavbarProfileContainer from "./NavbarProfileContainer";
 
-const isAuth = false;
+const isAuth = true;
 
 export default function Navbar() {
   return (
@@ -34,23 +34,27 @@ export default function Navbar() {
       {/* Mobile menu */}
       <div className="lg:hidden ml-auto">
         <div className="hover:cursor-pointer z-30">
-          <FiMenu size={40} className="w-6 h-6 sm:w-10 sm:h-10" />
+          {/* <FiMenu size={40} className="w-6 h-6 sm:w-10 sm:h-10" /> */}
           <IoClose size={40} className="w-6 h-6 sm:w-10 sm:h-10" />
         </div>
         {/* slide out container */}
-        <div className="absolute top-20 sm:top-24 right-0 z-20 translate-x-0 transition duration-200">
-          <div className="w-full h-full bg-base-100 bg-opacity-75 backdrop-blur-md rounded-bl-xl flex flex-col items-center p-4">
-            {/* NEED TO CHECK AUTH STATE TO TOGGLE BETWEEN CTA AND MENU */}
-            <div className="flex gap-2 items-center">
-              {/* Pass link to direct user to /auth */}
-              <PrimaryBtn>Sign In</PrimaryBtn>
-              <AccentBtn>Sign Up</AccentBtn>
-            </div>
-            <div className="p-2 bg-neutral rounded-md flex flex-col items-center">
-              <ProfileIcon />
-              <ProfileMenu />
-            </div>
-            <MainMenu />
+        <div className="absolute top-20 sm:top-24 right-0 z-20 translate-x-0 transition duration-200 pt-1">
+          <div className="w-full h-full bg-base-100 bg-opacity-75 backdrop-blur-md rounded-s-xl flex flex-col items-center p-4">
+            {isAuth ? (
+              <>
+                <div className="p-2 bg-neutral rounded-md flex flex-col items-center">
+                  <ProfileIcon />
+                  <ProfileMenu />
+                </div>
+                <MainMenu />
+              </>
+            ) : (
+              <div className="flex gap-2 items-center">
+                {/* Pass link to direct user to /auth */}
+                <PrimaryBtn>Sign In</PrimaryBtn>
+                <AccentBtn>Sign Up</AccentBtn>
+              </div>
+            )}
           </div>
         </div>
       </div>
