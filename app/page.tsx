@@ -1,6 +1,7 @@
 export default function Home() {
   return (
-    <main>
+    // Negative margin top is to offset the navbar, so content is centered on page
+    <main className="-mt-20 sm:-mt-24">
       <div className="flex gap-2 h-screen items-center justify-center">
         <h1 className="text-5xl text-center -skew-y-3">
           Welcome to
