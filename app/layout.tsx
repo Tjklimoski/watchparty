@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html data-theme="watchPartyDark" lang="en">
       <body
-        className={`${rubik.className} bg-main-pattern bg-top bg-no-repeat`}
+        className={`${rubik.className} bg-main-pattern bg-top bg-no-repeat min-h-screen`}
       >
         <Navbar />
         {children}
