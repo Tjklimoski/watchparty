@@ -10,7 +10,7 @@ export default async function Navbar() {
   const isAuth = await auth();
 
   return (
-    <div className="fixed top-0 w-full max-w-screen-2xl h-20 sm:h-24 px-6 py-2 md:px-12 md:py-4 flex items-center gap-4 md:gap-6 bg-base-100 bg-opacity-75 backdrop-blur-md z-20">
+    <div className="sticky top-0 w-full max-w-screen-2xl h-20 sm:h-24 px-6 py-2 md:px-12 md:py-4 flex items-center gap-4 md:gap-6 bg-base-100 bg-opacity-75 backdrop-blur-md z-20">
       <NavbarLogo />
 
       {/* Menu container */}
