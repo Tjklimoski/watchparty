@@ -9,11 +9,11 @@ module.exports = {
     extend: {
       backgroundImage: {
         'main-pattern': "url('/img/wp-main-bg.png')"
+      },
+      aspectRatio: {
+        'poster': '2/3',
       }
     },
-    gridTemplateColumns: {
-      '200': 'repeat(auto-fill, 200px)'
-    }
   },
   plugins: [require("daisyui")],
   daisyui: {
