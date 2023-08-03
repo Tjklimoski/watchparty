@@ -10,30 +10,32 @@ export default async function Navbar() {
   const isAuth = await auth();
 
   return (
-    <div className="sticky top-0 w-full max-w-screen-2xl h-20 sm:h-24 px-6 py-2 md:px-12 md:py-4 flex items-center gap-4 md:gap-6 bg-base-100 bg-opacity-75 backdrop-blur-md z-20">
-      <NavbarLogo />
+    <div className="sticky top-0 h-20 sm:h-24 px-6 py-2 md:px-12 md:py-4 bg-base-100 bg-opacity-75 backdrop-blur-md z-20">
+      <div className="max-w-[1440px] flex items-center gap-4 md:gap-6">
+        <NavbarLogo />
 
-      {/* Menu container */}
-      <div className="hidden lg:flex flex-1 justify-between items-center">
-        {isAuth ? (
-          <>
-            <MainMenu />
-            <NavbarProfileContainer />
-          </>
-        ) : (
-          // ml-auto in order to keep auth buttons on the right of navbar
-          // since user isn't authenticated, main menu will not be present
-          <div className="flex gap-2 items-center ml-auto">
-            {/* Pass link to direct user to /auth */}
-            <PrimaryBtn>Sign In</PrimaryBtn>
-            <AccentBtn>Sign Up</AccentBtn>
-          </div>
-        )}
-      </div>
+        {/* Menu container */}
+        <div className="hidden lg:flex flex-1 justify-between items-center">
+          {isAuth ? (
+            <>
+              <MainMenu />
+              <NavbarProfileContainer />
+            </>
+          ) : (
+            // ml-auto in order to keep auth buttons on the right of navbar
+            // since user isn't authenticated, main menu will not be present
+            <div className="flex gap-2 items-center ml-auto">
+              {/* Pass link to direct user to /auth */}
+              <PrimaryBtn>Sign In</PrimaryBtn>
+              <AccentBtn>Sign Up</AccentBtn>
+            </div>
+          )}
+        </div>
 
-      {/* Mobile menu */}
-      <div className="lg:hidden ml-auto">
-        <MobileMenu isAuth={isAuth} />
+        {/* Mobile menu */}
+        <div className="lg:hidden ml-auto">
+          <MobileMenu isAuth={isAuth} />
+        </div>
       </div>
     </div>
   );
