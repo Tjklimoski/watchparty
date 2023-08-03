@@ -5,7 +5,7 @@ import type { Movie } from "@/types";
 import Image from "next/image";
 import PageContainer from "@/components/PageContainer";
 import useSWRImmutable from "swr/immutable";
-import fetcher from "@/lib/movieFetcher";
+import fetcher from "@/lib/mediaFetcher";
 
 export default function MediaPage() {
   const baseImgPath = "https://image.tmdb.org/t/p/";

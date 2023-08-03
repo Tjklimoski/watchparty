@@ -11,6 +11,5 @@ const TMDBApi = axios.create({
 });
 
 export default async function fetcher(url: string) {
-  console.log("FETCH REQ ran for: ", url);
   return TMDBApi.get(url).then((res) => res.data.results);
 }
