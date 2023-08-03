@@ -20,31 +20,42 @@ async function GetPopularMovies() {
     );
     return data;
   } catch (err) {
-    console.log("ERROR: ", err);
+    if (process.env.NODE_ENV === "development") console.error(err);
   }
 }
 
 export default async function MediaPage() {
   const baseImgPath = "https://image.tmdb.org/t/p/";
-  const imgSize = "w185";
+  const imgSize = "w500";
 
   const PopularMovies: Movie[] | undefined = await GetPopularMovies();
 
   return (
-    <div className="flex flex-wrap gap-4">
-      {PopularMovies &&
-        PopularMovies.map((movie) => (
-          <div key={movie.id}>
-            <Image
-              className="h-full w-full object-cover"
-              src={baseImgPath + imgSize + movie.poster_path}
-              alt={`${movie.title} poster`}
-              width={185}
-              height={240}
-            />
-          </div>
-        ))}
-    </div>
+    <main className="px-6 py-2 md:px-12 md:py-4">
+      <div className="h-10 w-96 m-4 text-center bg-zinc-700 rounded-md">
+        Search Bar
+      </div>
+
+      <h2 className="text-2xl font-semibold">Popular Movies</h2>
+      <div className="grid gap-4 grid-flow-col auto-cols-[42%] sm:auto-cols-[29%] md:auto-cols-[22%] lg:auto-cols-[min(18%,_300px)] overflow-x-scroll overscroll-x-contain p-2 snap-mandatory snap-x">
+        {PopularMovies &&
+          PopularMovies.map((movie) => (
+            <div
+              key={movie.id}
+              className="p-2 bg-primary bg-opacity-20 rounded-sm shadow-md snap-start"
+            >
+              <Image
+                className="object-cover w-full rounded-sm"
+                src={baseImgPath + imgSize + movie.poster_path}
+                alt={`${movie.title} poster`}
+                width={185}
+                height={240}
+              />
+              <p className="font-semibold text-lg my-2">{movie.title}</p>
+            </div>
+          ))}
+      </div>
+    </main>
   );
 }
 

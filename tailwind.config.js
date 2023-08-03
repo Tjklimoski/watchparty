@@ -10,6 +10,9 @@ module.exports = {
       backgroundImage: {
         'main-pattern': "url('/img/wp-main-bg.png')"
       }
+    },
+    gridTemplateColumns: {
+      '200': 'repeat(auto-fill, 200px)'
     }
   },
   plugins: [require("daisyui")],
