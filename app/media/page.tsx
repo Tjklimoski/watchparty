@@ -1,35 +1,27 @@
+"use client";
+
 import axios from "axios";
 import type { Movie } from "@/types";
 import Image from "next/image";
 import PageContainer from "@/components/PageContainer";
+import useSWRImmutable from "swr/immutable";
+import fetcher from "@/lib/movieFetcher";
 
-const TMDBApi = axios.create({
-  baseURL: "https://api.themoviedb.org/3",
-  headers: {
-    Accept: "application/json",
-  },
-  params: {
-    api_key: process.env.TMDB_API_KEY,
-  },
-});
-
-async function GetPopularMovies() {
-  console.log("Fetch req ran");
-  try {
-    const data = await TMDBApi.get("/movie/popular").then(
-      (res) => res.data.results
-    );
-    return data;
-  } catch (err) {
-    if (process.env.NODE_ENV === "development") console.error(err);
-  }
-}
-
-export default async function MediaPage() {
+export default function MediaPage() {
   const baseImgPath = "https://image.tmdb.org/t/p/";
   const imgSize = "w500";
 
-  const PopularMovies: Movie[] | undefined = await GetPopularMovies();
+  const {
+    data: popularMovies,
+    isLoading: popularMoviesLoading,
+    error: popularMoviesError,
+  } = useSWRImmutable<Movie[]>("/movie/popular", fetcher);
+
+  const {
+    data: nowPlayingMovies,
+    isLoading: nowPlayingMoviesLoading,
+    error: nowPlayingMoviesError,
+  } = useSWRImmutable<Movie[]>("/movie/now_playing", fetcher);
 
   return (
     <PageContainer>
@@ -37,20 +29,20 @@ export default async function MediaPage() {
         Search Bar
       </div>
 
-      <h2 className="text-2xl font-semibold">Popular Movies</h2>
-      <div className="grid gap-4 grid-flow-col auto-cols-[42%] sm:auto-cols-[29%] md:auto-cols-[22%] lg:auto-cols-[min(18%,_300px)] overflow-x-scroll overscroll-x-contain p-2 snap-mandatory snap-x">
-        {PopularMovies &&
-          PopularMovies.map((movie) => (
+      <h2 className="text-2xl font-semibold mb-2">Popular Movies</h2>
+      <div className="grid gap-4 grid-flow-col auto-cols-[42%] sm:auto-cols-[29%] md:auto-cols-[22%] lg:auto-cols-[min(18%,_280px)] overflow-x-scroll overscroll-x-contain snap-mandatory snap-x">
+        {popularMovies &&
+          popularMovies.map((movie) => (
             <div
               key={movie.id}
               className="p-2 bg-primary bg-opacity-20 rounded-sm shadow-md snap-start"
             >
               <Image
-                className="object-cover w-full rounded-sm"
+                className="aspect-poster object-cover w-full rounded-sm"
                 src={baseImgPath + imgSize + movie.poster_path}
                 alt={`${movie.title} poster`}
-                width={185}
-                height={240}
+                width={256}
+                height={384}
               />
               <p className="font-semibold text-lg my-2">{movie.title}</p>
             </div>
