@@ -31,7 +31,7 @@ export default async function MediaPage() {
   const PopularMovies: Movie[] | undefined = await GetPopularMovies();
 
   return (
-    <main className="px-6 py-2 md:px-12 md:py-4">
+    <main className="px-6 py-2 md:px-12 md:py-4 max-w-[1440px]">
       <div className="h-10 w-96 m-4 text-center bg-zinc-700 rounded-md">
         Search Bar
       </div>
