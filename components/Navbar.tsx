@@ -5,13 +5,14 @@ import AccentBtn from "./AccentBtn";
 import NavbarProfileContainer from "./NavbarProfileContainer";
 import auth from "@/lib/authenticate";
 import MobileMenu from "./MobileMenu";
+import Container from "./Container";
 
 export default async function Navbar() {
   const isAuth = await auth();
 
   return (
     <div className="sticky top-0 h-20 sm:h-24 px-6 py-2 md:px-12 md:py-4 bg-base-100 bg-opacity-75 backdrop-blur-md z-20">
-      <div className="max-w-[1440px] flex items-center gap-4 md:gap-6">
+      <div className="max-w-[1440px] mx-auto flex items-center gap-4 md:gap-6">
         <NavbarLogo />
 
         {/* Menu container */}
