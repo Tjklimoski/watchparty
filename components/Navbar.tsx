@@ -5,14 +5,17 @@ import AccentBtn from "./AccentBtn";
 import NavbarProfileContainer from "./NavbarProfileContainer";
 import auth from "@/lib/authenticate";
 import MobileMenu from "./MobileMenu";
-import Container from "./Container";
+import PageContainer from "./PageContainer";
 
 export default async function Navbar() {
   const isAuth = await auth();
 
   return (
-    <div className="sticky top-0 h-20 sm:h-24 px-6 py-2 md:px-12 md:py-4 bg-base-100 bg-opacity-75 backdrop-blur-md z-20">
-      <div className="max-w-[1440px] mx-auto flex items-center gap-4 md:gap-6">
+    <PageContainer
+      type="nav"
+      styles="sticky top-0 h-20 sm:h-24 bg-base-100 bg-opacity-75 backdrop-blur-md z-20"
+    >
+      <div className="flex items-center gap-4 md:gap-6">
         <NavbarLogo />
 
         {/* Menu container */}
@@ -24,7 +27,7 @@ export default async function Navbar() {
             </>
           ) : (
             // ml-auto in order to keep auth buttons on the right of navbar
-            // since user isn't authenticated, main menu will not be present
+            // because if a user isn't authenticated main menu will not be present
             <div className="flex gap-2 items-center ml-auto">
               {/* Pass link to direct user to /auth */}
               <PrimaryBtn>Sign In</PrimaryBtn>
@@ -38,6 +41,6 @@ export default async function Navbar() {
           <MobileMenu isAuth={isAuth} />
         </div>
       </div>
-    </div>
+    </PageContainer>
   );
 }
