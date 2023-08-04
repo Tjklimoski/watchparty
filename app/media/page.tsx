@@ -32,7 +32,9 @@ export default function MediaPage() {
           <div>LOADING...</div>
         ) : popularMoviesError ? (
           // display Error
-          <div>ERROR</div>
+          <div className="font-semibold text-error">
+            {popularMoviesError.message}
+          </div>
         ) : (
           // display content
           popularMovies &&
@@ -48,7 +50,9 @@ export default function MediaPage() {
           <div>LOADING...</div>
         ) : nowPlayingMoviesError ? (
           // display Error
-          <div>ERROR</div>
+          <div className="font-semibold text-error">
+            {nowPlayingMoviesError.message}
+          </div>
         ) : (
           // display content
           nowPlayingMovies &&
