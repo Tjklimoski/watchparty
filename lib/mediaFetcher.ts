@@ -14,8 +14,9 @@ export default async function fetcher(url: string) {
   return TMDBApi.get(url).then((res) => res.data.results);
 }
 
+// Currently doesn't return data if bad url sent:
 export async function multiFetcher(urls: string[]) {
   // Using allSettled so only the request that errors will fail,
-  // the other request will still return the data.
+  // the other requests will still finish and return their data.
   return Promise.allSettled(urls.map((url) => fetcher(url)));
 }
