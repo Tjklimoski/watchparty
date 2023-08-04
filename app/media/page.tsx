@@ -1,16 +1,13 @@
 "use client";
 
-import axios from "axios";
 import type { Movie } from "@/types";
-import Image from "next/image";
 import PageContainer from "@/components/PageContainer";
 import useSWRImmutable from "swr/immutable";
 import fetcher from "@/lib/mediaFetcher";
+import MovieCard from "@/components/MovieCard";
+import Carousel from "@/components/Carousel";
 
 export default function MediaPage() {
-  const baseImgPath = "https://image.tmdb.org/t/p/";
-  const imgSize = "w500";
-
   const {
     data: popularMovies,
     isLoading: popularMoviesLoading,
@@ -29,25 +26,12 @@ export default function MediaPage() {
         Search Bar
       </div>
 
-      <h2 className="text-2xl font-semibold mb-2">Popular Movies</h2>
-      <div className="grid gap-4 grid-flow-col auto-cols-[42%] sm:auto-cols-[29%] md:auto-cols-[22%] lg:auto-cols-[min(18%,_280px)] overflow-x-scroll overscroll-x-contain snap-mandatory snap-x">
+      <Carousel heading="Popular Movies">
         {popularMovies &&
           popularMovies.map((movie) => (
-            <div
-              key={movie.id}
-              className="p-2 bg-primary bg-opacity-20 rounded-sm shadow-md snap-start"
-            >
-              <Image
-                className="aspect-poster object-cover w-full rounded-sm"
-                src={baseImgPath + imgSize + movie.poster_path}
-                alt={`${movie.title} poster`}
-                width={256}
-                height={384}
-              />
-              <p className="font-semibold text-lg my-2">{movie.title}</p>
-            </div>
+            <MovieCard key={movie.id} movie={movie} />
           ))}
-      </div>
+      </Carousel>
     </PageContainer>
   );
 }
