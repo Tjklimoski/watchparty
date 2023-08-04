@@ -12,7 +12,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
   return (
     <div
       key={movie.id}
-      className="p-2 bg-primary bg-opacity-20 rounded-sm shadow-md snap-start"
+      className="p-2 bg-primary bg-opacity-20 rounded-md shadow-md snap-start"
     >
       <Image
         className="aspect-poster object-cover w-full rounded-sm"

@@ -20,6 +20,12 @@ export default function MediaPage() {
     error: nowPlayingMoviesError,
   } = useSWRImmutable<Movie[]>("/movie/now_playing", fetcher);
 
+  const {
+    data: comingSoonMovies,
+    isLoading: comingSoonMoviesLoading,
+    error: comingSoonMoviesError,
+  } = useSWRImmutable<Movie[]>("/movie/upcoming", fetcher);
+
   return (
     <PageContainer>
       <div className="h-10 w-96 m-4 text-center bg-zinc-700 rounded-md">
@@ -57,6 +63,24 @@ export default function MediaPage() {
           // display content
           nowPlayingMovies &&
           nowPlayingMovies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))
+        )}
+      </Carousel>
+
+      <Carousel heading="Coming Soon">
+        {comingSoonMoviesLoading ? (
+          // display Skeleton
+          <div>LOADING...</div>
+        ) : comingSoonMoviesError ? (
+          // display Error
+          <div className="font-semibold text-error">
+            {comingSoonMoviesError.message}
+          </div>
+        ) : (
+          // display content
+          comingSoonMovies &&
+          comingSoonMovies.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
           ))
         )}
