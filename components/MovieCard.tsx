@@ -9,6 +9,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
   const baseImgPath = "https://image.tmdb.org/t/p/";
   const imgSize = "w500";
 
+  // REDEISGN MOVIE CARD - USE BACKDROP PATH. OVERLAY TITLE ON TOP OF BOTTOM THIRD OF IMAGE. CARD MORE WIDE THAN TALL. NETFLIX STYLE-ish
   return (
     <div
       key={movie.id}

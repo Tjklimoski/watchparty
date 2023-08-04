@@ -22,6 +22,7 @@ export default function RootLayout({
       >
         <Navbar />
         {children}
+        {/* ADD FOOTER */}
       </body>
     </html>
   );
