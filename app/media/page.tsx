@@ -9,6 +9,7 @@ import Carousel from "@/components/Carousel";
 
 interface MultiFetcherData {
   status: string;
+  heading: string;
   reason?: Error;
   value?: Movie[];
 }
@@ -19,17 +20,35 @@ interface SWRResponse {
 }
 
 export default function MediaPage() {
-  function multiFetcherClient(urls: string[]) {
+  const APIEndpoints = ["/movie/popular", "/movie/upcoming"];
+
+  function getHeading(url: string) {
+    switch (url) {
+      case "/movie/popular":
+        return "Popular Movies";
+      case "/movie/upcoming":
+        return "Coming Soon";
+      default:
+        return "Movies and TV Shows";
+    }
+  }
+
+  async function multiFetcherClient(urls: string[]) {
     // Using allSettled so only the request that errors will fail,
     // the other request will still return the data.
-    return Promise.allSettled(urls.map((url) => fetcher(url)));
+    return Promise.allSettled(urls.map((url) => fetcher(url))).then((data) => {
+      return data.map((apiRes, i) => ({
+        ...apiRes,
+        heading: getHeading(urls[i]),
+      }));
+    });
   }
 
   // Not pulling error from useSWR becuase with using multiFetcher the data
   // variable holds a status in each response object, and will be set to
   // 'rejected' if there was an error. useSWR will never error itself.
   const { data, isLoading }: SWRResponse = useSWRImmutable(
-    ["/movie/popula", "/movie/upcoming"],
+    APIEndpoints,
     multiFetcherClient
   );
 
