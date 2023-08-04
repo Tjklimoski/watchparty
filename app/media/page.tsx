@@ -27,10 +27,35 @@ export default function MediaPage() {
       </div>
 
       <Carousel heading="Popular Movies">
-        {popularMovies &&
+        {popularMoviesLoading ? (
+          // display Skeleton
+          <div>LOADING...</div>
+        ) : popularMoviesError ? (
+          // display Error
+          <div>ERROR</div>
+        ) : (
+          // display content
+          popularMovies &&
           popularMovies.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
-          ))}
+          ))
+        )}
+      </Carousel>
+
+      <Carousel heading="Now Playing">
+        {nowPlayingMoviesLoading ? (
+          // display Skeleton
+          <div>LOADING...</div>
+        ) : nowPlayingMoviesError ? (
+          // display Error
+          <div>ERROR</div>
+        ) : (
+          // display content
+          nowPlayingMovies &&
+          nowPlayingMovies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))
+        )}
       </Carousel>
     </PageContainer>
   );
