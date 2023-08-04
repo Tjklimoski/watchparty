@@ -3,11 +3,20 @@
 import type { Movie } from "@/types";
 import PageContainer from "@/components/PageContainer";
 import useSWRImmutable from "swr/immutable";
-import fetcher from "@/lib/mediaFetcher";
+import fetcher, { multiFetcher } from "@/lib/mediaFetcher";
 import MovieCard from "@/components/MovieCard";
 import Carousel from "@/components/Carousel";
 
 export default function MediaPage() {
+  const { data, isLoading, error } = useSWRImmutable(
+    ["/movie/popula", "/movie/upcoming"],
+    multiFetcher
+  );
+
+  console.log("LOADING: ", isLoading);
+  console.log("ERROR: ", error);
+  console.log("DATA: ", data);
+
   const {
     data: popularMovies,
     isLoading: popularMoviesLoading,
