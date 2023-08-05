@@ -8,6 +8,9 @@ const TMDBApi = axios.create({
   headers: {
     Accept: "application/json",
     Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`
+  },
+  params: {
+    with_original_language: 'en'
   }
 });
 
