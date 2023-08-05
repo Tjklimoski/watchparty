@@ -1,6 +1,6 @@
 "use client";
 
-import type { Movie } from "@/types";
+import type { Movie, TVShow } from "@/types";
 import PageContainer from "@/components/PageContainer";
 import useSWRImmutable from "swr/immutable";
 import fetcher from "@/lib/mediaFetcher";
@@ -11,7 +11,7 @@ interface MultiFetcherData {
   status: string;
   heading: string;
   reason?: Error;
-  value?: Movie[];
+  value?: Movie[] | TVShow[];
 }
 
 interface SWRResponse {
@@ -20,14 +20,29 @@ interface SWRResponse {
 }
 
 export default function MediaPage() {
-  const APIEndpoints = ["/movie/popular", "/movie/upcoming"];
+  const APIEndpoints = [
+    "/movie/popular",
+    "/movie/now_playing",
+    "/movie/upcoming",
+    "/tv/popular",
+    "/tv/on_the_air",
+    "/tv/airing_today",
+  ];
 
-  function getHeading(url: string) {
+  function getCarouselHeading(url: string) {
     switch (url) {
       case "/movie/popular":
         return "Popular Movies";
       case "/movie/upcoming":
         return "Coming Soon";
+      case "/movie/now_playing":
+        return "Now Playing";
+      case "/tv/popular":
+        return "Popular TV Shows";
+      case "/tv/on_the_air":
+        return "TV Shows Airing this Week";
+      case "/tv/airing_today":
+        return "TV Shows Airing Today";
       default:
         return "Movies and TV Shows";
     }
@@ -39,21 +54,18 @@ export default function MediaPage() {
     return Promise.allSettled(urls.map((url) => fetcher(url))).then((data) => {
       return data.map((apiRes, i) => ({
         ...apiRes,
-        heading: getHeading(urls[i]),
+        heading: getCarouselHeading(urls[i]),
       }));
     });
   }
 
-  // Not pulling error from useSWR becuase with using multiFetcher the data
+  // Not pulling error from useSWR becuase using multiFetcher -- the data
   // variable holds a status in each response object, and will be set to
-  // 'rejected' if there was an error. useSWR will never error itself.
+  // 'rejected' if there was an error. useSWR will not error itself.
   const { data, isLoading }: SWRResponse = useSWRImmutable(
     APIEndpoints,
     multiFetcherClient
   );
-
-  console.log("LOADING: ", isLoading);
-  console.log("DATA: ", data);
 
   return (
     <PageContainer>
@@ -62,113 +74,27 @@ export default function MediaPage() {
       </div>
 
       {isLoading ? (
+        // DISPLAY SKELETON
         <div>LOADING...</div>
       ) : (
         data!.map((apiRes, index) => {
           if (apiRes.status === "rejected") {
             return (
               <div key={index} className="font-semibold text-error">
-                {apiRes.reason!.message}
+                {`${apiRes.heading} ${apiRes.reason!.message}`}
               </div>
             );
           } else {
             return (
-              <Carousel key={index} heading="HEADING">
-                {apiRes.value!.map((movie) => (
-                  <MovieCard key={movie.id} movie={movie} />
+              <Carousel key={apiRes.heading} heading={apiRes.heading}>
+                {apiRes.value!.map((media) => (
+                  <MovieCard key={media.id} media={media} />
                 ))}
               </Carousel>
             );
           }
         })
       )}
-
-      {/* <Carousel heading="Popular Movies">
-        {popularMoviesLoading ? (
-          // display Skeleton
-          <div>LOADING...</div>
-        ) : popularMoviesError ? (
-          // display Error
-          <div className="font-semibold text-error">
-            {popularMoviesError.message}
-          </div>
-        ) : (
-          // display content
-          popularMovies &&
-          popularMovies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))
-        )}
-      </Carousel>
-
-      <Carousel heading="Now Playing">
-        {nowPlayingMoviesLoading ? (
-          // display Skeleton
-          <div>LOADING...</div>
-        ) : nowPlayingMoviesError ? (
-          // display Error
-          <div className="font-semibold text-error">
-            {nowPlayingMoviesError.message}
-          </div>
-        ) : (
-          // display content
-          nowPlayingMovies &&
-          nowPlayingMovies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))
-        )}
-      </Carousel>
-
-      <Carousel heading="Coming Soon">
-        {comingSoonMoviesLoading ? (
-          // display Skeleton
-          <div>LOADING...</div>
-        ) : comingSoonMoviesError ? (
-          // display Error
-          <div className="font-semibold text-error">
-            {comingSoonMoviesError.message}
-          </div>
-        ) : (
-          // display content
-          comingSoonMovies &&
-          comingSoonMovies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))
-        )}
-      </Carousel> */}
     </PageContainer>
   );
 }
-
-// tmdb poster sizes:
-// "w92",
-// "w154",
-// "w185",
-// "w342",
-// "w500",
-// "w780",
-// "original"
-
-// tmdb backdrop sizes:
-// "w300",
-// "w780",
-// "w1280",
-// "original"
-
-// const {
-//   data: popularMovies,
-//   isLoading: popularMoviesLoading,
-//   error: popularMoviesError,
-// } = useSWRImmutable<Movie[]>("/movie/popular", fetcher);
-
-// const {
-//   data: nowPlayingMovies,
-//   isLoading: nowPlayingMoviesLoading,
-//   error: nowPlayingMoviesError,
-// } = useSWRImmutable<Movie[]>("/movie/now_playing", fetcher);
-
-// const {
-//   data: comingSoonMovies,
-//   isLoading: comingSoonMoviesLoading,
-//   error: comingSoonMoviesError,
-// } = useSWRImmutable<Movie[]>("/movie/upcoming", fetcher);
