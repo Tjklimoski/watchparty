@@ -1,23 +1,11 @@
 "use client";
 
-import type { Movie, TVShow } from "@/types";
+import type { MultiFetcherData } from "@/types";
 import PageContainer from "@/components/PageContainer";
 import useSWRImmutable from "swr/immutable";
 import fetcher from "@/lib/mediaFetcher";
 import MovieCard from "@/components/MovieCard";
 import Carousel from "@/components/Carousel";
-
-interface MultiFetcherData {
-  status: string;
-  heading: string;
-  reason?: Error;
-  value?: Movie[] | TVShow[];
-}
-
-interface SWRResponse {
-  data: MultiFetcherData[] | undefined;
-  isLoading: boolean;
-}
 
 export default function MediaPage() {
   const APIEndpoints = [
@@ -62,7 +50,7 @@ export default function MediaPage() {
   // Not pulling error from useSWR becuase using multiFetcher -- the data
   // variable holds a status in each response object, and will be set to
   // 'rejected' if there was an error. useSWR will not error itself.
-  const { data, isLoading }: SWRResponse = useSWRImmutable(
+  const { data, isLoading } = useSWRImmutable<MultiFetcherData[]>(
     APIEndpoints,
     multiFetcherClient
   );

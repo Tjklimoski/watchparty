@@ -32,3 +32,15 @@ export interface TVShow {
   vote_count: number;
   media_type: 'tv';
 }
+
+export interface MultiFetcherData {
+  status: string;
+  heading: string;
+  reason?: Error;
+  value?: Movie[] | TVShow[];
+}
+
+export interface SWRResponse {
+  data: MultiFetcherData[] | undefined;
+  isLoading: boolean;
+}
