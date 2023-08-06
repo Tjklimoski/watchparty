@@ -4,6 +4,7 @@ import type { MultiFetcherData } from "@/types";
 import PageContainer from "@/components/PageContainer";
 import useSWRImmutable from "swr/immutable";
 import fetcher from "@/lib/mediaFetcher";
+import getCarouselHeading from "@/lib/getCarouselHeading";
 import MovieCard from "@/components/MovieCard";
 import Carousel from "@/components/Carousel";
 
@@ -17,31 +18,13 @@ export default function MediaPage() {
     "/tv/airing_today",
   ];
 
-  function getCarouselHeading(url: string) {
-    switch (url) {
-      case "/movie/popular":
-        return "Popular Movies";
-      case "/movie/upcoming":
-        return "Coming Soon";
-      case "/movie/now_playing":
-        return "Now Playing";
-      case "/tv/popular":
-        return "Popular TV Shows";
-      case "/tv/on_the_air":
-        return "TV Shows Airing this Week";
-      case "/tv/airing_today":
-        return "TV Shows Airing Today";
-      default:
-        return "Movies and TV Shows";
-    }
-  }
-
   async function multiFetcherClient(urls: string[]) {
     // Using allSettled so only the request that errors will fail,
     // the other request will still return the data.
     return Promise.allSettled(urls.map((url) => fetcher(url))).then((data) => {
       return data.map((apiRes, i) => ({
         ...apiRes,
+        // Add a heading field based on the url of the request
         heading: getCarouselHeading(urls[i]),
       }));
     });
