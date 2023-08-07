@@ -13,6 +13,7 @@ export const config: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
+      id: 'credentials',
       name: 'your Email and Password',
       type: 'credentials',
       credentials: {
@@ -27,14 +28,17 @@ export const config: AuthOptions = {
       }
     }),
     GoogleProvider({
+      id: 'google',
       clientId: process.env.GOOGLE_CLIENT_ID ?? '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
     }),
     FacebookProvider({
+      id: 'facebook',
       clientId: process.env.FB_APP_ID ?? '',
       clientSecret: process.env.FB_APP_SECRET ?? '',
     }),
     GitHubProvider({
+      id: 'github',
       clientId: process.env.GH_CLIENT_ID ?? '',
       clientSecret: process.env.GH_CLIENT_SECRET ?? '',
     })
