@@ -50,7 +50,8 @@ export const config: AuthOptions = {
   pages: {
     signIn: '/auth',
     error: '/auth',
-  }
+  },
+  debug: process.env.NODE_ENV === 'development',
 }
 
 const handler = NextAuth(config)

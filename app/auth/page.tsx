@@ -3,3 +3,4 @@
 // ex. http://localhost:3000/auth?error=Configuration
 // Read what values can be sent for error here: https://next-auth.js.org/configuration/pages
 // Setup this page to handle both user sign in and sign up, along with handling errors being sent back by next auth.
+// for credential login, will need to pass a csrf Token with the login info: https://next-auth.js.org/configuration/pages
