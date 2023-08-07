@@ -41,4 +41,6 @@ export const config: AuthOptions = {
   ],
 }
 
-export default NextAuth(config)
+const handler = NextAuth(config)
+
+export { handler as GET, handler as POST }
