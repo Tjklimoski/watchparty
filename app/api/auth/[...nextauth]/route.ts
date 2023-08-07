@@ -39,6 +39,10 @@ export const config: AuthOptions = {
       clientSecret: process.env.GH_CLIENT_SECRET ?? '',
     })
   ],
+  session: {
+    strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
 }
 
 const handler = NextAuth(config)
