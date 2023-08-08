@@ -18,12 +18,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expores_at        Int?
+  refresh_token     String?  @db.String
+  access_token      String?  @db.String
+  expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?
+  id_token          String?  @db.String
   session_state     String?
   createdAt         DateTime @default(now())
 
@@ -32,13 +32,6 @@ model Account {
 
   // Makes sure we only have one Account associated to this provider and it's ID
   @@unique([provider, providerAccountId])
-}
-
-// Defines what settings a user can control on their profile. Is embedded in the user document:
-type Settings {
-  radius   Int    @default(50)
-  // location is a city / town name.
-  location String
 }
 
 // Every user generated WatchParty will be it's own document, with a connection to the user that created it.
@@ -78,7 +71,9 @@ model User {
   emailVerified          DateTime?
   password               String?
   image                  String?
-  settings               Settings
+  // location is a city / town name with state.
+  location               String          @default("Los Angeles, CA")
+  radius                 Int             @default(50)
   accounts               Account[]
   myWatchParties         WatchParty[]    @relation("myWatchParties")
   goingToWatchPartiesIds String[]        @db.ObjectId
