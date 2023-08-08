@@ -1,5 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// reference for how to setup for NextAuth: https://authjs.dev/reference/adapter/prisma
+// Mongodb prisma many-to-many setup and how to query: https://www.prisma.io/docs/concepts/components/prisma-schema/relations/many-to-many-relations#mongodb
 
 generator client {
   provider = "prisma-client-js"
@@ -8,4 +8,94 @@ generator client {
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
+}
+
+// Account document is created automatically by nextAuth when a user signs in
+// via OAuth - and is populated by the data returned by the OAuth provider.
+model Account {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String   @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expores_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  createdAt         DateTime @default(now())
+
+  // Connects our Account to our User. And if the user is deleted, so will the account
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Makes sure we only have one Account associated to this provider and it's ID
+  @@unique([provider, providerAccountId])
+}
+
+// Defines what settings a user can control on their profile. Is embedded in the user document:
+type Settings {
+  radius   Int    @default(50)
+  // location is a city / town name.
+  location String
+}
+
+// Every user generated WatchParty will be it's own document, with a connection to the user that created it.
+model WatchParty {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String          @db.ObjectId
+  user          User            @relation("myWatchParties", fields: [userId], references: [id], onDelete: Cascade)
+  partygoerIds  String[]        @db.ObjectId
+  partygoers    User[]          @relation("goingToWatchParties", fields: [partygoerIds], references: [id])
+  date          String
+  movieId       String
+  // location is a city / town name - used to check against user location and their radius
+  location      String
+  // Address is the specific address of the event - "street, city, state, zip" (movie theater, etc)
+  address       String
+  title         String
+  description   String
+  notifications Notifications[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+model Notifications {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  watchPartyId String     @db.ObjectId
+  watchParty   WatchParty @relation(fields: [watchPartyId], references: [id])
+  message      String
+  recipientIds String[]   @db.ObjectId
+  recipients   User[]     @relation(fields: [recipientIds], references: [id])
+  createdAt    DateTime   @default(now())
+}
+
+model User {
+  id                     String          @id @default(auto()) @map("_id") @db.ObjectId
+  name                   String?
+  email                  String?         @unique
+  emailVerified          DateTime?
+  password               String?
+  image                  String?
+  settings               Settings
+  accounts               Account[]
+  myWatchParties         WatchParty[]    @relation("myWatchParties")
+  goingToWatchPartiesIds String[]        @db.ObjectId
+  goingToWatchParties    WatchParty[]    @relation("goingToWatchParties", fields: [goingToWatchPartiesIds], references: [id])
+  myList                 String[]
+  notificationIds        String[]        @db.ObjectId
+  notifications          Notifications[] @relation(fields: [notificationIds], references: [id])
+  createdAt              DateTime        @default(now())
+  updatedAt              DateTime        @updatedAt
+}
+
+model VerificationToken {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  createdAt  DateTime @default(now())
+
+  @@unique([identifier, token])
 }
