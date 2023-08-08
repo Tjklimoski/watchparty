@@ -13,19 +13,20 @@ datasource db {
 // Account document is created automatically by nextAuth when a user signs in
 // via OAuth - and is populated by the data returned by the OAuth provider.
 model Account {
-  id                String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String   @db.ObjectId
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?  @db.String
-  access_token      String?  @db.String
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?  @db.String
-  session_state     String?
-  createdAt         DateTime @default(now())
+  id                       String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId                   String   @db.ObjectId
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String?  @db.String
+  access_token             String?  @db.String
+  refresh_token_expires_in Int?
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String?  @db.String
+  session_state            String?
+  createdAt                DateTime @default(now())
 
   // Connects our Account to our User. And if the user is deleted, so will the account
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
