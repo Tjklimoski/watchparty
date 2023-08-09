@@ -1,10 +1,10 @@
-interface AccentBtnProps extends React.HTMLAttributes<HTMLButtonElement> {
+interface AccentBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
 export default function AccentBtn({ children, ...props }: AccentBtnProps) {
   return (
-    <button type="button" className="btn btn-accent btn-outline" {...props}>
+    <button className="btn btn-accent btn-outline" {...props}>
       {children}
     </button>
   );
