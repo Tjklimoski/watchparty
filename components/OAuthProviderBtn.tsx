@@ -21,7 +21,7 @@ export default function OAuthProviderBtn({ provider }: OAuthProviderBtnProps) {
   return (
     <button
       type="button"
-      className="w-full px-6 py-4 border border-white hover:bg-white hover:text-base-100 transition rounded-md flex items-center justify-center font-semibold"
+      className="w-full px-3 sm:px-6 py-2 sm:py-4 border border-white hover:bg-white hover:text-base-100 transition rounded-md flex flex-wrap items-center justify-center font-semibold text-sm sm:text-md"
       onClick={() => signIn(provider.toLowerCase())}
     >
       <ProviderIcon /> Sign In with {provider}

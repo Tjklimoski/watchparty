@@ -35,16 +35,17 @@ export default function AuthPage() {
   return (
     <PageContainer styles="-mt-20 sm:-mt-24 h-screen">
       <div className="h-full grid place-items-center">
-        <div className="bg-base-100 bg-opacity-80 backdrop-blur-md z-20 w-full md:w-2/3 lg:w-1/2 rounded-lg py-8 px-10 shadow-primary/10 shadow-2xl max-w-xl">
-          <h2 className="font-semibold text-5xl text-center">
+        {/* margin top on this div to prevent it from going behind the navbar on smalled screens */}
+        <div className="bg-base-100 bg-opacity-80 backdrop-blur-md w-full md:w-2/3 lg:w-1/2 rounded-lg py-4 sm:py-8 px-5 sm:px-10 shadow-primary/10 shadow-2xl max-w-xl mt-20 sm:mt-24">
+          <h2 className="font-semibold text-3xl sm:text-5xl text-center">
             {isSignIn ? "Sign In" : "Sign Up"}
           </h2>
-          <form className="flex flex-col gap-4 my-10">
+          <form className="flex flex-col gap-4 my-6 sm:my-10">
             <label htmlFor="email" className="sr-only">
               Email:
             </label>
             <input
-              className="bg-neutral text-xl rounded-md px-6 py-3 focus:outline outline-primary outline-offset-0 outline-2"
+              className="bg-neutral text-md sm:text-xl rounded-md px-4 sm:px-6 py-3 sm:py-3 focus:outline outline-primary outline-offset-0 outline-2 w-full min-w-[150px]"
               id="email"
               type="email"
               placeholder="Email"
@@ -54,7 +55,7 @@ export default function AuthPage() {
               Password:
             </label>
             <input
-              className="bg-neutral text-xl rounded-md px-6 py-3 focus:outline outline-primary outline-offset-0 outline-2"
+              className="bg-neutral text-md sm:text-xl rounded-md px-4 sm:px-6 py-3 sm:py-3 focus:outline outline-primary outline-offset-0 outline-2 w-full min-w-[150px]"
               id="password"
               type="password"
               placeholder="Password"
@@ -66,7 +67,7 @@ export default function AuthPage() {
                   Confirm Password:
                 </label>
                 <input
-                  className="bg-neutral text-xl rounded-md px-6 py-3 focus:outline outline-primary outline-offset-0 outline-2"
+                  className="bg-neutral text-md sm:text-xl rounded-md px-4 sm:px-6 py-3 sm:py-3 focus:outline outline-primary outline-offset-0 outline-2 w-full min-w-[150px]"
                   id="confirm-password"
                   type="password"
                   placeholder="Confirm Password"
@@ -79,12 +80,12 @@ export default function AuthPage() {
             </PrimaryBtn>
           </form>
           <hr className="border-secondary" />
-          <div className="flex flex-col items-center justify-center gap-2 my-10">
+          <div className="flex flex-col items-center justify-center gap-2 my-6 sm:my-10">
             <OAuthProviderBtn provider="Google" />
             <OAuthProviderBtn provider="Facebook" />
             <OAuthProviderBtn provider="Github" />
           </div>
-          <div className="mt-10 text-center">
+          <div className="mt-6 sm:mt-10 text-center text-sm sm:text-md">
             {isSignIn ? (
               <p>
                 Don&apos;t have an account?{" "}
