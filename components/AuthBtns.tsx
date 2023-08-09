@@ -9,10 +9,16 @@ export default function AuthBtns() {
 
   return (
     <>
-      <PrimaryBtn onClick={() => router.push("/auth?signin=true")}>
+      <PrimaryBtn
+        type="button"
+        onClick={() => router.push("/auth?signin=true")}
+      >
         Sign In
       </PrimaryBtn>
-      <AccentBtn onClick={() => router.push("/auth?signin=false")}>
+      <AccentBtn
+        type="button"
+        onClick={() => router.push("/auth?signin=false")}
+      >
         Sign Up
       </AccentBtn>
     </>
