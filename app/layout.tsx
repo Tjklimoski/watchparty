@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html data-theme="watchPartyDark" lang="en">
+    <html data-theme="watchPartyDark" lang="en" className="overflow-x-hidden">
       <body
         className={`${rubik.className} bg-main-pattern bg-top bg-no-repeat min-h-screen overflow-x-hidden`}
       >
