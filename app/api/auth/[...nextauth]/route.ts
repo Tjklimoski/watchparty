@@ -45,6 +45,10 @@ export const config: AuthOptions = {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
+  pages: {
+    signIn: '/auth',
+    error: '/auth',
+  },
   debug: process.env.NODE_ENV === 'development',
 }
 
@@ -52,8 +56,3 @@ const handler = NextAuth(config)
 
 export { handler as GET, handler as POST }
 
-
-// pages: {
-//   signIn: '/auth',
-//     error: '/auth',
-//   },
