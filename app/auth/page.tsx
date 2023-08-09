@@ -13,6 +13,8 @@ import PrimaryBtn from "@/components/PrimaryBtn";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebook, FaGithub } from "react-icons/fa6";
 
 export default function AuthPage() {
   const searchParams = useSearchParams();
@@ -31,15 +33,30 @@ export default function AuthPage() {
   }, [searchParams]);
 
   return (
-    <PageContainer styles="-mt-20 sm:-mt-24 h-screen border border-cyan-400">
+    <PageContainer styles="-mt-20 sm:-mt-24 h-screen">
       <div className="h-full grid place-items-center">
         <div className="bg-base-100 bg-opacity-80 backdrop-blur-md z-20 w-full md:w-2/3 lg:w-1/2 rounded-lg py-8 px-10">
-          <h2 className="mb-4 font-semibold text-5xl">Sign In</h2>
-          <form className="flex flex-col gap-2">
-            <input type="email" placeholder="Email"></input>
-            <input type="password" placeholder="Password"></input>
+          <h2 className="mb-4 font-semibold text-5xl text-center">Sign In</h2>
+          <form className="flex flex-col gap-2 my-10">
+            <label htmlFor="Email">Email:</label>
+            <input id="Email" type="email" placeholder="Email"></input>
+            <label htmlFor="Password">Password:</label>
+            <input id="Password" type="password" placeholder="Password"></input>
             <PrimaryBtn type="submit">Sign In</PrimaryBtn>
           </form>
+          <hr />
+          <div className="flex flex-col items-center justify-center gap-2 my-10">
+            <button className="w-full px-6 py-4 border border-white hover:bg-white hover:text-base-100 transition rounded-md flex items-center justify-center font-semibold">
+              <FcGoogle className="mr-2" size={25} /> Sign In with Google
+            </button>
+            <button className="w-full px-6 py-4 border border-white hover:bg-white hover:text-base-100 transition rounded-md flex items-center justify-center font-semibold">
+              <FaFacebook className="mr-2 text-[#4267B2]" size={25} /> Sign In
+              with Facebook
+            </button>
+            <button className="w-full px-6 py-4 border border-white hover:bg-white hover:text-base-100 transition rounded-md flex items-center justify-center font-semibold">
+              <FaGithub className="mr-2" size={25} /> Sign In with Github
+            </button>
+          </div>
         </div>
       </div>
     </PageContainer>
