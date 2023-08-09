@@ -8,6 +8,7 @@ import MainMenu from "./MainMenu";
 import PrimaryBtn from "./PrimaryBtn";
 import AccentBtn from "./AccentBtn";
 import { useState } from "react";
+import AuthBtns from "./AuthBtns";
 
 interface MobileMenuProps {
   isAuth: boolean;
@@ -49,9 +50,7 @@ export default function MobileMenu({ isAuth }: MobileMenuProps) {
             </>
           ) : (
             <div className="flex gap-2 items-center">
-              {/* Pass link to direct user to /auth */}
-              <PrimaryBtn>Sign In</PrimaryBtn>
-              <AccentBtn>Sign Up</AccentBtn>
+              <AuthBtns />
             </div>
           )}
         </div>

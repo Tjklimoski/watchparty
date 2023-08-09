@@ -6,6 +6,7 @@ import NavbarProfileContainer from "./NavbarProfileContainer";
 import auth from "@/lib/authenticate";
 import MobileMenu from "./MobileMenu";
 import PageContainer from "./PageContainer";
+import AuthBtns from "./AuthBtns";
 
 export default async function Navbar() {
   const isAuth = await auth();
@@ -29,9 +30,7 @@ export default async function Navbar() {
             // ml-auto in order to keep auth buttons on the right of navbar
             // because if a user isn't authenticated main menu will not be present
             <div className="flex gap-2 items-center ml-auto">
-              {/* Pass link to direct user to /auth */}
-              <PrimaryBtn>Sign In</PrimaryBtn>
-              <AccentBtn>Sign Up</AccentBtn>
+              <AuthBtns />
             </div>
           )}
         </div>
