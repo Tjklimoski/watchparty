@@ -16,7 +16,7 @@ export default async function Navbar() {
       type="nav"
       styles="sticky top-0 h-20 sm:h-24 bg-base-100 bg-opacity-75 backdrop-blur-md z-20 flex items-center"
     >
-      <div className="flex items-center gap-4 md:gap-6 grow">
+      <div className="flex h-full items-center gap-4 md:gap-6 grow">
         <NavbarLogo />
 
         {/* Menu container */}
