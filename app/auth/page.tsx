@@ -8,11 +8,13 @@
 
 "use client";
 
-import PageContainer from "@/components/PageContainer";
-import PrimaryBtn from "@/components/PrimaryBtn";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import OAuthProviderBtn from "@/components/OAuthProviderBtn";
+import PageContainer from "@/components/PageContainer";
+import PrimaryBtn from "@/components/PrimaryBtn";
+import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 export default function AuthPage() {
   const searchParams = useSearchParams();
@@ -33,36 +35,77 @@ export default function AuthPage() {
   return (
     <PageContainer styles="-mt-20 sm:-mt-24 h-screen">
       <div className="h-full grid place-items-center">
-        <div className="bg-base-100 bg-opacity-80 backdrop-blur-md z-20 w-full md:w-2/3 lg:w-1/2 rounded-lg py-8 px-10 shadow-primary/10 shadow-2xl">
-          <h2 className="font-semibold text-5xl text-center">Sign In</h2>
+        <div className="bg-base-100 bg-opacity-80 backdrop-blur-md z-20 w-full md:w-2/3 lg:w-1/2 rounded-lg py-8 px-10 shadow-primary/10 shadow-2xl max-w-xl">
+          <h2 className="font-semibold text-5xl text-center">
+            {isSignIn ? "Sign In" : "Sign Up"}
+          </h2>
           <form className="flex flex-col gap-4 my-10">
-            <label htmlFor="Email" className="sr-only">
+            <label htmlFor="email" className="sr-only">
               Email:
             </label>
             <input
               className="bg-neutral text-xl rounded-md px-6 py-3 focus:outline outline-primary outline-offset-0 outline-2"
-              id="Email"
+              id="email"
               type="email"
               placeholder="Email"
               required
             ></input>
-            <label htmlFor="Password" className="sr-only">
+            <label htmlFor="password" className="sr-only">
               Password:
             </label>
             <input
               className="bg-neutral text-xl rounded-md px-6 py-3 focus:outline outline-primary outline-offset-0 outline-2"
-              id="Password"
+              id="password"
               type="password"
               placeholder="Password"
               required
             ></input>
-            <PrimaryBtn type="submit">Sign In</PrimaryBtn>
+            {!isSignIn && (
+              <>
+                <label htmlFor="confirm-password" className="sr-only">
+                  Confirm Password:
+                </label>
+                <input
+                  className="bg-neutral text-xl rounded-md px-6 py-3 focus:outline outline-primary outline-offset-0 outline-2"
+                  id="confirm-password"
+                  type="password"
+                  placeholder="Confirm Password"
+                  required={!isSignIn}
+                ></input>
+              </>
+            )}
+            <PrimaryBtn type="submit" onClick={() => {}}>
+              {isSignIn ? "Sign In" : "Sign Up"}
+            </PrimaryBtn>
           </form>
           <hr className="border-secondary" />
-          <div className="flex flex-col items-center justify-center gap-2 mt-10">
+          <div className="flex flex-col items-center justify-center gap-2 my-10">
             <OAuthProviderBtn provider="Google" />
             <OAuthProviderBtn provider="Facebook" />
             <OAuthProviderBtn provider="Github" />
+          </div>
+          <div className="mt-10 text-center">
+            {isSignIn ? (
+              <p>
+                Don&apos;t have an account?{" "}
+                <Link
+                  href="/auth?signin=false"
+                  className="underline text-primary hover:text-primary/90"
+                >
+                  Sign up
+                </Link>
+              </p>
+            ) : (
+              <p>
+                Already have an account?{" "}
+                <Link
+                  href="/auth?signin=true"
+                  className="underline text-primary hover:text-primary/90"
+                >
+                  Sign in
+                </Link>
+              </p>
+            )}
           </div>
         </div>
       </div>
