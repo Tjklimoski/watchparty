@@ -3,9 +3,13 @@ interface PrimaryBtnProps
   children: React.ReactNode;
 }
 
-export default function PrimaryBtn({ children, ...props }: PrimaryBtnProps) {
+export default function PrimaryBtn({
+  children,
+  className,
+  ...props
+}: PrimaryBtnProps) {
   return (
-    <button className="btn btn-primary" {...props}>
+    <button className={`${className} btn btn-primary`} {...props}>
       {children}
     </button>
   );
