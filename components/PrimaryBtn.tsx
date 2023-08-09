@@ -4,7 +4,7 @@ interface PrimaryBtnProps extends React.HTMLAttributes<HTMLButtonElement> {
 
 export default function PrimaryBtn({ children, ...props }: PrimaryBtnProps) {
   return (
-    <button className="btn btn-primary" {...props}>
+    <button type="button" className="btn btn-primary" {...props}>
       {children}
     </button>
   );
