@@ -44,6 +44,7 @@ model WatchParty {
   partygoers         User[]          @relation("goingToWatchParties", fields: [partygoerIds], references: [id])
   interestedUsersIds String[]        @db.ObjectId
   interestedUsers    User[]          @relation("interestedInWatchParties", fields: [interestedUsersIds], references: [id])
+  // date will also contain the time of the watchparty
   date               String
   movieId            String
   // location is a city / town name - used to check against user location and their radius
