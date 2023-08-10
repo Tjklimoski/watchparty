@@ -1,13 +1,7 @@
+import { capitalize, kebab } from "@/lib/stringModifications";
+
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
-}
-
-function capitalize(word: string) {
-  return word[0].toUpperCase() + word.slice(1);
-}
-
-function kebab(word: string) {
-  return word.split(" ").join("-");
 }
 
 export default function Input({ label, className, ...props }: InputProps) {
