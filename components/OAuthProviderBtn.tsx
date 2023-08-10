@@ -2,11 +2,15 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook, FaGithub } from "react-icons/fa6";
 import { signIn } from "next-auth/react";
 
-interface OAuthProviderBtnProps {
+interface OAuthProviderBtnProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   provider: "Google" | "Facebook" | "Github";
 }
 
-export default function OAuthProviderBtn({ provider }: OAuthProviderBtnProps) {
+export default function OAuthProviderBtn({
+  provider,
+  ...props
+}: OAuthProviderBtnProps) {
   const ProviderIcon = () => {
     switch (provider) {
       case "Facebook":
@@ -23,6 +27,7 @@ export default function OAuthProviderBtn({ provider }: OAuthProviderBtnProps) {
       type="button"
       className="w-full px-3 sm:px-6 py-3 sm:py-4 border border-white hover:bg-white hover:text-base-100 transition rounded-md flex flex-wrap items-center justify-center font-semibold text-sm sm:text-md"
       onClick={() => signIn(provider.toLowerCase(), { callbackUrl: "/media" })}
+      {...props}
     >
       <ProviderIcon /> Sign In with {provider}
     </button>
