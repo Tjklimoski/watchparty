@@ -17,7 +17,7 @@ export default function Input({ label, className, ...props }: InputProps) {
         {capitalize(label)}:
       </label>
       <input
-        className={`bg-neutral text-md sm:text-xl rounded-md px-4 sm:px-6 py-3 focus:outline outline-primary outline-offset-0 outline-2 w-full min-w-[150px] ${
+        className={`bg-neutral text-md sm:text-xl rounded-md px-4 sm:px-6 py-3 focus:outline outline-primary outline-offset-0 outline-2 w-full min-w-[150px] [&:not(:focus):not(:placeholder-shown):invalid]:border-error border-2 ${
           className ?? ""
         }`}
         id={kebab(label.toLowerCase())}
