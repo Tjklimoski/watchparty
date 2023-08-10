@@ -45,7 +45,7 @@ export default function AuthPage() {
     console.log("event: ", e);
 
     try {
-      // await signIn('credentials')
+      // await signIn('credentials', { email, password })
     } catch (err) {
       console.log("Login Error: ", err);
     }
@@ -132,15 +132,15 @@ export default function AuthPage() {
               />
             )}
             {error && <p className="text-sm text-error">{errorMsg}</p>}
-            <PrimaryBtn type="submit">
+            <PrimaryBtn type="submit" disabled={loading}>
               {isSignIn ? "Sign In" : "Sign Up"}
             </PrimaryBtn>
           </form>
           <hr className="border-secondary" />
           <div className="flex flex-col items-center justify-center gap-2 my-6 sm:my-10">
-            <OAuthProviderBtn provider="Google" />
-            <OAuthProviderBtn provider="Facebook" />
-            <OAuthProviderBtn provider="Github" />
+            <OAuthProviderBtn provider="Google" disabled={loading} />
+            <OAuthProviderBtn provider="Facebook" disabled={loading} />
+            <OAuthProviderBtn provider="Github" disabled={loading} />
           </div>
           <div className="mt-6 sm:mt-10 text-center text-sm sm:text-md">
             {isSignIn ? (
