@@ -24,8 +24,10 @@ export default function AuthPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [error, setError] = useState(() => searchParams.has("error"));
+  const [errorMsg, setErrorMsg] = useState(
+    () => searchParams.get("error") ?? ""
+  );
   const [isSignIn, setIsSignIn] = useState(() => {
     // values returned by searchParams are all strings
     if (searchParams.get("signin") === "true") return true;
@@ -42,13 +44,14 @@ export default function AuthPage() {
 
   async function login(e: FormEvent) {
     e.preventDefault();
-    console.log("event: ", e);
+    setLoading(true);
+    setError(false);
 
-    try {
-      // await signIn('credentials', { email, password })
-    } catch (err) {
-      console.log("Login Error: ", err);
-    }
+    await signIn("credentials", { email, password, callbackUrl: "/media" });
+    // errors thrown in signIn redirect the user to the
+    // auth page with an added 'error' url search param
+
+    setLoading(false);
   }
 
   async function register(e: FormEvent) {
@@ -131,7 +134,11 @@ export default function AuthPage() {
                 value={confirmPassword}
               />
             )}
-            {error && <p className="text-sm text-error">{errorMsg}</p>}
+            {error && (
+              <p className="text-sm text-error transition duration-300">
+                {errorMsg}
+              </p>
+            )}
             <PrimaryBtn type="submit" disabled={loading}>
               {isSignIn ? "Sign In" : "Sign Up"}
             </PrimaryBtn>
