@@ -1,3 +1,4 @@
+import { signOut } from "next-auth/react";
 import { BiLogOut, BiSolidParty } from "react-icons/bi";
 import { BsBellFill, BsFillGearFill } from "react-icons/bs";
 import { RiMovieFill } from "react-icons/ri";
@@ -31,7 +32,7 @@ export default function ProfileMenu() {
         </a>
       </li>
       <li className="text-secondary">
-        <a>
+        <a onClick={() => signOut()}>
           <BiLogOut size={18} />
           Logout
         </a>
