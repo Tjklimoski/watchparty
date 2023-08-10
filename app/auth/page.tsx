@@ -51,7 +51,7 @@ export default function AuthPage() {
             className="flex flex-col gap-4 my-6 sm:my-10"
             onSubmit={handleSubmit}
           >
-            <Input label="Email" type="email" required pattern="" />
+            <Input label="Email" type="email" required />
             <Input label="Password" type="password" required />
             {!isSignIn && (
               <Input
