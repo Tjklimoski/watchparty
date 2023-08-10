@@ -9,7 +9,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import OAuthProviderBtn from "@/components/OAuthProviderBtn";
 import PageContainer from "@/components/PageContainer";
 import PrimaryBtn from "@/components/PrimaryBtn";
@@ -33,6 +33,12 @@ export default function AuthPage() {
     });
   }, [searchParams]);
 
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    console.log("Handle Submit triggered");
+    console.log("event: ", e);
+  }
+
   return (
     <PageContainer styles="-mt-20 sm:-mt-24 h-screen">
       <div className="h-full grid place-items-center">
@@ -41,43 +47,20 @@ export default function AuthPage() {
           <h2 className="font-semibold text-3xl sm:text-5xl text-center">
             {isSignIn ? "Sign In" : "Sign Up"}
           </h2>
-          <form className="flex flex-col gap-4 my-6 sm:my-10">
-            <Input label="Email" type="password" required />
-            <label htmlFor="email" className="sr-only">
-              Email:
-            </label>
-            <input
-              className="bg-neutral text-md sm:text-xl rounded-md px-4 sm:px-6 py-3 sm:py-3 focus:outline outline-primary outline-offset-0 outline-2 w-full min-w-[150px]"
-              id="email"
-              type="email"
-              placeholder="Email"
-              required
-            ></input>
-            <label htmlFor="password" className="sr-only">
-              Password:
-            </label>
-            <input
-              className="bg-neutral text-md sm:text-xl rounded-md px-4 sm:px-6 py-3 sm:py-3 focus:outline outline-primary outline-offset-0 outline-2 w-full min-w-[150px]"
-              id="password"
-              type="password"
-              placeholder="Password"
-              required
-            ></input>
+          <form
+            className="flex flex-col gap-4 my-6 sm:my-10"
+            onSubmit={handleSubmit}
+          >
+            <Input label="Email" type="email" required pattern="" />
+            <Input label="Password" type="password" required />
             {!isSignIn && (
-              <>
-                <label htmlFor="confirm-password" className="sr-only">
-                  Confirm Password:
-                </label>
-                <input
-                  className="bg-neutral text-md sm:text-xl rounded-md px-4 sm:px-6 py-3 sm:py-3 focus:outline outline-primary outline-offset-0 outline-2 w-full min-w-[150px]"
-                  id="confirm-password"
-                  type="password"
-                  placeholder="Confirm Password"
-                  required={!isSignIn}
-                ></input>
-              </>
+              <Input
+                label="Confirm Password"
+                type="password"
+                required={!isSignIn}
+              />
             )}
-            <PrimaryBtn type="submit" onClick={() => {}}>
+            <PrimaryBtn type="submit">
               {isSignIn ? "Sign In" : "Sign Up"}
             </PrimaryBtn>
           </form>
