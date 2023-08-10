@@ -23,6 +23,9 @@ export default function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const [isSignIn, setIsSignIn] = useState(() => {
     // values returned by searchParams are all strings
     if (searchParams.get("signin") === "true") return true;
@@ -50,6 +53,8 @@ export default function AuthPage() {
 
   async function register(e: FormEvent) {
     e.preventDefault();
+    setLoading(true);
+    setError(false);
 
     try {
       if (!email || !password || !confirmPassword)
@@ -63,18 +68,28 @@ export default function AuthPage() {
       if (password.length <= 5)
         throw new Error("Password must be longer than 5 characters");
 
-      const newUser = await axios.post("/api/register", {
-        email,
-        password,
-      });
+      const newUser = await axios
+        .post("/api/register", {
+          email,
+          password,
+        })
+        .then((res) => res.data)
+        .catch((error) => {
+          throw new Error(error.response.data);
+        });
 
       // user succefully registered, start login automatically
-      return login(e);
-    } catch (err) {
-      // err can be a standard Error, or an Axios Error.
-      // Get these error messages to the user
-      console.log("Register Error: ", err);
-      // err.response.data.error
+      // return login(e);
+    } catch (err: Error | any) {
+      setError(true);
+      if (err?.message !== undefined) {
+        setErrorMsg(err.message);
+      } else {
+        setErrorMsg("Error, try again");
+      }
+      console.error(err.message ?? "Server Error");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -116,6 +131,7 @@ export default function AuthPage() {
                 value={confirmPassword}
               />
             )}
+            {error && <p className="text-sm text-error">{errorMsg}</p>}
             <PrimaryBtn type="submit">
               {isSignIn ? "Sign In" : "Sign Up"}
             </PrimaryBtn>

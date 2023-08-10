@@ -37,8 +37,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(newUser);
 
-  } catch (err) {
-    console.error(err);
-    return new NextResponse(JSON.stringify(err), { status: 400 })
+  } catch (error: Error | any) {
+    return NextResponse.json(error.message || 'Error, try again', { status: 400 })
   }
 }
