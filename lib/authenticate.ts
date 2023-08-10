@@ -1,6 +1,23 @@
-export const revalidate = 0;
+import { getServerSession } from "next-auth";
+import { config } from "@/app/api/auth/[...nextauth]/route";
+import prisma from "@/prisma/client";
 
+// Return the logged in user, or null if not logged in
 export default async function auth() {
-  // Return the logged in user in the database, or false if no logged in user
-  return false;
+  // session contains name, email, & image fields by default from nextAuth.
+  const session = await getServerSession(config)
+
+  if (!session?.user?.email) return null;
+
+  console.log('USER SESSION: ', session)
+
+  const user = prisma.user.findUnique({
+    where: {
+      email: session.user?.email,
+    }
+  });
+
+  if (!user) return null;
+
+  return user;
 }
