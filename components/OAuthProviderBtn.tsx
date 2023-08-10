@@ -22,7 +22,7 @@ export default function OAuthProviderBtn({ provider }: OAuthProviderBtnProps) {
     <button
       type="button"
       className="w-full px-3 sm:px-6 py-3 sm:py-4 border border-white hover:bg-white hover:text-base-100 transition rounded-md flex flex-wrap items-center justify-center font-semibold text-sm sm:text-md"
-      onClick={() => signIn(provider.toLowerCase())}
+      onClick={() => signIn(provider.toLowerCase(), { callbackUrl: "/media" })}
     >
       <ProviderIcon /> Sign In with {provider}
     </button>
