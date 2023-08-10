@@ -9,7 +9,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 import OAuthProviderBtn from "@/components/OAuthProviderBtn";
 import PageContainer from "@/components/PageContainer";
 import PrimaryBtn from "@/components/PrimaryBtn";
@@ -19,6 +19,9 @@ import Input from "@/components/Input";
 
 export default function AuthPage() {
   const searchParams = useSearchParams();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isSignIn, setIsSignIn] = useState(() => {
     // values returned by searchParams are all strings
     if (searchParams.get("signin") === "true") return true;
@@ -33,31 +36,68 @@ export default function AuthPage() {
     });
   }, [searchParams]);
 
-  function handleSubmit(e: FormEvent) {
+  async function login(e: FormEvent) {
     e.preventDefault();
-    console.log("Handle Submit triggered");
     console.log("event: ", e);
+
+    try {
+      // await signIn('credentials')
+    } catch (err) {
+      console.log("Login Error: ", err);
+    }
+  }
+
+  async function register(e: FormEvent) {
+    e.preventDefault();
+
+    try {
+      if (password !== confirmPassword)
+        throw new Error("Passwords do not match");
+
+      // prisma cant run client side, make a axios request to my own api
+      // Check to make sure user isn't already signed up
+      // Then call the login function to login user after registering.
+    } catch (err) {
+      console.log("Register Error: ", err);
+    }
   }
 
   return (
     <PageContainer styles="-mt-20 sm:-mt-24 h-screen">
       <div className="h-full grid place-items-center">
-        {/* margin top on this div to prevent it from going behind the navbar on smalled screens */}
+        {/* margin top on this div to prevent it from going behind the navbar on smaller screens */}
         <div className="bg-base-100 bg-opacity-80 backdrop-blur-md w-full md:w-2/3 lg:w-1/2 rounded-lg py-4 sm:py-8 px-5 sm:px-10 shadow-primary/10 shadow-2xl max-w-xl mt-20 sm:mt-24">
           <h2 className="font-semibold text-3xl sm:text-5xl text-center">
             {isSignIn ? "Sign In" : "Sign Up"}
           </h2>
           <form
             className="flex flex-col gap-4 my-6 sm:my-10"
-            onSubmit={handleSubmit}
+            onSubmit={isSignIn ? login : register}
           >
-            <Input label="Email" type="email" required />
-            <Input label="Password" type="password" required />
+            <Input
+              label="Email"
+              type="email"
+              name="email"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              required
+            />
+            <Input
+              label="Password"
+              type="password"
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              required
+            />
             {!isSignIn && (
               <Input
                 label="Confirm Password"
                 type="password"
+                name="confirmPassword"
                 required={!isSignIn}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={confirmPassword}
               />
             )}
             <PrimaryBtn type="submit">
