@@ -21,8 +21,8 @@ export const config: AuthOptions = {
       },
       async authorize(credentials, req) {
         // Logic to take the credentials that were submitted and return either:
-        // 1. a user object representing the user
-        // 2. fasle/null if credentials are invalid
+        // 1. a user object matching the submited credentials
+        // 2. throw error or return null if credentials are invalid
 
         if (!credentials?.email || !credentials?.password) {
           throw new Error('Missing email or password');

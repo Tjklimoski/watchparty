@@ -82,7 +82,7 @@ export default function AuthPage() {
         });
 
       // user succefully registered, start login automatically
-      // return login(e);
+      return login(e);
     } catch (err: Error | any) {
       setError(true);
       if (err?.message !== undefined) {

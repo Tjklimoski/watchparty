@@ -2,11 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 import bcrypt from 'bcrypt'
 import { capitalize } from "@/lib/stringModifications";
-
-interface RegisterData {
-  email: string;
-  password: string;
-}
+import { RegisterData } from "@/types";
 
 export async function POST(req: NextRequest) {
   try {

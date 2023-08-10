@@ -44,3 +44,8 @@ export interface SWRResponse {
   data: MultiFetcherData[] | undefined;
   isLoading: boolean;
 }
+
+export interface RegisterData {
+  email: string;
+  password: string;
+}
