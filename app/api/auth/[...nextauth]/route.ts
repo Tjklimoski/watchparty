@@ -6,6 +6,7 @@ import FacebookProvider from "next-auth/providers/facebook";
 import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/prisma/client";
+import { compare } from "bcrypt";
 
 export const config: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -22,7 +23,26 @@ export const config: AuthOptions = {
         // Logic to take the credentials that were submitted and return either:
         // 1. a user object representing the user
         // 2. fasle/null if credentials are invalid
-        return null;
+
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error('Missing email or password');
+        }
+
+        const { email, password } = credentials
+
+        const user = await prisma.user.findUnique({
+          where: {
+            email
+          }
+        });
+
+        if (!user) throw new Error('Incorrect email or password')
+
+        const match = await compare(password, user.password ?? '')
+
+        if (!match) throw new Error('Incorrect email or password')
+
+        return user;
       }
     }),
     GoogleProvider({
@@ -47,6 +67,7 @@ export const config: AuthOptions = {
   },
   pages: {
     signIn: '/auth',
+    error: '/auth?signin=true',
   },
   debug: process.env.NODE_ENV === 'development',
 }
