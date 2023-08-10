@@ -16,6 +16,7 @@ import PrimaryBtn from "@/components/PrimaryBtn";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import Input from "@/components/Input";
+import axios from "axios";
 
 export default function AuthPage() {
   const searchParams = useSearchParams();
@@ -51,14 +52,29 @@ export default function AuthPage() {
     e.preventDefault();
 
     try {
+      if (!email || !password || !confirmPassword)
+        throw new Error(
+          "Requested information missing, please fill out all fields"
+        );
+
       if (password !== confirmPassword)
         throw new Error("Passwords do not match");
 
-      // prisma cant run client side, make a axios request to my own api
-      // Check to make sure user isn't already signed up
-      // Then call the login function to login user after registering.
+      if (password.length <= 5)
+        throw new Error("Password must be longer than 5 characters");
+
+      const newUser = await axios.post("/api/register", {
+        email,
+        password,
+      });
+
+      // user succefully registered, start login automatically
+      return login(e);
     } catch (err) {
+      // err can be a standard Error, or an Axios Error.
+      // Get these error messages to the user
       console.log("Register Error: ", err);
+      // err.response.data.error
     }
   }
 
