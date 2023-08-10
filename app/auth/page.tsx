@@ -15,6 +15,7 @@ import PageContainer from "@/components/PageContainer";
 import PrimaryBtn from "@/components/PrimaryBtn";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import Input from "@/components/Input";
 
 export default function AuthPage() {
   const searchParams = useSearchParams();
@@ -41,6 +42,7 @@ export default function AuthPage() {
             {isSignIn ? "Sign In" : "Sign Up"}
           </h2>
           <form className="flex flex-col gap-4 my-6 sm:my-10">
+            <Input label="Email" type="password" required />
             <label htmlFor="email" className="sr-only">
               Email:
             </label>
