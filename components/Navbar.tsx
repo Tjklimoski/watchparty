@@ -9,6 +9,7 @@ import { User } from "@/types";
 
 export default async function Navbar() {
   const user: User | null = await auth();
+  const isAuth = !!user;
 
   return (
     <PageContainer
@@ -20,7 +21,7 @@ export default async function Navbar() {
 
         {/* Menu container */}
         <div className="hidden lg:flex flex-1 justify-between items-center">
-          {user ? (
+          {isAuth ? (
             <>
               <MainMenu />
               <NavbarProfileContainer user={user} />
@@ -36,7 +37,7 @@ export default async function Navbar() {
 
         {/* Mobile menu */}
         <div className="lg:hidden ml-auto">
-          <MobileMenu isAuth={user ? true : false} />
+          {user && <MobileMenu isAuth={isAuth} user={user} />}
         </div>
       </div>
     </PageContainer>

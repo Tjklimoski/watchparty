@@ -9,12 +9,14 @@ import PrimaryBtn from "./PrimaryBtn";
 import AccentBtn from "./AccentBtn";
 import { useState } from "react";
 import AuthBtns from "./AuthBtns";
+import { User } from "@/types";
 
 interface MobileMenuProps {
   isAuth: boolean;
+  user: User;
 }
 
-export default function MobileMenu({ isAuth }: MobileMenuProps) {
+export default function MobileMenu({ isAuth, user }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   function toggleOpen() {
@@ -41,7 +43,7 @@ export default function MobileMenu({ isAuth }: MobileMenuProps) {
           {isAuth ? (
             <>
               <div className="p-2 bg-neutral rounded-md flex flex-col items-center">
-                <ProfileIcon />
+                <ProfileIcon user={user} />
                 <ProfileMenu />
               </div>
               <div className="w-full">
