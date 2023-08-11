@@ -80,7 +80,7 @@ export default function AuthPage() {
           throw new Error("Password must be longer than 5 characters");
 
         await axios
-          .post("/api/register", {
+          .post("/api/auth/register", {
             email,
             password,
           })
