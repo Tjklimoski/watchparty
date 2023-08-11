@@ -1,3 +1,5 @@
+"use server"
+
 import { getServerSession } from "next-auth";
 import { config } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/prisma/client";
@@ -11,7 +13,7 @@ export default async function auth() {
 
   const user = prisma.user.findUnique({
     where: {
-      email: session.user?.email,
+      email: session.user.email,
     }
   });
 
