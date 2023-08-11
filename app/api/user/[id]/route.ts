@@ -11,6 +11,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
         id
       },
       select: {
+        id: true,
         name: true,
         image: true,
       }
