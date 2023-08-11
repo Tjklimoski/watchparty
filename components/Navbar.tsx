@@ -24,7 +24,7 @@ export default async function Navbar() {
           {isAuth ? (
             <>
               <MainMenu />
-              <NavbarProfileContainer user={user} />
+              <NavbarProfileContainer />
             </>
           ) : (
             // ml-auto in order to keep auth buttons on the right of navbar
@@ -37,7 +37,7 @@ export default async function Navbar() {
 
         {/* Mobile menu */}
         <div className="lg:hidden ml-auto">
-          {user && <MobileMenu isAuth={isAuth} user={user} />}
+          {user && <MobileMenu isAuth={isAuth} />}
         </div>
       </div>
     </PageContainer>

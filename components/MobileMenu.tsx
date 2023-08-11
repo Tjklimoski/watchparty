@@ -5,18 +5,14 @@ import { IoClose } from "react-icons/io5";
 import ProfileIcon from "./ProfileIcon";
 import ProfileMenu from "./ProfileMenu";
 import MainMenu from "./MainMenu";
-import PrimaryBtn from "./PrimaryBtn";
-import AccentBtn from "./AccentBtn";
 import { useState } from "react";
 import AuthBtns from "./AuthBtns";
-import { User } from "@/types";
 
 interface MobileMenuProps {
   isAuth: boolean;
-  user: User;
 }
 
-export default function MobileMenu({ isAuth, user }: MobileMenuProps) {
+export default function MobileMenu({ isAuth }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   function toggleOpen() {
@@ -43,7 +39,7 @@ export default function MobileMenu({ isAuth, user }: MobileMenuProps) {
           {isAuth ? (
             <>
               <div className="p-2 bg-neutral rounded-md flex flex-col items-center">
-                <ProfileIcon user={user} />
+                <ProfileIcon />
                 <ProfileMenu />
               </div>
               <div className="w-full">
