@@ -1,7 +1,5 @@
 import MainMenu from "./MainMenu";
 import NavbarLogo from "./NavbarLogo";
-import PrimaryBtn from "./PrimaryBtn";
-import AccentBtn from "./AccentBtn";
 import NavbarProfileContainer from "./NavbarProfileContainer";
 import auth from "@/lib/authenticate";
 import MobileMenu from "./MobileMenu";
@@ -9,7 +7,7 @@ import PageContainer from "./PageContainer";
 import AuthBtns from "./AuthBtns";
 
 export default async function Navbar() {
-  const isAuth = await auth();
+  const user = await auth();
 
   return (
     <PageContainer
@@ -21,10 +19,10 @@ export default async function Navbar() {
 
         {/* Menu container */}
         <div className="hidden lg:flex flex-1 justify-between items-center">
-          {isAuth ? (
+          {user ? (
             <>
               <MainMenu />
-              <NavbarProfileContainer />
+              <NavbarProfileContainer user={user} />
             </>
           ) : (
             // ml-auto in order to keep auth buttons on the right of navbar
@@ -37,7 +35,7 @@ export default async function Navbar() {
 
         {/* Mobile menu */}
         <div className="lg:hidden ml-auto">
-          <MobileMenu isAuth={isAuth} />
+          <MobileMenu isAuth={user ? true : false} />
         </div>
       </div>
     </PageContainer>
