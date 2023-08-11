@@ -37,10 +37,10 @@ export interface TVShow {
 
 export interface User {
   id: string;
-  name?: string;
-  email?: string;
-  emailVerified?: string;
-  image?: string;
+  name?: string | null;
+  email?: string | null;
+  emailVerified?: Date | null;
+  image?: string | null;
   location: string;
   radius: number;
   myWatchParties?: WatchParty[];

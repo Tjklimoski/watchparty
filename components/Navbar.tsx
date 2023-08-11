@@ -5,9 +5,10 @@ import auth from "@/lib/authenticate";
 import MobileMenu from "./MobileMenu";
 import PageContainer from "./PageContainer";
 import AuthBtns from "./AuthBtns";
+import { User } from "@/types";
 
 export default async function Navbar() {
-  const user = await auth();
+  const user: User | null = await auth();
 
   return (
     <PageContainer
