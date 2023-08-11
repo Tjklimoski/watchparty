@@ -55,6 +55,8 @@ export interface User {
   updatedAt: Date;
 }
 
+export type LimitedUser = Pick<User, "name" | "image"> | null
+
 export interface WatchParty {
   id: string;
   userId: string;
