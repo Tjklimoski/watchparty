@@ -42,59 +42,67 @@ export default function AuthPage() {
     });
   }, [searchParams]);
 
-  async function login(e: FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-    setError(false);
+  const login = useCallback(
+    async (e: FormEvent) => {
+      e.preventDefault();
+      setLoading(true);
+      setError(false);
 
-    await signIn("credentials", { email, password, callbackUrl: "/media" });
-    // errors thrown in signIn redirect the user to the
-    // auth page with an added 'error' url search param
+      const signedIn = await signIn("credentials", {
+        email,
+        password,
+        callbackUrl: "/media",
+      });
+      // errors thrown in signIn redirect the user to the
+      // auth page with an added 'error' url search param
 
-    setLoading(false);
-  }
+      if (signedIn) setLoading(false);
+    },
+    [email, password]
+  );
 
-  async function register(e: FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-    setError(false);
+  const register = useCallback(
+    async (e: FormEvent) => {
+      e.preventDefault();
+      setLoading(true);
+      setError(false);
 
-    try {
-      if (!email || !password || !confirmPassword)
-        throw new Error(
-          "Requested information missing, please fill out all fields"
-        );
+      try {
+        if (!email || !password || !confirmPassword)
+          throw new Error(
+            "Requested information missing, please fill out all fields"
+          );
 
-      if (password !== confirmPassword)
-        throw new Error("Passwords do not match");
+        if (password !== confirmPassword)
+          throw new Error("Passwords do not match");
 
-      if (password.length <= 5)
-        throw new Error("Password must be longer than 5 characters");
+        if (password.length <= 5)
+          throw new Error("Password must be longer than 5 characters");
 
-      const newUser = await axios
-        .post("/api/register", {
-          email,
-          password,
-        })
-        .then((res) => res.data)
-        .catch((error) => {
-          throw new Error(error.response.data);
-        });
+        await axios
+          .post("/api/register", {
+            email,
+            password,
+          })
+          .then((res) => res.data)
+          .catch((error) => {
+            throw new Error(error.response.data);
+          });
 
-      // user succefully registered, start login automatically
-      return login(e);
-    } catch (err: Error | any) {
-      setError(true);
-      if (err?.message !== undefined) {
-        setErrorMsg(err.message);
-      } else {
-        setErrorMsg("Error, try again");
+        // user succefully registered, start login automatically
+        login(e);
+      } catch (err: Error | any) {
+        setError(true);
+        if (err?.message !== undefined) {
+          setErrorMsg(err.message);
+        } else {
+          setErrorMsg("Error, try again");
+        }
+        setLoading(false);
       }
-      console.error(err.message ?? "Server Error");
-    } finally {
-      setLoading(false);
-    }
-  }
+    },
+    [email, password, confirmPassword, login]
+  );
 
   return (
     <PageContainer styles="-mt-20 sm:-mt-24 h-screen">
@@ -115,6 +123,7 @@ export default function AuthPage() {
               onChange={(e) => setEmail(e.target.value)}
               value={email}
               required
+              disabled={loading}
             />
             <Input
               label="Password"
@@ -123,6 +132,7 @@ export default function AuthPage() {
               onChange={(e) => setPassword(e.target.value)}
               value={password}
               required
+              disabled={loading}
             />
             {!isSignIn && (
               <Input
@@ -132,6 +142,7 @@ export default function AuthPage() {
                 required={!isSignIn}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 value={confirmPassword}
+                disabled={loading}
               />
             )}
             {error && (

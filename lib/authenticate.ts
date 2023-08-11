@@ -9,8 +9,6 @@ export default async function auth() {
 
   if (!session?.user?.email) return null;
 
-  console.log('USER SESSION: ', session)
-
   const user = prisma.user.findUnique({
     where: {
       email: session.user?.email,
