@@ -3,7 +3,7 @@
 import type { MultiFetcherData } from "@/types";
 import PageContainer from "@/components/PageContainer";
 import useSWRImmutable from "swr/immutable";
-import fetcher from "@/lib/mediaFetcher";
+import fetcher from "@/lib/TMDBFetcher";
 import getCarouselHeading from "@/lib/getCarouselHeading";
 import MovieCard from "@/components/MovieCard";
 import Carousel from "@/components/Carousel";

@@ -37,7 +37,7 @@ export default function NavbarProfileContainer({
           isOpen && "scale-100"
         }`}
       >
-        <ProfileMenu />
+        <ProfileMenu size="lg" />
       </div>
     </div>
   );

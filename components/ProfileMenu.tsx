@@ -3,9 +3,13 @@ import { BiLogOut, BiSolidParty } from "react-icons/bi";
 import { BsBellFill, BsFillGearFill } from "react-icons/bs";
 import { RiMovieFill } from "react-icons/ri";
 
-export default function ProfileMenu() {
+interface ProfileMenuProps {
+  size?: "xs" | "sm" | "md" | "lg";
+}
+
+export default function ProfileMenu({ size = "md" }: ProfileMenuProps) {
   return (
-    <ul className="menu menu-md w-full">
+    <ul className={`menu menu-${size} w-full`}>
       <li>
         <a>
           <BsBellFill size={18} />
