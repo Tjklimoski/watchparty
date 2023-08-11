@@ -151,7 +151,13 @@ export default function AuthPage() {
               </p>
             )}
             <PrimaryBtn type="submit" disabled={loading}>
-              {isSignIn ? "Sign In" : "Sign Up"}
+              {loading ? (
+                <span className="loading loading-spinner text-primary"></span>
+              ) : isSignIn ? (
+                "Sign In"
+              ) : (
+                "Sign Up"
+              )}
             </PrimaryBtn>
           </form>
           <hr className="border-secondary" />
