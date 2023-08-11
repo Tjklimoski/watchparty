@@ -5,3 +5,7 @@ export function capitalize(word: string) {
 export function kebab(word: string) {
   return word.split(" ").join("-");
 }
+
+export function getFirstName(name: string) {
+  return name.split(' ')[0];
+}
