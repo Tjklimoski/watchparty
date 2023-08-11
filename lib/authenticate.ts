@@ -21,3 +21,8 @@ export default async function auth() {
 
   return user;
 }
+
+export async function getIsAuth() {
+  const user = await auth();
+  return !!user;
+}

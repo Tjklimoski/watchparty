@@ -1,15 +1,14 @@
 import MainMenu from "./MainMenu";
 import NavbarLogo from "./NavbarLogo";
 import NavbarProfileContainer from "./NavbarProfileContainer";
-import auth from "@/lib/authenticate";
+import { getIsAuth } from "@/lib/authenticate";
 import MobileMenu from "./MobileMenu";
 import PageContainer from "./PageContainer";
 import AuthBtns from "./AuthBtns";
 import { User } from "@/types";
 
 export default async function Navbar() {
-  const user: User | null = await auth();
-  const isAuth = !!user;
+  const isAuth: boolean = await getIsAuth();
 
   return (
     <PageContainer
@@ -37,7 +36,7 @@ export default async function Navbar() {
 
         {/* Mobile menu */}
         <div className="lg:hidden ml-auto">
-          {user && <MobileMenu isAuth={isAuth} />}
+          <MobileMenu isAuth={isAuth} />
         </div>
       </div>
     </PageContainer>
