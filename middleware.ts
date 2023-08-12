@@ -4,8 +4,6 @@ import { getToken } from "next-auth/jwt"
 export async function middleware(req: NextRequest) {
   const token = await getToken({ req })
 
-  console.log(req.url)
-
   if (token) {
     if (req.nextUrl.pathname.startsWith('/auth')) {
       // if logged in and going to /auth page, redirect user to /media
