@@ -2,14 +2,14 @@ import { NumberLiteralType, StringLiteral } from "typescript";
 
 export interface Movie {
   adult: boolean;
-  backdrop_path: string;
+  backdrop_path: string | null;
   genre_ids: number[];
   id: number;
   original_language: string;
   original_title: string;
   overview: string;
   popularity: number;
-  poster_path: string;
+  poster_path: string | null;
   release_date: string;
   title: string;
   video: boolean;
@@ -34,7 +34,7 @@ export interface MovieDetails extends Omit<Movie, 'genre_ids'> {
 }
 
 export interface TVShow {
-  backdrop_path: string;
+  backdrop_path: string | null;
   first_air_date: string;
   genre_ids: number[];
   id: number;
@@ -44,7 +44,7 @@ export interface TVShow {
   original_name: string;
   overview: string;
   popularity: number;
-  poster_path: string;
+  poster_path: string | null;
   vote_average: number;
   vote_count: number;
   media_type: 'tv';
