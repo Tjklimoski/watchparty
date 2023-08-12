@@ -19,7 +19,7 @@ export default async function fetcher(url: string) {
   // Set media type on data being returned.
   const media_type: string = url.split('/')[1];
   return TMDBApi.get(url).then((res) => {
-    if (Array.isArray(res.data.results)) {
+    if (Array.isArray(res.data?.results)) {
       return res.data.results.map((result: Movie | TVShow) => ({ ...result, media_type }))
     } else {
       return { ...res.data, media_type }
