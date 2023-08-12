@@ -1,16 +1,12 @@
 import useSWR from "swr";
 import fetcher from "@/lib/TMDBFetcher";
-import { Movie, TVShow } from "@/types";
+import { TVShow } from "@/types";
 
-export default function MediaIdPage({
-  params,
-}: {
-  params: { mediaId: string };
-}) {
+export default function TvIdPage({ params }: { params: { id: string } }) {
   // making request for movie it's /movie/mediaid
   // making request for tv it's /tv/mediaid
-  const { data, isLoading, error } = useSWR<Movie | TVShow>(``);
-  console.log(params);
+  const { id } = params;
+  const { data, isLoading, error } = useSWR<TVShow>(`/tv/${id}`);
 
-  return <div>Media Id Page</div>;
+  return <div>TV Id Page</div>;
 }

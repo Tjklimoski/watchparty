@@ -5,7 +5,7 @@ import PageContainer from "@/components/PageContainer";
 import useSWRImmutable from "swr/immutable";
 import fetcher from "@/lib/TMDBFetcher";
 import getCarouselHeading from "@/lib/getCarouselHeading";
-import MovieCard from "@/components/MovieCard";
+import MediaCard from "@/components/MediaCard";
 import Carousel from "@/components/Carousel";
 
 export default function MediaPage() {
@@ -59,7 +59,7 @@ export default function MediaPage() {
             return (
               <Carousel key={apiRes.heading} heading={apiRes.heading}>
                 {apiRes.value!.map((media) => (
-                  <MovieCard key={media.id} media={media} />
+                  <MediaCard key={media.id} media={media} />
                 ))}
               </Carousel>
             );
