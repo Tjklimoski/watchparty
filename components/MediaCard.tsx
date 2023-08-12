@@ -1,11 +1,11 @@
 import Image from "next/image";
 import type { Movie, TVShow } from "@/types";
 
-interface MovieCardProps {
+interface MediaCardProps {
   media: Movie | TVShow;
 }
 
-export default function MovieCard({ media }: MovieCardProps) {
+export default function MediaCard({ media }: MediaCardProps) {
   //check the media_type on media object for accurate typescript checking
 
   const baseImgPath = "https://image.tmdb.org/t/p/";
