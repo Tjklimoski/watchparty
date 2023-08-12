@@ -1,12 +1,16 @@
+"use client";
+
 import Image from "next/image";
 import type { Movie, TVShow } from "@/types";
+import { useRouter } from "next/navigation";
 
 interface MediaCardProps {
   media: Movie | TVShow;
 }
 
 export default function MediaCard({ media }: MediaCardProps) {
-  //check the media_type on media object for accurate typescript checking
+  //check the media_type field on media object for accurate typescript checking
+  const router = useRouter();
 
   const baseImgPath = "https://image.tmdb.org/t/p/";
   const imgSize = "w500";
@@ -15,6 +19,7 @@ export default function MediaCard({ media }: MediaCardProps) {
   return (
     <div
       key={media.id}
+      onClick={() => router.push(`/media/${media.media_type}/${media.id}`)}
       className="p-2 bg-primary bg-opacity-20 rounded-md shadow-md snap-start"
     >
       <Image
