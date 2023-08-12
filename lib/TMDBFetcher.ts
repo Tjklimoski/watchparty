@@ -18,7 +18,14 @@ export default async function fetcher(url: string) {
   // get media type (movie / TV) based on url "/movie/popular", "/tv/on_the_air"
   // Set media type on data being returned.
   const media_type: string = url.split('/')[1];
-  return TMDBApi.get(url).then((res) => (res.data.results.map((result: Movie | TVShow) => ({ ...result, media_type }))));
+  return TMDBApi.get(url).then((res) => {
+    if (Array.isArray(res.data.results)) {
+      return res.data.results.map((result: Movie | TVShow) => ({ ...result, media_type }))
+    } else {
+      return { ...res.data, media_type }
+    }
+
+  });
 }
 
 // Currently doesn't return data if bad url sent:
