@@ -31,7 +31,7 @@ export default function MobileMenu({ isAuth }: MobileMenuProps) {
 
       {/* Container that slides out */}
       <div
-        className={`absolute top-20 sm:top-24 right-0 pt-1 z-20 transition duration-300  ${
+        className={`absolute top-16 sm:top-20 right-0 pt-1 z-20 transition duration-300  ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

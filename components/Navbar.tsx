@@ -13,7 +13,7 @@ export default async function Navbar() {
   return (
     <PageContainer
       type="nav"
-      styles="sticky top-0 h-20 sm:h-24 bg-base-100 bg-opacity-75 backdrop-blur-md z-20 flex items-center"
+      styles="sticky top-0 h-16 sm:h-20 bg-base-100 bg-opacity-75 backdrop-blur-md z-20 flex items-center"
     >
       <div className="flex h-full items-center gap-4 md:gap-6 grow">
         <NavbarLogo />
