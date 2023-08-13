@@ -38,8 +38,8 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
             className="object-cover object-top brightness-75"
             priority
           />
-          <div className="absolute bottom-0 left-0 right-0 px-6 md:px-12 py-4 min-h-[14svh] flex items-end bg-gradient-to-t from-black via-black via-30% to-transparent">
-            <h2 className="text-6xl font-bold drop-shadow-xl break-balance webkit-truncate w-full max-w-[1440px] mx-auto">
+          <div className="absolute bottom-0 left-0 right-0 px-6 md:px-12 py-4 min-h-[14svh] flex items-end bg-gradient-to-t from-black via-black/75 via-30% to-transparent">
+            <h2 className="text-6xl font-bold drop-shadow-md break-balance webkit-truncate w-full max-w-[1440px] mx-auto">
               {movie.title}
             </h2>
           </div>
