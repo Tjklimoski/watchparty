@@ -28,8 +28,11 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
     <div>Loading...</div>
   ) : (
     movie !== undefined && (
-      <PageContainer>
-        <div className="absolute top-0 left-0 w-full h-[35vh] md:h-[45vh]">
+      // margin-top on PageContainer is to push the content down
+      // to leave the space for the billboard image at the top.
+      // 4rem and 5rem come from the height of the navbar at those sizes.
+      <PageContainer styles="mt-[calc(35svh-4rem)] sm:mt-[calc(45svh-5rem)]">
+        <div className="absolute top-0 left-0 w-full h-[35svh] sm:h-[45svh]">
           <Image
             src={baseImgPath + imgSize + movie.backdrop_path}
             alt={`${movie.title} backdrop`}
@@ -37,6 +40,10 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
             className="object-cover object-top brightness-75"
             priority
           />
+        </div>
+        <div className="relative">
+          <h1>Test</h1>
+          <p>MORE CONTENT</p>
         </div>
       </PageContainer>
     )
