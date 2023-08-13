@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .break-balance {
+    /* experiemntal property, but doesn't break anything if it doesn't apply */
+    text-wrap: balance;
+  }
+
+  .webkit-truncate {
+    /* if non-webkit brower, will truncate on line 1 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}

@@ -12,7 +12,7 @@ module.exports = {
       },
       aspectRatio: {
         'poster': '2/3',
-      }
+      },
     },
   },
   plugins: [
