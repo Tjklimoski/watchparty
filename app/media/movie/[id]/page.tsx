@@ -21,8 +21,6 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
 
   if (!isLoading && error) throw new Error("Invliad Movie Id");
 
-  console.log(movie);
-
   return isLoading ? (
     // create loading skeleton
     <div>Loading...</div>
@@ -40,10 +38,14 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
             className="object-cover object-top brightness-75"
             priority
           />
+          <div className="absolute bottom-0 left-0 right-0 px-6 md:px-12 py-4 min-h-[14svh] flex items-end bg-gradient-to-t from-black via-black via-30% to-transparent">
+            <h2 className="text-6xl font-bold drop-shadow-xl break-balance webkit-truncate w-full max-w-[1440px] mx-auto">
+              {movie.title}
+            </h2>
+          </div>
         </div>
         <div className="relative">
-          <h1>Test</h1>
-          <p>MORE CONTENT</p>
+          <p className="text-4xl">CONTENT</p>
         </div>
       </PageContainer>
     )
