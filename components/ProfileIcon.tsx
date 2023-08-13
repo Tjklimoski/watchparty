@@ -9,7 +9,7 @@ interface ProfileIconProps {
   size?: number;
 }
 
-export default function ProfileIcon({ id, size = 35 }: ProfileIconProps) {
+export default function ProfileIcon({ id, size = 36 }: ProfileIconProps) {
   // Since user is an async function, need to make sure the data
   // has been fetched before trying to access a field
   const { user, isLoading } = useUser(id);
