@@ -51,15 +51,24 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
           </div>
         </div>
 
-        <section className="flex justify-between px-12">
-          <button className="btn btn-accent btn-outline border-2 rounded-full aspect-square grid place-items-center">
+        <section className="flex justify-between px-2 md:px-12">
+          <button
+            className="btn btn-neutral btn-outline border-2 rounded-full aspect-square grid place-items-center tooltip normal-case"
+            data-tip="Back"
+          >
             <FaChevronLeft size={25} />
           </button>
-          <div className="flex gap-4">
-            <button className="btn btn-secondary btn-outline rounded-full aspect-square border-2 grid place-items-center">
+          <div className="flex gap-4 ms-4">
+            <button
+              className="btn btn-secondary btn-outline rounded-full aspect-square border-2 grid place-items-center tooltip normal-case"
+              data-tip="Create WatchParty"
+            >
               <BiSolidParty size={25} />
             </button>
-            <button className="btn btn-primary btn-outline border-2 rounded-full aspect-square grid place-items-center">
+            <button
+              className="btn btn-primary btn-outline border-2 rounded-full aspect-square grid place-items-center tooltip normal-case"
+              data-tip="Add to My List"
+            >
               <FaPlus size={25} />
             </button>
           </div>
