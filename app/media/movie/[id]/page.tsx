@@ -33,9 +33,9 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
       // margin-top on PageContainer is to push the content down
       // to leave the space for the billboard image at the top.
       // 4rem and 5rem come from the height of the navbar at those sizes.
-      <PageContainer styles="mt-[calc(35svh-4rem)] sm:mt-[calc(45svh-5rem)]">
+      <PageContainer styles="mt-[max(calc(180px-4rem),_calc(35svh-4rem))] sm:mt-[calc(45svh-5rem)]">
         {/* Top billboard component */}
-        <div className="absolute top-0 left-0 w-full h-[35svh] sm:h-[45svh]">
+        <div className="absolute top-0 left-0 w-full h-[35svh] sm:h-[45svh] min-h-[180px]">
           <Image
             src={imageUrl}
             alt={`${movie.title} billboard`}
@@ -45,7 +45,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
           />
 
           <div className="absolute bottom-0 left-0 right-0 px-6 md:px-12 py-4 min-h-[14svh] flex items-end bg-gradient-to-t from-black via-black/75 via-30% to-transparent">
-            <h2 className="text-6xl font-bold drop-shadow-md break-balance webkit-truncate w-full max-w-[1440px] mx-auto">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold drop-shadow-md break-balance webkit-truncate w-full max-w-[1440px] mx-auto">
               {movie.title}
             </h2>
           </div>
