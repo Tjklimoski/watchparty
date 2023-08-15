@@ -7,60 +7,12 @@ import PageContainer from "@/components/PageContainer";
 import Image from "next/image";
 import { FaChevronLeft, FaPlus } from "react-icons/fa6";
 import { BiSolidParty } from "react-icons/bi";
-import { useCallback } from "react";
-
-function formatBudget(amount: number | null): string {
-  if (!amount) return "NA";
-  return new Intl.NumberFormat(undefined, {
-    style: "currency",
-    currency: "USD",
-    currencyDisplay: "narrowSymbol",
-  }).format(amount);
-}
-
-function formatReleaseDate(releaseDate: string | null): string {
-  if (!releaseDate) return "NA";
-  const date = new Date(releaseDate);
-  return new Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(
-    date
-  );
-}
-
-function formatLanguage(abrv: string | null): string {
-  if (!abrv) return "NA";
-  // Not an exhustive list, but if not specified will return abrviation
-  switch (abrv) {
-    case "en":
-      return "English";
-    case "es":
-      return "Spanish";
-    case "fr":
-      return "French";
-    case "pt":
-      return "Portuguese";
-    case "ru":
-      return "Russian";
-    case "hi":
-      return "Hindi";
-    case "ja":
-      return "Japanese";
-    case "de":
-      return "German";
-    case "zh":
-      return "Mandarin";
-    case "it":
-      return "Italian";
-    default:
-      return abrv;
-  }
-}
-
-function formatRuntime(runtime: number | null): string {
-  if (!runtime) return "NA";
-  const hours = Math.floor(runtime / 60);
-  const mins = runtime % 60;
-  return `${hours ? `${hours}h ` : ""}${mins}m`;
-}
+import {
+  formatBudget,
+  formatLanguage,
+  formatReleaseDate,
+  formatRuntime,
+} from "@/lib/format";
 
 export default function MovieIdPage({ params }: { params: { id: string } }) {
   // making request for movie it's /movie/mediaid
