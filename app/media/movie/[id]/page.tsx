@@ -2,6 +2,7 @@
 
 import useSWR from "swr";
 import fetcher from "@/lib/TMDBFetcher";
+import { useRouter } from "next/navigation";
 import { MovieDetails, Video } from "@/types";
 import PageContainer from "@/components/PageContainer";
 import Image from "next/image";
@@ -19,6 +20,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
   // making request for tv it's /tv/mediaid
   const baseImgPath = "https://image.tmdb.org/t/p/";
   const imgSize = "original";
+  const router = useRouter();
   const { id } = params;
   const {
     data: movie,
@@ -74,6 +76,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
               className="btn btn-neutral btn-outline border-2 rounded-full aspect-square grid place-items-center tooltip normal-case"
               data-tip="Back"
               aria-label="Back"
+              onClick={() => router.back()}
             >
               <FaChevronLeft size={25} />
             </button>
