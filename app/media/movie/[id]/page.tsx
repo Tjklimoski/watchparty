@@ -100,7 +100,9 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
                 <li>Budget: {formatBudget(movie.budget)}</li>
               </ul>
             </aside>
-            <article className="flex-grow"></article>
+            <article className="flex-grow">
+              <p>{movie.overview}</p>
+            </article>
           </div>
         </section>
       </PageContainer>

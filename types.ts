@@ -33,6 +33,19 @@ export interface MovieDetails extends Omit<Movie, 'genre_ids'> {
   tagline: string;
 }
 
+export interface Video {
+  iso_639_1: string;
+  is_3066_1: string;
+  name: string;
+  key: string;
+  site: string;
+  size: number;
+  type: string;
+  official: boolean;
+  published_at: string;
+  id: string;
+}
+
 export interface TVShow {
   backdrop_path: string | null;
   first_air_date: string;
