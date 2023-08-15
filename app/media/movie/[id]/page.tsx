@@ -112,7 +112,16 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
                   <br />
                   {movie.genres.length === 0
                     ? "NA"
-                    : movie.genres.map((genre) => genre.name).join(", ")}
+                    : movie.genres.map((genre) => {
+                        return (
+                          <span
+                            key={genre.id}
+                            className="badge badge-outline border-secondary mt-1 mb-1 mr-2"
+                          >
+                            {genre.name}
+                          </span>
+                        );
+                      })}
                 </li>
                 <li>
                   <strong>Status</strong>
