@@ -13,7 +13,6 @@ import {
   formatReleaseDate,
   formatRuntime,
 } from "@/lib/format";
-import { useEffect } from "react";
 
 export default function MovieIdPage({ params }: { params: { id: string } }) {
   // making request for movie it's /movie/mediaid
@@ -31,6 +30,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
     movie && isLoading === false ? `/movie/${id}/videos` : null,
     fetcher
   );
+  // Find the trailer key that matches the following criteria:
   const trailerKey =
     videos?.find(
       (video) =>
@@ -116,14 +116,18 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
 
             <article className="flex-grow">
               <p>{movie.overview}</p>
-              <h3>Trailer</h3>
-              <iframe
-                className="w-full aspect-[16/9] rounded-xl outline-none"
-                src={`https://www.youtube.com/embed/${trailerKey}`}
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
+              {trailerKey && (
+                <>
+                  <h3>Trailer</h3>
+                  <iframe
+                    className="w-full aspect-[16/9] rounded-xl outline-none"
+                    src={`https://www.youtube.com/embed/${trailerKey}`}
+                    title="YouTube video player"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </>
+              )}
             </article>
           </div>
         </section>
