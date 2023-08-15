@@ -5,12 +5,12 @@ export interface Movie {
   backdrop_path: string | null;
   genre_ids: number[];
   id: number;
-  original_language: string;
+  original_language: string | null;
   original_title: string;
   overview: string;
   popularity: number;
   poster_path: string | null;
-  release_date: string;
+  release_date: string | null;
   title: string;
   video: boolean;
   vote_average: number;
@@ -20,7 +20,7 @@ export interface Movie {
 
 export interface MovieDetails extends Omit<Movie, 'genre_ids'> {
   belongs_to_collection: string | null;
-  budget: number;
+  budget: number | null;
   genres: { id: number, name: string }[];
   homepage: string;
   imdb_id: string;
