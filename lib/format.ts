@@ -4,6 +4,7 @@ export function formatBudget(amount: number | null): string {
     style: "currency",
     currency: "USD",
     currencyDisplay: "narrowSymbol",
+    notation: "compact",
   }).format(amount);
 }
 
