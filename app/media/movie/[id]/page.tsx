@@ -5,10 +5,14 @@ import fetcher from "@/lib/TMDBFetcher";
 import { MovieDetails } from "@/types";
 import PageContainer from "@/components/PageContainer";
 import Image from "next/image";
-import { IoChevronBackOutline } from "react-icons/io5";
 import { FaChevronLeft, FaPlus } from "react-icons/fa6";
 import { BiSolidParty } from "react-icons/bi";
-import AccentBtn from "@/components/AccentBtn";
+
+const formatCurrency = new Intl.NumberFormat(undefined, {
+  style: "currency",
+  currency: "USD",
+  currencyDisplay: "narrowSymbol",
+});
 
 export default function MovieIdPage({ params }: { params: { id: string } }) {
   // making request for movie it's /movie/mediaid
@@ -51,26 +55,48 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
           </div>
         </div>
 
-        <section className="flex justify-between px-2 md:px-12">
-          <button
-            className="btn btn-neutral btn-outline border-2 rounded-full aspect-square grid place-items-center tooltip normal-case"
-            data-tip="Back"
-          >
-            <FaChevronLeft size={25} />
-          </button>
-          <div className="flex gap-4 ms-4">
+        <section className="px-2 md:px-12">
+          <div className="flex justify-between mb-8">
             <button
-              className="btn btn-secondary btn-outline rounded-full aspect-square border-2 grid place-items-center tooltip normal-case"
-              data-tip="Create WatchParty"
+              className="btn btn-neutral btn-outline border-2 rounded-full aspect-square grid place-items-center tooltip normal-case"
+              data-tip="Back"
+              aria-label="Back"
             >
-              <BiSolidParty size={25} />
+              <FaChevronLeft size={25} />
             </button>
-            <button
-              className="btn btn-primary btn-outline border-2 rounded-full aspect-square grid place-items-center tooltip normal-case"
-              data-tip="Add to My List"
-            >
-              <FaPlus size={25} />
-            </button>
+            <div className="flex gap-4 ms-4">
+              <button
+                className="btn btn-secondary btn-outline rounded-full aspect-square border-2 grid place-items-center tooltip normal-case"
+                data-tip="Create WatchParty"
+                aria-label="Create WatchParty"
+              >
+                <BiSolidParty size={25} />
+              </button>
+              <button
+                className="btn btn-primary btn-outline border-2 rounded-full aspect-square grid place-items-center tooltip normal-case"
+                data-tip="Add to My List"
+                aria-label="Add to My List"
+              >
+                <FaPlus size={25} />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex sm:flex-row flex-col gap-4">
+            <aside className="bg-neutral rounded-md min-w-[250px] w-1/3 p-4">
+              <ul>
+                <li>Runtime: {movie.runtime ?? "NA"} mins</li>
+                <li>
+                  Genres:{" "}
+                  {movie.genres.map((genre) => genre.name).join(", ") ?? "NA"}
+                </li>
+                <li>Status: {movie.status ?? "NA"}</li>
+                <li>Release Date: {movie.release_date ?? "NA"}</li>
+                <li>Original Language: {movie.original_language ?? "NA"}</li>
+                <li>Budget: {formatCurrency.format(movie.budget) ?? "NA"}</li>
+              </ul>
+            </aside>
+            <article className="flex-grow"></article>
           </div>
         </section>
       </PageContainer>
