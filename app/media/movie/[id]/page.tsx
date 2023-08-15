@@ -2,7 +2,7 @@
 
 import useSWR from "swr";
 import fetcher from "@/lib/TMDBFetcher";
-import { MovieDetails } from "@/types";
+import { MovieDetails, Video } from "@/types";
 import PageContainer from "@/components/PageContainer";
 import Image from "next/image";
 import { FaChevronLeft, FaPlus } from "react-icons/fa6";
@@ -13,6 +13,7 @@ import {
   formatReleaseDate,
   formatRuntime,
 } from "@/lib/format";
+import { useEffect } from "react";
 
 export default function MovieIdPage({ params }: { params: { id: string } }) {
   // making request for movie it's /movie/mediaid
@@ -26,6 +27,18 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
     error,
   } = useSWR<MovieDetails>(`/movie/${id}`, fetcher);
   const imageUrl = `${baseImgPath}${imgSize}${movie?.backdrop_path ?? ""}`;
+  const { data: videos, isLoading: videosIsLoading } = useSWR<Video[]>(
+    movie && isLoading === false ? `/movie/${id}/videos` : null,
+    fetcher
+  );
+  const trailerKey =
+    videos?.find(
+      (video) =>
+        video.type === "Trailer" &&
+        video.key &&
+        video.site === "YouTube" &&
+        video.official === true
+    )?.key ?? null;
 
   if (!isLoading && error) throw new Error("Invliad Movie Id");
 
@@ -82,8 +95,8 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
             </div>
           </div>
 
-          <div className="flex sm:flex-row flex-col gap-4">
-            <aside className="bg-neutral rounded-md min-w-[250px] w-1/3 p-4">
+          <div className="flex sm:flex-row flex-col-reverse gap-4">
+            <aside className="bg-neutral rounded-md min-w-[280px] w-1/3 p-4 h-min">
               <ul>
                 <li>Runtime: {formatRuntime(movie.runtime)}</li>
                 <li>
@@ -100,8 +113,17 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
                 <li>Budget: {formatBudget(movie.budget)}</li>
               </ul>
             </aside>
+
             <article className="flex-grow">
               <p>{movie.overview}</p>
+              <h3>Trailer</h3>
+              <iframe
+                className="w-full aspect-[16/9] rounded-xl outline-none"
+                src={`https://www.youtube.com/embed/${trailerKey}`}
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
             </article>
           </div>
         </section>
