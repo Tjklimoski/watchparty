@@ -7,12 +7,47 @@ import PageContainer from "@/components/PageContainer";
 import Image from "next/image";
 import { FaChevronLeft, FaPlus } from "react-icons/fa6";
 import { BiSolidParty } from "react-icons/bi";
+import { useCallback } from "react";
 
-const formatCurrency = new Intl.NumberFormat(undefined, {
-  style: "currency",
-  currency: "USD",
-  currencyDisplay: "narrowSymbol",
-});
+function formatBudget(amount: number): string {
+  return new Intl.NumberFormat(undefined, {
+    style: "currency",
+    currency: "USD",
+    currencyDisplay: "narrowSymbol",
+  }).format(amount);
+}
+
+function formatReleaseDate(date: string): string {
+  return new Date(date).toLocaleDateString();
+}
+
+function formatLanguage(abrv: string): string {
+  // Not an exhustive list, but if not specified will return abrviation
+  switch (abrv) {
+    case "en":
+      return "English";
+    case "es":
+      return "Spanish";
+    case "fr":
+      return "French";
+    case "pt":
+      return "Portuguese";
+    case "ru":
+      return "Russian";
+    case "hi":
+      return "Hindi";
+    case "ja":
+      return "Japanese";
+    case "de":
+      return "German";
+    case "zh":
+      return "Mandarin";
+    case "it":
+      return "Italian";
+    default:
+      return abrv;
+  }
+}
 
 export default function MovieIdPage({ params }: { params: { id: string } }) {
   // making request for movie it's /movie/mediaid
@@ -91,9 +126,14 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
                   {movie.genres.map((genre) => genre.name).join(", ") ?? "NA"}
                 </li>
                 <li>Status: {movie.status ?? "NA"}</li>
-                <li>Release Date: {movie.release_date ?? "NA"}</li>
-                <li>Original Language: {movie.original_language ?? "NA"}</li>
-                <li>Budget: {formatCurrency.format(movie.budget) ?? "NA"}</li>
+                <li>
+                  Release Date: {formatReleaseDate(movie.release_date) ?? "NA"}
+                </li>
+                <li>
+                  Original Language:{" "}
+                  {formatLanguage(movie.original_language) ?? "NA"}
+                </li>
+                <li>Budget: {formatBudget(movie.budget) ?? "NA"}</li>
               </ul>
             </aside>
             <article className="flex-grow"></article>
