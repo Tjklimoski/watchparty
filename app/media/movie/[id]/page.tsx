@@ -9,7 +9,8 @@ import { FaChevronLeft, FaPlus } from "react-icons/fa6";
 import { BiSolidParty } from "react-icons/bi";
 import { useCallback } from "react";
 
-function formatBudget(amount: number): string {
+function formatBudget(amount: number | null): string {
+  if (!amount) return "NA";
   return new Intl.NumberFormat(undefined, {
     style: "currency",
     currency: "USD",
@@ -17,11 +18,16 @@ function formatBudget(amount: number): string {
   }).format(amount);
 }
 
-function formatReleaseDate(date: string): string {
-  return new Date(date).toLocaleDateString();
+function formatReleaseDate(releaseDate: string | null): string {
+  if (!releaseDate) return "NA";
+  const date = new Date(releaseDate);
+  return new Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(
+    date
+  );
 }
 
-function formatLanguage(abrv: string): string {
+function formatLanguage(abrv: string | null): string {
+  if (!abrv) return "NA";
   // Not an exhustive list, but if not specified will return abrviation
   switch (abrv) {
     case "en":
@@ -47,6 +53,13 @@ function formatLanguage(abrv: string): string {
     default:
       return abrv;
   }
+}
+
+function formatRuntime(runtime: number | null): string {
+  if (!runtime) return "NA";
+  const hours = Math.floor(runtime / 60);
+  const mins = runtime % 60;
+  return `${hours ? `${hours}h ` : ""}${mins}m`;
 }
 
 export default function MovieIdPage({ params }: { params: { id: string } }) {
@@ -120,20 +133,19 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
           <div className="flex sm:flex-row flex-col gap-4">
             <aside className="bg-neutral rounded-md min-w-[250px] w-1/3 p-4">
               <ul>
-                <li>Runtime: {movie.runtime ?? "NA"} mins</li>
+                <li>Runtime: {formatRuntime(movie.runtime)}</li>
                 <li>
                   Genres:{" "}
-                  {movie.genres.map((genre) => genre.name).join(", ") ?? "NA"}
+                  {movie.genres.length === 0
+                    ? "NA"
+                    : movie.genres.map((genre) => genre.name).join(", ")}
                 </li>
                 <li>Status: {movie.status ?? "NA"}</li>
+                <li>Release Date: {formatReleaseDate(movie.release_date)}</li>
                 <li>
-                  Release Date: {formatReleaseDate(movie.release_date) ?? "NA"}
+                  Original Language: {formatLanguage(movie.original_language)}
                 </li>
-                <li>
-                  Original Language:{" "}
-                  {formatLanguage(movie.original_language) ?? "NA"}
-                </li>
-                <li>Budget: {formatBudget(movie.budget) ?? "NA"}</li>
+                <li>Budget: {formatBudget(movie.budget)}</li>
               </ul>
             </aside>
             <article className="flex-grow"></article>
