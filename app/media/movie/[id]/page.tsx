@@ -70,8 +70,8 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
           </div>
         </div>
 
-        <section className="px-2 md:px-12">
-          <div className="flex justify-between mb-8">
+        <section className="px-2 md:px-12 mb-8">
+          <div className="flex justify-between mb-4 sm:mb-8">
             <button
               className="btn btn-neutral btn-outline border-2 rounded-full aspect-square grid place-items-center tooltip normal-case"
               data-tip="Back"
@@ -99,7 +99,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
           </div>
 
           <div className="flex sm:flex-row flex-col-reverse gap-4">
-            <aside className="bg-neutral rounded-md min-w-[280px] w-1/3 p-4 h-min">
+            <aside className="bg-neutral/90 text-sm sm:text-md rounded-md min-w-[150px] sm:min-w-[280px] w-full sm:w-1/3 p-4 h-min">
               {/* Select every child component (except last child) and add a margin-bottom */}
               <ul className="[&>*:not(:last-child)]:mb-4">
                 <li>
@@ -136,12 +136,17 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
             </aside>
 
             <article className="flex-grow">
-              <p>{movie.overview}</p>
+              <p className="mb-4 sm:mb-8 text-md sm:text-lg leading-relaxed">
+                {movie.overview}
+              </p>
+              {/* ADD CAST CAROUSEL: img, name, character */}
               {trailerKey && (
                 <>
-                  <h3>Trailer</h3>
+                  <h3 className="text-xl sm:text-2xl mb-2 font-semibold">
+                    Trailer
+                  </h3>
                   <iframe
-                    className="w-full aspect-[16/9] rounded-xl outline-none"
+                    className="w-full aspect-[16/9] rounded-md sm:rounded-xl outline-none"
                     src={`https://www.youtube.com/embed/${trailerKey}`}
                     title="YouTube video player"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
