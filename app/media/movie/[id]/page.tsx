@@ -100,20 +100,38 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
 
           <div className="flex sm:flex-row flex-col-reverse gap-4">
             <aside className="bg-neutral rounded-md min-w-[280px] w-1/3 p-4 h-min">
-              <ul>
-                <li>Runtime: {formatRuntime(movie.runtime)}</li>
+              {/* Select every child component (except last child) and add a margin-bottom */}
+              <ul className="[&>*:not(:last-child)]:mb-4">
                 <li>
-                  Genres:{" "}
+                  <strong>Runtime</strong>
+                  <br />
+                  {formatRuntime(movie.runtime)}
+                </li>
+                <li>
+                  <strong>Genres</strong>
+                  <br />
                   {movie.genres.length === 0
                     ? "NA"
                     : movie.genres.map((genre) => genre.name).join(", ")}
                 </li>
-                <li>Status: {movie.status ?? "NA"}</li>
-                <li>Release Date: {formatReleaseDate(movie.release_date)}</li>
                 <li>
-                  Original Language: {formatLanguage(movie.original_language)}
+                  <strong>Status</strong>
+                  <br /> {movie.status ?? "NA"}
                 </li>
-                <li>Budget: {formatBudget(movie.budget)}</li>
+                <li>
+                  <strong>Release Date</strong>
+                  <br /> {formatReleaseDate(movie.release_date)}
+                </li>
+                <li>
+                  <strong>Original Language</strong>
+                  <br />
+                  {formatLanguage(movie.original_language)}
+                </li>
+                <li>
+                  <strong>Budget</strong>
+                  <br />
+                  {formatBudget(movie.budget)}
+                </li>
               </ul>
             </aside>
 
