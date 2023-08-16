@@ -14,7 +14,11 @@ import {
   formatReleaseDate,
   formatRuntime,
 } from "@/lib/format";
-import Carousel from "@/components/Carousel";
+import axios from "axios";
+
+async function addToMyList(id: string, media_type: string) {
+  axios.post("/api/my-list", { id, media_type });
+}
 
 export default function MovieIdPage({ params }: { params: { id: string } }) {
   // making request for movie it's /movie/mediaid
@@ -98,6 +102,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
                 className="btn btn-primary btn-outline border-2 rounded-full aspect-square grid place-items-center tooltip normal-case"
                 data-tip="Add to My List"
                 aria-label="Add to My List"
+                onClick={() => addToMyList(id, movie.media_type)}
               >
                 <FaPlus size={25} />
               </button>
@@ -183,7 +188,6 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
                 })}
               </div>
 
-              {/* ADD CAST CAROUSEL: img, name, character */}
               {trailerKey && (
                 <>
                   <h3 className="text-xl sm:text-2xl mb-2 font-semibold">
