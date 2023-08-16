@@ -46,6 +46,13 @@ export interface Video {
   id: string;
 }
 
+export interface CastCredit {
+  id: number;
+  name: string;
+  profile_path: string;
+  character: string;
+}
+
 export interface TVShow {
   backdrop_path: string | null;
   first_air_date: string;
