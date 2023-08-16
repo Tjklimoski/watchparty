@@ -139,12 +139,17 @@ export interface User {
   interestedInWatchParties?: WatchParty[];
   notificationIds: string[];
   notifications?: Notification[];
-  myList: string[];
+  myList: MyListItem[];
   createdAt: Date;
   updatedAt: Date;
 }
 
 export type LimitedUser = Pick<User, "id" | "name" | "image"> | null
+
+export interface MyListItem {
+  id: string;
+  media_type: string;
+}
 
 export interface WatchParty {
   id: string;
