@@ -38,13 +38,15 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
   }>(`/movie/${id}/credits`, fetcher);
   // Find the trailer key that matches the following criteria:
   const trailerKey =
-    videos?.find(
-      (video) =>
-        video.type === "Trailer" &&
-        video.key &&
-        video.site === "YouTube" &&
-        video.official === true
-    )?.key ?? null;
+    videos
+      ?.reverse()
+      .find(
+        (video) =>
+          video.type === "Trailer" &&
+          video.key &&
+          video.site === "YouTube" &&
+          video.official === true
+      )?.key ?? null;
 
   if (!isLoading && error) throw new Error("Invliad Movie Id");
 
@@ -168,11 +170,9 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
                       <Image
                         className="w-full aspect-poster object-cover rounded-sm"
                         alt="Cast photo"
-                        src={`${baseImgPath}${imgSize}${
-                          cast.profile_path ?? ""
-                        }`}
-                        width={240}
-                        height={360}
+                        src={`${baseImgPath}w185${cast.profile_path ?? ""}`}
+                        width={128}
+                        height={192}
                       />
                       <h4 className="font-semibold">{cast.name}</h4>
                       <span className="font-light text-sm">
