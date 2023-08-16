@@ -3,7 +3,7 @@
 import useSWR from "swr";
 import fetcher from "@/lib/TMDBFetcher";
 import { useRouter } from "next/navigation";
-import { MovieDetails, Video } from "@/types";
+import { CastCredit, MovieDetails, Video } from "@/types";
 import PageContainer from "@/components/PageContainer";
 import Image from "next/image";
 import { FaChevronLeft, FaPlus } from "react-icons/fa6";
@@ -14,6 +14,7 @@ import {
   formatReleaseDate,
   formatRuntime,
 } from "@/lib/format";
+import Carousel from "@/components/Carousel";
 
 export default function MovieIdPage({ params }: { params: { id: string } }) {
   // making request for movie it's /movie/mediaid
@@ -29,9 +30,12 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
   } = useSWR<MovieDetails>(`/movie/${id}`, fetcher);
   const imageUrl = `${baseImgPath}${imgSize}${movie?.backdrop_path ?? ""}`;
   const { data: videos, isLoading: videosIsLoading } = useSWR<Video[]>(
-    movie && isLoading === false ? `/movie/${id}/videos` : null,
+    `/movie/${id}/videos`,
     fetcher
   );
+  const { data: credits, isLoading: creditsIsLoading } = useSWR<{
+    cast: CastCredit[];
+  }>(`/movie/${id}/credits`, fetcher);
   // Find the trailer key that matches the following criteria:
   const trailerKey =
     videos?.find(
@@ -98,8 +102,8 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
             </div>
           </div>
 
-          <div className="flex sm:flex-row flex-col-reverse gap-4">
-            <aside className="bg-neutral/90 text-sm sm:text-md rounded-md min-w-[150px] sm:min-w-[280px] w-full sm:w-1/3 p-4 h-min">
+          <div className="flex md:flex-row flex-col-reverse gap-4">
+            <aside className="bg-neutral/90 text-sm sm:text-md rounded-md min-w-[150px] sm:min-w-[280px] w-full md:w-1/3 p-4 h-min">
               {/* Select every child component (except last child) and add a margin-bottom */}
               <ul className="[&>*:not(:last-child)]:mb-4">
                 <li>
@@ -144,10 +148,41 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
               </ul>
             </aside>
 
-            <article className="flex-grow">
-              <p className="mb-4 sm:mb-8 text-md sm:text-lg leading-relaxed">
+            {/* Min-w-0 to allow for the carousel to overflow, but for the flex item to not spill out of it's parent container */}
+            <article className="flex-grow min-w-0">
+              <p className="mb-4 md:mb-8 text-md sm:text-lg leading-relaxed">
                 {movie.overview}
               </p>
+
+              <h3 className="text-xl sm:text-2xl mb-2 font-semibold">Cast</h3>
+              {/* Implement this carousel into the exisiting carousel componenet. allow for user to add custom css to carousel when needed */}
+              <div className="grid grid-flow-col overflow-x-scroll gap-2 mb-4 md:mb-8">
+                {credits?.cast.map((cast, index) => {
+                  // Only show up to the first 10 cast memebers in the list
+                  if (index > 9) return null;
+                  return (
+                    <div
+                      key={index}
+                      className="flex flex-col w-36 p-2 snap-start gap-2 bg-neutral bg-opacity-50 rounded-md"
+                    >
+                      <Image
+                        className="w-full aspect-poster object-cover rounded-sm"
+                        alt="Cast photo"
+                        src={`${baseImgPath}${imgSize}${
+                          cast.profile_path ?? ""
+                        }`}
+                        width={240}
+                        height={360}
+                      />
+                      <h4 className="font-semibold">{cast.name}</h4>
+                      <span className="font-light text-sm">
+                        {cast.character}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+
               {/* ADD CAST CAROUSEL: img, name, character */}
               {trailerKey && (
                 <>
