@@ -1,15 +1,24 @@
 interface CarouselProps {
-  heading?: string;
+  heading: string;
   children: React.ReactNode;
+  tight?: boolean;
 }
 
-export default function Carousel({ heading = "", children }: CarouselProps) {
+export default function Carousel({
+  heading,
+  children,
+  tight = false,
+}: CarouselProps) {
   return (
-    <div className="mt-10">
-      <h2 className="text-2xl font-semibold mb-2">{heading}</h2>
-      <div className="grid gap-4 grid-flow-col auto-cols-[42%] sm:auto-cols-[29%] md:auto-cols-[22%] lg:auto-cols-[18%] xl:auto-cols-[min(14%,_220px)] overflow-x-scroll overscroll-x-contain snap-proximity snap-x snap-start pb-2 scrollbar-thin scrollbar-thumb-secondary active:scrollbar-thumb-secondary/75 scrollbar-track-neutral scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
+    <>
+      <h3 className="text-xl sm:text-2xl mb-2 font-semibold">{heading}</h3>
+      <div
+        className={`grid ${
+          tight ? "gap-2" : "gap-4"
+        } grid-flow-col overflow-x-scroll overscroll-x-contain snap-proximity snap-x snap-start pb-2 scrollbar-thin scrollbar-thumb-secondary active:scrollbar-thumb-secondary/80 scrollbar-track-neutral scrollbar-thumb-rounded-full scrollbar-track-rounded-full mb-4 md:mb-8`}
+      >
         {children}
       </div>
-    </div>
+    </>
   );
 }

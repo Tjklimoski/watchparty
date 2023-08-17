@@ -13,14 +13,13 @@ export default function MediaCard({ media }: MediaCardProps) {
   const router = useRouter();
 
   const baseImgPath = "https://image.tmdb.org/t/p/";
-  const imgSize = "w500";
+  const imgSize = "w300";
 
   // REDEISGN MOVIE CARD - USE BACKDROP PATH. OVERLAY TITLE ON TOP OF BOTTOM THIRD OF IMAGE. CARD MORE WIDE THAN TALL. NETFLIX STYLE-ish
   return (
     <div
-      key={media.id}
       onClick={() => router.push(`/media/${media.media_type}/${media.id}`)}
-      className="p-2 bg-primary bg-opacity-20 rounded-md shadow-md snap-start"
+      className="p-2 bg-primary bg-opacity-20 rounded-md shadow-md snap-start w-48"
     >
       <Image
         className="aspect-poster object-cover w-full rounded-sm"
@@ -52,3 +51,5 @@ export default function MediaCard({ media }: MediaCardProps) {
 // "w780",
 // "w1280",
 // "original"
+
+// auto-cols-[42%] sm:auto-cols-[29%] md:auto-cols-[22%] lg:auto-cols-[18%] xl:auto-cols-[min(14%,_220px)]

@@ -19,6 +19,7 @@ import APIFetcher from "@/lib/APIFetcher";
 import { useCallback } from "react";
 import Trailer from "@/components/Trailer";
 import ActorCard from "@/components/ActorCard";
+import Carousel from "@/components/Carousel";
 
 // Move into a use Server component
 async function addToMyList(
@@ -209,15 +210,13 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
                 {movie.overview}
               </p>
 
-              <h3 className="text-xl sm:text-2xl mb-2 font-semibold">Cast</h3>
-              {/* Implement this carousel into the exisiting carousel componenet. allow for user to add custom css to carousel when needed. the size of the children dictate the column width */}
-              <div className="grid grid-flow-col overflow-x-scroll gap-2 mb-4 md:mb-8">
+              <Carousel heading="Cast" tight>
                 {credits?.cast.map((actor, index) => {
                   // Only show up to the first 10 cast memebers in the list
                   if (index > 9) return null;
                   return <ActorCard key={index} actor={actor} />;
                 })}
-              </div>
+              </Carousel>
 
               <Trailer id={id} />
             </article>
