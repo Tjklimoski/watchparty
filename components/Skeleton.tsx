@@ -1,0 +1,11 @@
+export default function Skeleton({
+  className,
+  ...props
+}: React.HTMLProps<HTMLDivElement>) {
+  return (
+    <div
+      className={`bg-slate-600 bg-opacity-80 animate-pulse rounded-md mb-2 ${className}`}
+      {...props}
+    ></div>
+  );
+}
