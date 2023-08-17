@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { CastCredit, MovieDetails, MyListItem, User, Video } from "@/types";
 import PageContainer from "@/components/PageContainer";
 import Image from "next/image";
-import { FaChevronLeft, FaPlus } from "react-icons/fa6";
+import { FaChevronLeft, FaPlus, FaCheck } from "react-icons/fa6";
 import { BiSolidParty } from "react-icons/bi";
 import {
   formatBudget,
@@ -19,8 +19,16 @@ import APIFetcher from "@/lib/APIFetcher";
 import { useCallback } from "react";
 
 // Move into a use Server component
-async function addToMyList(id: string, media_type: string) {
-  axios.post("/api/my-list", { id, media_type });
+async function addToMyList(
+  id: string,
+  media_type: string
+): Promise<User | undefined> {
+  return axios.post("/api/my-list", { id, media_type }).then((res) => res.data);
+}
+
+async function removeFromMyList(id: string, media_type: string) {
+  console.log("DELETE REQUEST");
+  //delete request
 }
 
 export default function MovieIdPage({ params }: { params: { id: string } }) {
@@ -54,12 +62,12 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
           video.site === "YouTube" &&
           video.official === true
       )?.key ?? null;
-  const { data: user, mutate } = useSWR<User>("/user", APIFetcher);
+  const { data: user, mutate: userMutate } = useSWR<User>("/user", APIFetcher);
   const inMyList: () => boolean = useCallback(() => {
-    if (!user) return false;
+    if (!user || !movie) return false;
     return user?.myList.some(
       (item: MyListItem) =>
-        item.id === id && item.media_type === movie?.media_type
+        item.id === id && item.media_type === movie.media_type
     );
   }, [user, id, movie]);
 
@@ -110,12 +118,33 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
                 <BiSolidParty size={25} />
               </button>
               <button
-                className="btn btn-primary btn-outline border-2 rounded-full aspect-square grid place-items-center tooltip normal-case"
-                data-tip="Add to My List"
-                aria-label="Add to My List"
-                onClick={() => addToMyList(id, movie.media_type)}
+                className={`btn btn-primary ${
+                  !inMyList() && "btn-outline"
+                } border-2 rounded-full aspect-square grid place-items-center tooltip normal-case transition duration-300`}
+                data-tip={inMyList() ? "Remove from My List" : "Add to My List"}
+                aria-label={
+                  inMyList() ? "Remove from My List" : "Add to My List"
+                }
+                onClick={
+                  inMyList()
+                    ? () => removeFromMyList(id, movie.media_type)
+                    : async () => {
+                        try {
+                          const updatedUser: User | undefined =
+                            await addToMyList(id, movie.media_type);
+
+                          if (user === undefined) {
+                            throw new Error("No updated user");
+                          }
+
+                          userMutate({ ...user, myList: updatedUser!.myList });
+                        } catch (err) {
+                          console.log(err);
+                        }
+                      }
+                }
               >
-                <FaPlus size={25} />
+                {inMyList() ? <FaCheck size={25} /> : <FaPlus size={25} />}
               </button>
             </div>
           </div>
