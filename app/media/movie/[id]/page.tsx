@@ -18,6 +18,7 @@ import axios from "axios";
 import APIFetcher from "@/lib/APIFetcher";
 import { useCallback } from "react";
 import Trailer from "@/components/Trailer";
+import ActorCard from "@/components/ActorCard";
 
 // Move into a use Server component
 async function addToMyList(
@@ -211,29 +212,10 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
               <h3 className="text-xl sm:text-2xl mb-2 font-semibold">Cast</h3>
               {/* Implement this carousel into the exisiting carousel componenet. allow for user to add custom css to carousel when needed. the size of the children dictate the column width */}
               <div className="grid grid-flow-col overflow-x-scroll gap-2 mb-4 md:mb-8">
-                {credits?.cast.map((cast, index) => {
+                {credits?.cast.map((actor, index) => {
                   // Only show up to the first 10 cast memebers in the list
                   if (index > 9) return null;
-                  return (
-                    <div
-                      key={index}
-                      className="flex flex-col w-28 sm:w-36 p-2 snap-start gap-2 bg-neutral bg-opacity-50 rounded-md"
-                    >
-                      <Image
-                        className="w-full aspect-poster object-cover rounded-sm"
-                        alt="Cast photo"
-                        src={`${baseImgPath}w185${cast.profile_path ?? ""}`}
-                        width={128}
-                        height={192}
-                      />
-                      <span className="font-semibold text-md break-words">
-                        {cast.name}
-                      </span>
-                      <span className="font-light text-sm">
-                        {cast.character}
-                      </span>
-                    </div>
-                  );
+                  return <ActorCard key={index} actor={actor} />;
                 })}
               </div>
 
