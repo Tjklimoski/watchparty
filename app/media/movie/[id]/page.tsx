@@ -3,7 +3,7 @@
 import useSWR from "swr";
 import fetcher from "@/lib/TMDBFetcher";
 import { useRouter } from "next/navigation";
-import { CastCredit, MovieDetails, Video } from "@/types";
+import { CastCredit, MovieDetails, MyListItem, User, Video } from "@/types";
 import PageContainer from "@/components/PageContainer";
 import Image from "next/image";
 import { FaChevronLeft, FaPlus } from "react-icons/fa6";
@@ -15,7 +15,10 @@ import {
   formatRuntime,
 } from "@/lib/format";
 import axios from "axios";
+import APIFetcher from "@/lib/APIFetcher";
+import { useCallback } from "react";
 
+// Move into a use Server component
 async function addToMyList(id: string, media_type: string) {
   axios.post("/api/my-list", { id, media_type });
 }
@@ -51,6 +54,14 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
           video.site === "YouTube" &&
           video.official === true
       )?.key ?? null;
+  const { data: user, mutate } = useSWR<User>("/user", APIFetcher);
+  const inMyList: () => boolean = useCallback(() => {
+    if (!user) return false;
+    return user?.myList.some(
+      (item: MyListItem) =>
+        item.id === id && item.media_type === movie?.media_type
+    );
+  }, [user, id, movie]);
 
   if (!isLoading && error) throw new Error("Invliad Movie Id");
 
