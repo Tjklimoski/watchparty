@@ -51,17 +51,28 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
   const { data: credits, isLoading: creditsIsLoading } = useSWR<{
     cast: CastCredit[];
   }>(`/movie/${id}/credits`, fetcher);
-  // Find the trailer key that matches the following criteria:
   const trailerKey =
-    videos
-      ?.reverse()
-      .find(
-        (video) =>
-          video.type === "Trailer" &&
-          video.key &&
-          video.site === "YouTube" &&
-          video.official === true
-      )?.key ?? null;
+    // Find the key for the first trailer released:
+    videos?.find(
+      (video, index) =>
+        video.type === "Trailer" &&
+        video.key &&
+        video.site === "YouTube" &&
+        video.official === true &&
+        index === videos.length - 1
+    )?.key ??
+    // If no match, then the key for the most recent trailer released:
+    videos?.find(
+      (video, index) =>
+        video.type === "Trailer" &&
+        video.key &&
+        video.site === "YouTube" &&
+        video.official === true
+    )?.key ??
+    // If no match then the key for first video released (regardless if it's a trailer)
+    (videos && videos[videos.length - 1]) ??
+    // If no video array return null
+    null;
   const { data: user, mutate: userMutate } = useSWR<User>("/user", APIFetcher);
   const inMyList: () => boolean = useCallback(() => {
     if (!user || !movie) return false;
