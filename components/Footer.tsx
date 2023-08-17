@@ -4,7 +4,10 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <PageContainer styles="bg-neutral bg-opacity-75 mt-10 text-sm">
+    <PageContainer
+      type="footer"
+      styles="bg-neutral bg-opacity-75 mt-10 text-sm"
+    >
       <div className="my-8 flex flex-col sm:flex-row justify-between items-center gap-8">
         <div>Created by TJ Klimoski</div>
 
