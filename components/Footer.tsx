@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="my-8 flex flex-col sm:flex-row justify-between items-center gap-8">
         <div>Created by TJ Klimoski</div>
 
-        <div className="sm:w-48 sm:text-right">
+        <div className="sm:w-48 text-center sm:text-right">
           <Link href="https://www.themoviedb.org/">
             <div className="w-1/2 max-w-[120px] mx-auto sm:mx-0 sm:ml-auto mb-2">
               <svg
