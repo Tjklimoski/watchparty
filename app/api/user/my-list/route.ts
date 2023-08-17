@@ -3,10 +3,7 @@ import prisma from "@/prisma/client";
 import { MyListItem } from "@/types";
 import auth from "@/lib/authenticate";
 
-export async function GET(req: NextRequest) {
-  // Return the current users myList
-}
-
+// ADD a MyListItem to the array
 export async function POST(req: NextRequest) {
   const myListItem: MyListItem = await req.json();
 
@@ -19,7 +16,7 @@ export async function POST(req: NextRequest) {
   // catch if the media is already on user's myList.
   if (user.myList.some(({ id, media_type }) => id === myListItem.id && media_type === myListItem.media_type)) return new res('Item already on your list', { status: 200 });
 
-  // a myList field will be on every user, even if they have no items in the list
+  // a myList field will be on every user, even if they have no items in the array
   user.myList.push(myListItem);
 
   const updatedUser = await prisma.user.update({
@@ -36,8 +33,8 @@ export async function POST(req: NextRequest) {
   return res.json(updatedUser);
 }
 
+// Remove the specified MyListItem from the array
 export async function DELETE(req: NextRequest) {
-  // remove the sent myListItem from the current user's myList
   const myListItemToDelete: MyListItem = await req.json();
 
   if (!myListItemToDelete.id || !myListItemToDelete.media_type) return new res('invalid data', { status: 400 });
