@@ -243,7 +243,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
                   return (
                     <div
                       key={index}
-                      className="flex flex-col w-36 p-2 snap-start gap-2 bg-neutral bg-opacity-50 rounded-md"
+                      className="flex flex-col w-28 sm:w-36 p-2 snap-start gap-2 bg-neutral bg-opacity-50 rounded-md"
                     >
                       <Image
                         className="w-full aspect-poster object-cover rounded-sm"
@@ -252,7 +252,9 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
                         width={128}
                         height={192}
                       />
-                      <span className="font-semibold">{cast.name}</span>
+                      <span className="font-semibold text-md break-words">
+                        {cast.name}
+                      </span>
                       <span className="font-light text-sm">
                         {cast.character}
                       </span>
