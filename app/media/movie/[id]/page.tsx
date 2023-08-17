@@ -23,7 +23,9 @@ async function addToMyList(
   id: string,
   media_type: string
 ): Promise<User | undefined> {
-  return axios.post("/api/my-list", { id, media_type }).then((res) => res.data);
+  return axios
+    .post("/api/user/my-list", { id, media_type })
+    .then((res) => res.data);
 }
 
 async function removeFromMyList(
@@ -31,7 +33,7 @@ async function removeFromMyList(
   media_type: string
 ): Promise<User | undefined> {
   return axios
-    .delete("/api/my-list", { data: { id, media_type } })
+    .delete("/api/user/my-list", { data: { id, media_type } })
     .then((res) => res.data);
 }
 
