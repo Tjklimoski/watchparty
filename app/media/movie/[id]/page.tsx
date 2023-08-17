@@ -148,6 +148,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
                             throw new Error("No updated user");
                           }
 
+                          // update user data to reflect change in myList state and update myList button appearence
                           userMutate({ ...user, myList: updatedUser!.myList });
                         } catch (err) {
                           console.log(err);

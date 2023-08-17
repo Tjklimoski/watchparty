@@ -37,5 +37,27 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  // remove a item from myList
+  // remove the sent myListItem from the current user's myList
+  const myListItemToDelete: MyListItem = await req.json();
+
+  if (!myListItemToDelete.id || !myListItemToDelete.media_type) return new res('invalid data', { status: 400 });
+
+  const user = await auth();
+
+  if (!user) return new res('Invalid user', { status: 400 })
+
+  const updatedMyList = user?.myList.filter(({ id, media_type }) => id !== myListItemToDelete.id && media_type !== myListItemToDelete.media_type);
+
+  const updatedUser = await prisma.user.update({
+    where: {
+      id: user?.id,
+    },
+    data: {
+      myList: updatedMyList,
+    }
+  });
+
+  if (!updatedUser) return new res('failed to update user', { status: 500 });
+
+  return res.json(updatedUser);
 }
