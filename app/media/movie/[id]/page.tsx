@@ -158,7 +158,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
           </div>
 
           <div className="flex md:flex-row flex-col-reverse gap-4">
-            <aside className="bg-neutral/90 text-sm sm:text-md rounded-md min-w-[150px] sm:min-w-[280px] w-full md:w-1/3 p-4 h-min">
+            <aside className="bg-primary/20 text-sm sm:text-md rounded-md min-w-[150px] sm:min-w-[280px] w-full md:w-1/3 p-4 h-min">
               {/* Select every child component (except last child) and add a margin-bottom */}
               <ul className="[&>*:not(:last-child)]:mb-4">
                 <li>
