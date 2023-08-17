@@ -1,6 +1,7 @@
 import fetcher from "@/lib/TMDBFetcher";
 import useSWR from "swr";
 import { Video } from "@/types";
+import Skeleton from "./Skeleton";
 
 interface TrailerProps {
   id: string;
@@ -27,13 +28,18 @@ export default function Trailer({ id }: TrailerProps) {
     return videos[videos.length - 1].key;
   };
 
-  if ((!isLoading && error) || !trailerKey()) return null;
+  // if ((!isLoading && error) || (!isLoading && !trailerKey())) return null;
 
-  return (
+  return isLoading ? (
+    <>
+      <Skeleton className="h-8 w-1/6" />
+      <Skeleton className="w-full aspect-video" />
+    </>
+  ) : (
     <>
       <h3 className="text-xl sm:text-2xl mb-2 font-semibold">Trailer</h3>
       <iframe
-        className="w-full aspect-[16/9] rounded-md sm:rounded-xl outline-none mb-8"
+        className="w-full aspect-video rounded-md sm:rounded-xl outline-none mb-8"
         src={`https://www.youtube.com/embed/${trailerKey()}`}
         title="YouTube video player"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

@@ -65,10 +65,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
 
   if (!isLoading && error) throw new Error("Invliad Movie Id");
 
-  return isLoading ? (
-    // create loading skeleton
-    <div>Loading...</div>
-  ) : (
+  return (
     movie !== undefined && (
       // margin-top on PageContainer is to push the content down
       // to leave the space for the billboard image at the top.
