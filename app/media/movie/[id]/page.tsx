@@ -26,9 +26,13 @@ async function addToMyList(
   return axios.post("/api/my-list", { id, media_type }).then((res) => res.data);
 }
 
-async function removeFromMyList(id: string, media_type: string) {
-  console.log("DELETE REQUEST");
-  //delete request
+async function removeFromMyList(
+  id: string,
+  media_type: string
+): Promise<User | undefined> {
+  return axios
+    .delete("/api/my-list", { data: { id, media_type } })
+    .then((res) => res.data);
 }
 
 export default function MovieIdPage({ params }: { params: { id: string } }) {
