@@ -142,18 +142,35 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
                 }
                 onClick={
                   inMyList()
-                    ? () => removeFromMyList(id, movie.media_type)
+                    ? async () => {
+                        try {
+                          const updatedUser = await removeFromMyList(
+                            id,
+                            movie.media_type
+                          );
+
+                          if (updatedUser === undefined) {
+                            throw new Error("No updated user");
+                          }
+
+                          userMutate({ ...user!, myList: updatedUser.myList });
+                        } catch (err) {
+                          console.log(err);
+                        }
+                      }
                     : async () => {
                         try {
-                          const updatedUser: User | undefined =
-                            await addToMyList(id, movie.media_type);
+                          const updatedUser = await addToMyList(
+                            id,
+                            movie.media_type
+                          );
 
-                          if (user === undefined) {
+                          if (updatedUser === undefined) {
                             throw new Error("No updated user");
                           }
 
                           // update user data to reflect change in myList state and update myList button appearence
-                          userMutate({ ...user, myList: updatedUser!.myList });
+                          userMutate({ ...user!, myList: updatedUser.myList });
                         } catch (err) {
                           console.log(err);
                         }
