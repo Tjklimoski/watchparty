@@ -46,7 +46,7 @@ export async function DELETE(req: NextRequest) {
 
   if (!user) return new res('Invalid user', { status: 400 })
 
-  const updatedMyList = user?.myList.filter(({ id, media_type }) => id !== myListItemToDelete.id && media_type !== myListItemToDelete.media_type);
+  const updatedMyList = user?.myList.filter(({ id, media_type }) => !(id === myListItemToDelete.id && media_type === myListItemToDelete.media_type));
 
   const updatedUser = await prisma.user.update({
     where: {
