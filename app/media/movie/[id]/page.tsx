@@ -17,6 +17,7 @@ import {
 import axios from "axios";
 import APIFetcher from "@/lib/APIFetcher";
 import { useCallback } from "react";
+import Trailer from "@/components/Trailer";
 
 // Move into a use Server component
 async function addToMyList(
@@ -50,35 +51,9 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
     error,
   } = useSWR<MovieDetails>(`/movie/${id}`, fetcher);
   const imageUrl = `${baseImgPath}${imgSize}${movie?.backdrop_path ?? ""}`;
-  const { data: videos, isLoading: videosIsLoading } = useSWR<Video[]>(
-    `/movie/${id}/videos`,
-    fetcher
-  );
   const { data: credits, isLoading: creditsIsLoading } = useSWR<{
     cast: CastCredit[];
   }>(`/movie/${id}/credits`, fetcher);
-  const trailerKey =
-    // Find the key for the first trailer released:
-    videos?.find(
-      (video, index) =>
-        video.type === "Trailer" &&
-        video.key &&
-        video.site === "YouTube" &&
-        video.official === true &&
-        index === videos.length - 1
-    )?.key ??
-    // If no match, then the key for the most recent trailer released:
-    videos?.find(
-      (video, index) =>
-        video.type === "Trailer" &&
-        video.key &&
-        video.site === "YouTube" &&
-        video.official === true
-    )?.key ??
-    // If no match then the key for first video released (regardless if it's a trailer)
-    (videos && videos[videos.length - 1]) ??
-    // If no video array return null
-    null;
   const { data: user, mutate: userMutate } = useSWR<User>("/user", APIFetcher);
   const inMyList: () => boolean = useCallback(() => {
     if (!user || !movie) return false;
@@ -265,20 +240,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
                 })}
               </div>
 
-              {trailerKey && (
-                <>
-                  <h3 className="text-xl sm:text-2xl mb-2 font-semibold">
-                    Trailer
-                  </h3>
-                  <iframe
-                    className="w-full aspect-[16/9] rounded-md sm:rounded-xl outline-none"
-                    src={`https://www.youtube.com/embed/${trailerKey}`}
-                    title="YouTube video player"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  />
-                </>
-              )}
+              <Trailer id={id} />
             </article>
           </div>
         </section>
