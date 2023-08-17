@@ -3,7 +3,7 @@ import prisma from "@/prisma/client";
 import { LimitedUser } from "@/types";
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const id = params.id;
+  const { id } = params;
 
   try {
     const user: LimitedUser = await prisma.user.findUnique({
