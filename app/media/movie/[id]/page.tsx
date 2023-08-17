@@ -187,12 +187,12 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
               {/* Select every child component (except last child) and add a margin-bottom */}
               <ul className="[&>*:not(:last-child)]:mb-4">
                 <li>
-                  <strong>Runtime</strong>
+                  <span className="font-bold">Runtime</span>
                   <br />
                   {formatRuntime(movie.runtime)}
                 </li>
                 <li>
-                  <strong>Genres</strong>
+                  <span className="font-bold">Genres</span>
                   <br />
                   {movie.genres.length === 0
                     ? "NA"
@@ -208,20 +208,20 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
                       })}
                 </li>
                 <li>
-                  <strong>Status</strong>
+                  <span className="font-bold">Status</span>
                   <br /> {movie.status ?? "NA"}
                 </li>
                 <li>
-                  <strong>Release Date</strong>
+                  <span className="font-bold">Release Date</span>
                   <br /> {formatReleaseDate(movie.release_date)}
                 </li>
                 <li>
-                  <strong>Original Language</strong>
+                  <span className="font-bold">Original Language</span>
                   <br />
                   {formatLanguage(movie.original_language)}
                 </li>
                 <li>
-                  <strong>Budget</strong>
+                  <span className="font-bold">Budget</span>
                   <br />
                   {formatBudget(movie.budget)}
                 </li>
@@ -235,7 +235,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
               </p>
 
               <h3 className="text-xl sm:text-2xl mb-2 font-semibold">Cast</h3>
-              {/* Implement this carousel into the exisiting carousel componenet. allow for user to add custom css to carousel when needed */}
+              {/* Implement this carousel into the exisiting carousel componenet. allow for user to add custom css to carousel when needed. the size of the children dictate the column width */}
               <div className="grid grid-flow-col overflow-x-scroll gap-2 mb-4 md:mb-8">
                 {credits?.cast.map((cast, index) => {
                   // Only show up to the first 10 cast memebers in the list
@@ -252,7 +252,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
                         width={128}
                         height={192}
                       />
-                      <h4 className="font-semibold">{cast.name}</h4>
+                      <span className="font-semibold">{cast.name}</span>
                       <span className="font-light text-sm">
                         {cast.character}
                       </span>
