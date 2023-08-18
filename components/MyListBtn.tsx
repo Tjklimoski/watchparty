@@ -46,7 +46,7 @@ export default function MyListBtn({
 
   useEffect(() => {
     setInMyList(() => {
-      if (!user) return false;
+      if (!user || !id || !media_type) return false;
       return user.myList.some(
         (item: MyListItem) => item.id === id && item.media_type === media_type
       );
@@ -60,7 +60,6 @@ export default function MyListBtn({
       } border-2 btn-circle grid place-items-center tooltip normal-case`}
       data-tip={inMyList ? "Remove from My List" : "Add to My List"}
       aria-label={inMyList ? "Remove from My List" : "Add to My List"}
-      disabled={!user}
       {...props}
       onClick={async () => {
         try {

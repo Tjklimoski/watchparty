@@ -42,7 +42,11 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
           <BackBtn />
           <div className="flex gap-4 ms-4">
             <WatchPartyBtn mediaId={id} />
-            <MyListBtn mediaId={id} media_type={movie?.media_type} />
+            <MyListBtn
+              mediaId={id}
+              media_type={movie?.media_type}
+              disabled={movieIsLoading}
+            />
           </div>
         </div>
 
