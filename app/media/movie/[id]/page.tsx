@@ -204,14 +204,24 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
 
           {/* Min-w-0 to allow for the carousel to overflow, but for the flex item to not spill out of it's parent container */}
           <article className="flex-grow min-w-0">
-            <p className="mb-4 md:mb-8 text-md sm:text-lg leading-relaxed">
-              {movie?.overview}
-            </p>
+            {isLoading ? (
+              <>
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-2/5" />
+              </>
+            ) : (
+              movie && (
+                <p className="mb-4 md:mb-8 text-md sm:text-lg leading-relaxed">
+                  {movie.overview}
+                </p>
+              )
+            )}
 
             <Carousel heading="Cast" tight>
               {creditsIsLoading
                 ? Array(7).fill(
-                    <Skeleton className="w-28 sm:w-36 aspect-[1/2]" />
+                    <Skeleton className="w-28 sm:w-36 aspect-[1/1.85]" />
                   )
                 : credits &&
                   credits?.cast.map((actor, index) => {
