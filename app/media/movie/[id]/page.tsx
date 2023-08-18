@@ -21,6 +21,7 @@ import Trailer from "@/components/Trailer";
 import ActorCard from "@/components/ActorCard";
 import Carousel from "@/components/Carousel";
 import Skeleton from "@/components/Skeleton";
+import MediaDetails from "@/components/MediaDetails";
 
 // Move into a use Server component
 async function addToMyList(
@@ -157,52 +158,9 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
         </div>
 
         <div className="flex md:flex-row flex-col-reverse gap-4">
-          <aside className="bg-primary/20 text-sm sm:text-md rounded-md min-w-[150px] sm:min-w-[280px] w-full md:w-1/3 p-4 h-min">
-            {/* Select every child component (except last child) and add a margin-bottom */}
-            <ul className="[&>*:not(:last-child)]:mb-4">
-              <li>
-                <span className="font-bold">Runtime</span>
-                <br />
-                {formatRuntime(movie?.runtime)}
-              </li>
-              <li>
-                <span className="font-bold">Genres</span>
-                <br />
-                {movie?.genres.length === 0
-                  ? "NA"
-                  : movie?.genres.map((genre) => {
-                      return (
-                        <span
-                          key={genre.id}
-                          className="badge badge-outline border-secondary mt-1 mb-1 mr-2"
-                        >
-                          {genre.name}
-                        </span>
-                      );
-                    })}
-              </li>
-              <li>
-                <span className="font-bold">Status</span>
-                <br /> {movie?.status ?? "NA"}
-              </li>
-              <li>
-                <span className="font-bold">Release Date</span>
-                <br /> {formatReleaseDate(movie?.release_date)}
-              </li>
-              <li>
-                <span className="font-bold">Original Language</span>
-                <br />
-                {formatLanguage(movie?.original_language)}
-              </li>
-              <li>
-                <span className="font-bold">Budget</span>
-                <br />
-                {formatBudget(movie?.budget)}
-              </li>
-            </ul>
-          </aside>
+          <MediaDetails media={movie} />
 
-          {/* Min-w-0 to allow for the carousel to overflow, but for the flex item to not spill out of it's parent container */}
+          {/* min-w-0 to stop the flex item from spilling out of it's parent container when the carousel renders */}
           <article className="flex-grow min-w-0">
             {movieIsLoading ? (
               <>
