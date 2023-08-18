@@ -1,3 +1,5 @@
+import Skeleton from "./Skeleton";
+
 interface CarouselProps {
   heading: string;
   children: React.ReactNode;
@@ -11,7 +13,11 @@ export default function Carousel({
 }: CarouselProps) {
   return (
     <>
-      <h3 className="text-xl sm:text-2xl mb-2 font-semibold">{heading}</h3>
+      {!heading ? (
+        <Skeleton className="h-8 w-1/6" />
+      ) : (
+        <h3 className="text-xl sm:text-2xl mb-2 font-semibold">{heading}</h3>
+      )}
       <div
         className={`grid ${
           tight ? "gap-2" : "gap-4"

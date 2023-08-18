@@ -33,7 +33,7 @@ export default function Trailer({ id }: TrailerProps) {
   return isLoading ? (
     <>
       <Skeleton className="h-8 w-1/6" />
-      <Skeleton className="w-full aspect-video" />
+      <Skeleton className="h-full aspect-video" />
     </>
   ) : (
     <>
