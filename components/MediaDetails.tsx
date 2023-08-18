@@ -90,12 +90,14 @@ export default function MediaDetails({ media }: MediaDetailsProps) {
       {/* Select every child component (except last child) and add a margin-bottom */}
       <ul className="[&>*:not(:last-child)]:mb-4">
         {!media ? (
-          Array(6).fill(
-            <li key={Math.random()}>
-              <Skeleton className="w-1/2" />
-              <Skeleton className="w-1/3" />
-            </li>
-          )
+          Array(6)
+            .fill(null)
+            .map((item, i) => (
+              <li key={i}>
+                <Skeleton className="w-1/2" />
+                <Skeleton className="w-1/3" />
+              </li>
+            ))
         ) : media?.media_type === "movie" ? (
           <MovieInfo movie={media} />
         ) : (
