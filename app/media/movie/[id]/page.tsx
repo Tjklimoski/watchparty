@@ -23,6 +23,7 @@ import Carousel from "@/components/Carousel";
 import Skeleton from "@/components/Skeleton";
 import MediaDetails from "@/components/MediaDetails";
 import Billboard from "@/components/Billboard";
+import { twMerge } from "tailwind-merge";
 
 // Move into a use Server component
 async function addToMyList(
@@ -89,11 +90,11 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
 
           <div className="flex gap-4 ms-4">
             <button
-              className="btn btn-secondary btn-outline rounded-full aspect-square border-2 grid place-items-center tooltip normal-case"
+              className="btn-sm btn-secondary btn-circle btn-outline border-2 tooltip normal-case grid place-items-center"
               data-tip="Create WatchParty"
               aria-label="Create WatchParty"
             >
-              <BiSolidParty size={25} />
+              <BiSolidParty size={18} />
             </button>
 
             {/* <button
