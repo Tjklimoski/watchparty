@@ -26,7 +26,7 @@ export default function MediaDetails({ media }: MediaDetailsProps) {
                 <Skeleton className="w-1/3" />
               </li>
             ))
-        ) : media?.media_type === "movie" ? (
+        ) : media.media_type === "movie" ? (
           <MovieInfo movie={media} />
         ) : (
           <TVShowInfo tvshow={media} />

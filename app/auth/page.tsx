@@ -12,7 +12,7 @@ import { useSearchParams } from "next/navigation";
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import OAuthProviderBtn from "@/components/OAuthProviderBtn";
 import PageContainer from "@/components/PageContainer";
-import PrimaryBtn from "@/components/PrimaryBtn";
+import PrimaryBtn from "@/components/BtnPrimary";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import Input from "@/components/Input";

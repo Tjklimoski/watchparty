@@ -96,6 +96,13 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
               <BiSolidParty size={25} />
             </button>
 
+            {/* <button
+              className="btn btn-secondary btn-circle btn-outline border-2"
+              data-tip="Create WatchParty"
+              aria-label="Create WatchParty"
+            >
+            </button> */}
+
             <button
               className={`btn btn-primary ${
                 !inMyList() && "btn-outline"
