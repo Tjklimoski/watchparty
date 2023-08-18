@@ -8,7 +8,7 @@ export default function AccentBtn({
   ...props
 }: AccentBtnProps) {
   return (
-    <button className={`${className} btn btn-accent btn-outline`} {...props}>
+    <button className={`btn btn-accent btn-outline ${className}`} {...props}>
       {children}
     </button>
   );
