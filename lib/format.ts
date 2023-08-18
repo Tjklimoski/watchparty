@@ -1,5 +1,5 @@
-export function formatBudget(amount: number | null): string {
-  if (!amount) return "NA";
+export function formatBudget(amount: number | null | undefined): string {
+  if (amount == null) return "NA";
   return new Intl.NumberFormat(undefined, {
     style: "currency",
     currency: "USD",
@@ -8,16 +8,16 @@ export function formatBudget(amount: number | null): string {
   }).format(amount);
 }
 
-export function formatReleaseDate(releaseDate: string | null): string {
-  if (!releaseDate) return "NA";
+export function formatReleaseDate(releaseDate: string | null | undefined): string {
+  if (releaseDate == null) return "NA";
   const date = new Date(releaseDate);
   return new Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(
     date
   );
 }
 
-export function formatLanguage(abrv: string | null): string {
-  if (!abrv) return "NA";
+export function formatLanguage(abrv: string | null | undefined): string {
+  if (abrv == null) return "NA";
   // Not an exhustive list, but if not specified will return abrviation
   switch (abrv) {
     case "en":
@@ -45,8 +45,8 @@ export function formatLanguage(abrv: string | null): string {
   }
 }
 
-export function formatRuntime(runtime: number | null): string {
-  if (!runtime) return "NA";
+export function formatRuntime(runtime: number | null | undefined): string {
+  if (runtime == null) return "NA";
   const hours = Math.floor(runtime / 60);
   const mins = runtime % 60;
   return `${hours ? `${hours}h ` : ""}${mins}m`;
