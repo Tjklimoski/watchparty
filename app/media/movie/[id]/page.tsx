@@ -2,10 +2,8 @@
 
 import useSWR from "swr";
 import fetcher from "@/lib/TMDBFetcher";
-import { useRouter } from "next/navigation";
 import { CastCredit, MovieDetails, MyListItem, User, Video } from "@/types";
 import PageContainer from "@/components/PageContainer";
-import { FaChevronLeft } from "react-icons/fa6";
 import Trailer from "@/components/Trailer";
 import ActorCard from "@/components/ActorCard";
 import Carousel from "@/components/Carousel";
@@ -14,12 +12,12 @@ import MediaDetails from "@/components/MediaDetails";
 import Billboard from "@/components/Billboard";
 import WatchPartyBtn from "@/components/WatchPartyBtn";
 import MyListBtn from "@/components/MyListBtn";
+import BackBtn from "@/components/BackBtn";
 
 export default function MovieIdPage({ params }: { params: { id: string } }) {
   // making request for movie it's /movie/mediaid
   // making request for tv it's /tv/mediaid
   const { id } = params;
-  const router = useRouter();
   const {
     data: movie,
     isLoading: movieIsLoading,
@@ -41,15 +39,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
 
       <section>
         <div className="flex justify-between mb-4 sm:mb-8">
-          <button
-            className="btn btn-neutral btn-outline border-2 rounded-full aspect-square grid place-items-center tooltip normal-case"
-            data-tip="Back"
-            aria-label="Back"
-            onClick={() => router.back()}
-          >
-            <FaChevronLeft size={25} />
-          </button>
-
+          <BackBtn />
           <div className="flex gap-4 ms-4">
             <WatchPartyBtn mediaId={id} />
             <MyListBtn mediaId={id} media_type={movie?.media_type} />
