@@ -22,6 +22,7 @@ import ActorCard from "@/components/ActorCard";
 import Carousel from "@/components/Carousel";
 import Skeleton from "@/components/Skeleton";
 import MediaDetails from "@/components/MediaDetails";
+import Billboard from "@/components/Billboard";
 
 // Move into a use Server component
 async function addToMyList(
@@ -45,19 +46,18 @@ async function removeFromMyList(
 export default function MovieIdPage({ params }: { params: { id: string } }) {
   // making request for movie it's /movie/mediaid
   // making request for tv it's /tv/mediaid
-  const baseImgPath = "https://image.tmdb.org/t/p/";
-  const imgSize = "original";
-  const router = useRouter();
   const { id } = params;
+  const router = useRouter();
   const {
     data: movie,
     isLoading: movieIsLoading,
     error: movieError,
   } = useSWR<MovieDetails>(`/movie/${id}`, fetcher);
-  const imageUrl = `${baseImgPath}${imgSize}${movie?.backdrop_path ?? ""}`;
+
   const { data: credits, isLoading: creditsIsLoading } = useSWR<{
     cast: CastCredit[];
   }>(`/movie/${id}/credits`, fetcher);
+
   const { data: user, mutate: userMutate } = useSWR<User>("/user", APIFetcher);
   const inMyList: () => boolean = useCallback(() => {
     if (!user || !movie) return false;
@@ -73,33 +73,10 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
     // margin-top on PageContainer is to push the content down
     // to leave the space for the billboard image at the top.
     // 4rem and 5rem come from the height of the navbar at those sizes.
-    <PageContainer styles="mt-[max(calc(180px-4rem),_calc(35svh-4rem))] sm:mt-[calc(45svh-5rem)]">
-      {/* Top billboard component */}
-      <div className="absolute top-0 left-0 w-full h-[35svh] sm:h-[45svh] min-h-[180px]">
-        <Image
-          src={imageUrl}
-          alt={`${movie?.title} billboard`}
-          fill
-          className="object-cover object-top brightness-75"
-          priority
-        />
+    <PageContainer styles="mt-[max(calc(180px-4rem),_calc(35svh-4rem))] sm:mt-[calc(45svh-5rem)] mb-10">
+      <Billboard media={movie} />
 
-        <div className="absolute bottom-0 left-0 right-0 px-6 md:px-12 py-4 min-h-[14svh] flex items-end bg-gradient-to-t from-black via-black/75 via-30% to-transparent">
-          {movieIsLoading ? (
-            <div className="mx-auto w-full max-w-[1440px]">
-              <Skeleton className="w-1/2 h-8 sm:h-12 md:h-16" />
-            </div>
-          ) : (
-            movie && (
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold drop-shadow-md break-balance webkit-truncate w-full max-w-[1440px] mx-auto">
-                {movie.title}
-              </h2>
-            )
-          )}
-        </div>
-      </div>
-
-      <section className="px-2 md:px-12 mb-8">
+      <section>
         <div className="flex justify-between mb-4 sm:mb-8">
           <button
             className="btn btn-neutral btn-outline border-2 rounded-full aspect-square grid place-items-center tooltip normal-case"
@@ -188,7 +165,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
 
             <Carousel heading={creditsIsLoading ? "" : "Cast"} tight>
               {creditsIsLoading
-                ? Array(7)
+                ? Array(9)
                     .fill(null)
                     .map((item, i) => (
                       <Skeleton
