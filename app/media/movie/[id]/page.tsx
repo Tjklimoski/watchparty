@@ -179,7 +179,10 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
             <Carousel heading={creditsIsLoading ? "" : "Cast"} tight>
               {creditsIsLoading
                 ? Array(7).fill(
-                    <Skeleton className="w-28 sm:w-36 h-full aspect-[1/1.85]" />
+                    <Skeleton
+                      key={Math.random()}
+                      className="w-28 sm:w-36 h-full aspect-[1/1.85]"
+                    />
                   )
                 : credits &&
                   credits?.cast.map((actor, index) => {

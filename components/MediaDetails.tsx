@@ -91,7 +91,7 @@ export default function MediaDetails({ media }: MediaDetailsProps) {
       <ul className="[&>*:not(:last-child)]:mb-4">
         {!media ? (
           Array(6).fill(
-            <li>
+            <li key={Math.random()}>
               <Skeleton className="w-1/2" />
               <Skeleton className="w-1/3" />
             </li>
