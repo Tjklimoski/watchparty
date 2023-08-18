@@ -85,9 +85,17 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
         />
 
         <div className="absolute bottom-0 left-0 right-0 px-6 md:px-12 py-4 min-h-[14svh] flex items-end bg-gradient-to-t from-black via-black/75 via-30% to-transparent">
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold drop-shadow-md break-balance webkit-truncate w-full max-w-[1440px] mx-auto">
-            {movie?.title}
-          </h2>
+          {movieIsLoading ? (
+            <div className="mx-auto w-full max-w-[1440px]">
+              <Skeleton className="w-1/2 h-8 sm:h-12 md:h-16" />
+            </div>
+          ) : (
+            movie && (
+              <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold drop-shadow-md break-balance webkit-truncate w-full max-w-[1440px] mx-auto">
+                {movie.title}
+              </h2>
+            )
+          )}
         </div>
       </div>
 
@@ -101,6 +109,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
           >
             <FaChevronLeft size={25} />
           </button>
+
           <div className="flex gap-4 ms-4">
             <button
               className="btn btn-secondary btn-outline rounded-full aspect-square border-2 grid place-items-center tooltip normal-case"
@@ -109,6 +118,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
             >
               <BiSolidParty size={25} />
             </button>
+
             <button
               className={`btn btn-primary ${
                 !inMyList() && "btn-outline"
