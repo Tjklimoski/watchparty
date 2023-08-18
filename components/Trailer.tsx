@@ -2,34 +2,34 @@ import fetcher from "@/lib/TMDBFetcher";
 import useSWR from "swr";
 import { Video } from "@/types";
 import Skeleton from "./Skeleton";
-import { useCallback } from "react";
+import { useEffect, useState } from "react";
 
 interface TrailerProps {
   id: string;
 }
 
 export default function Trailer({ id }: TrailerProps) {
-  const {
-    data: videos,
-    isLoading,
-    error,
-  } = useSWR<Video[]>(`/movie/${id}/videos`, fetcher);
+  const { data: videos, isLoading } = useSWR<Video[]>(
+    `/movie/${id}/videos`,
+    fetcher
+  );
+  const [trailerKey, setTrailerKey] = useState("");
 
-  const getTrailerKey: () => string = useCallback(() => {
-    if (!videos || videos.length === 0) return "";
+  useEffect(() => {
+    setTrailerKey(() => {
+      if (!videos || videos.length === 0) return "";
 
-    for (let i = videos?.length - 1; i >= 0; i--) {
-      const { type, key, site, official } = videos[i];
-      if (key && type === "Trailer" && site === "YouTube" && official) {
-        return key;
+      for (let i = videos?.length - 1; i >= 0; i--) {
+        const { type, key, site, official } = videos[i];
+        if (key && type === "Trailer" && site === "YouTube" && official) {
+          return key;
+        }
       }
-    }
 
-    // no video matched the above criteria - return the key of the last video in array.
-    return videos[videos.length - 1].key;
+      // no video matched the above criteria - return the key of the last video in array.
+      return videos[videos.length - 1].key;
+    });
   }, [videos]);
-
-  const trailerKey = getTrailerKey();
 
   return isLoading ? (
     <>
