@@ -5,45 +5,15 @@ import fetcher from "@/lib/TMDBFetcher";
 import { useRouter } from "next/navigation";
 import { CastCredit, MovieDetails, MyListItem, User, Video } from "@/types";
 import PageContainer from "@/components/PageContainer";
-import Image from "next/image";
-import { FaChevronLeft, FaPlus, FaCheck } from "react-icons/fa6";
-import { BiSolidParty } from "react-icons/bi";
-import {
-  formatBudget,
-  formatLanguage,
-  formatReleaseDate,
-  formatRuntime,
-} from "@/lib/format";
-import axios from "axios";
-import APIFetcher from "@/lib/APIFetcher";
-import { useCallback } from "react";
+import { FaChevronLeft } from "react-icons/fa6";
 import Trailer from "@/components/Trailer";
 import ActorCard from "@/components/ActorCard";
 import Carousel from "@/components/Carousel";
 import Skeleton from "@/components/Skeleton";
 import MediaDetails from "@/components/MediaDetails";
 import Billboard from "@/components/Billboard";
-import { twMerge } from "tailwind-merge";
 import WatchPartyBtn from "@/components/WatchPartyBtn";
-
-// Move into a use Server component
-async function addToMyList(
-  id: string,
-  media_type: string
-): Promise<User | undefined> {
-  return axios
-    .post("/api/user/my-list", { id, media_type })
-    .then((res) => res.data);
-}
-
-async function removeFromMyList(
-  id: string,
-  media_type: string
-): Promise<User | undefined> {
-  return axios
-    .delete("/api/user/my-list", { data: { id, media_type } })
-    .then((res) => res.data);
-}
+import MyListBtn from "@/components/MyListBtn";
 
 export default function MovieIdPage({ params }: { params: { id: string } }) {
   // making request for movie it's /movie/mediaid
@@ -59,15 +29,6 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
   const { data: credits, isLoading: creditsIsLoading } = useSWR<{
     cast: CastCredit[];
   }>(`/movie/${id}/credits`, fetcher);
-
-  const { data: user, mutate: userMutate } = useSWR<User>("/user", APIFetcher);
-  const inMyList: () => boolean = useCallback(() => {
-    if (!user || !movie) return false;
-    return user?.myList.some(
-      (item: MyListItem) =>
-        item.id === id && item.media_type === movie.media_type
-    );
-  }, [user, id, movie]);
 
   if (!movieIsLoading && movieError) throw new Error("Invliad Movie Id");
 
@@ -91,59 +52,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
 
           <div className="flex gap-4 ms-4">
             <WatchPartyBtn mediaId={id} />
-
-            {/* <button
-              className="btn btn-secondary btn-circle btn-outline border-2"
-              data-tip="Create WatchParty"
-              aria-label="Create WatchParty"
-            >
-            </button> */}
-
-            <button
-              className={`btn btn-primary ${
-                !inMyList() && "btn-outline"
-              } border-2 rounded-full aspect-square grid place-items-center tooltip normal-case transition duration-300`}
-              data-tip={inMyList() ? "Remove from My List" : "Add to My List"}
-              aria-label={inMyList() ? "Remove from My List" : "Add to My List"}
-              onClick={
-                inMyList()
-                  ? async () => {
-                      try {
-                        const updatedUser = await removeFromMyList(
-                          id,
-                          movie?.media_type ?? ""
-                        );
-
-                        if (updatedUser === undefined) {
-                          throw new Error("No updated user");
-                        }
-
-                        userMutate({ ...user!, myList: updatedUser.myList });
-                      } catch (err) {
-                        console.log(err);
-                      }
-                    }
-                  : async () => {
-                      try {
-                        const updatedUser = await addToMyList(
-                          id,
-                          movie?.media_type ?? ""
-                        );
-
-                        if (updatedUser === undefined) {
-                          throw new Error("No updated user");
-                        }
-
-                        // update user data to reflect change in myList state and update myList button appearence
-                        userMutate({ ...user!, myList: updatedUser.myList });
-                      } catch (err) {
-                        console.log(err);
-                      }
-                    }
-              }
-            >
-              {inMyList() ? <FaCheck size={25} /> : <FaPlus size={25} />}
-            </button>
+            <MyListBtn mediaId={id} media_type={movie?.media_type} />
           </div>
         </div>
 
