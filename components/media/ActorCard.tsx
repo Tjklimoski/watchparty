@@ -13,12 +13,12 @@ export default function ActorCard({ actor }: ActorCardProps) {
   const profileImgURL = `${baseImgPath}${imgSize}${actor.profile_path}`;
 
   return (
-    <div className="flex flex-col w-28 sm:w-36 p-2 snap-start gap-2 bg-neutral bg-opacity-50 rounded-md">
+    <div className="flex flex-col w-44 @lg:w-36 p-2 snap-start gap-2 bg-neutral bg-opacity-50 rounded-md">
       <Image
-        className="w-full aspect-poster object-cover rounded-sm"
+        className="w-full h-48 object-cover object-top rounded-sm"
         alt="Cast photo"
         src={profileImgURL}
-        width={128}
+        width={185}
         height={192}
       />
       <span className="font-semibold text-md break-words">{actor.name}</span>
