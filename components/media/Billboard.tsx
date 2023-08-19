@@ -32,7 +32,7 @@ export default function Billboard({ media }: BillboardProps) {
             <Skeleton className="w-1/2 h-8 sm:h-12 md:h-16" />
           </div>
         ) : (
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold drop-shadow-md break-balance webkit-truncate w-full max-w-[1440px] mx-auto">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold break-balance webkit-truncate w-full max-w-[1440px] mx-auto">
             {mediaTitle}
           </h2>
         )}

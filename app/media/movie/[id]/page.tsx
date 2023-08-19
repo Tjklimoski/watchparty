@@ -27,7 +27,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
 
   return (
     // margin-top on PageContainer is to push the content down
-    // to leave the space for the billboard image at the top.
+    // to leave the space for the billboard image at the top. px sizes are the min-h
     // 4rem and 5rem come from the height of the navbar at those sizes.
     <main className="mt-[max(calc(180px-4rem),_calc(35svh-4rem))] sm:mt-[max(calc(220px-5rem),_calc(45svh-5rem))] mb-10">
       <Container>

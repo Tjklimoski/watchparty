@@ -47,11 +47,11 @@ export default function MyListBtn({
   useEffect(() => {
     setInMyList(() => {
       if (!user || !id || !media_type) return false;
-      return (
+      const inMyList =
         user?.myList.some(
           (item: MyListItem) => item.id === id && item.media_type === media_type
-        ) ?? false
-      );
+        ) ?? false;
+      return inMyList;
     });
   }, [user, id, media_type]);
 
@@ -59,7 +59,7 @@ export default function MyListBtn({
     <button
       className={`${sm ? "btn-sm" : "btn"} btn-primary ${
         !inMyList && "btn-outline"
-      } border-2 btn-circle grid place-items-center tooltip normal-case`}
+      } hover:btn-active focus:btn-active border-2 btn-circle grid place-items-center tooltip normal-case transition duration-300`}
       data-tip={inMyList ? "Remove from My List" : "Add to My List"}
       aria-label={inMyList ? "Remove from My List" : "Add to My List"}
       {...props}

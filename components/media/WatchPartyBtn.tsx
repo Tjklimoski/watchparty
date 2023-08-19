@@ -15,7 +15,7 @@ export default function WatchPartyBtn({
     <button
       className={`${
         sm ? "btn-sm" : "btn"
-      } btn-secondary btn-circle btn-outline border-2 tooltip normal-case grid place-items-center`}
+      } hover:btn-active focus:btn-active btn-secondary btn-circle btn-outline border-2 tooltip normal-case grid place-items-center transition duration-300`}
       data-tip="Create WatchParty"
       aria-label="Create WatchParty"
       {...props}

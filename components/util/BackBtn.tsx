@@ -6,7 +6,7 @@ export default function BackBtn() {
 
   return (
     <button
-      className="btn btn-neutral btn-outline border-2 rounded-full aspect-square grid place-items-center tooltip normal-case"
+      className="btn btn-neutral hover:btn-active focus:btn-active btn-outline border-2 rounded-full aspect-square grid place-items-center tooltip normal-case transition duration-300"
       data-tip="Back"
       aria-label="Back"
       onClick={() => router.back()}
