@@ -17,7 +17,8 @@ module.exports = {
   },
   plugins: [
     require("daisyui"),
-    require('tailwind-scrollbar')({ nocompatible: true })
+    require('tailwind-scrollbar')({ nocompatible: true }),
+    require('@tailwindcss/container-queries')
   ],
   daisyui: {
     themes: [
