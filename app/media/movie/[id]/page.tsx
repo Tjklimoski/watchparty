@@ -2,18 +2,16 @@
 
 import useSWR from "swr";
 import fetcher from "@/lib/TMDBFetcher";
-import { CastCredit, MovieDetails } from "@/types";
+import { MovieDetails } from "@/types";
 import PageContainer from "@/components/PageContainer";
 import Trailer from "@/components/Trailer";
-import ActorCard from "@/components/ActorCard";
-import Carousel from "@/components/Carousel";
-import Skeleton from "@/components/Skeleton";
 import MediaDetails from "@/components/MediaDetails";
 import Billboard from "@/components/Billboard";
 import WatchPartyBtn from "@/components/WatchPartyBtn";
 import MyListBtn from "@/components/MyListBtn";
 import BackBtn from "@/components/BackBtn";
 import MediaOverview from "@/components/MediaOverview";
+import CastCarousel from "@/components/CastCarousel";
 
 export default function MovieIdPage({ params }: { params: { id: string } }) {
   // making request for movie it's /movie/mediaid
@@ -24,10 +22,6 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
     isLoading: movieIsLoading,
     error: movieError,
   } = useSWR<MovieDetails>(`/movie/${id}`, fetcher);
-
-  const { data: credits, isLoading: creditsIsLoading } = useSWR<{
-    cast: CastCredit[];
-  }>(`/movie/${id}/credits`, fetcher);
 
   if (!movieIsLoading && movieError) throw new Error("Invliad Movie Id");
 
@@ -57,25 +51,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
           {/* min-w-0 to stop the flex item from spilling out of it's parent container when the carousel renders */}
           <article className="flex-grow min-w-0">
             <MediaOverview media={movie} />
-
-            <Carousel heading={creditsIsLoading ? "" : "Cast"} tight>
-              {creditsIsLoading
-                ? Array(9)
-                    .fill(null)
-                    .map((item, i) => (
-                      <Skeleton
-                        key={i}
-                        className="w-28 sm:w-36 h-full aspect-[1/1.85]"
-                      />
-                    ))
-                : credits &&
-                  credits?.cast.map((actor, index) => {
-                    // Only show up to the first 10 cast memebers in the list
-                    if (index > 9) return null;
-                    return <ActorCard key={index} actor={actor} />;
-                  })}
-            </Carousel>
-
+            <CastCarousel id={id} media_type={movie?.media_type} />
             <Trailer id={id} />
           </article>
         </div>
