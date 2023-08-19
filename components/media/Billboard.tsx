@@ -15,7 +15,7 @@ export default function Billboard({ media }: BillboardProps) {
   const mediaTitle = media?.media_type === "movie" ? media.title : media?.name;
 
   return (
-    <div className="absolute top-0 left-0 w-full h-[35svh] sm:h-[45svh] min-h-[180px]">
+    <div className="absolute top-0 left-0 w-full h-[35svh] sm:h-[45svh] min-h-[180px] sm:min-h-[220px]">
       {media && (
         <Image
           src={imageUrl}
