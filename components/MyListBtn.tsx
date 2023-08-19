@@ -47,8 +47,10 @@ export default function MyListBtn({
   useEffect(() => {
     setInMyList(() => {
       if (!user || !id || !media_type) return false;
-      return user.myList.some(
-        (item: MyListItem) => item.id === id && item.media_type === media_type
+      return (
+        user?.myList.some(
+          (item: MyListItem) => item.id === id && item.media_type === media_type
+        ) ?? false
       );
     });
   }, [user, id, media_type]);
@@ -75,7 +77,7 @@ export default function MyListBtn({
 
           userMutate({ ...user!, myList: updatedUser.myList });
         } catch (err) {
-          // refresh the user data to revert the optomistic state change
+          // refresh the user data to revert the optomistic inMyList state change
           userMutate({ ...user! });
           console.log(err);
         }
