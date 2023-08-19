@@ -1,6 +1,6 @@
 "use client";
 
-import ProfileIcon from "./ProfileIcon";
+import ProfileIcon from "../util/ProfileIcon";
 import ProfileMenu from "./ProfileMenu";
 import { useState } from "react";
 
@@ -24,7 +24,6 @@ export default function NavbarProfileContainer() {
       tabIndex={0}
     >
       <ProfileIcon />
-      {/* Pass isOpen value as prop to trigger transition on ProfileMenu */}
       <div
         className={`bg-neutral rounded-md group-hover:cursor-default absolute right-0 top-full mt-5 z-30 transistion duration-100 scale-0 origin-top-right ${
           isOpen && "scale-100"

@@ -1,6 +1,5 @@
 "use client";
 
-import BtnAccent from "./BtnAccent";
 import { useRouter } from "next/navigation";
 
 export default function AuthBtns() {

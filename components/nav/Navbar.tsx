@@ -3,9 +3,8 @@ import NavbarLogo from "./NavbarLogo";
 import NavbarProfileContainer from "./NavbarProfileContainer";
 import { getIsAuth } from "@/lib/authenticate";
 import MobileMenu from "./MobileMenu";
-import Container from "./Container";
+import Container from "../util/Container";
 import AuthBtns from "./AuthBtns";
-import { User } from "@/types";
 
 export default async function Navbar() {
   const isAuth: boolean = await getIsAuth();

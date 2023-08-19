@@ -10,11 +10,11 @@
 
 import { useSearchParams } from "next/navigation";
 import { FormEvent, useCallback, useEffect, useState } from "react";
-import OAuthProviderBtn from "@/components/OAuthProviderBtn";
-import Container from "@/components/Container";
+import OAuthProviderBtn from "@/components/util/OAuthProviderBtn";
+import Container from "@/components/util/Container";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import Input from "@/components/Input";
+import Input from "@/components/form/Input";
 import axios from "axios";
 
 export default function AuthPage() {

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Skeleton from "./Skeleton";
+import Skeleton from "../util/Skeleton";
 import { MovieDetails, TVShowDetails } from "@/types";
 
 interface BillboardProps {

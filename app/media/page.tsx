@@ -1,12 +1,12 @@
 "use client";
 
 import type { MultiFetcherData } from "@/types";
-import Container from "@/components/Container";
+import Container from "@/components/util/Container";
 import useSWRImmutable from "swr/immutable";
 import fetcher from "@/lib/TMDBFetcher";
 import getCarouselHeading from "@/lib/getCarouselHeading";
-import MediaCard from "@/components/MediaCard";
-import Carousel from "@/components/Carousel";
+import MediaCard from "@/components/media/MediaCard";
+import Carousel from "@/components/util/Carousel";
 
 export default function MediaPage() {
   const APIEndpoints = [

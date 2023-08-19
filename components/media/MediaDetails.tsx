@@ -6,7 +6,7 @@ import {
 } from "@/lib/format";
 import { MovieDetails, TVShowDetails } from "@/types";
 import React from "react";
-import Skeleton from "./Skeleton";
+import Skeleton from "../util/Skeleton";
 
 interface MediaDetailsProps {
   media: MovieDetails | TVShowDetails | undefined;

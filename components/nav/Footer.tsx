@@ -1,5 +1,5 @@
 import React from "react";
-import Container from "./Container";
+import Container from "../util/Container";
 import Link from "next/link";
 
 export default function Footer() {

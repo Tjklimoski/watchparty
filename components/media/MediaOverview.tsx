@@ -1,6 +1,6 @@
 import { MovieDetails, TVShowDetails } from "@/types";
 import React from "react";
-import Skeleton from "./Skeleton";
+import Skeleton from "../util/Skeleton";
 
 interface MediaOverviewProps {
   media: MovieDetails | TVShowDetails | undefined;

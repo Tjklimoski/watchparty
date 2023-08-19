@@ -1,9 +1,9 @@
-import Carousel from "./Carousel";
+import Carousel from "../util/Carousel";
 import ActorCard from "./ActorCard";
 import useSWR from "swr";
 import fetcher from "@/lib/TMDBFetcher";
 import { CastCredit } from "@/types";
-import Skeleton from "./Skeleton";
+import Skeleton from "../util/Skeleton";
 
 interface CastCarouselProps {
   id: string | number;

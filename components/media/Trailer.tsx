@@ -1,7 +1,7 @@
 import fetcher from "@/lib/TMDBFetcher";
 import useSWR from "swr";
 import { Video } from "@/types";
-import Skeleton from "./Skeleton";
+import Skeleton from "../util/Skeleton";
 import { useEffect, useState } from "react";
 
 interface TrailerProps {

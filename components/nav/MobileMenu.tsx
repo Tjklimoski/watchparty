@@ -2,7 +2,7 @@
 
 import { FiMenu } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
-import ProfileIcon from "./ProfileIcon";
+import ProfileIcon from "../util/ProfileIcon";
 import ProfileMenu from "./ProfileMenu";
 import MainMenu from "./MainMenu";
 import { useState } from "react";

@@ -1,5 +1,5 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from "@/components/nav/Navbar";
+import Footer from "@/components/nav/Footer";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
