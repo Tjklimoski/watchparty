@@ -9,7 +9,9 @@ interface BillboardProps {
 export default function Billboard({ media }: BillboardProps) {
   const baseImgPath = "https://image.tmdb.org/t/p/";
   const imgSize = "original";
-  const imageUrl = `${baseImgPath}${imgSize}${media?.backdrop_path ?? ""}`;
+  const imageUrl = media?.backdrop_path
+    ? `${baseImgPath}${imgSize}${media.backdrop_path}`
+    : "/img/placeholder-lg.jpg";
   const mediaTitle = media?.media_type === "movie" ? media.title : media?.name;
 
   return (
