@@ -21,16 +21,23 @@ export default function MobileMenu({ isAuth }: MobileMenuProps) {
 
   return (
     <>
-      <div onClick={toggleOpen} className="hover:cursor-pointer z-30">
+      <button
+        onClick={toggleOpen}
+        className="z-30"
+        aria-label="full menu"
+        aria-controls="mobile-menu"
+        aria-expanded={isOpen}
+      >
         {isOpen ? (
           <IoClose size={40} className="w-6 h-6 sm:w-10 sm:h-10" />
         ) : (
           <FiMenu size={40} className="w-6 h-6 sm:w-10 sm:h-10" />
         )}
-      </div>
+      </button>
 
       {/* Container that slides out */}
       <div
+        id="mobile-menu"
         className={`absolute top-16 sm:top-20 right-0 pt-1 z-20 transition duration-300  ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
