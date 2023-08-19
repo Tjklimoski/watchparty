@@ -23,7 +23,11 @@ export default function MediaCard({ media }: MediaCardProps) {
     >
       <Image
         className="aspect-poster object-cover w-full rounded-sm"
-        src={baseImgPath + imgSize + media.poster_path}
+        src={
+          media.poster_path
+            ? baseImgPath + imgSize + media.poster_path
+            : "/img/placeholder-poster-md.jpg"
+        }
         alt={`${
           media.media_type === "movie" ? media.title : media.name
         } poster`}
