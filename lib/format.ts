@@ -1,5 +1,5 @@
 export function formatBudget(amount: number | null | undefined): string {
-  if (amount == null) return "NA";
+  if (amount == null || amount === 0) return "NA";
   return new Intl.NumberFormat(undefined, {
     style: "currency",
     currency: "USD",
