@@ -58,7 +58,7 @@ export default function MediaPage() {
               );
             } else {
               return (
-                <Carousel key={apiRes.heading} heading={apiRes.heading}>
+                <Carousel key={apiRes.heading} heading={apiRes.heading} tight>
                   {apiRes.value!.map((media) => (
                     <MediaCard key={media.id} media={media} />
                   ))}
