@@ -17,3 +17,12 @@
     -webkit-box-orient: vertical;
   }
 }
+
+body {
+  background: radial-gradient(
+      circle 650px at left 65% top 20%,
+      #3abff830,
+      transparent
+    ),
+    url("/img/noise.png");
+}
