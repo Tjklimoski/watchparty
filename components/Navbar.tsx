@@ -35,7 +35,7 @@ export default async function Navbar() {
         </div>
 
         {/* Mobile menu */}
-        <div className="lg:hidden ml-auto">
+        <div className="lg:hidden ml-auto grid place-items-center">
           <MobileMenu isAuth={isAuth} />
         </div>
       </div>
