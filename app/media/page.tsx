@@ -1,7 +1,7 @@
 "use client";
 
 import type { MultiFetcherData } from "@/types";
-import PageContainer from "@/components/PageContainer";
+import Container from "@/components/Container";
 import useSWRImmutable from "swr/immutable";
 import fetcher from "@/lib/TMDBFetcher";
 import getCarouselHeading from "@/lib/getCarouselHeading";
@@ -39,33 +39,35 @@ export default function MediaPage() {
   );
 
   return (
-    <PageContainer>
-      <div className="h-10 w-96 m-4 text-center bg-zinc-700 rounded-md">
-        Search Bar
-      </div>
+    <main>
+      <Container>
+        <div className="h-10 w-96 m-4 text-center bg-zinc-700 rounded-md">
+          Search Bar
+        </div>
 
-      {isLoading ? (
-        // DISPLAY SKELETON
-        <div>LOADING...</div>
-      ) : (
-        data!.map((apiRes, index) => {
-          if (apiRes.status === "rejected") {
-            return (
-              <div key={index} className="font-semibold text-error">
-                {`${apiRes.heading} ${apiRes.reason!.message}`}
-              </div>
-            );
-          } else {
-            return (
-              <Carousel key={apiRes.heading} heading={apiRes.heading}>
-                {apiRes.value!.map((media) => (
-                  <MediaCard key={media.id} media={media} />
-                ))}
-              </Carousel>
-            );
-          }
-        })
-      )}
-    </PageContainer>
+        {isLoading ? (
+          // DISPLAY SKELETON
+          <div>LOADING...</div>
+        ) : (
+          data!.map((apiRes, index) => {
+            if (apiRes.status === "rejected") {
+              return (
+                <div key={index} className="font-semibold text-error">
+                  {`${apiRes.heading} ${apiRes.reason!.message}`}
+                </div>
+              );
+            } else {
+              return (
+                <Carousel key={apiRes.heading} heading={apiRes.heading}>
+                  {apiRes.value!.map((media) => (
+                    <MediaCard key={media.id} media={media} />
+                  ))}
+                </Carousel>
+              );
+            }
+          })
+        )}
+      </Container>
+    </main>
   );
 }

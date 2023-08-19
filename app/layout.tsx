@@ -18,9 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html data-theme="watchPartyDark" lang="en" className="overflow-x-hidden">
-      <body
-        className={`${rubik.className} min-h-screen overflow-x-hidden max-w-[1440px] mx-auto`}
-      >
+      <body className={`${rubik.className} min-h-screen overflow-x-hidden`}>
         <Navbar />
         {children}
         <Footer />
