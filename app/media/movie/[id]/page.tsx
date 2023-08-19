@@ -2,7 +2,7 @@
 
 import useSWR from "swr";
 import fetcher from "@/lib/TMDBFetcher";
-import { CastCredit, MovieDetails, MyListItem, User, Video } from "@/types";
+import { CastCredit, MovieDetails } from "@/types";
 import PageContainer from "@/components/PageContainer";
 import Trailer from "@/components/Trailer";
 import ActorCard from "@/components/ActorCard";
@@ -13,6 +13,7 @@ import Billboard from "@/components/Billboard";
 import WatchPartyBtn from "@/components/WatchPartyBtn";
 import MyListBtn from "@/components/MyListBtn";
 import BackBtn from "@/components/BackBtn";
+import MediaOverview from "@/components/MediaOverview";
 
 export default function MovieIdPage({ params }: { params: { id: string } }) {
   // making request for movie it's /movie/mediaid
@@ -55,19 +56,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
 
           {/* min-w-0 to stop the flex item from spilling out of it's parent container when the carousel renders */}
           <article className="flex-grow min-w-0">
-            {movieIsLoading ? (
-              <>
-                <Skeleton />
-                <Skeleton />
-                <Skeleton className="w-2/5 mb-4 sm:mb-8" />
-              </>
-            ) : (
-              movie && (
-                <p className="mb-4 md:mb-8 text-md sm:text-lg leading-relaxed">
-                  {movie.overview}
-                </p>
-              )
-            )}
+            <MediaOverview media={movie} />
 
             <Carousel heading={creditsIsLoading ? "" : "Cast"} tight>
               {creditsIsLoading
