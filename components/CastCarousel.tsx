@@ -28,11 +28,7 @@ export default function CastCarousel({ id, media_type }: CastCarouselProps) {
       });
 
   return (
-    <Carousel
-      heading={creditsIsLoading ? "" : "Cast"}
-      length={cast.length}
-      tight
-    >
+    <Carousel heading={creditsIsLoading ? "" : "Cast"} tight>
       {cast}
     </Carousel>
   );
