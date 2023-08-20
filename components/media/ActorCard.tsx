@@ -10,7 +10,9 @@ export default function ActorCard({ actor }: ActorCardProps) {
 
   const baseImgPath = "https://image.tmdb.org/t/p/";
   const imgSize = "w185";
-  const profileImgURL = `${baseImgPath}${imgSize}${actor.profile_path}`;
+  const profileImgURL = actor.profile_path
+    ? `${baseImgPath}${imgSize}${actor.profile_path}`
+    : "/img/placeholder-actor-md.jpg";
 
   return (
     <div className="flex flex-col w-44 @lg:w-36 p-2 snap-start gap-2 bg-neutral bg-opacity-50 rounded-md">
