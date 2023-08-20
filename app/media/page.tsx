@@ -7,6 +7,7 @@ import fetcher from "@/lib/TMDBFetcher";
 import getCarouselHeading from "@/lib/getCarouselHeading";
 import MediaCard from "@/components/media/MediaCard";
 import Carousel from "@/components/util/Carousel";
+import Skeleton from "@/components/util/Skeleton";
 
 export default function MediaPage() {
   const APIEndpoints = [
@@ -38,6 +39,15 @@ export default function MediaPage() {
     multiFetcherClient
   );
 
+  const MediaCardSkeletons = Array(5)
+    .fill(null)
+    .map((item, i) => (
+      <Skeleton
+        key={i}
+        className="h-full w-64 @lg:w-72 @3xl:w-80 @5xl:w-96 aspect-video rounded-sm"
+      />
+    ));
+
   return (
     <main>
       <Container>
@@ -45,28 +55,31 @@ export default function MediaPage() {
           Search Bar
         </div>
 
-        {isLoading ? (
-          // DISPLAY SKELETON
-          <div>LOADING...</div>
-        ) : (
-          data!.map((apiRes, index) => {
-            if (apiRes.status === "rejected") {
-              return (
-                <div key={index} className="font-semibold text-error">
-                  {`${apiRes.heading} ${apiRes.reason!.message}`}
-                </div>
-              );
-            } else {
-              return (
-                <Carousel key={apiRes.heading} heading={apiRes.heading} tight>
-                  {apiRes.value!.map((media) => (
-                    <MediaCard key={media.id} media={media} />
-                  ))}
+        {isLoading
+          ? Array(APIEndpoints.length)
+              .fill(null)
+              .map((item, i) => (
+                <Carousel key={i} heading="" tight>
+                  {MediaCardSkeletons}
                 </Carousel>
-              );
-            }
-          })
-        )}
+              ))
+          : data!.map((apiRes, index) => {
+              if (apiRes.status === "rejected") {
+                return (
+                  <div key={index} className="font-semibold text-error">
+                    {`${apiRes.heading} ${apiRes.reason!.message}`}
+                  </div>
+                );
+              } else {
+                return (
+                  <Carousel key={apiRes.heading} heading={apiRes.heading} tight>
+                    {apiRes.value!.map((media) => (
+                      <MediaCard key={media.id} media={media} />
+                    ))}
+                  </Carousel>
+                );
+              }
+            })}
       </Container>
     </main>
   );
