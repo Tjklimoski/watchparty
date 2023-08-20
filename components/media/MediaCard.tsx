@@ -3,9 +3,13 @@
 import Image from "next/image";
 import type { Movie, TVShow } from "@/types";
 import { useRouter } from "next/navigation";
+import WatchPartyBtn from "./WatchPartyBtn";
+import MyListBtn from "./MyListBtn";
+import Skeleton from "../util/Skeleton";
+import Link from "next/link";
 
 interface MediaCardProps {
-  media: Movie | TVShow;
+  media: Movie | TVShow | undefined;
 }
 
 export default function MediaCard({ media }: MediaCardProps) {
@@ -13,30 +17,47 @@ export default function MediaCard({ media }: MediaCardProps) {
   const router = useRouter();
 
   const baseImgPath = "https://image.tmdb.org/t/p/";
-  const imgSize = "w300";
+  const imgSize = "w780";
+  const title = media?.media_type === "movie" ? media?.title : media?.name;
 
-  // REDEISGN MOVIE CARD - USE BACKDROP PATH. OVERLAY TITLE ON TOP OF BOTTOM THIRD OF IMAGE. CARD MORE WIDE THAN TALL. NETFLIX STYLE-ish
-  return (
-    <div
-      onClick={() => router.push(`/media/${media.media_type}/${media.id}`)}
-      className="p-2 bg-primary bg-opacity-20 rounded-md shadow-md snap-start w-48"
-    >
+  return !media ? (
+    <Skeleton className="h-full w-64 @lg:w-72 @3xl:w-80 @5xl:w-96 aspect-video rounded-sm" />
+  ) : (
+    <div className="relative w-64 @lg:w-72 @3xl:w-80 @5xl:w-96 aspect-video rounded-sm drop-shadow-lg snap-start group">
       <Image
-        className="aspect-poster object-cover w-full rounded-sm"
+        className="object-cover brightness-90 group-hover:brightness-100 group-focus-within:brightness-100 rounded-sm transition duration-150"
         src={
-          media.poster_path
-            ? baseImgPath + imgSize + media.poster_path
-            : "/img/placeholder-poster-md.jpg"
+          media.backdrop_path
+            ? baseImgPath + imgSize + media.backdrop_path
+            : "/img/placeholder-md.jpg"
         }
-        alt={`${
-          media.media_type === "movie" ? media.title : media.name
-        } poster`}
-        width={256}
-        height={384}
+        alt={`${title} Billboard`}
+        fill
       />
-      <p className="font-semibold text-lg my-2">
-        {media.media_type === "movie" ? media.title : media.name}
-      </p>
+
+      {/* Interaction buttons container */}
+      <div className="absolute top-0 right-0 p-1 @lg:p-2 bg-black/80 rounded-bl-md rounded-tr-sm flex gap-1 @lg:gap-2 z-10">
+        <WatchPartyBtn mediaId={media.id.toString()} sm />
+        <MyListBtn
+          mediaId={media.id.toString()}
+          media_type={media?.media_type}
+          sm
+        />
+      </div>
+
+      {/* Title container */}
+      <div className="absolute left-0 bottom-0 right-0 h-2/5 bg-gradient-to-t from-black via-black via-30% to-transparent rounded-b-sm p-1 @lg:p-2 flex items-end select-none cursor-pointer">
+        <h3 className="font-semibold text-lg @lg:text-xl @3xl:text-2xl break-balance webkit-truncate">
+          {title}
+        </h3>
+      </div>
+
+      {/* Link positioned and styled here to prevent navigation to page when interacting with MyList and WatchParty buttons */}
+      <Link
+        href={`/media/${media.media_type}/${media.id}`}
+        tabIndex={0}
+        className="absolute block inset-0"
+      />
     </div>
   );
 }
@@ -55,5 +76,3 @@ export default function MediaCard({ media }: MediaCardProps) {
 // "w780",
 // "w1280",
 // "original"
-
-// auto-cols-[42%] sm:auto-cols-[29%] md:auto-cols-[22%] lg:auto-cols-[18%] xl:auto-cols-[min(14%,_220px)]

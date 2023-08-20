@@ -13,6 +13,7 @@ interface MyListBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   mediaId: string;
   media_type: "movie" | "tv" | undefined;
   sm?: boolean;
+  tooltip?: boolean;
 }
 
 // Move into a use Server component
@@ -38,6 +39,7 @@ export default function MyListBtn({
   mediaId: id,
   media_type,
   sm,
+  tooltip,
   ...props
 }: MyListBtnProps) {
   const router = useRouter(); // For sending the user to the create WatchParty page.
@@ -59,7 +61,9 @@ export default function MyListBtn({
     <button
       className={`${sm ? "btn-sm" : "btn"} btn-primary ${
         !inMyList && "btn-outline"
-      } hover:btn-active focus:btn-active border-2 btn-circle grid place-items-center tooltip normal-case transition duration-300`}
+      } hover:btn-active focus-visible:btn-active border-2 btn-circle grid place-items-center ${
+        tooltip && "tooltip"
+      } normal-case transition duration-300`}
       data-tip={inMyList ? "Remove from My List" : "Add to My List"}
       aria-label={inMyList ? "Remove from My List" : "Add to My List"}
       {...props}
