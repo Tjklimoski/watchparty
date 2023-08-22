@@ -1,24 +1,42 @@
 import fetcher from "@/lib/TMDBFetcher";
 import useSWR from "swr";
-import { Video } from "@/types";
+import { TVShowDetails, Video } from "@/types";
 import Skeleton from "../util/Skeleton";
 import { useEffect, useState } from "react";
 
 interface TrailerProps {
   id: string;
+  media_type: "movie" | "tv" | undefined;
+  seasons?: number | undefined;
 }
 
-export default function Trailer({ id }: TrailerProps) {
+export default function Trailer({ id, media_type, seasons }: TrailerProps) {
   const { data: videos, isLoading } = useSWR<Video[]>(
-    `/movie/${id}/videos`,
+    media_type && `/${media_type}/${id}/videos`,
     fetcher
   );
+  const { data: recentSeasonVideos, isLoading: recentSeasonVideosIsLoading } =
+    useSWR<Video[]>(
+      seasons !== undefined && `/tv/${id}/season/${seasons}/videos`,
+      fetcher
+    );
   const [trailerKey, setTrailerKey] = useState("");
 
   useEffect(() => {
     setTrailerKey(() => {
       if (!videos || videos.length === 0) return "";
 
+      // If tv show, get trailer from most recent season if available
+      if (media_type === "tv" && recentSeasonVideos) {
+        for (let i = recentSeasonVideos?.length - 1; i >= 0; i--) {
+          const { type, key, site } = recentSeasonVideos[i];
+          if (key && type === "Trailer" && site === "YouTube") {
+            return key;
+          }
+        }
+      }
+
+      // Get first posted trailer video for the movie or tvShow
       for (let i = videos?.length - 1; i >= 0; i--) {
         const { type, key, site, official } = videos[i];
         if (key && type === "Trailer" && site === "YouTube" && official) {
@@ -29,9 +47,9 @@ export default function Trailer({ id }: TrailerProps) {
       // no video matched the above criteria - return the key of the last video in array.
       return videos[videos.length - 1].key;
     });
-  }, [videos]);
+  }, [videos, media_type, recentSeasonVideos]);
 
-  return isLoading ? (
+  return isLoading || recentSeasonVideosIsLoading ? (
     <>
       <Skeleton className="h-8 w-1/6" />
       <div className="w-full aspect-video">

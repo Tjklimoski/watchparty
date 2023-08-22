@@ -54,8 +54,13 @@ export default function TvIdPage({ params }: { params: { id: string } }) {
             {/* min-w-0 to stop the flex item from spilling out of it's parent container when the carousel renders */}
             <article className="flex-grow min-w-0">
               <MediaOverview media={TVShow} />
+              {/* Season selector with episode carousel */}
               <CastCarousel id={id} media_type={TVShow?.media_type} />
-              <Trailer id={id} />
+              <Trailer
+                id={id}
+                media_type={TVShow?.media_type}
+                seasons={TVShow?.number_of_seasons}
+              />
             </article>
           </div>
         </section>

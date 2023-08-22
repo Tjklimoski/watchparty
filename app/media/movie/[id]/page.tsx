@@ -55,7 +55,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
             <article className="flex-grow min-w-0">
               <MediaOverview media={movie} />
               <CastCarousel id={id} media_type={movie?.media_type} />
-              <Trailer id={id} />
+              <Trailer id={id} media_type={movie?.media_type} />
             </article>
           </div>
         </section>
