@@ -17,16 +17,17 @@ export default function NavbarProfileContainer() {
   }
 
   return (
-    <div
-      onClick={toggleOpen}
-      onBlur={closeMenu}
-      className="flex gap-2 items-center group hover:cursor-pointer outline-none relative"
-      tabIndex={0}
-    >
-      <ProfileIcon />
+    <div onBlur={closeMenu} className="flex gap-2 items-center group relative">
+      <button
+        onClick={toggleOpen}
+        className="grid place-items-center rounded-full group-hover:ring group-focus-within:ring ring-primary ring-offset-base-100 ring-offset-2"
+      >
+        <ProfileIcon />
+      </button>
+
       <div
         className={`bg-neutral rounded-md group-hover:cursor-default absolute right-0 top-full mt-5 z-30 transistion duration-100 scale-0 origin-top-right ${
-          isOpen && "scale-100"
+          isOpen ? "scale-100" : ""
         }`}
       >
         <ProfileMenu size="lg" />

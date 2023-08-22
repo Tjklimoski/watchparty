@@ -17,7 +17,7 @@ export default function ProfileIcon({ id, size = 36 }: ProfileIconProps) {
 
   return (
     <div className="avatar">
-      <div className="rounded-full group-focus:ring group-hover:ring ring-primary ring-offset-base-100 ring-offset-2 hover:cursor-pointer transition">
+      <div className="rounded-full">
         {isLoading ? (
           <FaUser size={size} />
         ) : userImage ? (
