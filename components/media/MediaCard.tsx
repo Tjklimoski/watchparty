@@ -34,7 +34,7 @@ export default function MediaCard({ media }: MediaCardProps) {
         />
 
         {/* Title and Interaction Buttons container */}
-        <div className="absolute left-0 bottom-0 right-0 h-1/2 bg-gradient-to-t from-black via-black via-45% to-transparent p-1 @lg:p-2 flex justify-between items-end select-none cursor-pointer">
+        <div className="absolute left-0 bottom-0 right-0 h-1/2 bg-gradient-to-t from-black via-black via-45% to-transparent p-1 @lg:p-2 flex justify-between items-end select-none">
           <h3 className="font-semibold text-md @lg:text-lg @3xl:text-xl break-balance webkit-truncate">
             {title}
           </h3>
