@@ -19,7 +19,7 @@ export default function NavbarProfileContainer() {
   return (
     <div onBlur={closeMenu} className="flex gap-2 items-center group relative">
       <button
-        onClick={toggleOpen}
+        onClick={isOpen ? closeMenu : toggleOpen}
         className="grid place-items-center rounded-full group-hover:ring group-focus-within:ring ring-primary ring-offset-base-100 ring-offset-2"
         aria-controls="profile-menu"
         aria-label="Profile Menu"
