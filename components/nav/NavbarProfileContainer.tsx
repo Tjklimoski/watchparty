@@ -21,11 +21,15 @@ export default function NavbarProfileContainer() {
       <button
         onClick={toggleOpen}
         className="grid place-items-center rounded-full group-hover:ring group-focus-within:ring ring-primary ring-offset-base-100 ring-offset-2"
+        aria-controls="profile-menu"
+        aria-label="Profile Menu"
+        aria-expanded={isOpen}
       >
         <ProfileIcon />
       </button>
 
       <div
+        id="profile-menu"
         className={`bg-neutral rounded-md group-hover:cursor-default absolute right-0 top-full mt-5 z-30 transistion duration-100 scale-0 origin-top-right ${
           isOpen ? "scale-100" : ""
         }`}
