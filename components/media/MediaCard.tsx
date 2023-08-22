@@ -21,9 +21,9 @@ export default function MediaCard({ media }: MediaCardProps) {
   const title = media?.media_type === "movie" ? media?.title : media?.name;
 
   return !media ? (
-    <Skeleton className="h-full w-64 @lg:w-72 @3xl:w-80 @5xl:w-96 aspect-video rounded-sm" />
+    <Skeleton className="h-full w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 aspect-video rounded-sm" />
   ) : (
-    <div className="relative w-64 @lg:w-72 @3xl:w-80 @5xl:w-96 aspect-video rounded-sm drop-shadow-lg snap-start group">
+    <div className="relative w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 aspect-video rounded-sm drop-shadow-lg snap-start group">
       <Image
         className="object-cover brightness-90 group-hover:brightness-100 group-focus-within:brightness-100 rounded-sm transition duration-150"
         src={
@@ -47,7 +47,7 @@ export default function MediaCard({ media }: MediaCardProps) {
 
       {/* Title container */}
       <div className="absolute left-0 bottom-0 right-0 h-2/5 bg-gradient-to-t from-black via-black via-30% to-transparent rounded-b-sm p-1 @lg:p-2 flex items-end select-none cursor-pointer">
-        <h3 className="font-semibold text-lg @lg:text-xl @3xl:text-2xl break-balance webkit-truncate">
+        <h3 className="font-semibold text-md @lg:text-lg @3xl:text-xl break-balance webkit-truncate">
           {title}
         </h3>
       </div>
