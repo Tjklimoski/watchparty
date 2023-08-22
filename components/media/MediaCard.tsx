@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import type { Movie, TVShow } from "@/types";
-import { useRouter } from "next/navigation";
 import WatchPartyBtn from "./WatchPartyBtn";
 import MyListBtn from "./MyListBtn";
 import Skeleton from "../util/Skeleton";
@@ -14,8 +13,6 @@ interface MediaCardProps {
 
 export default function MediaCard({ media }: MediaCardProps) {
   //check the media_type field on media object for accurate typescript checking
-  const router = useRouter();
-
   const baseImgPath = "https://image.tmdb.org/t/p/";
   const imgSize = "w780";
   const title = media?.media_type === "movie" ? media?.title : media?.name;
@@ -23,41 +20,42 @@ export default function MediaCard({ media }: MediaCardProps) {
   return !media ? (
     <Skeleton className="h-full w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 aspect-video rounded-sm" />
   ) : (
-    <div className="relative w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 aspect-video rounded-sm drop-shadow-lg snap-start group">
-      <Image
-        className="object-cover brightness-90 group-hover:brightness-100 group-focus-within:brightness-100 rounded-sm transition duration-150"
-        src={
-          media.backdrop_path
-            ? baseImgPath + imgSize + media.backdrop_path
-            : "/img/placeholder-md.jpg"
-        }
-        alt={`${title} Billboard`}
-        fill
-      />
+    <div>
+      <div className="relative w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 aspect-video rounded-sm drop-shadow-lg snap-center sm:snap-start group overflow-hidden">
+        <Image
+          className="object-cover brightness-90 group-hover:brightness-100 group-focus-within:brightness-100 rounded-sm transition duration-150"
+          src={
+            media.backdrop_path
+              ? baseImgPath + imgSize + media.backdrop_path
+              : "/img/placeholder-md.jpg"
+          }
+          alt={`${title} Billboard`}
+          fill
+        />
 
-      {/* Interaction buttons container */}
-      <div className="absolute top-0 right-0 p-1 @lg:p-2 bg-black/80 rounded-bl-md rounded-tr-sm flex gap-1 @lg:gap-2 z-10">
-        <WatchPartyBtn mediaId={media.id.toString()} sm />
-        <MyListBtn
-          mediaId={media.id.toString()}
-          media_type={media?.media_type}
-          sm
+        {/* Title and Interaction Buttons container */}
+        <div className="absolute left-0 bottom-0 right-0 h-1/2 bg-gradient-to-t from-black via-black via-45% to-transparent p-1 @lg:p-2 flex justify-between items-end select-none cursor-pointer">
+          <h3 className="font-semibold text-md @lg:text-lg @3xl:text-xl break-balance webkit-truncate">
+            {title}
+          </h3>
+
+          <div className="flex gap-2 z-10">
+            <WatchPartyBtn mediaId={media.id.toString()} sm />
+            <MyListBtn
+              mediaId={media.id.toString()}
+              media_type={media?.media_type}
+              sm
+            />
+          </div>
+        </div>
+
+        {/* Link positioned and styled here to prevent navigation to page when interacting with MyList and WatchParty buttons */}
+        <Link
+          href={`/media/${media.media_type}/${media.id}`}
+          tabIndex={0}
+          className="absolute block inset-0"
         />
       </div>
-
-      {/* Title container */}
-      <div className="absolute left-0 bottom-0 right-0 h-2/5 bg-gradient-to-t from-black via-black via-30% to-transparent rounded-b-sm p-1 @lg:p-2 flex items-end select-none cursor-pointer">
-        <h3 className="font-semibold text-md @lg:text-lg @3xl:text-xl break-balance webkit-truncate">
-          {title}
-        </h3>
-      </div>
-
-      {/* Link positioned and styled here to prevent navigation to page when interacting with MyList and WatchParty buttons */}
-      <Link
-        href={`/media/${media.media_type}/${media.id}`}
-        tabIndex={0}
-        className="absolute block inset-0"
-      />
     </div>
   );
 }
