@@ -19,11 +19,12 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
   const { id } = params;
   const {
     data: movie,
-    isLoading: movieIsLoading,
-    error: movieError,
+    isLoading,
+    error,
   } = useSWR<MovieDetails>(`/movie/${id}`, fetcher);
 
-  if (!movieIsLoading && movieError) throw new Error("Invliad Movie Id");
+  if (!isLoading && error)
+    return <p className="text-error">Invalid Movie ID</p>;
 
   return (
     // margin-top on PageContainer is to push the content down
@@ -41,7 +42,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
               <MyListBtn
                 mediaId={id}
                 media_type={movie?.media_type}
-                disabled={movieIsLoading}
+                disabled={isLoading}
                 tooltip
               />
             </div>
