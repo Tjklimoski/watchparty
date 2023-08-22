@@ -18,9 +18,6 @@ export default function MediaCarousel({ endpoint }: MediaCarouselProps) {
     endpoint,
     fetcher
   );
-
-  console.log("ERR: ", error);
-
   const MediaCardSkeletons = Array(6)
     .fill(null)
     .map((item, i) => (

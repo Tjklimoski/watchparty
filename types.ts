@@ -180,18 +180,6 @@ export interface Notification {
   createdAt: Date;
 }
 
-export interface MultiFetcherData {
-  status: string;
-  heading: string;
-  reason?: Error;
-  value?: Movie[] | TVShow[];
-}
-
-export interface SWRResponse {
-  data: MultiFetcherData[] | undefined;
-  isLoading: boolean;
-}
-
 export interface RegisterData {
   email: string;
   password: string;
