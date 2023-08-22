@@ -15,6 +15,8 @@ export default function CastCarousel({ id, media_type }: CastCarouselProps) {
     cast: CastCredit[];
   }>(media_type && `/${media_type}/${id}/credits`, fetcher);
 
+  if (credits?.cast.length === 0) return null;
+
   return (
     <Carousel heading={creditsIsLoading ? "" : "Cast"} count={10} tight>
       {!credits
