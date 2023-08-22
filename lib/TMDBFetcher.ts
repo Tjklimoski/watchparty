@@ -27,10 +27,3 @@ export default async function fetcher(url: string) {
 
   });
 }
-
-// Currently doesn't return data if bad url sent:
-export async function multiFetcher(urls: string[]) {
-  // Using allSettled so only the request that errors will fail,
-  // the other requests will still finish and return their data.
-  return Promise.allSettled(urls.map((url) => fetcher(url)));
-}
