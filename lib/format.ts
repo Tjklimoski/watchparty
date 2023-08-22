@@ -8,7 +8,7 @@ export function formatBudget(amount: number | null | undefined): string {
   }).format(amount);
 }
 
-export function formatReleaseDate(releaseDate: string | null | undefined): string {
+export function formatDate(releaseDate: string | null | undefined): string {
   if (releaseDate == null) return "NA";
   const date = new Date(releaseDate);
   return new Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(

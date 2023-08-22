@@ -1,7 +1,7 @@
 import {
   formatBudget,
   formatLanguage,
-  formatReleaseDate,
+  formatDate,
   formatRuntime,
 } from "@/lib/format";
 import { MovieDetails, TVShowDetails } from "@/types";
@@ -66,7 +66,7 @@ function MovieInfo({ movie }: { movie: MovieDetails }) {
       </li>
       <li>
         <span className="font-bold">Release Date</span>
-        <br /> {formatReleaseDate(movie?.release_date)}
+        <br /> {formatDate(movie?.release_date)}
       </li>
       <li>
         <span className="font-bold">Original Language</span>
@@ -96,8 +96,32 @@ function TVShowInfo({ tvshow }: { tvshow: TVShowDetails }) {
         <br /> {tvshow?.status ?? "NA"}
       </li>
       <li>
-        <span className="font-bold">first air Date</span>
-        <br /> {formatReleaseDate(tvshow?.first_air_date)}
+        <span className="font-bold">Number of Seasons</span>
+        <br /> {tvshow?.number_of_seasons ?? "NA"}
+      </li>
+      <li>
+        <span className="font-bold">Number of Episodes</span>
+        <br /> {tvshow?.number_of_episodes ?? "NA"}
+      </li>
+      <li>
+        <span className="font-bold">Next Air Date</span>
+        <br /> {formatDate(tvshow?.next_episode_to_air?.air_date) ?? "NA"}
+      </li>
+      {tvshow?.next_episode_to_air && (
+        <li>
+          <span className="font-bold">Next Episode To Air</span>
+          <br />{" "}
+          {`S${tvshow.next_episode_to_air.season_number} E${tvshow.next_episode_to_air.episode_number}` ??
+            "NA"}
+        </li>
+      )}
+      <li>
+        <span className="font-bold">Last Air Date</span>
+        <br /> {formatDate(tvshow?.last_air_date) ?? "NA"}
+      </li>
+      <li>
+        <span className="font-bold">First Air Date</span>
+        <br /> {formatDate(tvshow?.first_air_date)}
       </li>
       <li>
         <span className="font-bold">Original Language</span>
