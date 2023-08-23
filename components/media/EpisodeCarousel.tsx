@@ -21,7 +21,7 @@ export default function EpisodeCarousel({ id, season }: EpisodeCarouselProps) {
   );
 
   return (
-    <Carousel heading="">
+    <Carousel heading="" tight>
       {data?.episodes &&
         data.episodes.map((episode) => (
           <div
@@ -38,6 +38,11 @@ export default function EpisodeCarousel({ id, season }: EpisodeCarouselProps) {
               alt={`${episode.name} Billboard`}
               fill
             />
+
+            {/* Episode number */}
+            <div className="absolute top-0 left-0 px-1 font-semibold text-xl bg-base-100 bg-opacity-75 rounded-br-sm">
+              {episode.episode_number}
+            </div>
 
             {/* Title and Interaction Buttons container */}
             <div className="absolute left-0 bottom-0 right-0 h-1/2 bg-gradient-to-t from-black via-black via-45% to-transparent p-1 @lg:p-2 flex justify-between items-end select-none">
