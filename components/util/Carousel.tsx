@@ -1,4 +1,3 @@
-import { MouseEvent, useRef } from "react";
 import Skeleton from "./Skeleton";
 
 interface CarouselProps {

@@ -12,6 +12,7 @@ import MediaDetails from "@/components/media/MediaDetails";
 import MediaOverview from "@/components/media/MediaOverview";
 import CastCarousel from "@/components/media/CastCarousel";
 import Trailer from "@/components/media/Trailer";
+import Episodes from "@/components/media/Episodes";
 
 export default function TvIdPage({ params }: { params: { id: string } }) {
   // making request for movie it's /movie/mediaid
@@ -55,6 +56,7 @@ export default function TvIdPage({ params }: { params: { id: string } }) {
             <article className="flex-grow min-w-0">
               <MediaOverview media={TVShow} />
               {/* Season selector with episode carousel */}
+              <Episodes media={TVShow} />
               <CastCarousel id={id} media_type={TVShow?.media_type} />
               <Trailer
                 id={id}
