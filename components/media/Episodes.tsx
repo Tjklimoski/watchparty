@@ -9,16 +9,15 @@ interface EpisodesProps {
 
 export default function Episodes({ media }: EpisodesProps) {
   const seasons = media?.seasons;
-  const numberOfSeasons = media?.number_of_seasons;
   // First set requestedSeason to the most recent season
   const [requestedSeason, setRequestedSeason] = useState<number>(() =>
-    numberOfSeasons == null ? 1 : numberOfSeasons
+    !seasons ? 1 : seasons[seasons.length - 1].season_number
   );
 
   useEffect(() => {
-    if (numberOfSeasons == null) return;
-    setRequestedSeason(numberOfSeasons);
-  }, [numberOfSeasons]);
+    if (!seasons) return;
+    setRequestedSeason(seasons[seasons.length - 1].season_number);
+  }, [seasons]);
 
   function handleSelect(e: ChangeEvent<HTMLSelectElement>) {
     setRequestedSeason(parseInt(e.target.value));
@@ -36,11 +35,12 @@ export default function Episodes({ media }: EpisodesProps) {
         onChange={handleSelect}
         className="select select-primary w-full max-w-xs mb-2"
         disabled={!media}
+        value={requestedSeason}
       >
         {seasons?.map((season) => (
           <option
             key={season.id}
-            selected={season.season_number === numberOfSeasons}
+            selected={season.season_number === requestedSeason}
             value={season.season_number}
           >
             {season.name}
