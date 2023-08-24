@@ -31,14 +31,20 @@ export default function MediaCarousel({ endpoint }: MediaCarouselProps) {
     return <p className="text-error font-semibold">{`ERROR ${endpoint}`}</p>;
 
   return !data ? (
-    <Carousel heading="" tight>
-      {MediaCardSkeletons}
-    </Carousel>
+    <>
+      <Skeleton className="h-8 w-1/6" />
+      <Carousel tight>{MediaCardSkeletons}</Carousel>
+    </>
   ) : (
-    <Carousel heading={getCarouselHeading(endpoint)} tight>
-      {data.map((media) => (
-        <MediaCard key={media.id} media={media} />
-      ))}
-    </Carousel>
+    <>
+      <h3 className="text-xl sm:text-2xl mb-2 font-bold">
+        {getCarouselHeading(endpoint)}
+      </h3>
+      <Carousel tight>
+        {data.map((media) => (
+          <MediaCard key={media.id} media={media} />
+        ))}
+      </Carousel>
+    </>
   );
 }

@@ -21,7 +21,7 @@ export default function EpisodeCarousel({ id, season }: EpisodeCarouselProps) {
   );
 
   return (
-    <Carousel heading="" tight>
+    <Carousel tight>
       {data?.episodes &&
         data.episodes.map((episode) => (
           <div

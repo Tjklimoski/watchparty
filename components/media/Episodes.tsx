@@ -1,6 +1,7 @@
 import { TVShowDetails } from "@/types";
 import { ChangeEvent, useEffect, useState } from "react";
 import EpisodeCarousel from "./EpisodeCarousel";
+import Skeleton from "../util/Skeleton";
 
 interface EpisodesProps {
   media: TVShowDetails | undefined;
@@ -25,7 +26,11 @@ export default function Episodes({ media }: EpisodesProps) {
 
   return (
     <div>
-      <h3 className="text-xl sm:text-2xl mb-2 font-bold">Episodes</h3>
+      {!media ? (
+        <Skeleton className="h-8 w-1/6" />
+      ) : (
+        <h3 className="text-xl sm:text-2xl mb-2 font-bold">Episodes</h3>
+      )}
 
       <select
         onChange={handleSelect}
