@@ -32,7 +32,7 @@ export default function SearchBar() {
     >
       <Input
         label="Search Movies & TV"
-        className="max-w-lg focus:shadow-xl focus:shadow-primary/30  hover:shadow-xl hover:shadow-primary/30 transition duration-150 outline outline-1 outline-primary rounded-full"
+        className="max-w-lg focus:shadow-xl focus:shadow-primary/30  hover:shadow-xl hover:shadow-primary/30 [&:not(:placeholder-shown)]:shadow-xl [&:not(:placeholder-shown)]:shadow-primary/30 transition duration-150 outline outline-1 outline-primary rounded-full"
         name="search"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
