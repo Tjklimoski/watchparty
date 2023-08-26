@@ -3,7 +3,7 @@
 import { Movie, TVShow } from "@/types";
 import axios from "axios";
 
-interface APIDataResults {
+interface APIDataResult {
   media_type?: 'tv' | 'movie' | 'person'
 }
 
@@ -23,17 +23,22 @@ export default async function fetcher(url: string) {
   // Set media type on data being returned.
   const media_type: string = url.split('/')[1];
   return TMDBApi.get(url).then((res) => {
-    if (Array.isArray(res.data?.results)) {
-      return res.data.results.map((result: APIDataResults) => {
+    if (url.includes('search')) {
+      res.data.results = res.data.results.map((result: APIDataResult) => {
         const APIMediaType = result?.media_type;
-        if (!APIMediaType) return { ...result, media_type }
-        if (APIMediaType === 'person') return undefined;
+        if (!APIMediaType || APIMediaType === 'person') return undefined;
         return result;
-      }).filter((result: APIDataResults) => result);
-      // The .filter() above removes any undefined results in the array (a person that was returned in a search -- we only return movie or tv show objects)
+      }).filter((result: APIDataResult) => result);
+      // return res.data and NOT res.data.results in order to retain the page information sent back by TMDB API.
+      return res.data;
+    }
+    if (Array.isArray(res.data?.results)) {
+      return res.data.results.map((result: APIDataResult) => {
+        if (!result?.media_type) return { ...result, media_type }
+        return result;
+      });
     } else {
       return { ...res.data, media_type }
     }
-
   });
 }
