@@ -8,10 +8,6 @@ import { Movie, TVShow } from "@/types";
 import { useState } from "react";
 import SearchResult from "@/components/media/SearchResult";
 
-interface SearchPageProps {
-  searchParams: { q: string };
-}
-
 interface SearchData {
   page: number;
   results: Movie[] | TVShow[];
@@ -19,7 +15,11 @@ interface SearchData {
   total_results: number;
 }
 
-export default function SearchPage({ searchParams }: SearchPageProps) {
+export default function SearchPage({
+  searchParams,
+}: {
+  searchParams: { q: string };
+}) {
   const [page, setPage] = useState(1);
   const { q } = searchParams;
   const { data: search, error } = useSWR<SearchData>(
