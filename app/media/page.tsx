@@ -1,5 +1,6 @@
 import Container from "@/components/util/Container";
 import MediaCarousel from "@/components/media/MediaCarousel";
+import SearchBar from "@/components/util/SearchBar";
 
 export default function MediaPage() {
   const APIEndpoints = [
@@ -14,9 +15,7 @@ export default function MediaPage() {
   return (
     <main>
       <Container>
-        <div className="h-10 w-96 m-4 text-center bg-zinc-700 rounded-md">
-          Search Bar
-        </div>
+        <SearchBar />
 
         {APIEndpoints.map((endpoint) => (
           <MediaCarousel key={endpoint} endpoint={endpoint} />
