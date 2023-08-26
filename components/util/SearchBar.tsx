@@ -1,20 +1,28 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Input from "../form/Input";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SearchBar() {
-  // s is the value of the search the user is typing, passed in searchParam.
-  const [s, setS] = useState("");
+  const searchParams = useSearchParams();
+  const [search, setSearch] = useState("");
   const router = useRouter();
+
+  useEffect(() => {
+    if (!searchParams || window.location.pathname !== "/media/search") return;
+    setSearch(() => {
+      const query = searchParams.get("q");
+      if (query) return query;
+      return "";
+    });
+  }, [searchParams]);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const path = new URL("/media/search?", window.location.origin);
-    const searchParams = new URLSearchParams({ s });
-    const url = `${path}${searchParams}`;
-    router.push(url);
+    const url = new URL("/media/search?", window.location.origin);
+    url.searchParams.set("q", search);
+    router.push(url.toString());
   }
 
   return (
@@ -26,8 +34,8 @@ export default function SearchBar() {
         label="Search Movies & TV"
         className="max-w-lg focus:shadow-xl focus:shadow-primary/30  hover:shadow-xl hover:shadow-primary/30 transition duration-150 outline outline-1 outline-primary rounded-full"
         name="search"
-        value={s}
-        onChange={(e) => setS(e.target.value)}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
       />
       <button
         type="submit"
