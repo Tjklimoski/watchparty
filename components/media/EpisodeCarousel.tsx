@@ -53,7 +53,6 @@ export default function EpisodeCarousel({ id, season }: EpisodeCarouselProps) {
               <div className="flex gap-2 z-10 ml-1">
                 {/* HOW DOES THE WATCH PARTY AND MYLIST BUTTON WORK? Which id, episode or series, or BOTH? */}
                 <WatchPartyBtn mediaId={episode.id.toString()} sm />
-                <MyListBtn mediaId={episode.id.toString()} media_type="tv" sm />
               </div>
             </div>
           </div>
