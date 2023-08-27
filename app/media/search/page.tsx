@@ -7,6 +7,7 @@ import fetcher from "@/lib/TMDBFetcher";
 import { Movie, TVShow } from "@/types";
 import { useState } from "react";
 import SearchResult from "@/components/media/SearchResult";
+import Skeleton from "@/components/util/Skeleton";
 
 interface SearchData {
   page: number;
@@ -32,35 +33,59 @@ export default function SearchPage({
     <main className="min-h-screen">
       <Container>
         <SearchBar />
-        <div className="text-lg text-end mb-4">
-          page <span className="font-semibold">{search?.page}</span> of{" "}
-          <span className="font-semibold">{search?.total_pages}</span>
+        <div className="text-lg grid place-items-end mb-4">
+          {!search ? (
+            <Skeleton className="w-full h-5 max-w-[12ch]" />
+          ) : (
+            <span>
+              page <span className="font-semibold">{search.page}</span> of{" "}
+              <span className="font-semibold">{search.total_pages}</span>
+            </span>
+          )}
         </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(290px,1fr))] gap-2">
-          {search?.results?.map((media) => (
-            <SearchResult key={media.id} media={media} />
-          ))}
+          {!search
+            ? Array(12)
+                .fill(null)
+                .map((item, i) => (
+                  <Skeleton
+                    key={i}
+                    className="h-full rounded-sm aspect-video"
+                  />
+                ))
+            : search.results.map((media) => (
+                <SearchResult key={media.id} media={media} />
+              ))}
         </div>
         <ul className="flex flex-wrap justify-center mt-8 gap-4">
-          {Array(search?.total_pages)
-            .fill(null)
-            .map((item, i) => {
-              const pageNumber = i + 1;
-              return (
-                <li key={pageNumber}>
-                  <button
-                    onClick={() => setPage(pageNumber)}
-                    className={`cursor-pointer text-xl hover:text-primary focus:text-primary outline-none ${
-                      pageNumber === page
-                        ? "text-accent underline-offset-4 underline"
-                        : ""
-                    }`}
-                  >
-                    {pageNumber}
-                  </button>
-                </li>
-              );
-            })}
+          {!search
+            ? Array(5)
+                .fill(null)
+                .map((item, i) => (
+                  <li key={`loading${i}`}>
+                    <Skeleton className="w-5 h-6 rounded-sm" />
+                  </li>
+                ))
+            : Array(search.total_pages)
+                .fill(null)
+                .map((item, i) => {
+                  const pageNumber = i + 1;
+                  return (
+                    <li key={pageNumber}>
+                      <button
+                        onClick={() => setPage(pageNumber)}
+                        className={`cursor-pointer text-xl hover:text-primary focus:text-primary outline-none ${
+                          pageNumber === page
+                            ? "text-accent underline-offset-4 underline"
+                            : ""
+                        }`}
+                      >
+                        {pageNumber}
+                      </button>
+                    </li>
+                  );
+                })}
         </ul>
       </Container>
     </main>
