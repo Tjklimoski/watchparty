@@ -16,6 +16,11 @@ export function formatDate(releaseDate: string | null | undefined): string {
   );
 }
 
+export function formatYear(date: string | null | undefined): string {
+  if (date == null) return "NA";
+  return new Date(date).getFullYear().toString();
+}
+
 export function formatLanguage(abrv: string | null | undefined): string {
   if (abrv == null) return "NA";
   // Not an exhustive list, but if not specified will return abrviation
