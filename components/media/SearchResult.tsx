@@ -45,7 +45,7 @@ export default function SearchResult({ media }: SearchResultProps) {
   return (
     <div
       ref={container}
-      className="relative rounded-md p-2 aspect-video group overflow-hidden @container"
+      className="relative rounded-sm p-2 aspect-video group overflow-hidden @container"
     >
       <Image
         className="object-cover brightness-90 group-hover:brightness-100 group-focus-within:brightness-100 transition duration-150"
@@ -73,7 +73,7 @@ export default function SearchResult({ media }: SearchResultProps) {
       </div>
 
       {/* Bottom Bar Info */}
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent via-black via-35% h-1/2 @xs:h-1/3 p-2 flex justify-between items-end">
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent via-black via-35% h-1/2 @xs:h-1/3 p-2 @xs:p-4 flex justify-between items-end">
         <h3 className="font-semibold text-lg @xs:text-xl break-balance webkit-truncate">
           {title}
         </h3>

@@ -32,7 +32,7 @@ export default function SearchPage({
     <main className="min-h-screen">
       <Container>
         <SearchBar />
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(290px,1fr))] gap-2">
           {search?.results?.map((media) => (
             <SearchResult key={media.id} media={media} />
           ))}
