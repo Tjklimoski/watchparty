@@ -32,12 +32,36 @@ export default function SearchPage({
     <main className="min-h-screen">
       <Container>
         <SearchBar />
+        <div className="text-lg text-end mb-4">
+          page <span className="font-semibold">{search?.page}</span> of{" "}
+          <span className="font-semibold">{search?.total_pages}</span>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(290px,1fr))] gap-2">
           {search?.results?.map((media) => (
             <SearchResult key={media.id} media={media} />
           ))}
         </div>
-        <div>{/* Page count and selctor */}</div>
+        <ul className="flex flex-wrap justify-center mt-8 gap-4">
+          {Array(search?.total_pages)
+            .fill(null)
+            .map((item, i) => {
+              const pageNumber = i + 1;
+              return (
+                <li key={pageNumber}>
+                  <button
+                    onClick={() => setPage(pageNumber)}
+                    className={`cursor-pointer text-xl hover:text-primary focus:text-primary outline-none ${
+                      pageNumber === page
+                        ? "text-accent underline-offset-4 underline"
+                        : ""
+                    }`}
+                  >
+                    {pageNumber}
+                  </button>
+                </li>
+              );
+            })}
+        </ul>
       </Container>
     </main>
   );
