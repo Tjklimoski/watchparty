@@ -58,35 +58,37 @@ export default function SearchPage({
                 <SearchResult key={media.id} media={media} />
               ))}
         </div>
-        <ul className="flex flex-wrap justify-center mt-8 gap-4">
-          {!search
-            ? Array(5)
-                .fill(null)
-                .map((item, i) => (
-                  <li key={`loading${i}`}>
-                    <Skeleton className="w-5 h-6 rounded-sm" />
-                  </li>
-                ))
-            : Array(search.total_pages)
-                .fill(null)
-                .map((item, i) => {
-                  const pageNumber = i + 1;
-                  return (
-                    <li key={pageNumber}>
-                      <button
-                        onClick={() => setPage(pageNumber)}
-                        className={`cursor-pointer text-xl hover:text-primary focus:text-primary outline-none ${
-                          pageNumber === page
-                            ? "text-accent underline-offset-4 underline"
-                            : ""
-                        }`}
-                      >
-                        {pageNumber}
-                      </button>
+        <div className="flex justify-center mt-8">
+          <ul className="flex flex-wrap justify-center gap-4 max-w-lg">
+            {!search
+              ? Array(5)
+                  .fill(null)
+                  .map((item, i) => (
+                    <li key={`loading${i}`}>
+                      <Skeleton className="w-5 h-6 rounded-sm" />
                     </li>
-                  );
-                })}
-        </ul>
+                  ))
+              : Array(search.total_pages)
+                  .fill(null)
+                  .map((item, i) => {
+                    const pageNumber = i + 1;
+                    return (
+                      <li key={pageNumber}>
+                        <button
+                          onClick={() => setPage(pageNumber)}
+                          className={`cursor-pointer text-xl hover:text-primary focus:text-primary outline-none ${
+                            pageNumber === page
+                              ? "text-accent underline-offset-4 underline"
+                              : ""
+                          }`}
+                        >
+                          {pageNumber}
+                        </button>
+                      </li>
+                    );
+                  })}
+          </ul>
+        </div>
       </Container>
     </main>
   );
