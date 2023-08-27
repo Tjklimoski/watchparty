@@ -17,7 +17,7 @@ export function formatDate(releaseDate: string | null | undefined): string {
 }
 
 export function formatYear(date: string | null | undefined): string {
-  if (date == null) return "NA";
+  if (!date) return "NA";
   return new Date(date).getFullYear().toString();
 }
 
