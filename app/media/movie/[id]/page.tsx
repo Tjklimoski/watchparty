@@ -12,9 +12,10 @@ import MyListBtn from "@/components/media/MyListBtn";
 import BackBtn from "@/components/util/BackBtn";
 import MediaOverview from "@/components/media/MediaOverview";
 import CastCarousel from "@/components/media/CastCarousel";
+import { useEffect } from "react";
 
 export default function MovieIdPage({ params }: { params: { id: string } }) {
-  window.scrollTo({ top: 0 });
+  useEffect(() => window.scrollTo({ top: 0 }), []);
 
   // making request for movie it's /movie/mediaid
   // making request for tv it's /tv/mediaid
