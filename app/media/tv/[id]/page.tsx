@@ -15,6 +15,8 @@ import Trailer from "@/components/media/Trailer";
 import Episodes from "@/components/media/Episodes";
 
 export default function TvIdPage({ params }: { params: { id: string } }) {
+  window.scrollTo({ top: 0 });
+
   // making request for movie it's /movie/mediaid
   // making request for tv it's /tv/mediaid
   const { id } = params;

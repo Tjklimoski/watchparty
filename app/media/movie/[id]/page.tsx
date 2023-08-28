@@ -14,6 +14,8 @@ import MediaOverview from "@/components/media/MediaOverview";
 import CastCarousel from "@/components/media/CastCarousel";
 
 export default function MovieIdPage({ params }: { params: { id: string } }) {
+  window.scrollTo({ top: 0 });
+
   // making request for movie it's /movie/mediaid
   // making request for tv it's /tv/mediaid
   const { id } = params;
