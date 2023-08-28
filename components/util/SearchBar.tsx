@@ -12,7 +12,7 @@ export default function SearchBar() {
   useEffect(() => {
     if (!searchParams || window.location.pathname !== "/media/search") return;
     setSearch(() => {
-      const query = searchParams.get("q");
+      const query = searchParams.get("query");
       if (query) return query;
       return "";
     });
@@ -21,7 +21,7 @@ export default function SearchBar() {
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const url = new URL("/media/search?", window.location.origin);
-    url.searchParams.set("q", search);
+    url.searchParams.set("query", search);
     router.push(url.toString());
   }
 

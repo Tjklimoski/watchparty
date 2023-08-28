@@ -5,9 +5,9 @@ import SearchBar from "@/components/util/SearchBar";
 import useSWR from "swr";
 import fetcher from "@/lib/TMDBFetcher";
 import { Movie, TVShow } from "@/types";
-import { useState } from "react";
 import SearchResult from "@/components/media/SearchResult";
 import Skeleton from "@/components/util/Skeleton";
+import { useRouter } from "next/navigation";
 
 interface SearchData {
   page: number;
@@ -19,16 +19,15 @@ interface SearchData {
 export default function SearchPage({
   searchParams,
 }: {
-  searchParams: { q: string };
+  searchParams: { query: string; page?: string };
 }) {
-  const [page, setPage] = useState(1);
-  const { q } = searchParams;
-  const { data: search, error } = useSWR<SearchData>(
-    q && `/search/multi?query=${q}&page=${page}`,
+  const router = useRouter();
+  const { query, page = "1" } = searchParams;
+  const { data: search } = useSWR<SearchData>(
+    `/search/multi?query=${query}&page=${page}`,
     fetcher
   );
 
-  console.log(search);
   return (
     <main className="min-h-screen">
       <Container>
@@ -75,9 +74,15 @@ export default function SearchPage({
                     return (
                       <li key={pageNumber}>
                         <button
-                          onClick={() => setPage(pageNumber)}
+                          onClick={() => {
+                            const newSearchParams = new URLSearchParams({
+                              query,
+                              page: pageNumber.toString(),
+                            }).toString();
+                            router.push(`/media/search?${newSearchParams}`);
+                          }}
                           className={`cursor-pointer text-xl hover:text-primary focus:text-primary outline-none ${
-                            pageNumber === page
+                            pageNumber.toString() === page
                               ? "text-accent underline-offset-4 underline"
                               : ""
                           }`}

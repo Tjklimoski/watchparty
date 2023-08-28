@@ -59,7 +59,7 @@ export default function SearchResult({ media }: SearchResultProps) {
       />
 
       {/* Top Bar Info */}
-      <div className="absolute top-0 left-0 p-1 flex gap-2 items-center bg-base-100 bg-opacity-80 backdrop-blur-md rounded-br-md">
+      <div className="absolute top-0 left-0 p-1 flex gap-2 items-center bg-base-100 bg-opacity-75 backdrop-blur-md rounded-br-md px-2">
         <span
           className={`badge badge-sm @xs:badge-md ${
             media.media_type === "movie" ? "badge-primary" : "badge-secondary"
