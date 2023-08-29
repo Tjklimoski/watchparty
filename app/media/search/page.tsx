@@ -8,6 +8,7 @@ import { Movie, TVShow } from "@/types";
 import SearchResult from "@/components/media/SearchResult";
 import Skeleton from "@/components/util/Skeleton";
 import { useRouter } from "next/navigation";
+import BackBtn from "@/components/util/BackBtn";
 
 interface SearchData {
   page: number;
@@ -32,14 +33,17 @@ export default function SearchPage({
     <main className="min-h-screen">
       <Container>
         <SearchBar />
-        <div className="text-lg grid place-items-end mb-4">
+        <div className="text-lg flex justify-between items-center mb-4">
           {!search ? (
             <Skeleton className="w-full h-5 max-w-[12ch]" />
           ) : (
-            <span>
-              page <span className="font-semibold">{search.page}</span> of{" "}
-              <span className="font-semibold">{search.total_pages}</span>
-            </span>
+            <>
+              <BackBtn />
+              <span className="ml-2">
+                page <span className="font-semibold">{search.page}</span> of{" "}
+                <span className="font-semibold">{search.total_pages}</span>
+              </span>
+            </>
           )}
         </div>
 
@@ -57,6 +61,8 @@ export default function SearchPage({
                 <SearchResult key={media.id} media={media} />
               ))}
         </div>
+
+        {/* Page numbers to navigate with */}
         <div className="flex justify-center mt-8">
           <ul className="flex flex-wrap justify-center gap-4 max-w-lg">
             {!search
