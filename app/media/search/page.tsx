@@ -33,9 +33,14 @@ export default function SearchPage({
     <main className="min-h-screen">
       <Container>
         <SearchBar />
+
+        {/* Top info bar on Search Results Page */}
         <div className="text-lg flex justify-between items-center mb-4">
           {!search ? (
-            <Skeleton className="w-full h-5 max-w-[12ch]" />
+            <>
+              <Skeleton className="w-12 h-full aspect-square rounded-full" />
+              <Skeleton className="w-full h-5 max-w-[12ch]" />
+            </>
           ) : (
             <>
               <BackBtn />
@@ -47,6 +52,7 @@ export default function SearchPage({
           )}
         </div>
 
+        {/* Search Results */}
         <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(290px,1fr))] gap-2">
           {!search
             ? Array(12)
