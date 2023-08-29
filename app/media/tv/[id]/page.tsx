@@ -45,8 +45,16 @@ export default function TvIdPage({ params }: { params: { id: string } }) {
               <WatchPartyBtn
                 mediaId={id}
                 media_type="tv"
-                season={1}
-                episode={1}
+                season={
+                  TVShow?.next_episode_to_air?.season_number ||
+                  TVShow?.last_episode_to_air?.season_number ||
+                  1
+                }
+                episode={
+                  TVShow?.next_episode_to_air?.episode_number ||
+                  TVShow?.last_episode_to_air?.episode_number ||
+                  1
+                }
                 tooltip
               />
               <MyListBtn

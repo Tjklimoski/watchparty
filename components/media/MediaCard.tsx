@@ -42,8 +42,6 @@ export default function MediaCard({ media }: MediaCardProps) {
           <WatchPartyBtn
             mediaId={media.id.toString()}
             media_type={media.media_type}
-            season={media.media_type === "tv" ? 1 : undefined}
-            episode={media.media_type === "tv" ? 1 : undefined}
             sm
           />
           <MyListBtn

@@ -19,6 +19,7 @@ const TMDBApi = axios.create({
 });
 
 export default async function fetcher(url: string) {
+  if (!url) return;
   // get media type (movie / TV) based on url "/movie/popular", "/tv/on_the_air"
   // Set media type on data being returned.
   const media_type: string = url.split('/')[1];
