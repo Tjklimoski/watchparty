@@ -41,7 +41,7 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
           <div className="flex justify-between mb-4 sm:mb-8">
             <BackBtn />
             <div className="flex gap-4 ms-4">
-              <WatchPartyBtn mediaId={id} tooltip />
+              <WatchPartyBtn mediaId={id} media_type="movie" tooltip />
               <MyListBtn
                 mediaId={id}
                 media_type={movie?.media_type}

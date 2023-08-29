@@ -39,7 +39,13 @@ export default function EpisodeCard({ episode }: EpisodeCardProps) {
 
         <div className="flex gap-2 z-10 ml-1">
           {/* How does the episode info get sent when the episode watchparty button is clicked? Episode does contain a show_id... but I want to auto fill the form with the season and episode clicked... can we modify or validate the data sent, or type sent? if movie, just id. if TV we can get a season + ep */}
-          <WatchPartyBtn mediaId={episode.show_id.toString()} sm />
+          <WatchPartyBtn
+            mediaId={episode.show_id.toString()}
+            media_type="tv"
+            season={episode.season_number}
+            episode={episode.episode_number}
+            sm
+          />
         </div>
       </div>
     </div>

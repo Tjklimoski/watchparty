@@ -39,10 +39,16 @@ export default function MediaCard({ media }: MediaCardProps) {
         </h3>
 
         <div className="flex gap-2 z-10 ml-1">
-          <WatchPartyBtn mediaId={media.id.toString()} sm />
+          <WatchPartyBtn
+            mediaId={media.id.toString()}
+            media_type={media.media_type}
+            season={media.media_type === "tv" ? 1 : undefined}
+            episode={media.media_type === "tv" ? 1 : undefined}
+            sm
+          />
           <MyListBtn
             mediaId={media.id.toString()}
-            media_type={media?.media_type}
+            media_type={media.media_type}
             sm
           />
         </div>

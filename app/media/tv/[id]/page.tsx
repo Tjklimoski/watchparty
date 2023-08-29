@@ -42,7 +42,13 @@ export default function TvIdPage({ params }: { params: { id: string } }) {
           <div className="flex justify-between mb-4 sm:mb-8">
             <BackBtn />
             <div className="flex gap-4 ms-4">
-              <WatchPartyBtn mediaId={id} tooltip />
+              <WatchPartyBtn
+                mediaId={id}
+                media_type="tv"
+                season={1}
+                episode={1}
+                tooltip
+              />
               <MyListBtn
                 mediaId={id}
                 media_type={TVShow?.media_type}
