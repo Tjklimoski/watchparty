@@ -46,7 +46,10 @@ model WatchParty {
   interestedUsers    User[]         @relation("interestedInWatchParties", fields: [interestedUsersIds], references: [id])
   // date will also contain the time of the watchparty
   date               String
-  movieId            String
+  mediaId            String
+  mediaType          String
+  season             Int?
+  episode            Int?
   // location is a city / town name - used to check against user location and their radius
   location           String
   // Address is the specific address of the event - "street, city, state, zip" (movie theater, etc)
