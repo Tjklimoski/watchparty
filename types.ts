@@ -151,6 +151,18 @@ export interface MyListItem {
   media_type: string;
 }
 
+export interface CreateWatchPartyData {
+  mediaId: string;
+  mediaType: string;
+  season?: number;
+  episode?: number;
+  date?: string;
+  location?: string;
+  address?: string;
+  title?: string;
+  description?: string;
+}
+
 export interface WatchParty {
   id: string;
   userId: string;
@@ -160,7 +172,10 @@ export interface WatchParty {
   interestedUsersIds: string[];
   interestedUsers?: User[];
   date: string;
-  movieId: string;
+  mediaId: string;
+  mediaType: string;
+  season?: number;
+  episode?: number;
   location: string;
   address: string;
   title: string;
