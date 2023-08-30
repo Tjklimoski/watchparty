@@ -78,7 +78,11 @@ export default function SearchResult({ media }: SearchResultProps) {
           {title}
         </h3>
         <div className="flex gap-2 z-10 ml-1">
-          <WatchPartyBtn mediaId={media.id.toString()} sm={isSmall} />
+          <WatchPartyBtn
+            mediaId={media.id.toString()}
+            media_type={media.media_type}
+            sm={isSmall}
+          />
           <MyListBtn
             mediaId={media.id.toString()}
             media_type={media.media_type}

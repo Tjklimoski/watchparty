@@ -28,7 +28,7 @@ export default function WatchPartyBtn({
   useEffect(() => {
     if (!media_type) return;
     setParams(() => {
-      if (media_type === "movie") {
+      if (media_type === "movie" || !season || !episode) {
         return { id, media_type };
       } else {
         return { id, media_type, season, episode };
