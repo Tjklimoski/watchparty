@@ -58,7 +58,9 @@ export default function CreateWatchPartyPage() {
               : ""
           }`}</h3>
           <div className="flex flex-col md:flex-row w-full gap-4">
-            <MediaDetails media={media} />
+            <div className="hidden min-[460px]:block">
+              <MediaDetails media={media} />
+            </div>
 
             <form
               onSubmit={handleSubmit}
