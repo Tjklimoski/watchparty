@@ -7,16 +7,33 @@ import {
 import { MovieDetails, TVShowDetails } from "@/types";
 import React from "react";
 import Skeleton from "../util/Skeleton";
+import { Image } from "next/dist/client/image-component";
 
 interface MediaDetailsProps {
   media: MovieDetails | TVShowDetails | undefined;
 }
 
 export default function MediaDetails({ media }: MediaDetailsProps) {
+  const baseImgPath = "https://image.tmdb.org/t/p/";
+  const imgSize = "w500";
+
   return (
-    <aside className="bg-primary/20 text-sm sm:text-md w-full sm:min-w-[220px] md:w-1/3 h-min p-4 rounded-md">
+    <aside className="bg-primary/20 w-full sm:min-w-[220px] md:max-w-[290px] h-min rounded-md overflow-hidden grid sm:grid-cols-2 md:grid-cols-none">
+      <div className="relative w-full h-full hidden sm:block aspect-poster">
+        <Image
+          className="object-cover"
+          src={
+            media?.poster_path
+              ? `${baseImgPath}${imgSize}${media.poster_path}`
+              : "/img/placeholder-poster-md.jpg"
+          }
+          alt="poster"
+          fill
+        />
+      </div>
+
       {/* Select every child component (except last child) and add a margin-bottom */}
-      <ul className="[&>*:not(:last-child)]:mb-4">
+      <ul className="[&>*:not(:last-child)]:mb-4 p-4 text-sm sm:text-md">
         {!media ? (
           Array(6)
             .fill(null)
