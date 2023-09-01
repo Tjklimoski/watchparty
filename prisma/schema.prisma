@@ -44,18 +44,18 @@ model WatchParty {
   partygoers         User[]         @relation("goingToWatchParties", fields: [partygoerIds], references: [id])
   interestedUsersIds String[]       @db.ObjectId
   interestedUsers    User[]         @relation("interestedInWatchParties", fields: [interestedUsersIds], references: [id])
-  // date will also contain the time of the watchparty
-  date               String
   mediaId            String
   mediaType          String
-  season             Int?
-  episode            Int?
-  // location is a city / town name - used to check against user location and their radius
-  location           String
-  // Address is the specific address of the event - "street, city, state, zip" (movie theater, etc)
-  address            String
   title              String
   description        String
+  // date will also contain the time of the watchparty
+  date               DateTime
+  season             Int?
+  episode            Int?
+  address            String
+  city               String
+  state              String
+  zip                Int
   notifications      Notification[]
   createdAt          DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
