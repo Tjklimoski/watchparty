@@ -38,11 +38,11 @@ export default function MobileMenu({ isAuth }: MobileMenuProps) {
       {/* Container that slides out */}
       <div
         id="mobile-menu"
-        className={`absolute top-16 sm:top-20 right-0 pt-1 z-20 transition duration-300  ${
+        className={`absolute top-16 sm:top-20 right-0 pt-1 z-20 transition duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="w-full h-full bg-base-100 bg-opacity-75 backdrop-blur-md rounded-s-xl flex flex-col items-center p-4">
+        <div className="w-full h-full bg-base-100 bg-opacity-95 backdrop rounded-l-xl flex flex-col items-center p-4">
           {isAuth ? (
             <>
               <div className="p-2 bg-neutral rounded-md flex flex-col items-center">

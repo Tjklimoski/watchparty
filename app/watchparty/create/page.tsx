@@ -10,6 +10,7 @@ import Input from "@/components/form/Input";
 import Container from "@/components/util/Container";
 import EpisodeCarousel from "@/components/media/EpisodeCarousel";
 import { stateAbrv } from "@/lib/stateAbrv";
+import MediaDetails from "@/components/media/MediaDetails";
 
 export default function CreateWatchPartyPage() {
   const baseImgPath = "https://image.tmdb.org/t/p/";
@@ -40,6 +41,13 @@ export default function CreateWatchPartyPage() {
 
   const title = media?.media_type === "movie" ? media?.title : media?.name;
 
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    console.log("SUBMIT");
+    console.log("FORMDATA: ", formData);
+    console.log("event object: ", e);
+  }
+
   return (
     <main className="min-h-screen">
       <Container>
@@ -49,54 +57,63 @@ export default function CreateWatchPartyPage() {
               ? `S${formData.season}E${formData.episode}`
               : ""
           }`}</h3>
-          <div className="flex w-full gap-4">
-            <div className="relative aspect-poster h-full w-full max-w-[290px] min-w-[125px] overflow-hidden rounded-sm drop-shadow-lg">
-              <Image
-                alt="Poster"
-                src={
-                  media
-                    ? `${baseImgPath}${imgSize}${media.poster_path}`
-                    : "/img/placeholder-poster-md.jpg"
-                }
-                fill
-              />
-            </div>
+          <div className="flex flex-col md:flex-row w-full gap-4">
+            <MediaDetails media={media} />
 
-            <form className="w-full [&>*]:mb-4">
+            <form
+              onSubmit={handleSubmit}
+              className="w-full flex flex-col gap-4 text-base-content"
+            >
               <Input label="Event Title" />
               <textarea
                 rows={8}
-                className="w-full bg-neutral rounded-md px-4 sm:px-6 py-2 text-md sm:text-xl text-base-content"
+                className="w-full bg-neutral rounded-md px-4 sm:px-6 py-2 text-md sm:text-xl"
                 placeholder="Description"
               />
 
               {formData.mediaType === "tv" ? (
                 <>
-                  <select className="select bg-neutral">
+                  <select
+                    className="select bg-neutral max-w-min"
+                    aria-label="TV Show Season Selector"
+                  >
                     <option>Season</option>
                   </select>
                   <EpisodeCarousel id={parseInt(formData.mediaId)} season={1} />
                 </>
               ) : null}
 
-              <span className="flex">
+              <div className="flex">
                 <Input label="Date" type="date" className="max-w-min" />
                 <Input label="Time" type="time" className="ml-2 max-w-min" />
-              </span>
-              <Input label="Location" />
-              <Input label="Address" />
-              <span className="flex">
+              </div>
+              <Input
+                label="Address"
+                onChange={(e) =>
+                  setFormData((currentData) => ({
+                    ...currentData,
+                    address: e.target.value,
+                  }))
+                }
+                value={formData.address}
+              />
+              <div className="flex">
                 <Input label="City" />
-                <select className="select bg-neutral ml-2 max-w-[150px]">
-                  <span className="sr-only">State</span>
+                <select
+                  className="select bg-neutral ml-2 max-w-[150px]"
+                  aria-label="State"
+                >
                   {stateAbrv.map((state) => (
                     <option key={state} value={state}>
                       {state}
                     </option>
                   ))}
                 </select>
-              </span>
+              </div>
               <Input label="Zip" className="max-w-[150px]" />
+              <button type="submit" className="btn btn-accent mt-4">
+                Create!
+              </button>
             </form>
           </div>
         </section>
