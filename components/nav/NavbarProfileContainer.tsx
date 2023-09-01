@@ -30,7 +30,7 @@ export default function NavbarProfileContainer() {
 
       <div
         id="profile-menu"
-        className={`bg-neutral rounded-md group-hover:cursor-default absolute right-0 top-full mt-5 z-30 transistion duration-100 scale-0 origin-top-right ${
+        className={`bg-neutral rounded-md group-hover:cursor-default absolute right-0 top-full mt-5 z-30 transistion duration-100 scale-0 origin-top-right focus-within:scale-100 ${
           isOpen ? "scale-100" : ""
         }`}
       >
@@ -39,3 +39,5 @@ export default function NavbarProfileContainer() {
     </div>
   );
 }
+
+// onBlur={closeMenu}

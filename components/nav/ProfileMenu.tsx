@@ -11,35 +11,35 @@ export default function ProfileMenu({ size = "md" }: ProfileMenuProps) {
   return (
     <ul className={`menu menu-${size} w-full`}>
       <li>
-        <a tabIndex={0}>
+        <button>
           <BsBellFill size={18} />
           Notifications
           <span className="badge badge-sm badge-accent">5+</span>
-        </a>
+        </button>
       </li>
       <li>
-        <a tabIndex={0}>
+        <button>
           <BiSolidParty size={18} />
           My Parties
-        </a>
+        </button>
       </li>
       <li>
-        <a tabIndex={0}>
+        <button>
           <RiMovieFill size={18} />
           My List
-        </a>
+        </button>
       </li>
       <li>
-        <a tabIndex={0}>
+        <button>
           <BsFillGearFill size={18} />
           Settings
-        </a>
+        </button>
       </li>
       <li className="text-secondary">
-        <a tabIndex={0} onClick={() => signOut()}>
+        <button onClick={() => signOut()}>
           <BiLogOut size={18} />
           Logout
-        </a>
+        </button>
       </li>
     </ul>
   );
