@@ -9,7 +9,7 @@ import Image from "next/image";
 import Input from "@/components/form/Input";
 import Container from "@/components/util/Container";
 import EpisodeCarousel from "@/components/media/EpisodeCarousel";
-import Episodes from "@/components/media/Episodes";
+import { stateAbrv } from "@/lib/stateAbrv";
 
 export default function CreateWatchPartyPage() {
   const baseImgPath = "https://image.tmdb.org/t/p/";
@@ -61,6 +61,7 @@ export default function CreateWatchPartyPage() {
                 fill
               />
             </div>
+
             <form className="w-full [&>*]:mb-4">
               <Input label="Event Title" />
               <textarea
@@ -84,10 +85,12 @@ export default function CreateWatchPartyPage() {
               <span className="flex">
                 <Input label="City" />
                 <select className="select bg-neutral ml-2 max-w-[150px]">
-                  {/* List all state codes here */}
-                  <option>AL</option>
-                  <option>AS</option>
-                  <option>FL</option>
+                  <span className="sr-only">State</span>
+                  {stateAbrv.map((state) => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))}
                 </select>
               </span>
               <Input label="Zip" className="max-w-[150px]" />
