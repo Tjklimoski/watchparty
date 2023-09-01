@@ -45,7 +45,7 @@ export default function CreateWatchPartyPage() {
       <Container>
         <section className="mt-4 p-6 bg-primary/30 rounded-lg w-full max-w-4xl mx-auto">
           <h3 className="text-2xl sm:text-4xl font-semibold mb-6">{`Create WatchParty for ${title} ${
-            formData.mediaType === "tv" && formData.season !== null
+            formData.mediaType === "tv" && formData.season != null
               ? `S${formData.season}E${formData.episode}`
               : ""
           }`}</h3>
@@ -70,11 +70,14 @@ export default function CreateWatchPartyPage() {
                 placeholder="Description"
               />
 
-              {/* If tv show - display season and episode selector */}
-              <select className="select bg-neutral">
-                <option>Season</option>
-              </select>
-              <EpisodeCarousel id={parseInt(formData.mediaId)} season={1} />
+              {formData.mediaType === "tv" ? (
+                <>
+                  <select className="select bg-neutral">
+                    <option>Season</option>
+                  </select>
+                  <EpisodeCarousel id={parseInt(formData.mediaId)} season={1} />
+                </>
+              ) : null}
 
               <span className="flex">
                 <Input label="Date" type="date" className="max-w-min" />
