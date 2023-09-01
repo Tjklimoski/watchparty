@@ -20,16 +20,22 @@ export default function MediaDetails({ media }: MediaDetailsProps) {
   return (
     <aside className="bg-primary/20 w-full sm:min-w-[220px] md:max-w-[290px] h-min rounded-md overflow-hidden grid sm:grid-cols-2 md:grid-cols-none">
       <div className="relative w-full h-full hidden sm:block aspect-poster">
-        <Image
-          className="object-cover"
-          src={
-            media?.poster_path
-              ? `${baseImgPath}${imgSize}${media.poster_path}`
-              : "/img/placeholder-poster-md.jpg"
-          }
-          alt="poster"
-          fill
-        />
+        {!media ? (
+          <Skeleton className="w-full h-full hidden sm:block aspect-poster" />
+        ) : (
+          <Image
+            className="object-cover"
+            src={
+              media.poster_path
+                ? `${baseImgPath}${imgSize}${media.poster_path}`
+                : "/img/placeholder-poster-md.jpg"
+            }
+            alt={`${
+              media.media_type === "movie" ? media.title : media.name
+            } poster`}
+            fill
+          />
+        )}
       </div>
 
       {/* Select every child component (except last child) and add a margin-bottom */}
