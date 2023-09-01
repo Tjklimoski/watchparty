@@ -66,11 +66,27 @@ export default function CreateWatchPartyPage() {
               onSubmit={handleSubmit}
               className="w-full flex flex-col gap-4 text-base-content"
             >
-              <Input label="Event Title" />
+              <Input
+                label="Event Title"
+                onChange={(e) =>
+                  setFormData((current) => ({
+                    ...current,
+                    title: e.target.value,
+                  }))
+                }
+                value={formData.title}
+              />
               <textarea
                 rows={8}
                 className="w-full bg-neutral rounded-md px-4 sm:px-6 py-2 text-md sm:text-xl"
                 placeholder="Description"
+                onChange={(e) =>
+                  setFormData((current) => ({
+                    ...current,
+                    description: e.target.value,
+                  }))
+                }
+                value={formData.description}
               />
 
               {formData.mediaType === "tv" ? (
@@ -78,6 +94,13 @@ export default function CreateWatchPartyPage() {
                   <select
                     className="select bg-neutral max-w-min"
                     aria-label="TV Show Season Selector"
+                    onChange={(e) =>
+                      setFormData((current) => ({
+                        ...current,
+                        season: parseInt(e.target.value),
+                      }))
+                    }
+                    value={formData.season}
                   >
                     <option>Season</option>
                   </select>
@@ -86,8 +109,30 @@ export default function CreateWatchPartyPage() {
               ) : null}
 
               <div className="flex">
-                <Input label="Date" type="date" className="max-w-min" />
-                <Input label="Time" type="time" className="ml-2 max-w-min" />
+                <Input
+                  label="Date"
+                  type="date"
+                  className="max-w-min"
+                  onChange={(e) =>
+                    setFormData((current) => ({
+                      ...current,
+                      date: e.target.value,
+                    }))
+                  }
+                  value={formData.date}
+                />
+                <Input
+                  label="Time"
+                  type="time"
+                  className="ml-2 max-w-min"
+                  onChange={(e) =>
+                    setFormData((current) => ({
+                      ...current,
+                      time: e.target.value,
+                    }))
+                  }
+                  value={formData.time}
+                />
               </div>
               <Input
                 label="Address"
@@ -100,10 +145,26 @@ export default function CreateWatchPartyPage() {
                 value={formData.address}
               />
               <div className="flex">
-                <Input label="City" />
+                <Input
+                  label="City"
+                  onChange={(e) =>
+                    setFormData((current) => ({
+                      ...current,
+                      city: e.target.value,
+                    }))
+                  }
+                  value={formData.city}
+                />
                 <select
                   className="select bg-neutral ml-2 max-w-[150px]"
                   aria-label="State"
+                  onChange={(e) =>
+                    setFormData((current) => ({
+                      ...current,
+                      state: e.target.value,
+                    }))
+                  }
+                  value={formData.state}
                 >
                   {stateAbrv.map((state) => (
                     <option key={state} value={state}>
@@ -112,7 +173,17 @@ export default function CreateWatchPartyPage() {
                   ))}
                 </select>
               </div>
-              <Input label="Zip" className="max-w-[150px]" />
+              <Input
+                label="Zip"
+                className="max-w-[150px]"
+                onChange={(e) =>
+                  setFormData((current) => ({
+                    ...current,
+                    zip: parseInt(e.target.value),
+                  }))
+                }
+                value={formData.zip}
+              />
               <button type="submit" className="btn btn-accent mt-4">
                 Create!
               </button>

@@ -159,6 +159,7 @@ export interface CreateWatchPartyData {
   season?: number;
   episode?: number;
   date?: string;
+  time?: string;
   address?: string;
   city?: string;
   state?: string;
