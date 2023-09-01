@@ -25,11 +25,11 @@ export default function CreateWatchPartyPage() {
     const season = searchParams.has("season")
       ? // @ts-ignore
         parseInt(searchParams.get("season"))
-      : null;
+      : undefined;
     const episode = searchParams.has("episode")
       ? // @ts-ignore
         parseInt(searchParams.get("episode"))
-      : null;
+      : undefined;
     return { mediaId, mediaType, season, episode };
   });
 

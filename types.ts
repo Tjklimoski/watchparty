@@ -154,13 +154,15 @@ export interface MyListItem {
 export interface CreateWatchPartyData {
   mediaId: string;
   mediaType: string;
+  title?: string;
+  description?: string;
   season?: number;
   episode?: number;
   date?: string;
-  location?: string;
   address?: string;
-  title?: string;
-  description?: string;
+  city?: string;
+  state?: string;
+  zip?: number;
 }
 
 export interface WatchParty {
@@ -171,15 +173,17 @@ export interface WatchParty {
   partygoers?: User[];
   interestedUsersIds: string[];
   interestedUsers?: User[];
-  date: string;
   mediaId: string;
   mediaType: string;
-  season?: number;
-  episode?: number;
-  location: string;
-  address: string;
   title: string;
   description: string;
+  season?: number;
+  episode?: number;
+  date: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: number;
   notifications?: Notification[];
   createdAt: Date;
   updatedAt: Date;
