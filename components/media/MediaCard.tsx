@@ -55,8 +55,7 @@ export default function MediaCard({ media }: MediaCardProps) {
       {/* Link positioned and styled here to prevent navigation to page when interacting with MyList and WatchParty buttons */}
       <Link
         href={`/media/${media.media_type}/${media.id}`}
-        tabIndex={0}
-        className="absolute block inset-0"
+        className="absolute block inset-0 focus:border-2 border-primary"
       />
     </div>
   );
