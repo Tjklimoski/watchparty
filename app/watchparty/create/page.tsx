@@ -69,6 +69,10 @@ export default function CreateWatchPartyPage() {
     setInputs((current) => ({ ...current, [field]: value }));
   }
 
+  function setEpisode(episodeNumber: number) {
+    setInputs((current) => ({ ...current, episode: episodeNumber }));
+  }
+
   function validateFormData(): boolean {
     if (!inputs.title) {
       setError("Please provide a title for your WatchParty");
@@ -162,7 +166,7 @@ export default function CreateWatchPartyPage() {
               <textarea
                 name="description"
                 rows={8}
-                className="w-full bg-neutral rounded-md px-4 sm:px-6 py-2 text-md sm:text-xl"
+                className="w-full bg-neutral rounded-md px-4 sm:px-6 py-2 text-md sm:text-xl focus:outline outline-primary outline-offset-0 outline-2"
                 placeholder="Description"
                 onChange={handleChange}
                 value={inputs.description}
@@ -199,6 +203,9 @@ export default function CreateWatchPartyPage() {
                   <EpisodeCarousel
                     id={parseInt(inputs.mediaId)}
                     season={inputs.season}
+                    selectedEpisodeNumber={inputs.episode}
+                    isSelect={true}
+                    setEpisode={setEpisode}
                   />
                 </>
               ) : null}
