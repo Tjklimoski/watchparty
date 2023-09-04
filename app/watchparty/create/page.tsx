@@ -169,7 +169,9 @@ export default function CreateWatchPartyPage() {
                 required
               />
 
-              {media?.media_type === "tv" ? (
+              {media?.media_type === "tv" &&
+              inputs?.season &&
+              inputs?.episode ? (
                 <>
                   <select
                     className="select bg-neutral max-w-min"
