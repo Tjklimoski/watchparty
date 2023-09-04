@@ -171,7 +171,7 @@ export default function CreateWatchPartyPage() {
               />
 
               {media?.media_type === "tv" &&
-              inputs?.season &&
+              inputs?.season != null &&
               inputs?.episode ? (
                 <>
                   <Select
