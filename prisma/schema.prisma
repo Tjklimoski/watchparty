@@ -46,6 +46,7 @@ model WatchParty {
   interestedUsers    User[]         @relation("interestedInWatchParties", fields: [interestedUsersIds], references: [id])
   mediaId            String
   mediaType          String
+  mediaTitle         String
   title              String
   description        String
   // date will also contain the time of the watchparty
