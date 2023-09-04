@@ -16,7 +16,6 @@ interface MyListBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   tooltip?: boolean;
 }
 
-// Move into a use Server component
 async function addToMyList(
   id: string,
   media_type: "movie" | "tv" | undefined

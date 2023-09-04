@@ -20,9 +20,9 @@ export default function CreateWatchPartyPage() {
   const [inputs, setInputs] = useState<CreateWatchPartyData>(() => {
     const mediaId = searchParams.get("id") ?? "";
     const mediaType = searchParams.get("media_type") ?? "";
-    const season = parseInt(searchParams.get("season") ?? "");
-    const episode = parseInt(searchParams.get("episode") ?? "");
-    if (!season || !episode) return { mediaId, mediaType };
+    const season = parseInt(searchParams.get("season") ?? "1");
+    const episode = parseInt(searchParams.get("episode") ?? "1");
+    if (mediaType === "movie") return { mediaId, mediaType };
     return { mediaId, mediaType, season, episode };
   });
   const [loading, setLoading] = useState(false);
@@ -46,6 +46,7 @@ export default function CreateWatchPartyPage() {
   ) {
     // Check if HTMLSelectElement sends value as string or int - specifically season field
     const field = e.target.name;
+    console.log(e.target);
     setInputs((current) => ({ ...current, [field]: e.target.value }));
   }
 
@@ -116,7 +117,9 @@ export default function CreateWatchPartyPage() {
       <Container>
         <section className="mt-4 p-6 bg-primary/30 rounded-lg w-full max-w-4xl mx-auto">
           <h3 className="text-2xl sm:text-4xl font-semibold mb-6">{`Create WatchParty for ${title} ${
-            inputs.mediaType === "tv" && inputs.season != null
+            inputs.mediaType === "tv" &&
+            inputs.season != null &&
+            inputs.episode != null
               ? `S${inputs.season}E${inputs.episode}`
               : ""
           }`}</h3>
