@@ -3,7 +3,7 @@
 import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
 import { CreateWatchPartyData, MovieDetails, TVShowDetails } from "@/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import fetcher from "@/lib/TMDBFetcher";
 import Input from "@/components/form/Input";
 import Container from "@/components/util/Container";
@@ -12,8 +12,6 @@ import { stateAbrv } from "@/lib/stateAbrv";
 import MediaDetails from "@/components/media/MediaDetails";
 
 export default function CreateWatchPartyPage() {
-  const baseImgPath = "https://image.tmdb.org/t/p/";
-  const imgSize = "w500";
   const searchParams = useSearchParams();
 
   if (!searchParams.has("id") || !searchParams.has("media_type"))
@@ -22,53 +20,62 @@ export default function CreateWatchPartyPage() {
   const [inputs, setInputs] = useState<CreateWatchPartyData>(() => {
     const mediaId = searchParams.get("id") ?? "";
     const mediaType = searchParams.get("media_type") ?? "";
-    const season = searchParams.has("season")
-      ? // @ts-ignore
-        parseInt(searchParams.get("season"))
-      : undefined;
-    const episode = searchParams.has("episode")
-      ? // @ts-ignore
-        parseInt(searchParams.get("episode"))
-      : undefined;
+    const season = parseInt(searchParams.get("season") ?? "");
+    const episode = parseInt(searchParams.get("episode") ?? "");
+    if (!season || !episode) return { mediaId, mediaType };
     return { mediaId, mediaType, season, episode };
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
   const { data: media } = useSWR<MovieDetails | TVShowDetails>(
     `/${inputs.mediaType}/${inputs.mediaId}`,
     fetcher
   );
 
-  const title = media?.media_type === "movie" ? media?.title : media?.name;
+  const title = media?.media_type === "movie" ? media.title : media?.name;
+
+  // Add mediaTitle to inputs so it will be saved in the database
+  useEffect(() => {
+    setInputs((current) => ({ ...current, mediaTitle: title }));
+  }, [title]);
+
+  function handleChange(
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) {
+    // Check if HTMLSelectElement sends value as string or int - specifically season field
+    const field = e.target.name;
+    setInputs((current) => ({ ...current, [field]: e.target.value }));
+  }
 
   function validateFormData(): boolean {
     if (!inputs.title) {
-      setError("Please give your WatchParty a title");
+      setError("Please provide a title for your WatchParty");
     }
 
     if (!inputs.description) {
-      setError("Please give your WatchParty a title");
+      setError("Please provide a description for your WatchParty");
     }
 
     if (!inputs.date || !inputs.time) {
-      setError("Please give your WatchParty a date and time");
+      setError("Please provide a date and time for your WatchParty");
     }
 
     if (!inputs.address) {
-      setError("Please provide an address for the WatchParty");
+      setError("Please provide an address for your WatchParty");
     }
 
     if (!inputs.city) {
-      setError("Please provide a city for the WatchParty");
+      setError("Please provide a city for your WatchParty");
     }
 
     if (!inputs.state) {
-      setError("Please provde a state for the WatchParty");
+      setError("Please provde a state for your WatchParty");
     }
 
     if (!inputs.zip) {
-      setError("Please provide a numerical zip code for the WatchParty");
+      setError("Please provide a numerical zip code for your WatchParty");
     }
 
     if (inputs.mediaType === "tv" && (!inputs.season || !inputs.episode)) {
@@ -124,45 +131,44 @@ export default function CreateWatchPartyPage() {
             >
               <Input
                 label="Event Title"
-                onChange={(e) =>
-                  setInputs((current) => ({
-                    ...current,
-                    title: e.target.value,
-                  }))
-                }
+                name="title"
+                onChange={handleChange}
                 value={inputs.title}
+                disabled={loading}
                 required
               />
               <textarea
+                name="description"
                 rows={8}
                 className="w-full bg-neutral rounded-md px-4 sm:px-6 py-2 text-md sm:text-xl"
                 placeholder="Description"
-                onChange={(e) =>
-                  setInputs((current) => ({
-                    ...current,
-                    description: e.target.value,
-                  }))
-                }
+                onChange={handleChange}
                 value={inputs.description}
+                disabled={loading}
                 required
               />
 
-              {inputs.mediaType === "tv" ? (
+              {media?.media_type === "tv" ? (
                 <>
                   <select
                     className="select bg-neutral max-w-min"
                     aria-label="TV Show Season Selector"
-                    onChange={(e) =>
-                      setInputs((current) => ({
-                        ...current,
-                        season: parseInt(e.target.value),
-                      }))
-                    }
+                    name="season"
+                    onChange={handleChange}
+                    disabled={loading}
                     value={inputs.season}
                   >
-                    <option>Season</option>
+                    {media.seasons.map((season) => (
+                      <option key={season.id} value={season.season_number}>
+                        {season.name}
+                      </option>
+                    ))}
                   </select>
-                  <EpisodeCarousel id={parseInt(inputs.mediaId)} season={1} />
+                  {/* Pass picked episode to and from EpisodeCarousel componenet. register when episode picked. */}
+                  <EpisodeCarousel
+                    id={parseInt(inputs.mediaId)}
+                    season={inputs.season}
+                  />
                 </>
               ) : null}
 
@@ -171,62 +177,47 @@ export default function CreateWatchPartyPage() {
                   label="Date"
                   type="date"
                   className="max-w-min"
-                  onChange={(e) =>
-                    setInputs((current) => ({
-                      ...current,
-                      date: e.target.value,
-                    }))
-                  }
-                  value={inputs.date || ""}
+                  name="date"
+                  onChange={handleChange}
+                  value={inputs.date}
+                  disabled={loading}
                   required
                 />
                 <Input
                   label="Time"
                   type="time"
                   className="ml-2 max-w-min"
-                  onChange={(e) =>
-                    setInputs((current) => ({
-                      ...current,
-                      time: e.target.value,
-                    }))
-                  }
+                  name="time"
+                  onChange={handleChange}
                   value={inputs.time}
+                  disabled={loading}
                   required
                 />
               </div>
               <Input
                 label="Address"
-                onChange={(e) =>
-                  setInputs((currentData) => ({
-                    ...currentData,
-                    address: e.target.value,
-                  }))
-                }
+                name="address"
+                onChange={handleChange}
                 value={inputs.address}
+                disabled={loading}
                 required
               />
               <div className="flex">
                 <Input
                   label="City"
-                  onChange={(e) =>
-                    setInputs((current) => ({
-                      ...current,
-                      city: e.target.value,
-                    }))
-                  }
+                  name="city"
+                  onChange={handleChange}
                   value={inputs.city}
+                  disabled={loading}
                   required
                 />
                 <select
                   className="select bg-neutral ml-2 max-w-[150px]"
                   aria-label="State"
-                  onChange={(e) =>
-                    setInputs((current) => ({
-                      ...current,
-                      state: e.target.value,
-                    }))
-                  }
+                  name="state"
+                  onChange={handleChange}
                   value={inputs.state}
+                  disabled={loading}
                   required
                 >
                   {stateAbrv.map((state) => (
@@ -238,9 +229,14 @@ export default function CreateWatchPartyPage() {
               </div>
               <Input
                 label="Zip"
-                type="number"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 className="max-w-[150px]"
-                value={inputs.zip || ""}
+                name="zip"
+                onChange={handleChange}
+                value={inputs.zip}
+                disabled={loading}
                 required
               />
               {error && (
