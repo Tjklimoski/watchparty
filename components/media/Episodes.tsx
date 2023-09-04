@@ -33,7 +33,7 @@ export default function Episodes({ media }: EpisodesProps) {
 
       <select
         onChange={handleSelect}
-        className="select select-primary w-full max-w-xs mb-2"
+        className="select bg-neutral w-full max-w-xs mb-2"
         disabled={!media}
         value={requestedSeason}
       >
