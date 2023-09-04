@@ -63,7 +63,6 @@ export default function CreateWatchPartyPage() {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) {
-    // Check if HTMLSelectElement sends value as string or int - specifically season field
     const field = e.target.name;
     const value =
       field === "season" ? parseInt(e.target.value) : e.target.value;
@@ -96,7 +95,7 @@ export default function CreateWatchPartyPage() {
     }
 
     if (!inputs.zip) {
-      setError("Please provide a numerical zip code for your WatchParty");
+      setError("Please provide a zip code for your WatchParty");
     }
 
     if (inputs.mediaType === "tv" && (!inputs.season || !inputs.episode)) {
@@ -179,7 +178,14 @@ export default function CreateWatchPartyPage() {
                     className="max-w-min"
                     aria-label="TV Show Season Selector"
                     name="season"
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      handleChange(e);
+                      // When season changes, default episode to 1
+                      setInputs((current) => ({
+                        ...current,
+                        episode: 1,
+                      }));
+                    }}
                     disabled={loading}
                     value={inputs.season}
                   >
