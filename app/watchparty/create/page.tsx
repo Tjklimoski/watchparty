@@ -10,6 +10,7 @@ import Container from "@/components/util/Container";
 import EpisodeCarousel from "@/components/media/EpisodeCarousel";
 import { stateAbrv } from "@/lib/stateAbrv";
 import MediaDetails from "@/components/media/MediaDetails";
+import Select from "@/components/form/Select";
 
 export default function CreateWatchPartyPage() {
   const searchParams = useSearchParams();
@@ -173,8 +174,8 @@ export default function CreateWatchPartyPage() {
               inputs?.season &&
               inputs?.episode ? (
                 <>
-                  <select
-                    className="select bg-neutral max-w-min"
+                  <Select
+                    className="max-w-min"
                     aria-label="TV Show Season Selector"
                     name="season"
                     onChange={handleChange}
@@ -186,7 +187,7 @@ export default function CreateWatchPartyPage() {
                         {season.name}
                       </option>
                     ))}
-                  </select>
+                  </Select>
                   {/* Pass picked episode to and from EpisodeCarousel componenet. register when episode picked. */}
                   <EpisodeCarousel
                     id={parseInt(inputs.mediaId)}
@@ -234,8 +235,8 @@ export default function CreateWatchPartyPage() {
                   disabled={loading}
                   required
                 />
-                <select
-                  className="select bg-neutral ml-2 max-w-[150px]"
+                <Select
+                  className="ml-2"
                   aria-label="State"
                   name="state"
                   onChange={handleChange}
@@ -248,7 +249,7 @@ export default function CreateWatchPartyPage() {
                       {state}
                     </option>
                   ))}
-                </select>
+                </Select>
               </div>
               <Input
                 label="Zip"

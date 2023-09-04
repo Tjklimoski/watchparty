@@ -2,6 +2,7 @@ import { TVShowDetails } from "@/types";
 import { ChangeEvent, useEffect, useState } from "react";
 import EpisodeCarousel from "./EpisodeCarousel";
 import Skeleton from "../util/Skeleton";
+import Select from "../form/Select";
 
 interface EpisodesProps {
   media: TVShowDetails | undefined;
@@ -31,11 +32,11 @@ export default function Episodes({ media }: EpisodesProps) {
         <h3 className="text-xl sm:text-2xl mb-2 font-bold">Episodes</h3>
       )}
 
-      <select
+      <Select
+        className="w-full max-w-xs mb-2"
         onChange={handleSelect}
-        className="select bg-neutral w-full max-w-xs mb-2"
-        disabled={!media}
         value={requestedSeason}
+        disabled={!media}
       >
         {seasons?.map((season) => (
           <option
@@ -46,7 +47,7 @@ export default function Episodes({ media }: EpisodesProps) {
             {season.name}
           </option>
         ))}
-      </select>
+      </Select>
 
       <EpisodeCarousel
         key={requestedSeason}
