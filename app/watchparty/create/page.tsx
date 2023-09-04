@@ -251,8 +251,6 @@ export default function CreateWatchPartyPage() {
               <Input
                 label="Zip"
                 type="text"
-                inputMode="numeric"
-                pattern="[0-9]*"
                 className="max-w-[150px]"
                 name="zip"
                 onChange={handleChange}

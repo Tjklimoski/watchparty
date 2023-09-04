@@ -163,7 +163,7 @@ export interface CreateWatchPartyData {
   address?: string;
   city?: string;
   state?: string;
-  zip?: number;
+  zip?: string;
 }
 
 export interface WatchParty {
