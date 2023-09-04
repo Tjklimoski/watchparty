@@ -20,8 +20,8 @@ export default function CreateWatchPartyPage() {
   const [inputs, setInputs] = useState<CreateWatchPartyData>(() => {
     const mediaId = searchParams.get("id") ?? "";
     const mediaType = searchParams.get("media_type") ?? "";
-    const season = parseInt(searchParams.get("season") ?? "1");
-    const episode = parseInt(searchParams.get("episode") ?? "1");
+    const season = parseInt(searchParams.get("season") ?? "");
+    const episode = parseInt(searchParams.get("episode") ?? "");
     if (mediaType === "movie") return { mediaId, mediaType };
     return { mediaId, mediaType, season, episode };
   });
@@ -38,6 +38,24 @@ export default function CreateWatchPartyPage() {
   useEffect(() => {
     setInputs((current) => ({ ...current, mediaTitle: title }));
   }, [title]);
+
+  // Set a default value to season and episode if undefined and media_type is TV
+  useEffect(() => {
+    if (!media || media.media_type === "movie") return;
+    if (isNaN(inputs.season ?? NaN) || isNaN(inputs.episode ?? NaN)) {
+      setInputs((current) => ({
+        ...current,
+        season:
+          media.next_episode_to_air?.season_number ||
+          media.last_episode_to_air?.season_number ||
+          1,
+        episode:
+          media.next_episode_to_air?.episode_number ||
+          media.last_episode_to_air?.episode_number ||
+          1,
+      }));
+    }
+  }, [media, inputs]);
 
   function handleChange(
     e: React.ChangeEvent<
