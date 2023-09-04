@@ -65,8 +65,9 @@ export default function CreateWatchPartyPage() {
   ) {
     // Check if HTMLSelectElement sends value as string or int - specifically season field
     const field = e.target.name;
-    console.log(e.target);
-    setInputs((current) => ({ ...current, [field]: e.target.value }));
+    const value =
+      field === "season" ? parseInt(e.target.value) : e.target.value;
+    setInputs((current) => ({ ...current, [field]: value }));
   }
 
   function validateFormData(): boolean {
