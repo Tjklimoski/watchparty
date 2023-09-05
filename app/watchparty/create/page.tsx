@@ -11,6 +11,7 @@ import EpisodeCarousel from "@/components/media/EpisodeCarousel";
 import { stateAbrv } from "@/lib/stateAbrv";
 import MediaDetails from "@/components/media/MediaDetails";
 import Select from "@/components/form/Select";
+import { formatFullDate } from "@/lib/format";
 
 export default function CreateWatchPartyPage() {
   const searchParams = useSearchParams();

@@ -16,6 +16,15 @@ export function formatDate(releaseDate: string | null | undefined): string {
   );
 }
 
+// return date in format YYYY-MM-DD
+export function formatFullDate(date?: Date): string {
+  const localDate = date ?? new Date();
+  // mins * secs * milliseconds
+  const offset = localDate.getTimezoneOffset() * 60 * 1000;
+  const modifiedDate = new Date(localDate.getTime() - offset);
+  return modifiedDate.toISOString().split("T")[0];
+}
+
 export function formatYear(date: string | null | undefined): string {
   if (!date) return "NA";
   return new Date(date).getFullYear().toString();
