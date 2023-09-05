@@ -74,47 +74,6 @@ export default function CreateWatchPartyPage() {
     setInputs((current) => ({ ...current, episode: episodeNumber }));
   }
 
-  function validateFormData(): boolean {
-    if (!inputs.title) {
-      setError("Please provide a title for your WatchParty");
-    }
-
-    if (!inputs.description) {
-      setError("Please provide a description for your WatchParty");
-    }
-
-    if (!inputs.date || !inputs.time) {
-      setError("Please provide a date and time for your WatchParty");
-    }
-
-    if (!inputs.address) {
-      setError("Please provide an address for your WatchParty");
-    }
-
-    if (!inputs.city) {
-      setError("Please provide a city for your WatchParty");
-    }
-
-    if (!inputs.state) {
-      setError("Please provde a state for your WatchParty");
-    }
-
-    if (!inputs.zip) {
-      setError("Please provide a zip code for your WatchParty");
-    }
-
-    if (inputs.mediaType === "tv" && (!inputs.season || !inputs.episode)) {
-      setError("Please select an episode for the WathParty");
-    }
-
-    // return true if inputs is valid
-    if (error) {
-      setLoading(false);
-      return false;
-    }
-    return true;
-  }
-
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     setLoading(true);
     setError("");
@@ -293,4 +252,45 @@ export default function CreateWatchPartyPage() {
       </Container>
     </main>
   );
+
+  function validateFormData(): boolean {
+    if (!inputs.title) {
+      setError("Please provide a title for your WatchParty");
+    }
+
+    if (!inputs.description) {
+      setError("Please provide a description for your WatchParty");
+    }
+
+    if (!inputs.date || !inputs.time) {
+      setError("Please provide a date and time for your WatchParty");
+    }
+
+    if (!inputs.address) {
+      setError("Please provide an address for your WatchParty");
+    }
+
+    if (!inputs.city) {
+      setError("Please provide a city for your WatchParty");
+    }
+
+    if (!inputs.state) {
+      setError("Please provde a state for your WatchParty");
+    }
+
+    if (!inputs.zip) {
+      setError("Please provide a zip code for your WatchParty");
+    }
+
+    if (inputs.mediaType === "tv" && (!inputs.season || !inputs.episode)) {
+      setError("Please select an episode for the WathParty");
+    }
+
+    // return true if inputs is valid
+    if (error) {
+      setLoading(false);
+      return false;
+    }
+    return true;
+  }
 }

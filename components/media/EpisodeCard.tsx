@@ -25,6 +25,7 @@ export default function EpisodeCard({
     if (!selectedEpisodeCard.current) return;
     selectedEpisodeCard.current.scrollIntoView({
       behavior: "instant",
+      block: "nearest",
       inline: "center",
     });
   }, [selectedEpisodeCard]);
@@ -35,6 +36,7 @@ export default function EpisodeCard({
     const card = e.target as HTMLDivElement;
     card.scrollIntoView({
       behavior: "smooth",
+      block: "nearest",
       inline: "center",
     });
   }
