@@ -217,6 +217,7 @@ export default function CreateWatchPartyPage() {
                   type="date"
                   className="max-w-min"
                   name="date"
+                  min={formatFullDate()}
                   onChange={handleChange}
                   value={inputs.date}
                   disabled={loading}
