@@ -266,6 +266,25 @@ export default function CreateWatchPartyPage() {
       setError("Please provide a date and time for your WatchParty");
     }
 
+    if (inputs.date) {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const day = now.getDate();
+      const eventDate = new Date(inputs.date);
+      const eventYear = eventDate.getFullYear();
+      const eventMonth = eventDate.getMonth();
+      const eventDay = eventDate.getDate();
+      // fail conditions - event is before current date if:
+      if (
+        eventYear < year ||
+        (eventYear === year && eventMonth < month) ||
+        (eventYear === year && eventMonth === month && eventDay < day)
+      ) {
+        setError(`Please provide a date after ${formatFullDate()}`);
+      }
+    }
+
     if (!inputs.address) {
       setError("Please provide an address for your WatchParty");
     }
