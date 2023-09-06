@@ -85,6 +85,9 @@ export default function CreateWatchPartyPage() {
     setError("");
     e.preventDefault();
 
+    console.log("FORMDATA: ", inputs);
+    console.log("event object: ", e);
+
     const isValid = validateFormData();
 
     // loading is set to false if there's an error in validateFormData function
@@ -105,13 +108,15 @@ export default function CreateWatchPartyPage() {
       const { lat, lon } = await geocodingFetcher<GeocodeZipResponse>("/zip", {
         zip: inputs.zip,
       });
-    } catch (err) {
-      console.error(err);
-    }
 
-    if (!inputs.address) console.log("SUBMIT");
-    console.log("FORMDATA: ", inputs);
-    console.log("event object: ", e);
+      if (!lat || !lon) {
+        throw new Error("Zip code invalid");
+      }
+    } catch (err) {
+      setError("Zip must be a valid, 5 digit long, US zip code");
+      setLoading(false);
+      return;
+    }
 
     setLoading(false);
   }
