@@ -264,6 +264,8 @@ export default function CreateWatchPartyPage() {
                 type="text"
                 className="max-w-[150px]"
                 name="zip"
+                minLength={5}
+                maxLength={5}
                 onChange={handleChange}
                 value={inputs.zip}
                 disabled={loading}
