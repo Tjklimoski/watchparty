@@ -103,19 +103,19 @@ export default function CreateWatchPartyPage() {
     if (!validateInputs()) return;
 
     // turn date and time into single ICO format dateTime.
-    const dateTime = new Date(`${inputs.date}T${inputs.time}`).toISOString();
+    const dateTime = new Date(`${inputs.date} ${inputs.time}`).toISOString();
 
+    // Get lat and lon data based off event zip code.
     try {
-      // Get lat and lon data based off event zip code.
       const { lat, lon } = await geocodingFetcher<GeocodeZipResponse>("/zip", {
         zip: inputs.zip,
       });
 
       if (!lat || !lon) {
-        throw new Error("Zip code invalid");
+        throw new Error("Invalid zip code");
       }
     } catch (err) {
-      setError("Zip must be a valid, 5 digit long, US zip code");
+      setError("Invalid zip code");
       setLoading(false);
       return;
     }
@@ -292,6 +292,10 @@ export default function CreateWatchPartyPage() {
       Date.now() > new Date(`${inputs.date} ${inputs.time}`).getTime()
     ) {
       setError("Please set the WatchParty date and time in the future");
+    }
+
+    if (inputs.zip.length !== 5) {
+      setError("Zip must be a valid, 5 digit long, US zip code");
     }
 
     if (mediaType === "tv" && (!inputs.season || !inputs.episode)) {
