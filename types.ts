@@ -151,19 +151,17 @@ export interface MyListItem {
   media_type: string;
 }
 
-export interface CreateWatchPartyData {
-  mediaId: string;
-  mediaType: string;
-  title?: string;
-  description?: string;
+export interface WatchPartyInputs {
+  title: string;
+  description: string;
   season?: number;
   episode?: number;
-  date?: string;
-  time?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  zip?: string;
+  date: string;
+  time: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
 }
 
 export interface WatchParty {

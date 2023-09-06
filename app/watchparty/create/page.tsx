@@ -3,10 +3,10 @@
 import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
 import {
-  CreateWatchPartyData,
   GeocodeZipResponse,
   MovieDetails,
   TVShowDetails,
+  WatchPartyInputs,
 } from "@/types";
 import { useEffect, useState } from "react";
 import fetcher from "@/lib/TMDBFetcher";
@@ -25,32 +25,43 @@ export default function CreateWatchPartyPage() {
   if (!searchParams.has("id") || !searchParams.has("media_type"))
     throw new Error("No valid media");
 
-  const [inputs, setInputs] = useState<CreateWatchPartyData>(() => {
-    const mediaId = searchParams.get("id") ?? "";
-    const mediaType = searchParams.get("media_type") ?? "";
-    const season = parseInt(searchParams.get("season") ?? "");
-    const episode = parseInt(searchParams.get("episode") ?? "");
-    if (mediaType === "movie") return { mediaId, mediaType };
-    return { mediaId, mediaType, season, episode };
+  const mediaId = searchParams.get("id");
+  const mediaType = searchParams.get("media_type");
+  const season = searchParams.get("season") ?? "";
+  const episode = searchParams.get("episode") ?? "";
+
+  const [inputs, setInputs] = useState<WatchPartyInputs>(() => {
+    const defaultInputs = {
+      title: "",
+      description: "",
+      date: "",
+      time: "",
+      address: "",
+      city: "",
+      state: "",
+      zip: "",
+    };
+    const seasonValue = isNaN(parseInt(season)) ? undefined : parseInt(season);
+    const episodeValue = isNaN(parseInt(episode))
+      ? undefined
+      : parseInt(episode);
+    return { season: seasonValue, episode: episodeValue, ...defaultInputs };
   });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
   const { data: media } = useSWR<MovieDetails | TVShowDetails>(
-    `/${inputs.mediaType}/${inputs.mediaId}`,
+    `/${mediaType}/${mediaId}`,
     fetcher
   );
 
   const title = media?.media_type === "movie" ? media.title : media?.name;
 
-  // Add mediaTitle to inputs so it will be saved in the database
-  useEffect(() => {
-    setInputs((current) => ({ ...current, mediaTitle: title }));
-  }, [title]);
-
   // Set a default value to season and episode if undefined and media_type is TV
   useEffect(() => {
     if (!media || media.media_type === "movie") return;
-    if (isNaN(inputs.season ?? NaN) || isNaN(inputs.episode ?? NaN)) {
+    if (inputs.season === undefined || inputs.episode === undefined) {
       setInputs((current) => ({
         ...current,
         season:
@@ -117,6 +128,10 @@ export default function CreateWatchPartyPage() {
       setLoading(false);
       return;
     }
+
+    // move input values from inputs to watchPartyData object (exclude date and time field).
+    // Add date field to watchPartyData that's the dateTime ISO string.
+    // Add mediaId, mediaType, mediaTitle, and location (lat, lon) to watchPartyData.
 
     setLoading(false);
   }
@@ -288,8 +303,9 @@ export default function CreateWatchPartyPage() {
       setError("Please provide a description for your WatchParty");
     }
 
-    if (!inputs.date || !inputs.time) {
-      setError("Please provide a date and time for your WatchParty");
+    // Check if the input year is more or less then 4 digits. if so error.
+    if (inputs.date.split("-")[0].length !== 4) {
+      setError("Please provide a valid year for your WatchParty");
     }
 
     if (!inputs.address) {
