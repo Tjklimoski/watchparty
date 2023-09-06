@@ -204,3 +204,29 @@ export interface RegisterData {
   email: string;
   password: string;
 }
+
+export interface GeocodeDirectResponse {
+  name: string;
+  local_names?: Record<string, string>;
+  lat: number;
+  lon: number;
+  country: string;
+  state?: string;
+}
+
+export interface GeocodeZipResponse {
+  zip: string;
+  name: string;
+  lat: number;
+  lon: number;
+  country: string;
+}
+
+export interface GeocodeReverseResponse {
+  name: string;
+  local_names?: Record<string, string>;
+  lat: number;
+  lon: number;
+  country: string;
+  state?: string;
+}
