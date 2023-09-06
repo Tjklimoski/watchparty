@@ -2,7 +2,12 @@
 
 import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
-import { CreateWatchPartyData, MovieDetails, TVShowDetails } from "@/types";
+import {
+  CreateWatchPartyData,
+  GeocodeZipResponse,
+  MovieDetails,
+  TVShowDetails,
+} from "@/types";
 import { useEffect, useState } from "react";
 import fetcher from "@/lib/TMDBFetcher";
 import Input from "@/components/form/Input";
@@ -12,6 +17,7 @@ import { stateAbrv } from "@/lib/stateAbrv";
 import MediaDetails from "@/components/media/MediaDetails";
 import Select from "@/components/form/Select";
 import { formatFullDate } from "@/lib/format";
+import geocodingFetcher from "@/lib/GeocodingFetcher";
 
 export default function CreateWatchPartyPage() {
   const searchParams = useSearchParams();
@@ -74,19 +80,34 @@ export default function CreateWatchPartyPage() {
     setInputs((current) => ({ ...current, episode: episodeNumber }));
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     setLoading(true);
     setError("");
     e.preventDefault();
 
     const isValid = validateFormData();
 
+    // loading is set to false if there's an error in validateFormData function
     if (!isValid) return;
 
-    // turn date and time into DateTime ICO format in a single field called date.
+    // turn date and time into single ICO format dateTime.
     const dateTime = new Date(`${inputs.date}T${inputs.time}`).toISOString();
 
-    // Check if dateTime is in the future of currentTime.
+    // Check if dateTime is in the future of current time.
+    if (Date.now() > new Date(dateTime).getTime()) {
+      setError("Please set the event date and time in the future");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // Get lat and lon data based off event zip code.
+      const { lat, lon } = await geocodingFetcher<GeocodeZipResponse>("/zip", {
+        zip: inputs.zip,
+      });
+    } catch (err) {
+      console.error(err);
+    }
 
     if (!inputs.address) console.log("SUBMIT");
     console.log("FORMDATA: ", inputs);
@@ -264,25 +285,6 @@ export default function CreateWatchPartyPage() {
 
     if (!inputs.date || !inputs.time) {
       setError("Please provide a date and time for your WatchParty");
-    }
-
-    if (inputs.date) {
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = now.getMonth();
-      const day = now.getDate();
-      const eventDate = new Date(inputs.date);
-      const eventYear = eventDate.getFullYear();
-      const eventMonth = eventDate.getMonth();
-      const eventDay = eventDate.getDate();
-      // fail conditions - event is before current date if:
-      if (
-        eventYear < year ||
-        (eventYear === year && eventMonth < month) ||
-        (eventYear === year && eventMonth === month && eventDay < day)
-      ) {
-        setError(`Please provide a date after ${formatFullDate()}`);
-      }
     }
 
     if (!inputs.address) {
