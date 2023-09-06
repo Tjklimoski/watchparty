@@ -25,8 +25,8 @@ export default function CreateWatchPartyPage() {
   if (!searchParams.has("id") || !searchParams.has("media_type"))
     throw new Error("No valid media");
 
-  const mediaId = searchParams.get("id");
-  const mediaType = searchParams.get("media_type");
+  const mediaId = searchParams.get("id") ?? "";
+  const mediaType = searchParams.get("media_type") ?? "";
   const season = searchParams.get("season") ?? "";
   const episode = searchParams.get("episode") ?? "";
 
@@ -99,20 +99,11 @@ export default function CreateWatchPartyPage() {
     console.log("FORMDATA: ", inputs);
     console.log("event object: ", e);
 
-    const isValid = validateFormData();
-
     // loading is set to false if there's an error in validateFormData function
-    if (!isValid) return;
+    if (!validateInputs()) return;
 
     // turn date and time into single ICO format dateTime.
     const dateTime = new Date(`${inputs.date}T${inputs.time}`).toISOString();
-
-    // Check if dateTime is in the future of current time.
-    if (Date.now() > new Date(dateTime).getTime()) {
-      setError("Please set the event date and time in the future");
-      setLoading(false);
-      return;
-    }
 
     try {
       // Get lat and lon data based off event zip code.
@@ -141,9 +132,7 @@ export default function CreateWatchPartyPage() {
       <Container>
         <section className="mt-4 p-6 bg-primary/30 rounded-lg w-full max-w-4xl mx-auto">
           <h3 className="text-2xl sm:text-4xl font-semibold mb-6">{`Create WatchParty for ${title} ${
-            inputs.mediaType === "tv" &&
-            inputs.season != null &&
-            inputs.episode != null
+            inputs.season != null && inputs.episode != null
               ? `S${inputs.season}E${inputs.episode}`
               : ""
           }`}</h3>
@@ -202,7 +191,7 @@ export default function CreateWatchPartyPage() {
                   </Select>
                   {/* Pass picked episode to and from EpisodeCarousel componenet. register when episode picked. */}
                   <EpisodeCarousel
-                    id={parseInt(inputs.mediaId)}
+                    id={parseInt(mediaId)}
                     season={inputs.season}
                     selectedEpisodeNumber={inputs.episode}
                     isSelect={true}
@@ -294,37 +283,18 @@ export default function CreateWatchPartyPage() {
     </main>
   );
 
-  function validateFormData(): boolean {
-    if (!inputs.title) {
-      setError("Please provide a title for your WatchParty");
-    }
-
-    if (!inputs.description) {
-      setError("Please provide a description for your WatchParty");
-    }
-
+  function validateInputs(): boolean {
     // Check if the input year is more or less then 4 digits. if so error.
     if (inputs.date.split("-")[0].length !== 4) {
       setError("Please provide a valid year for your WatchParty");
+      // Check if watchParty date + time are in the future of current time.
+    } else if (
+      Date.now() > new Date(`${inputs.date} ${inputs.time}`).getTime()
+    ) {
+      setError("Please set the WatchParty date and time in the future");
     }
 
-    if (!inputs.address) {
-      setError("Please provide an address for your WatchParty");
-    }
-
-    if (!inputs.city) {
-      setError("Please provide a city for your WatchParty");
-    }
-
-    if (!inputs.state) {
-      setError("Please provde a state for your WatchParty");
-    }
-
-    if (!inputs.zip) {
-      setError("Please provide a zip code for your WatchParty");
-    }
-
-    if (inputs.mediaType === "tv" && (!inputs.season || !inputs.episode)) {
+    if (mediaType === "tv" && (!inputs.season || !inputs.episode)) {
       setError("Please select an episode for the WathParty");
     }
 
