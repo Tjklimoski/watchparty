@@ -99,8 +99,11 @@ export default function CreateWatchPartyPage() {
     console.log("FORMDATA: ", inputs);
     console.log("event object: ", e);
 
-    // loading is set to false if there's an error in validateFormData function
-    if (!validateInputs()) return;
+    // validateInputs returns false if an input is invalid.
+    if (!validateInputs()) {
+      setLoading(false);
+      return;
+    }
 
     // turn date and time into single ICO format dateTime.
     const dateTime = new Date(`${inputs.date} ${inputs.time}`).toISOString();
@@ -287,26 +290,25 @@ export default function CreateWatchPartyPage() {
     // Check if the input year is more or less then 4 digits. if so error.
     if (inputs.date.split("-")[0].length !== 4) {
       setError("Please provide a valid year for your WatchParty");
-      // Check if watchParty date + time are in the future of current time.
-    } else if (
-      Date.now() > new Date(`${inputs.date} ${inputs.time}`).getTime()
-    ) {
+      return false;
+    }
+
+    // Check if watchParty date + time are in the future of current time.
+    if (Date.now() > new Date(`${inputs.date} ${inputs.time}`).getTime()) {
       setError("Please set the WatchParty date and time in the future");
+      return false;
     }
 
     if (inputs.zip.length !== 5) {
       setError("Zip must be a valid, 5 digit long, US zip code");
+      return false;
     }
 
     if (mediaType === "tv" && (!inputs.season || !inputs.episode)) {
       setError("Please select an episode for the WathParty");
-    }
-
-    // return true if inputs is valid
-    if (error) {
-      setLoading(false);
       return false;
     }
+
     return true;
   }
 }
