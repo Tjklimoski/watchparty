@@ -1,5 +1,10 @@
 import { NumberLiteralType, StringLiteral } from "typescript";
 
+type GeoJSON = {
+  type: "Point",
+  coordinates: [number, number]
+}
+
 export interface Movie {
   adult: boolean;
   backdrop_path: string | null;
@@ -174,15 +179,17 @@ export interface WatchParty {
   interestedUsers?: User[];
   mediaId: string;
   mediaType: string;
+  mediaTitle: string;
   title: string;
   description: string;
   season?: number;
   episode?: number;
-  date: string;
+  date: Date;
   address: string;
   city: string;
   state: string;
   zip: number;
+  geo: GeoJSON;
   notifications?: Notification[];
   createdAt: Date;
   updatedAt: Date;
