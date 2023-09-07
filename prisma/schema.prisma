@@ -57,9 +57,15 @@ model WatchParty {
   city               String
   state              String
   zip                String
+  geo                GeoJSON
   notifications      Notification[]
   createdAt          DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
+}
+
+type GeoJSON {
+  type        String @default("Point")
+  coordinates Int[]
 }
 
 model Notification {
