@@ -18,6 +18,8 @@ import MediaDetails from "@/components/media/MediaDetails";
 import Select from "@/components/form/Select";
 import { formatFullDate } from "@/lib/format";
 import geocodingFetcher from "@/lib/GeocodingFetcher";
+import prisma from "@/prisma/client";
+import useUser from "@/hooks/useUser";
 
 export default function CreateWatchPartyPage() {
   const searchParams = useSearchParams();
@@ -55,8 +57,10 @@ export default function CreateWatchPartyPage() {
     `/${mediaType}/${mediaId}`,
     fetcher
   );
+  const { user } = useUser();
 
-  const title = media?.media_type === "movie" ? media.title : media?.name;
+  const title =
+    (media?.media_type === "movie" ? media.title : media?.name) ?? "";
 
   // Set a default value to season and episode if undefined and media_type is TV
   useEffect(() => {
@@ -97,7 +101,6 @@ export default function CreateWatchPartyPage() {
     e.preventDefault();
 
     console.log("FORMDATA: ", inputs);
-    console.log("event object: ", e);
 
     // validateInputs returns false if an input is invalid.
     if (!validateInputs()) {
@@ -105,8 +108,12 @@ export default function CreateWatchPartyPage() {
       return;
     }
 
-    // turn date and time into single ICO format dateTime.
-    const dateTime = new Date(`${inputs.date} ${inputs.time}`).toISOString();
+    if (!user) {
+      // this shouldn't ever happen due to middleware
+      setError("Please sign in before creating a WatchParty");
+      setLoading(false);
+      return;
+    }
 
     // Get lat and lon data based off event zip code.
     try {
@@ -115,17 +122,39 @@ export default function CreateWatchPartyPage() {
       });
 
       if (!lat || !lon) {
+        console.log("lat lon catch fired");
         throw new Error("Invalid zip code");
       }
+
+      // extract date and time fields from inputs
+      const { date, time, ...data } = inputs;
+      // create GeoJSON - mongodb requires lon first in the coordinates array
+      const geo = { coordinates: [lon, lat] };
+      const watchPartyData = {
+        userId: user.id,
+        mediaId,
+        mediaType,
+        mediaTitle: title,
+        geo,
+        date: new Date(`${date} ${time}`).toISOString(),
+        ...data,
+      };
+
+      console.log("WATCHPARTYDATA: ", watchPartyData);
+
+      // move to API route
+      const watchParty = await prisma.watchParty.create({
+        data: watchPartyData,
+      });
+
+      // If watchParty succesfully created, redirect user to WatchParty page.
+      // Otherwise alert user event failed to be created, and to try again.
     } catch (err) {
+      console.log("PRISMA ERROR: ", err);
       setError("Invalid zip code");
       setLoading(false);
       return;
     }
-
-    // move input values from inputs to watchPartyData object (exclude date and time field).
-    // Add date field to watchPartyData that's the dateTime ISO string.
-    // Add mediaId, mediaType, mediaTitle, and location (lat, lon) to watchPartyData.
 
     setLoading(false);
   }

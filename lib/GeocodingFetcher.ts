@@ -26,5 +26,5 @@ export default async function fetcher<T>(url: "/zip" | "/direct" | "/reverse", p
       return res.data[0]
     }
     return res.data
-  }).catch(err => console.error(err));
+  });
 }
