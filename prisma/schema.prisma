@@ -64,8 +64,8 @@ model WatchParty {
 }
 
 type GeoJSON {
-  type        String @default("Point")
-  coordinates Int[]
+  type        String    @default("Point")
+  coordinates Decimal[]
 }
 
 model Notification {
