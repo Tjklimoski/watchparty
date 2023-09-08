@@ -11,6 +11,8 @@ export async function POST(req: NextRequest) {
       data
     });
 
+    console.log('watchParty data returned by prisma: ', watchParty);
+
     if (!watchParty) return new res('Invalid data', { status: 400 })
 
     return res.json(watchParty);

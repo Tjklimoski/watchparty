@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   GeocodeZipResponse,
   MovieDetails,
@@ -18,11 +18,12 @@ import MediaDetails from "@/components/media/MediaDetails";
 import Select from "@/components/form/Select";
 import { formatFullDate } from "@/lib/format";
 import geocodingFetcher from "@/lib/GeocodingFetcher";
-import prisma from "@/prisma/client";
 import useUser from "@/hooks/useUser";
+import { API } from "@/lib/APIFetcher";
 
 export default function CreateWatchPartyPage() {
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   if (!searchParams.has("id") || !searchParams.has("media_type"))
     throw new Error("No valid media");
@@ -140,12 +141,17 @@ export default function CreateWatchPartyPage() {
         ...data,
       };
 
-      console.log("WATCHPARTYDATA: ", watchPartyData);
+      const watchParty = await API.post("/watchparties", watchPartyData)
+        .then((res) => res.data)
+        .catch((err) => {
+          console.error(err);
+        });
 
-      // move to API route
-      const watchParty = await prisma.watchParty.create({
-        data: watchPartyData,
-      });
+      if (!watchParty) {
+        setError("Invalid event data sent to database");
+        setLoading(false);
+        return;
+      }
 
       // If watchParty succesfully created, redirect user to WatchParty page.
       // Otherwise alert user event failed to be created, and to try again.
