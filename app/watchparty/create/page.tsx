@@ -101,17 +101,8 @@ export default function CreateWatchPartyPage() {
     setError("");
     e.preventDefault();
 
-    console.log("FORMDATA: ", inputs);
-
     // validateInputs returns false if an input is invalid.
     if (!validateInputs()) {
-      setLoading(false);
-      return;
-    }
-
-    if (!user) {
-      // this shouldn't ever happen due to middleware
-      setError("Please sign in before creating a WatchParty");
       setLoading(false);
       return;
     }
@@ -123,7 +114,6 @@ export default function CreateWatchPartyPage() {
       });
 
       if (!lat || !lon) {
-        console.log("lat lon catch fired");
         throw new Error("Invalid zip code");
       }
 
@@ -132,7 +122,7 @@ export default function CreateWatchPartyPage() {
       // create GeoJSON - mongodb requires lon first in the coordinates array
       const geo = { coordinates: [lon, lat] };
       const watchPartyData = {
-        userId: user.id,
+        userId: user!.id,
         mediaId,
         mediaType,
         mediaTitle: title,
