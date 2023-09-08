@@ -141,22 +141,19 @@ export default function CreateWatchPartyPage() {
         ...data,
       };
 
-      const watchParty = await API.post("/watchparties", watchPartyData)
-        .then((res) => res.data)
-        .catch((err) => {
-          console.error(err);
-        });
+      const watchParty = await API.post("/watchparties", watchPartyData).then(
+        (res) => res.data
+      );
 
       if (!watchParty) {
-        setError("Invalid event data sent to database");
+        setError("Failed to create watchParty, please try again");
         setLoading(false);
         return;
       }
 
       // If watchParty succesfully created, redirect user to WatchParty page.
-      // Otherwise alert user event failed to be created, and to try again.
+      router.push(`/watchparty/${watchParty.id}`);
     } catch (err) {
-      console.log("PRISMA ERROR: ", err);
       setError("Invalid zip code");
       setLoading(false);
       return;
