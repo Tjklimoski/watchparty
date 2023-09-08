@@ -311,7 +311,11 @@ export default function CreateWatchPartyPage() {
                 className="btn btn-accent mt-4"
                 disabled={loading}
               >
-                Create!
+                {loading ? (
+                  <span className="loading loading-primary loading-sm" />
+                ) : (
+                  "Create!"
+                )}
               </button>
             </form>
           </div>
