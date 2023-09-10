@@ -17,6 +17,7 @@ import geocodingFetcher from "@/lib/GeocodingFetcher";
 import { API } from "@/lib/APIFetcher";
 import { useRouter } from "next/navigation";
 import { formatFullDate } from "@/lib/format";
+import Skeleton from "../util/Skeleton";
 
 interface WatchPartyFormProps {
   mediaId: string;
@@ -40,9 +41,7 @@ export default function WatchPartyForm({
   const [error, setError] = useState("");
   const [inputs, setInputs] = useState<WatchPartyInputs>(() => {
     // If form is being used to edit existing WatchParty data return those existing values.
-    if (update && updateInputs) {
-      return updateInputs;
-    }
+    if (update && updateInputs) return updateInputs;
 
     const defaultInputs = {
       title: "",
@@ -103,6 +102,7 @@ export default function WatchPartyForm({
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) {
+    console.log("ON CHANGE CALLED");
     const field = e.target.name;
     const value =
       field === "season" ? parseInt(e.target.value) : e.target.value;
@@ -173,16 +173,20 @@ export default function WatchPartyForm({
   }
 
   return (
-    <section className="mt-4 p-6 bg-primary/30 rounded-lg w-full max-w-4xl mx-auto">
-      <h3 className="text-2xl sm:text-4xl font-semibold mb-6">{`${
-        update ? "Update" : "Create"
-      } WatchParty for ${title} ${
-        inputs.season != null && inputs.episode != null
-          ? `S${inputs.season}E${inputs.episode}`
-          : ""
-      }`}</h3>
+    <section className="mt-4 p-6 bg-primary/20 rounded-lg w-full max-w-4xl mx-auto">
+      {!title ? (
+        <Skeleton className="w-5/6 h-8 sm:h-10 mb-6" />
+      ) : (
+        <h3 className="text-2xl sm:text-4xl font-semibold mb-6">{`${
+          update ? "Update" : "Create"
+        } WatchParty for ${title} ${
+          inputs.season != null && inputs.episode != null
+            ? `S${inputs.season}E${inputs.episode}`
+            : ""
+        }`}</h3>
+      )}
       <div className="flex flex-col md:flex-row w-full gap-4">
-        <div className="hidden min-[460px]:block">
+        <div className="hidden xs:block">
           <MediaDetails media={media} />
         </div>
 
@@ -190,134 +194,172 @@ export default function WatchPartyForm({
           onSubmit={handleSubmit}
           className="w-full flex flex-col gap-4 text-base-content"
         >
-          <Input
-            label="Event Title"
-            name="title"
-            onChange={handleChange}
-            value={inputs.title}
-            disabled={loading}
-            required
-          />
-          <textarea
-            name="description"
-            rows={8}
-            className="w-full bg-neutral rounded-md px-4 sm:px-6 py-2 text-md sm:text-xl focus:outline outline-primary outline-offset-0 outline-2"
-            placeholder="Description"
-            onChange={handleChange}
-            value={inputs.description}
-            disabled={loading}
-            required
-          />
-
-          {media?.media_type === "tv" &&
-          inputs?.season != null &&
-          inputs?.episode ? (
+          {!media ? (
             <>
-              <Select
-                className="max-w-min"
-                aria-label="TV Show Season Selector"
-                name="season"
-                onChange={(e) => {
-                  handleChange(e);
-                  // When season changes, default episode to 1
-                  setInputs((current) => ({
-                    ...current,
-                    episode: 1,
-                  }));
-                }}
+              <Skeleton className="h-10 sm:h-11 mb-0" />
+              <Skeleton className="h-52 sm:h-60 mb-0" />
+            </>
+          ) : (
+            <>
+              <Input
+                label="Event Title"
+                name="title"
+                onChange={handleChange}
+                value={inputs.title}
                 disabled={loading}
-                value={inputs.season}
-              >
-                {media.seasons.map((season) => (
-                  <option key={season.id} value={season.season_number}>
-                    {season.name}
-                  </option>
-                ))}
-              </Select>
-              {/* Pass picked episode to and from EpisodeCarousel componenet. register when episode picked. */}
-              <EpisodeCarousel
-                id={parseInt(mediaId)}
-                season={inputs.season}
-                selectedEpisodeNumber={inputs.episode}
-                isSelect={true}
-                setEpisode={setEpisode}
+                required
+              />
+              <textarea
+                name="description"
+                rows={8}
+                className="w-full bg-neutral rounded-md px-4 sm:px-6 py-2 text-md sm:text-xl focus:outline outline-primary outline-offset-0 outline-2"
+                placeholder="Description"
+                onChange={handleChange}
+                value={inputs.description}
+                disabled={loading}
+                required
               />
             </>
-          ) : null}
+          )}
 
-          <div className="flex">
-            <Input
-              label="Date"
-              type="date"
-              className="max-w-min"
-              name="date"
-              min={formatFullDate()}
-              onChange={handleChange}
-              value={inputs.date}
-              disabled={loading}
-              required
-            />
-            <Input
-              label="Time"
-              type="time"
-              className="ml-2 max-w-min"
-              name="time"
-              onChange={handleChange}
-              value={inputs.time}
-              disabled={loading}
-              required
-            />
+          {mediaType === "tv" &&
+            (!media ? (
+              <>
+                <Skeleton className="h-8 sm:h-10 max-w-[144px] mb-0" />
+                <Skeleton className="h-32 mb-4" />
+              </>
+            ) : (
+              <>
+                <Select
+                  className="max-w-min"
+                  aria-label="TV Show Season Selector"
+                  name="season"
+                  onChange={(e) => {
+                    handleChange(e);
+                    // When season changes, default episode to 1
+                    setInputs((current) => ({
+                      ...current,
+                      episode: 1,
+                    }));
+                  }}
+                  disabled={loading}
+                  value={inputs.season}
+                >
+                  {(media as TVShowDetails).seasons.map((season) => (
+                    <option key={season.id} value={season.season_number}>
+                      {season.name}
+                    </option>
+                  ))}
+                </Select>
+                {/* Pass picked episode to and from EpisodeCarousel componenet. register when episode picked. */}
+                <EpisodeCarousel
+                  id={parseInt(mediaId)}
+                  season={inputs.season ?? 1}
+                  selectedEpisodeNumber={inputs.episode ?? 1}
+                  isSelect={true}
+                  setEpisode={setEpisode}
+                />
+              </>
+            ))}
+
+          <div className="flex flex-col xs:flex-row gap-4 xs:gap-2">
+            {!media ? (
+              <>
+                <Skeleton className="h-10 sm:h-11 mb-0 xs:max-w-[216px]" />
+                <Skeleton className="h-10 sm:h-11 mb-0 xs:max-w-[150px]" />
+              </>
+            ) : (
+              <>
+                <Input
+                  label="Date"
+                  type="date"
+                  className="w-full xs:max-w-min"
+                  name="date"
+                  min={formatFullDate()}
+                  onChange={handleChange}
+                  value={inputs.date}
+                  disabled={loading}
+                  required
+                />
+                <Input
+                  label="Time"
+                  type="time"
+                  className="w-full xs:max-w-min"
+                  name="time"
+                  onChange={handleChange}
+                  value={inputs.time}
+                  disabled={loading}
+                  required
+                />
+              </>
+            )}
           </div>
-          <Input
-            label="Address"
-            name="address"
-            onChange={handleChange}
-            value={inputs.address}
-            disabled={loading}
-            required
-          />
-          <div className="flex">
+          {!media ? (
+            <Skeleton className="h-10 sm:h-11 mb-0" />
+          ) : (
             <Input
-              label="City"
-              name="city"
+              label="Address"
+              name="address"
               onChange={handleChange}
-              value={inputs.city}
+              value={inputs.address}
               disabled={loading}
               required
             />
-            <Select
-              className="ml-2"
-              aria-label="State"
-              name="state"
+          )}
+          <div className="flex flex-col xs:flex-row gap-4 xs:gap-2">
+            {!media ? (
+              <>
+                <Skeleton className="h-10 sm:h-11 mb-0" />
+                <Skeleton className="h-10 sm:h-11 mb-0 xs:max-w-[80px]" />
+              </>
+            ) : (
+              <>
+                <Input
+                  label="City"
+                  name="city"
+                  onChange={handleChange}
+                  value={inputs.city}
+                  disabled={loading}
+                  required
+                />
+                <Select
+                  aria-label="State"
+                  name="state"
+                  onChange={handleChange}
+                  value={inputs.state}
+                  disabled={loading}
+                  required
+                >
+                  {stateAbrv.map((state) => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))}
+                </Select>
+              </>
+            )}
+          </div>
+          {!media ? (
+            <Skeleton className="h-10 sm:h-11 mb-0 xs:max-w-[150px]" />
+          ) : (
+            <Input
+              label="Zip"
+              type="text"
+              className="xs:max-w-[150px]"
+              name="zip"
+              minLength={5}
+              maxLength={5}
               onChange={handleChange}
-              value={inputs.state}
+              value={inputs.zip}
               disabled={loading}
               required
-            >
-              {stateAbrv.map((state) => (
-                <option key={state} value={state}>
-                  {state}
-                </option>
-              ))}
-            </Select>
-          </div>
-          <Input
-            label="Zip"
-            type="text"
-            className="max-w-[150px]"
-            name="zip"
-            minLength={5}
-            maxLength={5}
-            onChange={handleChange}
-            value={inputs.zip}
-            disabled={loading}
-            required
-          />
+            />
+          )}
           {error && <p className="text-error font-semibold text-lg">{error}</p>}
           <button
             type="submit"
             className="btn btn-accent mt-4"
-            disabled={loading}
+            disabled={loading || !media}
           >
             {loading ? (
               <span className="loading loading-primary loading-sm" />
