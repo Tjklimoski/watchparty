@@ -46,7 +46,7 @@ export default function EpisodeCard({
       ref={selected ? selectedEpisodeCard : null}
       key={episode.id}
       tabIndex={isSelect ? 0 : undefined}
-      className={`relative w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 aspect-video rounded-sm drop-shadow-lg snap-center  group overflow-hidden focus:outline-none ${
+      className={`relative w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 aspect-video rounded-sm drop-shadow-lg snap-center group overflow-hidden focus:outline-none ${
         isSelect ? "hover:cursor-pointer" : ""
       }`}
       onClick={isSelect ? handleClick : undefined}

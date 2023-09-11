@@ -2,25 +2,25 @@
 
 import Image from "next/image";
 import Skeleton from "../util/Skeleton";
-import { MovieDetails, TVShowDetails, WatchParty } from "@/types";
+import { Episode, MovieDetails, TVShowDetails, WatchParty } from "@/types";
 
 interface BillboardProps {
   media: MovieDetails | TVShowDetails | undefined;
   watchparty?: boolean;
-  episodeStill?: string | null;
+  episode?: Episode;
 }
 
 export default function Billboard({
   media,
   watchparty,
-  episodeStill,
+  episode,
 }: BillboardProps) {
   const baseImgPath = "https://image.tmdb.org/t/p/";
   const imgSize = "original";
   const imageUrl = media?.backdrop_path
     ? `${baseImgPath}${imgSize}${
-        media?.media_type === "tv" && watchparty && episodeStill
-          ? episodeStill
+        media?.media_type === "tv" && watchparty && episode
+          ? episode.still_path
           : media.backdrop_path
       }`
     : "/img/placeholder-lg.jpg";
@@ -48,7 +48,8 @@ export default function Billboard({
             {mediaTitle}
             {watchparty && (
               <span>
-                {" "}
+                {episode &&
+                  ` S${episode.season_number}E${episode.episode_number} - ${episode.name}`}{" "}
                 Watch<span className="text-primary">Party</span>!
               </span>
             )}
