@@ -14,6 +14,7 @@ export default function CreateWatchPartyPage() {
   const mediaType = searchParams.get("media_type") ?? "";
   const season = searchParams.get("season") ?? "";
   const episode = searchParams.get("episode") ?? "";
+
   const watchPartyFormProps = { mediaId, mediaType, season, episode };
 
   return (
