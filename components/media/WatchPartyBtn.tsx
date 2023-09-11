@@ -43,7 +43,7 @@ export default function WatchPartyBtn({
         sm ? "btn-sm" : "btn"
       } hover:btn-active focus-visible:btn-active btn-secondary btn-circle btn-outline border-2 ${
         tooltip && "tooltip"
-      } normal-case grid place-items-center transition duration-300`}
+      } tooltip-secondary normal-case grid place-items-center transition duration-300`}
       data-tip="Create WatchParty"
       aria-label="Create WatchParty"
       {...props}

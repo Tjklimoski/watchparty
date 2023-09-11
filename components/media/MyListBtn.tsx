@@ -62,7 +62,7 @@ export default function MyListBtn({
         !inMyList && "btn-outline"
       } hover:btn-active focus-visible:btn-active border-2 btn-circle grid place-items-center ${
         tooltip && "tooltip"
-      } normal-case transition duration-300`}
+      } tooltip-primary normal-case transition duration-300`}
       data-tip={inMyList ? "Remove from My List" : "Add to My List"}
       aria-label={inMyList ? "Remove from My List" : "Add to My List"}
       {...props}
