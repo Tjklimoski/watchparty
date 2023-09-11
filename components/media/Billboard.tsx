@@ -4,9 +4,10 @@ import { MovieDetails, TVShowDetails } from "@/types";
 
 interface BillboardProps {
   media: MovieDetails | TVShowDetails | undefined;
+  title?: string;
 }
 
-export default function Billboard({ media }: BillboardProps) {
+export default function Billboard({ media, title }: BillboardProps) {
   const baseImgPath = "https://image.tmdb.org/t/p/";
   const imgSize = "original";
   const imageUrl = media?.backdrop_path
@@ -27,13 +28,13 @@ export default function Billboard({ media }: BillboardProps) {
       )}
 
       <div className="absolute bottom-0 left-0 right-0 px-6 md:px-12 py-4 min-h-[14svh] flex items-end bg-gradient-to-t from-black via-black/75 via-30% to-transparent">
-        {!media ? (
+        {!media && !title ? (
           <div className="mx-auto w-full max-w-[1440px]">
             <Skeleton className="w-1/2 h-8 sm:h-12 md:h-16" />
           </div>
         ) : (
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold break-balance webkit-truncate w-full max-w-[1440px] mx-auto">
-            {mediaTitle}
+            {title ?? mediaTitle}
           </h2>
         )}
       </div>
