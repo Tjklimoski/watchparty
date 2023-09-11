@@ -9,6 +9,7 @@ import fetcher from "@/lib/TMDBFetcher";
 import { MovieDetails, TVShowDetails, WatchParty } from "@/types";
 import useSWR from "swr";
 import { MdEdit } from "react-icons/md";
+import MediaDetails from "@/components/media/MediaDetails";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const { partyid } = params;
@@ -36,7 +37,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
               {/* Party Goer Button */}
               {user && watchParty && user.id === watchParty.userId && (
                 <button
-                  className="btn btn-circle btn-primary btn-outline border-2 grid place-items-center tooltip tooltip-primary normal-case"
+                  className="btn btn-circle btn-info btn-outline border-2 grid place-items-center tooltip tooltip-primary normal-case"
                   data-tip="Edit"
                   aria-label="Edit your WatchParty"
                 >
@@ -45,6 +46,18 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
               )}
             </div>
           </div>
+
+          <div className="flex md:flex-row flex-col-reverse gap-4">
+            <MediaDetails media={media} />
+          </div>
+
+          {/* Event distance from current user - color code based on their radius (success or warning) */}
+          {/* media title - link to it's media page /tv/id or /movie/id */}
+          {/* if TV show show season and episode number + title */}
+          {/* WatchParty user host first name */}
+          {/* Number of party goers, and show their profile icon and have them link to their public /user/id page  */}
+          {/* number of interested in watchParty */}
+          {/* WatchParty description, date, time, location */}
         </section>
       </Container>
     </main>
