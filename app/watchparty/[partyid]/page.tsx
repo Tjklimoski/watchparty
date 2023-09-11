@@ -10,8 +10,10 @@ import { MovieDetails, TVShowDetails, WatchParty } from "@/types";
 import useSWR from "swr";
 import { MdEdit } from "react-icons/md";
 import MediaDetails from "@/components/media/MediaDetails";
+import { useRouter } from "next/navigation";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
+  const router = useRouter();
   const { partyid } = params;
   const { data: watchParty, error: watchPartyError } = useSWR<WatchParty>(
     `/watchparties/${partyid}`,
@@ -27,7 +29,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
   return (
     <main className="mt-[max(calc(180px-4rem),_calc(35svh-4rem))] sm:mt-[max(calc(220px-5rem),_calc(45svh-5rem))] mb-10">
       <Container>
-        <Billboard media={media} title={watchParty?.title} />
+        <Billboard media={media} watchparty />
 
         <section>
           <div className="flex justify-between mb-4 sm:mb-8">
@@ -40,6 +42,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                   className="btn btn-circle btn-info btn-outline border-2 grid place-items-center tooltip tooltip-primary normal-case"
                   data-tip="Edit"
                   aria-label="Edit your WatchParty"
+                  onClick={() => router.push(`/watchparty/${partyid}/edit`)}
                 >
                   <MdEdit size={30} />
                 </button>
@@ -49,6 +52,8 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
 
           <div className="flex md:flex-row flex-col-reverse gap-4">
             <MediaDetails media={media} />
+
+            <article className="flex-grow min-w-0"></article>
           </div>
 
           {/* Event distance from current user - color code based on their radius (success or warning) */}
