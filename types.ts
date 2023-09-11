@@ -178,7 +178,7 @@ export interface WatchParty {
   interestedUsersIds: string[];
   interestedUsers?: User[];
   mediaId: string;
-  mediaType: string;
+  mediaType: "movie" | "tv";
   mediaTitle: string;
   title: string;
   description: string;
