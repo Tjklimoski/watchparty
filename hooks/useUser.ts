@@ -4,7 +4,7 @@ import { User } from '@/types';
 
 export default function useUser(id?: string) {
   let route = '/user'
-  if (id) route = `/user/${id}`
+  if (id) route = `/users/${id}`
 
   const { data: user, isLoading, error, mutate } = useSWR<User>(route, APIFetcher)
 
