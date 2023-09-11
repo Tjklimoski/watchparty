@@ -1,20 +1,30 @@
+"use client";
+
 import Image from "next/image";
 import Skeleton from "../util/Skeleton";
-import { MovieDetails, TVShowDetails } from "@/types";
+import { MovieDetails, TVShowDetails, WatchParty } from "@/types";
 
 interface BillboardProps {
   media: MovieDetails | TVShowDetails | undefined;
   watchparty?: boolean;
+  episodeStill?: string | null;
 }
 
-export default function Billboard({ media, watchparty }: BillboardProps) {
+export default function Billboard({
+  media,
+  watchparty,
+  episodeStill,
+}: BillboardProps) {
   const baseImgPath = "https://image.tmdb.org/t/p/";
   const imgSize = "original";
   const imageUrl = media?.backdrop_path
-    ? `${baseImgPath}${imgSize}${media.backdrop_path}`
+    ? `${baseImgPath}${imgSize}${
+        media?.media_type === "tv" && watchparty && episodeStill
+          ? episodeStill
+          : media.backdrop_path
+      }`
     : "/img/placeholder-lg.jpg";
   const mediaTitle = media?.media_type === "movie" ? media.title : media?.name;
-  const addon = `WatchParty`;
 
   return (
     <div className="absolute top-0 left-0 w-full h-[35svh] sm:h-[45svh] min-h-[180px] sm:min-h-[220px]">
