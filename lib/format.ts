@@ -8,9 +8,11 @@ export function formatBudget(amount: number | null | undefined): string {
   }).format(amount);
 }
 
-export function formatDate(releaseDate: string | null | undefined): string {
+// return date in format for locale - US: 'Sep 29, 2023'
+export function formatDate(releaseDate: Date | string | null | undefined): string {
   if (releaseDate == null) return "NA";
   const date = new Date(releaseDate);
+  if (isNaN(date.getTime())) return "Invalid Date"
   return new Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(
     date
   );
@@ -28,6 +30,13 @@ export function formatFullDate(date?: Date): string {
 export function formatYear(date: string | null | undefined): string {
   if (!date) return "NA";
   return new Date(date).getFullYear().toString();
+}
+
+export function formatTime(date: Date | string | null | undefined): string {
+  if (date == null) return "NA"
+  const localDate = new Date(date);
+  if (isNaN(localDate.getTime())) return "Invalid Date"
+  return new Intl.DateTimeFormat(undefined, { timeStyle: 'short', hour12: true }).format(localDate)
 }
 
 export function formatLanguage(abrv: string | null | undefined): string {
