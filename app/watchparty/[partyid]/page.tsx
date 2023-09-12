@@ -16,6 +16,8 @@ import ProfileIcon from "@/components/util/ProfileIcon";
 import Link from "next/link";
 import { formatDate, formatTime } from "@/lib/format";
 import { useState } from "react";
+import Skeleton from "@/components/util/Skeleton";
+import ProfileIconGroup from "@/components/util/ProfileIconGroup";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const [showAllPartygoers, setShowAllPartygoers] = useState(false);
@@ -188,36 +190,32 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                   >
                     Partygoers
                   </div>
-                  <div className="ms-2 [&>*]:-ms-2 flex flex-wrap">
-                    {watchParty?.partygoerIds.length === 0 ? (
-                      <p>Be the first partygoer!</p>
-                    ) : (
-                      <>
-                        {watchParty?.partygoerIds.slice(0, 5).map((userId) => (
-                          <Link
-                            key={userId}
-                            href={`/user/${userId}`}
-                            className="outline-none group"
-                          >
-                            <ProfileIcon id={userId} group />
-                          </Link>
-                        ))}
-                        {watchParty?.partygoerIds.length > 5 && (
-                          <button
-                            className="w-[38px] aspect-square rounded-full grid place-items-center bg-neutral text-sm outline outline-2 outline-accent hover:outline-accent-focus focus:outline-primary-focus select-none"
-                            onClick={() => {
-                              // show overlay with scrollable list of all attendees
-                            }}
-                          >
-                            +{watchParty?.partygoerIds.length - 5}
-                          </button>
-                        )}
-                      </>
-                    )}
-                  </div>
+                  <ProfileIconGroup
+                    userIds={watchParty?.partygoerIds}
+                    size={50}
+                    handleClick={() => {}}
+                  >
+                    {/* Children is the fallback if userIds array is empty */}
+                    Be the first Partygoer!
+                  </ProfileIconGroup>
                 </div>
-                <div className="border border-red-400">
-                  {/* INTERESTED IN */}
+                <div>
+                  <div
+                    className={`font-semibold py-1 px-2 rounded-md mb-2 ${
+                      watchParty?.mediaType === "movie"
+                        ? "bg-primary/40"
+                        : "bg-secondary/40"
+                    }`}
+                  >
+                    Interested Users
+                  </div>
+                  <ProfileIconGroup
+                    userIds={watchParty?.interestedUsersIds}
+                    size={50}
+                    handleClick={() => {}}
+                  >
+                    No interested users.
+                  </ProfileIconGroup>
                 </div>
               </div>
             </article>
