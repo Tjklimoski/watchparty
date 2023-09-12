@@ -16,7 +16,6 @@ import ProfileIcon from "@/components/util/ProfileIcon";
 import Link from "next/link";
 import { formatDate, formatTime } from "@/lib/format";
 import { useState } from "react";
-import Skeleton from "@/components/util/Skeleton";
 import ProfileIconGroup from "@/components/util/ProfileIconGroup";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
@@ -55,6 +54,14 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
   const { user: host } = useUser(watchParty && watchParty?.userId);
 
   const eventDate = new Date(watchParty?.date ?? "");
+
+  function togglePartygoers() {
+    setShowAllPartygoers((current) => !current);
+  }
+
+  function toggleInterested() {
+    setShowAllInterested((current) => !current);
+  }
 
   return (
     <main className="mt-[max(calc(180px-4rem),_calc(35svh-4rem))] sm:mt-[max(calc(220px-5rem),_calc(45svh-5rem))] mb-10">
@@ -193,7 +200,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                   <ProfileIconGroup
                     userIds={watchParty?.partygoerIds}
                     size={50}
-                    handleClick={() => {}}
+                    handleClick={togglePartygoers}
                   >
                     {/* Children is the fallback if userIds array is empty */}
                     Be the first Partygoer!
@@ -212,7 +219,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                   <ProfileIconGroup
                     userIds={watchParty?.interestedUsersIds}
                     size={50}
-                    handleClick={() => {}}
+                    handleClick={toggleInterested}
                   >
                     No interested users.
                   </ProfileIconGroup>
