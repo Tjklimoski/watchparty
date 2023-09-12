@@ -104,7 +104,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                   >
                     <p>
                       Hosted by{" "}
-                      <span className="group-hover:text-primary">
+                      <span className="group-hover:text-primary group-focus:text-primary">
                         {getFirstName(host?.name ?? "")}
                       </span>
                     </p>
@@ -182,7 +182,43 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
               </div>
 
               <div className="text-md xs:text-lg sm:text-xl leading-relaxed bg-neutral/30 py-2 px-4 rounded-lg grid grid-flow-row xs:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
-                <div className="border border-red-400"></div>
+                <div>
+                  <div
+                    className={`font-semibold py-1 px-2 rounded-md mb-2 ${
+                      watchParty?.mediaType === "movie"
+                        ? "bg-primary/40"
+                        : "bg-secondary/40"
+                    }`}
+                  >
+                    PartyGoers
+                  </div>
+                  <div className="-space-x-2 flex">
+                    {/* wrap each profileIcon in a link to the user's public profile */}
+                    <Link href="#" className="outline-none group">
+                      <ProfileIcon group />
+                    </Link>
+                    <Link href="#" className="outline-none group">
+                      <ProfileIcon group />
+                    </Link>
+                    <Link href="#" className="outline-none group">
+                      <ProfileIcon group />
+                    </Link>
+                    <Link href="#" className="outline-none group">
+                      <ProfileIcon group />
+                    </Link>
+                    <Link href="#" className="outline-none group">
+                      <ProfileIcon group />
+                    </Link>
+                    <button
+                      className="w-[38px] aspect-square rounded-full grid place-items-center bg-neutral text-sm outline outline-2 outline-accent hover:outline-accent-focus focus:outline-primary-focus select-none"
+                      onClick={() => {
+                        // show overlay with scrollable list of all attendees
+                      }}
+                    >
+                      +50
+                    </button>
+                  </div>
+                </div>
                 <div className="border border-red-400"></div>
               </div>
             </article>
@@ -191,6 +227,8 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
           {/* Number of party goers, and show their profile icon and have them link to their public /user/id page  */}
           {/* number of interested in watchParty */}
         </section>
+
+        {/* Popup overlay boxes of party goers, and interested in. Each person on the list will be a clickable link to their profile */}
       </Container>
     </main>
   );
