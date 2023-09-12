@@ -6,13 +6,7 @@ import Container from "@/components/util/Container";
 import useUser from "@/hooks/useUser";
 import apiFetcher from "@/lib/APIFetcher";
 import fetcher from "@/lib/TMDBFetcher";
-import {
-  Episode,
-  MovieDetails,
-  TVShowDetails,
-  User,
-  WatchParty,
-} from "@/types";
+import { Episode, MovieDetails, TVShowDetails, WatchParty } from "@/types";
 import useSWR from "swr";
 import { MdEdit } from "react-icons/md";
 import MediaDetails from "@/components/media/MediaDetails";
@@ -20,10 +14,12 @@ import { useRouter } from "next/navigation";
 import { getFirstName } from "@/lib/stringModifications";
 import ProfileIcon from "@/components/util/ProfileIcon";
 import Link from "next/link";
-import Image from "next/image";
 import { formatDate, formatTime } from "@/lib/format";
+import { useState } from "react";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
+  const [showAllPartygoers, setShowAllPartygoers] = useState(false);
+  const [showAllInterested, setShowAllInterested] = useState(false);
   const router = useRouter();
   const { partyid } = params;
 
@@ -190,48 +186,48 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                         : "bg-secondary/40"
                     }`}
                   >
-                    PartyGoers
+                    Partygoers
                   </div>
-                  <div className="-space-x-2 flex">
-                    {/* wrap each profileIcon in a link to the user's public profile */}
-                    <Link href="#" className="outline-none group">
-                      <ProfileIcon group />
-                    </Link>
-                    <Link href="#" className="outline-none group">
-                      <ProfileIcon group />
-                    </Link>
-                    <Link href="#" className="outline-none group">
-                      <ProfileIcon group />
-                    </Link>
-                    <Link href="#" className="outline-none group">
-                      <ProfileIcon group />
-                    </Link>
-                    <Link href="#" className="outline-none group">
-                      <ProfileIcon group />
-                    </Link>
-                    <button
-                      className="w-[38px] aspect-square rounded-full grid place-items-center bg-neutral text-sm outline outline-2 outline-accent hover:outline-accent-focus focus:outline-primary-focus select-none"
-                      onClick={() => {
-                        // show overlay with scrollable list of all attendees
-                      }}
-                    >
-                      +50
-                    </button>
+                  <div className="ms-2 [&>*]:-ms-2 flex flex-wrap">
+                    {watchParty?.partygoerIds.length === 0 ? (
+                      <p>Be the first partygoer!</p>
+                    ) : (
+                      <>
+                        {watchParty?.partygoerIds.slice(0, 5).map((userId) => (
+                          <Link
+                            key={userId}
+                            href={`/user/${userId}`}
+                            className="outline-none group"
+                          >
+                            <ProfileIcon id={userId} group />
+                          </Link>
+                        ))}
+                        {watchParty?.partygoerIds.length > 5 && (
+                          <button
+                            className="w-[38px] aspect-square rounded-full grid place-items-center bg-neutral text-sm outline outline-2 outline-accent hover:outline-accent-focus focus:outline-primary-focus select-none"
+                            onClick={() => {
+                              // show overlay with scrollable list of all attendees
+                            }}
+                          >
+                            +{watchParty?.partygoerIds.length - 5}
+                          </button>
+                        )}
+                      </>
+                    )}
                   </div>
                 </div>
-                <div className="border border-red-400"></div>
+                <div className="border border-red-400">
+                  {/* INTERESTED IN */}
+                </div>
               </div>
             </article>
           </div>
 
-          {/* Number of party goers, and show their profile icon and have them link to their public /user/id page  */}
           {/* number of interested in watchParty */}
         </section>
 
-        {/* Popup overlay boxes of party goers, and interested in. Each person on the list will be a clickable link to their profile */}
+        {/* Popup overlay boxes of party goers, and interested in. Each person on the list will be a clickable link to their profile, use dialogue element */}
       </Container>
     </main>
   );
 }
-
-// grid-cols-[repeat(auto-fit,minmax(max(300px,45%),1fr))]
