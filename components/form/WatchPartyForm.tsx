@@ -1,11 +1,6 @@
 import useUser from "@/hooks/useUser";
 import fetcher from "@/lib/TMDBFetcher";
-import {
-  GeocodeZipResponse,
-  MovieDetails,
-  TVShowDetails,
-  WatchPartyInputs,
-} from "@/types";
+import { MovieDetails, TVShowDetails, WatchPartyInputs } from "@/types";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import Input from "./Input";
@@ -13,11 +8,11 @@ import Select from "./Select";
 import { stateAbrv } from "@/lib/stateAbrv";
 import EpisodeCarousel from "../media/EpisodeCarousel";
 import MediaDetails from "../media/MediaDetails";
-import geocodingFetcher from "@/lib/GeocodingFetcher";
 import { API } from "@/lib/APIFetcher";
 import { useRouter } from "next/navigation";
 import { formatFullDate } from "@/lib/format";
 import Skeleton from "../util/Skeleton";
+import { getCoord } from "@/lib/Geocode";
 
 interface WatchPartyFormProps {
   mediaId: string;
@@ -126,18 +121,12 @@ export default function WatchPartyForm({
 
     // Get lat and lon data based off event zip code.
     try {
-      const { lat, lon } = await geocodingFetcher<GeocodeZipResponse>("/zip", {
-        zip: inputs.zip,
-      });
-
-      if (!lat || !lon) {
-        throw new Error("Invalid zip code");
-      }
+      const coordinates = await getCoord({ zip: inputs.zip });
 
       // extract date and time fields from inputs
       const { date, time, ...data } = inputs;
       // create GeoJSON - mongodb requires lon first in the coordinates array
-      const geo = { coordinates: [lon, lat] };
+      const geo = { coordinates };
       const watchPartyData = {
         userId: user!.id,
         mediaId,
@@ -163,8 +152,8 @@ export default function WatchPartyForm({
 
       // If watchParty succesfully created or updated, redirect user to WatchParty page.
       router.push(`/watchparty/${watchParty.id}`);
-    } catch (err) {
-      setError("Invalid zip code");
+    } catch (err: Error | any) {
+      setError(err?.message ?? "Invalid form submission");
       setLoading(false);
       return;
     }
