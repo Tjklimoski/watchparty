@@ -21,6 +21,7 @@ import { getFirstName } from "@/lib/stringModifications";
 import ProfileIcon from "@/components/util/ProfileIcon";
 import Link from "next/link";
 import Image from "next/image";
+import { formatDate, formatTime } from "@/lib/format";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const router = useRouter();
@@ -54,6 +55,8 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
 
   // Fetch WatchParty creator/host data
   const { user: host } = useUser(watchParty && watchParty?.userId);
+
+  const eventDate = new Date(watchParty?.date ?? "");
 
   return (
     <main className="mt-[max(calc(180px-4rem),_calc(35svh-4rem))] sm:mt-[max(calc(220px-5rem),_calc(45svh-5rem))] mb-10">
@@ -122,17 +125,64 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                 {watchParty?.title}
               </h3>
 
-              <p className="text-lg sm:text-xl leading-relaxed whitespace-pre-wrap bg-neutral/30 py-2 px-4 rounded-lg">
+              <p className="text-md xs:text-lg sm:text-xl leading-relaxed whitespace-pre-wrap bg-neutral/30 py-2 px-4 rounded-lg">
                 {watchParty?.description}
               </p>
 
-              <div className="text-lg sm:text-xl leading-relaxed whitespace-pre-wrap bg-neutral/30 py-2 px-4 rounded-lg"></div>
+              <div className="text-md xs:text-lg sm:text-xl leading-relaxed whitespace-pre-wrap bg-neutral/30 py-2 px-4 rounded-lg">
+                <p className="text-xl sm:text-2xl font-semibold mb-4">
+                  WatchParty Details
+                </p>
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-6">
+                  <div>
+                    <div
+                      className={`font-semibold py-1 px-2 rounded-md mb-2 ${
+                        watchParty?.mediaType === "movie"
+                          ? "bg-primary/40"
+                          : "bg-secondary/40"
+                      }`}
+                    >
+                      Date
+                    </div>
+                    <p className="mx-2">{formatDate(watchParty?.date)}</p>
+                  </div>
+                  <div>
+                    <div
+                      className={`font-semibold py-1 px-2 rounded-md mb-2 ${
+                        watchParty?.mediaType === "movie"
+                          ? "bg-primary/40"
+                          : "bg-secondary/40"
+                      }`}
+                    >
+                      Time
+                    </div>
+                    <p className="mx-2">{formatTime(watchParty?.date)}</p>
+                  </div>
+                  <div>
+                    <div
+                      className={`font-semibold py-1 px-2 rounded-md mb-2 ${
+                        watchParty?.mediaType === "movie"
+                          ? "bg-primary/40"
+                          : "bg-secondary/40"
+                      }`}
+                    >
+                      Address
+                    </div>
+                    <p className="mx-2">
+                      {watchParty?.address}
+                      <br />
+                      {watchParty?.city}, {watchParty?.state}
+                      <br />
+                      {watchParty?.zip}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </article>
           </div>
 
           {/* Number of party goers, and show their profile icon and have them link to their public /user/id page  */}
           {/* number of interested in watchParty */}
-          {/* WatchParty description, date, time, location */}
         </section>
       </Container>
     </main>
