@@ -9,28 +9,23 @@ interface ProfileIconProps {
   size?: number;
 }
 
-export default function ProfileIcon({ id, size = 36 }: ProfileIconProps) {
+export default function ProfileIcon({ id, size = 38 }: ProfileIconProps) {
   // Since user is an async function, need to make sure the data
   // has been fetched before trying to access a field
   const { user, isLoading } = useUser(id);
   const userImage = user?.image ?? "";
 
-  return (
-    <div className="avatar">
-      <div className="rounded-full">
-        {isLoading ? (
-          <FaUser size={size} />
-        ) : userImage ? (
-          <Image
-            width={size}
-            height={size}
-            src={userImage}
-            alt="profile image"
-          />
-        ) : (
-          <FaUser size={size} />
-        )}
-      </div>
-    </div>
+  return isLoading ? (
+    <FaUser size={size} className="rounded-full" />
+  ) : userImage ? (
+    <Image
+      width={size}
+      height={size}
+      src={userImage}
+      alt="profile image"
+      className="rounded-full"
+    />
+  ) : (
+    <FaUser size={size} className="rounded-full" />
   );
 }
