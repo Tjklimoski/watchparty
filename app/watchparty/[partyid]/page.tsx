@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import { getFirstName } from "@/lib/stringModifications";
 import ProfileIcon from "@/components/util/ProfileIcon";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const router = useRouter();
@@ -83,18 +84,18 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
           <div className="flex md:flex-row flex-col-reverse gap-4">
             <MediaDetails media={media} />
 
-            <article className="flex-grow min-w-0">
-              <div className="flex flex-col sm:flex-row justify-between items-center mb-2">
+            <article className="flex-grow min-w-0 [&>*:not(:last-child)]:mb-4">
+              <div className="flex flex-col sm:flex-row justify-between items-center">
                 <p className="font-semibold text-success">
                   WatchParty is 35 miles away
                   {/* Event distance from current user - color code based on their radius (success or warning) */}
                 </p>
                 {host?.id === user?.id ? (
-                  <p>Hosted by you</p>
+                  <p className="ms-2">Hosted by you</p>
                 ) : (
                   <Link
                     href={`/user/${host?.id}`}
-                    className="grid grid-flow-col place-items-center gap-2 group"
+                    className="grid grid-flow-col place-items-center gap-2 group ms-2"
                   >
                     <p>
                       Hosted by{" "}
@@ -102,12 +103,13 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                         {getFirstName(host?.name ?? "")}
                       </span>
                     </p>
-                    <ProfileIcon id={host?.id} size={17} />
+                    <ProfileIcon id={host?.id} size={30} />
                   </Link>
                 )}
               </div>
+
               <h3
-                className={`text-2xl sm:text-4xl mb-4 font-semibold px-4 py-2 ${
+                className={`text-2xl sm:text-4xl font-semibold px-4 py-2 ${
                   watchParty?.mediaType === "movie"
                     ? "bg-primary"
                     : "bg-secondary"
@@ -119,13 +121,15 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
               >
                 {watchParty?.title}
               </h3>
+
               <p className="text-lg sm:text-xl leading-relaxed whitespace-pre-wrap bg-neutral/30 py-2 px-4 rounded-lg">
                 {watchParty?.description}
               </p>
+
+              <div className="text-lg sm:text-xl leading-relaxed whitespace-pre-wrap bg-neutral/30 py-2 px-4 rounded-lg"></div>
             </article>
           </div>
 
-          {/* WatchParty user host first name */}
           {/* Number of party goers, and show their profile icon and have them link to their public /user/id page  */}
           {/* number of interested in watchParty */}
           {/* WatchParty description, date, time, location */}
