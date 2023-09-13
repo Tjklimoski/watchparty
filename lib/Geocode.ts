@@ -1,6 +1,6 @@
 'use server'
 
-import { GeocodeDirectResponse, GeocodeZipResponse } from "@/types";
+import { GeocodeDirectResponse, GeocodeReverseResponse, GeocodeZipResponse } from "@/types";
 import fetcher from "./GeocodingFetcher";
 import { stateAbrv } from "./stateAbrv";
 import auth from "./authenticate";
@@ -83,4 +83,16 @@ function degreeToRadian(deg: number): number {
 
 function kmToMiles(km: number): number {
   return Math.round(km * 0.621371)
+}
+
+export async function getCityFromCoord(coord: [number, number]): string {
+  const [lon, lat] = coord;
+  try {
+    const res = await fetcher<GeocodeReverseResponse>('/reverse', { lat, lon });
+    if (!res) throw new Error("Invalid coordinates");
+    return `${res.name}${res?.state ? ', ' + res.state : ""}`
+  } catch (err: Error | any) {
+    console.error(err?.message ?? err);
+    throw new Error(err?.message ?? "Invalid request")
+  }
 }
