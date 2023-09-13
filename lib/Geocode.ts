@@ -56,3 +56,31 @@ export async function getUserCoord(): Promise<[number, number]> {
     throw new Error(err?.message ?? 'Invalid request')
   }
 }
+
+export async function getUserDistanceFrom(target: [number, number]): Promise<number> {
+  try {
+    const [userLon, userLat] = await getUserCoord();
+    const [targetLon, targetLat] = target;
+
+    // Using Haversine formula to calc shortest distance between two points on the surface of a perfect sphere
+
+    const R = 6371; // Earth radius in km
+    const dLat = degreeToRadian(targetLat - userLat);
+    const dLon = degreeToRadian(targetLon - userLon);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(degreeToRadian(userLat)) * Math.cos(degreeToRadian(targetLat)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    const distanceInKm = R * c;
+    return kmToMiles(distanceInKm);
+  } catch (err: Error | any) {
+    console.error(err?.message ?? err);
+    throw new Error(err?.message ?? "Invalid request")
+  }
+}
+
+function degreeToRadian(deg: number): number {
+  return deg * (Math.PI / 180)
+}
+
+function kmToMiles(km: number): number {
+  return Math.round(km * 0.621371)
+}
