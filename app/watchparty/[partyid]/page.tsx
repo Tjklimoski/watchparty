@@ -15,8 +15,14 @@ import { getFirstName } from "@/lib/stringModifications";
 import ProfileIcon from "@/components/util/ProfileIcon";
 import Link from "next/link";
 import { formatDate, formatTime } from "@/lib/format";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileIconGroup from "@/components/util/ProfileIconGroup";
+import {
+  getCityFromCoord,
+  getCoord,
+  getUserCoord,
+  getUserDistanceFrom,
+} from "@/lib/Geocode";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const [showAllPartygoers, setShowAllPartygoers] = useState(false);
@@ -62,6 +68,19 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
   function toggleInterested() {
     setShowAllInterested((current) => !current);
   }
+
+  useEffect(() => {
+    async function get() {
+      if (!watchParty) return;
+      try {
+        const city = await getCityFromCoord(watchParty.geo.coordinates);
+        console.log("city from coord!: ", city);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    get();
+  }, [watchParty]);
 
   return (
     <main className="mt-[max(calc(180px-4rem),_calc(35svh-4rem))] sm:mt-[max(calc(220px-5rem),_calc(45svh-5rem))] mb-10">
@@ -132,11 +151,11 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                 {watchParty?.title}
               </h3>
 
-              <div className="text-md xs:text-lg sm:text-xl leading-relaxed whitespace-pre-wrap bg-neutral/30 py-2 px-4 rounded-lg">
+              <div className="text-md xs:text-lg sm:text-xl leading-relaxed whitespace-pre-wrap bg-neutral/30 py-2 px-4 rounded-lg break-words">
                 <p>{watchParty?.description}</p>
               </div>
 
-              <div className="text-md xs:text-lg sm:text-xl leading-relaxed whitespace-pre-wrap bg-neutral/30 py-2 px-4 rounded-lg">
+              <div className="text-md xs:text-lg sm:text-xl leading-relaxed whitespace-pre-wrap py-2 px-4 rounded-lg">
                 <p className="text-xl sm:text-2xl font-semibold mb-4">
                   WatchParty Details
                 </p>
@@ -186,7 +205,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                 </div>
               </div>
 
-              <div className="text-md xs:text-lg sm:text-xl leading-relaxed bg-neutral/30 py-2 px-4 rounded-lg grid grid-flow-row xs:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
+              <div className="text-md xs:text-lg sm:text-xl leading-relaxed py-2 px-4 rounded-lg grid grid-flow-row xs:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
                 <div>
                   <div
                     className={`font-semibold py-1 px-2 rounded-md mb-2 ${
@@ -206,6 +225,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                     Be the first Partygoer!
                   </ProfileIconGroup>
                 </div>
+
                 <div>
                   <div
                     className={`font-semibold py-1 px-2 rounded-md mb-2 ${
@@ -227,8 +247,6 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
               </div>
             </article>
           </div>
-
-          {/* number of interested in watchParty */}
         </section>
 
         {/* Popup overlay boxes of party goers, and interested in. Each person on the list will be a clickable link to their profile, use dialogue element */}
@@ -236,3 +254,6 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
     </main>
   );
 }
+
+// buttons to become a partygoer, or to be intersted in the watchparty.
+// calculate the distance from the user to the WatchParty
