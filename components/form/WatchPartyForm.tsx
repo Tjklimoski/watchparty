@@ -34,6 +34,7 @@ export default function WatchPartyForm({
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
   const [inputs, setInputs] = useState<WatchPartyInputs>(() => {
     // If form is being used to edit existing WatchParty data return those existing values.
     if (update && updateInputs) return updateInputs;
@@ -119,8 +120,8 @@ export default function WatchPartyForm({
       return;
     }
 
-    // Get lat and lon data based off event zip code.
     try {
+      // Get lat and lon data based off event zip code.
       const coordinates = await getCoord({ zip: inputs.zip });
 
       // extract date and time fields from inputs
@@ -149,6 +150,8 @@ export default function WatchPartyForm({
         setLoading(false);
         return;
       }
+
+      setSuccess(true);
 
       // If watchParty succesfully created or updated, redirect user to WatchParty page.
       router.push(`/watchparty/${watchParty.id}`);
@@ -345,10 +348,16 @@ export default function WatchPartyForm({
             />
           )}
           {error && <p className="text-error font-semibold text-lg">{error}</p>}
+          {success && (
+            <p className="text-success font-semibold text-lg">
+              Successfully {update ? "updated" : "created"} WatchParty!
+              Redirecting...
+            </p>
+          )}
           <button
             type="submit"
             className="btn btn-accent mt-4"
-            disabled={loading || !media}
+            disabled={loading || !media || success}
           >
             {loading ? (
               <span className="loading loading-primary loading-sm" />
