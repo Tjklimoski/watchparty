@@ -57,6 +57,10 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
 
   const eventDate = new Date(watchParty?.date ?? "");
 
+  // highlight distance in warning color if distance is -1 or outside user's radius
+  const warnDistance =
+    distance === -1 || (user && user.radius < distance) ? true : false;
+
   function togglePartygoers() {
     setShowAllPartygoers((current) => !current);
   }
@@ -107,9 +111,12 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
 
             <article className="flex-grow min-w-0 [&>*:not(:last-child)]:mb-4">
               <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
-                <p className="font-semibold text-success text-center sm:text-left">
+                <p
+                  className={`font-semibold ${
+                    warnDistance ? "text-warning" : "text-success"
+                  } text-center sm:text-left`}
+                >
                   {distance === -1 ? "NA" : distance} miles away
-                  {/* Event distance from current user - color code based on their radius (success or warning) */}
                 </p>
                 {host?.id === user?.id ? (
                   <p className="ms-2 text-center sm:text-right">
