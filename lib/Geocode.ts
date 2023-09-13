@@ -3,6 +3,7 @@
 import { GeocodeDirectResponse, GeocodeZipResponse } from "@/types";
 import fetcher from "./GeocodingFetcher";
 import { stateAbrv } from "./stateAbrv";
+import auth from "./authenticate";
 
 // ALL coordinate arrays returned as [lon, lat] to match the mongodb GeoJSON format
 
@@ -35,6 +36,23 @@ export async function getCoord({ location, zip }: getCoordArgs): Promise<[number
     throw new Error('No data sent')
   } catch (err: Error | any) {
     console.error(err?.message ?? err)
+    throw new Error(err?.message ?? 'Invalid request')
+  }
+}
+
+export async function getUserCoord(): Promise<[number, number]> {
+  try {
+    const user = await auth();
+
+    if (!user) throw new Error('No user');
+
+    const location = user.location
+
+    if (!location) throw new Error('No location data for user')
+
+    return getCoord({ location });
+  } catch (err: Error | any) {
+    console.error(err?.message ?? err);
     throw new Error(err?.message ?? 'Invalid request')
   }
 }
