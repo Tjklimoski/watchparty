@@ -85,7 +85,7 @@ function kmToMiles(km: number): number {
   return Math.round(km * 0.621371)
 }
 
-export async function getCityFromCoord(coord: [number, number]): string {
+export async function getCityFromCoord(coord: [number, number]): Promise<string> {
   const [lon, lat] = coord;
   try {
     const res = await fetcher<GeocodeReverseResponse>('/reverse', { lat, lon });
