@@ -4,7 +4,7 @@ import Billboard from "@/components/media/Billboard";
 import BackBtn from "@/components/util/BackBtn";
 import Container from "@/components/util/Container";
 import useUser from "@/hooks/useUser";
-import apiFetcher from "@/lib/APIFetcher";
+import apiFetcher, { API } from "@/lib/APIFetcher";
 import fetcher from "@/lib/TMDBFetcher";
 import { Episode, MovieDetails, TVShowDetails, WatchParty } from "@/types";
 import useSWR from "swr";
@@ -17,16 +17,12 @@ import Link from "next/link";
 import { formatDate, formatTime } from "@/lib/format";
 import { useEffect, useState } from "react";
 import ProfileIconGroup from "@/components/util/ProfileIconGroup";
-import {
-  getCityFromCoord,
-  getCoord,
-  getUserCoord,
-  getUserDistanceFrom,
-} from "@/lib/Geocode";
+import { getUserDistanceFrom } from "@/lib/Geocode";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const [showAllPartygoers, setShowAllPartygoers] = useState(false);
   const [showAllInterested, setShowAllInterested] = useState(false);
+  const [distance, setDistance] = useState(-1);
   const router = useRouter();
   const { partyid } = params;
 
@@ -69,17 +65,15 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
     setShowAllInterested((current) => !current);
   }
 
+  // fetch and set the distance the user is from the WatchParty
   useEffect(() => {
-    async function get() {
-      if (!watchParty) return;
-      try {
-        const city = await getCityFromCoord(watchParty.geo.coordinates);
-        console.log("city from coord!: ", city);
-      } catch (err) {
-        console.error(err);
-      }
-    }
-    get();
+    if (!watchParty) return;
+    const coordinates = watchParty.geo.coordinates;
+    getUserDistanceFrom(coordinates)
+      .then((miles) => setDistance(miles))
+      .catch((err: Error | any) => {
+        console.error(err?.message ?? err);
+      });
   }, [watchParty]);
 
   return (
@@ -114,7 +108,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
             <article className="flex-grow min-w-0 [&>*:not(:last-child)]:mb-4">
               <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
                 <p className="font-semibold text-success text-center sm:text-left">
-                  WatchParty is 35 miles away
+                  {distance === -1 ? "NA" : distance} miles away
                   {/* Event distance from current user - color code based on their radius (success or warning) */}
                 </p>
                 {host?.id === user?.id ? (

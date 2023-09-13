@@ -1,5 +1,3 @@
-'use server'
-
 import { GeocodeDirectResponse, GeocodeReverseResponse, GeocodeZipResponse } from "@/types";
 import fetcher from "./GeocodingFetcher";
 import { stateAbrv } from "./stateAbrv";
