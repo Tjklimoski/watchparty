@@ -1,5 +1,4 @@
 import prisma from "@/prisma/client";
-import { watch } from "fs";
 import { NextRequest, NextResponse as res } from "next/server";
 
 interface Params {
