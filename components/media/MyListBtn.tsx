@@ -41,7 +41,6 @@ export default function MyListBtn({
   tooltip,
   ...props
 }: MyListBtnProps) {
-  const router = useRouter(); // For sending the user to the create WatchParty page.
   const { data: user, mutate: userMutate } = useSWR<User>("/user", APIFetcher);
   const [inMyList, setInMyList] = useState<boolean>(false);
 
