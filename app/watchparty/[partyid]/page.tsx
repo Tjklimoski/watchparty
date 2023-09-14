@@ -18,6 +18,7 @@ import { formatDate, formatTime } from "@/lib/format";
 import { useEffect, useState } from "react";
 import ProfileIconGroup from "@/components/util/ProfileIconGroup";
 import { getUserDistanceFrom } from "@/lib/Geocode";
+import AttendBtn from "@/components/watchparty/AttendBtn";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const [showAllPartygoers, setShowAllPartygoers] = useState(false);
@@ -71,7 +72,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
 
   // fetch and set the distance the user is from the WatchParty
   useEffect(() => {
-    if (!watchParty) return;
+    if (!watchParty?.geo.coordinates) return;
     const coordinates = watchParty.geo.coordinates;
     getUserDistanceFrom(coordinates)
       .then((miles) => setDistance(miles))
@@ -91,9 +92,10 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
             <div className="flex gap-4 ms-4">
               {/* Interested in Button */}
               {/* Party Goer Button */}
+              <AttendBtn watchPartyId={watchParty?.id ?? ""} tooltip />
               {user && watchParty && user.id === watchParty.userId && (
                 <button
-                  className="btn btn-circle btn-info btn-outline border-2 grid place-items-center tooltip tooltip-primary normal-case"
+                  className="btn btn-circle btn-neutral btn-outline border-2 grid place-items-center tooltip normal-case"
                   data-tip="Edit"
                   aria-label="Edit your WatchParty"
                   onClick={() =>
@@ -257,4 +259,3 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
 }
 
 // buttons to become a partygoer, or to be intersted in the watchparty.
-// calculate the distance from the user to the WatchParty
