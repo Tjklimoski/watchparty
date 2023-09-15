@@ -91,12 +91,9 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
           <div className="flex justify-between mb-4 sm:mb-8">
             <BackBtn />
             <div className="flex gap-4 ms-4">
-              {/* Toggle which buttons to show based on if host user is viewing page or not */}
-              <InterestedBtn watchPartyId={watchParty?.id ?? ""} tooltip />
-              <AttendBtn watchPartyId={watchParty?.id ?? ""} tooltip />
-              {user && watchParty && user.id === watchParty.userId && (
+              {user && watchParty && user.id === watchParty.userId ? (
                 <button
-                  className="btn btn-circle btn-neutral btn-outline border-2 grid place-items-center tooltip normal-case"
+                  className="btn btn-circle btn-primary btn-outline border-2 grid place-items-center tooltip normal-case"
                   data-tip="Edit"
                   aria-label="Edit your WatchParty"
                   onClick={() =>
@@ -105,6 +102,11 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                 >
                   <MdEdit size={30} />
                 </button>
+              ) : (
+                <>
+                  <InterestedBtn watchPartyId={watchParty?.id ?? ""} tooltip />
+                  <AttendBtn watchPartyId={watchParty?.id ?? ""} tooltip />
+                </>
               )}
             </div>
           </div>
