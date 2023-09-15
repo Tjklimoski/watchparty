@@ -10,6 +10,19 @@ interface getCoordArgs {
   zip?: string;
 }
 
+function getBrowserCoord(): Promise<[number, number]> {
+  return new Promise((res, rej) => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => res([pos.coords.longitude, pos.coords.latitude]),
+        rej
+      );
+    } else {
+      rej('No location data for user');
+    }
+  })
+}
+
 export async function getCoord({ location, zip }: getCoordArgs): Promise<[number, number]> {
   try {
 
@@ -40,15 +53,21 @@ export async function getCoord({ location, zip }: getCoordArgs): Promise<[number
 
 export async function getUserCoord(): Promise<[number, number]> {
   try {
-    const user = await auth();
+    let coordinates: [number, number] | undefined
 
+    const user = await auth();
     if (!user) throw new Error('No user');
 
     const location = user.location
 
-    if (!location) throw new Error('No location data for user')
+    if (!location) {
+      coordinates = await getBrowserCoord();
+    } else {
+      coordinates = await getCoord({ location });
+    }
 
-    return getCoord({ location });
+    if (!coordinates) throw new Error('No coordinates found for user')
+    return coordinates;
   } catch (err: Error | any) {
     console.error(err?.message ?? err);
     throw new Error(err?.message ?? 'Invalid request')

@@ -227,7 +227,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                     size={50}
                     handleClick={togglePartygoers}
                   >
-                    {/* Children is the fallback if userIds array is empty */}
+                    {/* Children are the fallback if userIds array is empty */}
                     Be the first Partygoer!
                   </ProfileIconGroup>
                 </div>
@@ -260,5 +260,3 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
     </main>
   );
 }
-
-// buttons to become a partygoer, or to be intersted in the watchparty.
