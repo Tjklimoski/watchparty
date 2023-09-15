@@ -1,11 +1,9 @@
 "use client";
 
 import React from "react";
-import { WatchParty } from "@/types";
-import axios from "axios";
+import { User, WatchParty } from "@/types";
 import useSWR from "swr";
 import { useEffect, useState } from "react";
-import useUser from "@/hooks/useUser";
 import apiFetcher, { API } from "@/lib/APIFetcher";
 import { BsPersonFillAdd, BsPersonFillDash } from "react-icons/bs";
 
@@ -15,23 +13,20 @@ interface MyListBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   tooltip?: boolean;
 }
 
-// async function addToMyList(
-//   id: string,
-//   media_type: "movie" | "tv" | undefined
-// ): Promise<User | undefined> {
-//   return axios
-//     .post("/api/user/my-list", { id, media_type })
-//     .then((res) => res.data);
-// }
+async function addUserToList(id: string, userId: string): Promise<WatchParty> {
+  return API.post(`/watchparties/${id}/partygoers`, {
+    userId,
+  }).then((res) => res.data);
+}
 
-// async function removeFromMyList(
-//   id: string,
-//   media_type: "movie" | "tv" | undefined
-// ): Promise<User | undefined> {
-//   return axios
-//     .delete("/api/user/my-list", { data: { id, media_type } })
-//     .then((res) => res.data);
-// }
+async function deleteUserFromList(
+  id: string,
+  userId: string
+): Promise<WatchParty> {
+  return API.delete(`/watchparties/${id}/partygoers/${userId}`).then(
+    (res) => res.data
+  );
+}
 
 export default function AttendBtn({
   watchPartyId: id,
@@ -39,12 +34,13 @@ export default function AttendBtn({
   tooltip,
   ...props
 }: MyListBtnProps) {
-  const { user } = useUser();
+  // Fetch current user -- does this need to useSWR to allow for mutation and optomistic updating?
+  const { data: user, mutate: userMutate } = useSWR<User>("/user", apiFetcher);
   const [attending, setAttending] = useState(false);
 
   // Fetch watchParty Data
   const { data: watchParty, error: watchPartyError } = useSWR<WatchParty>(
-    `/watchparties/${id}`,
+    id && `/watchparties/${id}`,
     apiFetcher
   );
   if (watchPartyError) throw new Error("No WatchParty found");
@@ -57,6 +53,24 @@ export default function AttendBtn({
     });
   }, [user, id]);
 
+  async function handleClick() {
+    try {
+      if (!user) throw new Error("No current user");
+      setAttending((current) => !current);
+
+      const updatedWatchParty = attending
+        ? await deleteUserFromList(id, user.id)
+        : await addUserToList(id, user.id);
+
+      if (!updatedWatchParty) throw new Error("No updated WatchParty");
+    } catch (err: Error | any) {
+      console.error(err?.message ?? err);
+    } finally {
+      // force revalidation of user data
+      userMutate();
+    }
+  }
+
   return (
     <button
       className={`${sm ? "btn-sm" : "btn"} btn-primary ${
@@ -67,40 +81,7 @@ export default function AttendBtn({
       data-tip={attending ? "Quit Attending" : "Attend WatchParty"}
       aria-label={attending ? "Quit Attending" : "Attend WatchParty"}
       {...props}
-      onClick={async () => {
-        try {
-          if (!user) throw new Error("No current user");
-          setAttending((current) => !current);
-          // update both the watchParty and the user
-          // const updatedUser = await API.post("/user/attend", { id }).then(
-          //   (res) => res.data
-          // );
-          // if (!updatedUser) throw new Error("No updated user");
-
-          const updatedWatchParty = await API.patch(`/watchparties/${id}`, {
-            partygoerIds: user.id,
-          }).then((res) => res.data);
-          if (!updatedWatchParty) throw new Error("No updated WatchParty");
-
-          console.log("AXIOS RETURNED WP: ", updatedWatchParty);
-        } catch (err: Error | any) {
-          console.error(err?.message ?? err);
-        }
-        // try {
-        //   setInMyList((current) => !current);
-        //   const updatedUser = attending
-        //     ? await removeFromMyList(id, media_type)
-        //     : await addToMyList(id, media_type);
-        //   if (updatedUser === undefined) {
-        //     throw new Error("No updated user");
-        //   }
-        //   userMutate({ ...user!, myList: updatedUser.myList });
-        // } catch (err) {
-        //   // refresh the user data to revert the optomistic attending state change
-        //   userMutate({ ...user! });
-        //   console.log(err);
-        // }
-      }}
+      onClick={handleClick}
     >
       {attending ? (
         <BsPersonFillDash size={sm ? 20 : 25} />
