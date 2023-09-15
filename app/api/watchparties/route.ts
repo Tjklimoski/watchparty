@@ -1,8 +1,8 @@
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse as res } from "next/server";
 
-export async function GET(req: NextRequest, { params }: { params: { radius: number } }) {
-  const { radius } = params;
+export async function GET(req: NextRequest) {
+  const { radius } = await req.json();
 }
 
 export async function POST(req: NextRequest) {
