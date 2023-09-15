@@ -86,9 +86,9 @@ export default function MyListBtn({
       }}
     >
       {inMyList ? (
-        <FaCheck size={sm ? 20 : 25} />
+        <FaCheck size={sm ? 20 : 30} />
       ) : (
-        <FaPlus size={sm ? 20 : 25} />
+        <FaPlus size={sm ? 20 : 30} />
       )}
     </button>
   );

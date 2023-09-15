@@ -48,7 +48,7 @@ export default function WatchPartyBtn({
       aria-label="Create WatchParty"
       {...props}
     >
-      <BiSolidParty size={sm ? 20 : 25} />
+      <BiSolidParty size={sm ? 20 : 30} />
     </button>
   );
 }

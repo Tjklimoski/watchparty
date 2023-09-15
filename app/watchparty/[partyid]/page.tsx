@@ -102,7 +102,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                     router.push(`/watchparty/${watchParty.id}/edit`)
                   }
                 >
-                  <MdEdit size={25} />
+                  <MdEdit size={30} />
                 </button>
               )}
             </div>

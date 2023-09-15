@@ -84,9 +84,9 @@ export default function AttendBtn({
       onClick={handleClick}
     >
       {attending ? (
-        <BsPersonFillDash size={sm ? 20 : 25} />
+        <BsPersonFillDash size={sm ? 20 : 30} />
       ) : (
-        <BsPersonFillAdd size={sm ? 20 : 25} />
+        <BsPersonFillAdd size={sm ? 20 : 30} />
       )}
     </button>
   );

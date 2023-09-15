@@ -11,7 +11,7 @@ export default function BackBtn() {
       aria-label="Back"
       onClick={() => router.back()}
     >
-      <FaChevronLeft size={25} />
+      <FaChevronLeft size={30} />
     </button>
   );
 }
