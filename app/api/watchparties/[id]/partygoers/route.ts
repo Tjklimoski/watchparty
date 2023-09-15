@@ -5,14 +5,14 @@ interface Params {
   params: { id: string }
 }
 
-// PATCH request for modifying specific fields (namely id arrays)
-export async function PATCH(req: NextRequest, { params }: Params) {
+// POST request for adding a user to partygoerIds
+export async function POST(req: NextRequest, { params }: Params) {
   const { id } = params;
   try {
     const { userId } = await req.json()
     if (!userId) throw new Error('No userId');
 
-    const currentWatchParty = await prisma.watchParty.findUnique({
+    const watchParty = await prisma.watchParty.findUnique({
       where: {
         id
       },
@@ -21,9 +21,9 @@ export async function PATCH(req: NextRequest, { params }: Params) {
       }
     });
 
-    if (!currentWatchParty) throw new Error(`No WatchParty with id:${id} found`);
+    if (!watchParty) throw new Error(`No WatchParty with id:${id} found`);
 
-    if (currentWatchParty.partygoerIds.includes(userId)) throw new Error('User already a partygoer');
+    if (watchParty.partygoerIds.includes(userId)) throw new Error('User already a partygoer');
 
     const updatedWatchParty = await prisma.watchParty.update({
       where: {
