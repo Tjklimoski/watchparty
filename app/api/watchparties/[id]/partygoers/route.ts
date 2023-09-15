@@ -12,7 +12,7 @@ export async function POST(req: NextRequest, { params }: Params) {
     const { userId } = await req.json()
     if (!userId) throw new Error('No userId');
 
-    const watchParty = await prisma.watchParty.findUnique({
+    const watchParty = await prisma.watchParty.findUniqueOrThrow({
       where: {
         id
       },
@@ -21,9 +21,19 @@ export async function POST(req: NextRequest, { params }: Params) {
       }
     });
 
-    if (!watchParty) throw new Error(`No WatchParty with id:${id} found`);
-
-    if (watchParty.partygoerIds.includes(userId)) throw new Error('User already a partygoer');
+    if (watchParty.partygoerIds.includes(userId)) {
+      // watchparty contains user, but user doesn't contain watchparty. update user.
+      const updatedUser = prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          goingToWatchPartiesIds: { push: id }
+        }
+      })
+      if (!updatedUser) throw new Error('Invalid user id')
+      return res.json(watchParty);
+    }
 
     const updatedWatchParty = await prisma.watchParty.update({
       where: {
