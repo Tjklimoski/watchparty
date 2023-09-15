@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import ProfileIconGroup from "@/components/util/ProfileIconGroup";
 import { getUserDistanceFrom } from "@/lib/Geocode";
 import AttendBtn from "@/components/watchparty/AttendBtn";
+import InterestedBtn from "@/components/watchparty/InterestedBtn";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const [showAllPartygoers, setShowAllPartygoers] = useState(false);
@@ -90,8 +91,8 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
           <div className="flex justify-between mb-4 sm:mb-8">
             <BackBtn />
             <div className="flex gap-4 ms-4">
-              {/* Interested in Button */}
-              {/* Party Goer Button */}
+              {/* Toggle which buttons to show based on if host user is viewing page or not */}
+              <InterestedBtn watchPartyId={watchParty?.id ?? ""} tooltip />
               <AttendBtn watchPartyId={watchParty?.id ?? ""} tooltip />
               {user && watchParty && user.id === watchParty.userId && (
                 <button
