@@ -1,8 +1,12 @@
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse as res } from "next/server";
 
+interface Body {
+  radius: number
+}
+
 export async function GET(req: NextRequest) {
-  const { radius } = await req.json();
+  const { radius }: Body = await req.json();
 }
 
 export async function POST(req: NextRequest) {
