@@ -1,17 +1,28 @@
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse as res } from "next/server";
 
-interface Body {
-  radius: number;
-  coordinates: [number, number];
-}
-
 export async function GET(req: NextRequest) {
   try {
-    const { radius, coordinates }: Body = await req.json();
+    const searchParams = req.nextUrl.searchParams
+
+    if (!searchParams.has('coordinates[]')) throw new Error('no coordinates passed')
+    if (!searchParams.has('radius')) throw new Error('No radius passed')
+
+    const searchParamCoords: string[] = searchParams.getAll('coordinates[]')
+    const radius: number = parseInt(searchParams.get('radius') as string)
+
+    const coordinates = searchParamCoords.map(coord => {
+      const coordinate = parseFloat(coord);
+      if (isNaN(coordinate)) throw new Error('Invalid coordinate')
+      return coordinate;
+    })
+
+    if (isNaN(radius) || coordinates.length !== 2) throw new Error('Invalid params sent')
 
     // convert radius from miles to meters (for mongodb) - 1 mile = 1609.34 meters
     const radiusMeters = radius * 1609.34
+
+    console.log('Request recieved: ', radius, coordinates)
 
     const result = await prisma.watchParty.findRaw({
       filter: {
