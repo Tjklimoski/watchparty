@@ -5,5 +5,5 @@ export const API = axios.create({
 })
 
 export default async function fetcher(url: string) {
-  return API.get(url).then(res => res.data).catch(err => err?.response?.data?.message ?? 'Server error');
+  return API.get(url).then(res => res.data).catch(err => { throw new Error(err?.response?.data?.message ?? 'Server error') });
 }

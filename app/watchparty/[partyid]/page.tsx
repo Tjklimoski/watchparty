@@ -39,7 +39,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
   const { data: media, error: mediaError } = useSWR<
     MovieDetails | TVShowDetails
   >(watchParty && `/${watchParty.mediaType}/${watchParty.mediaId}`, fetcher);
-  if (mediaError) throw new Error("No media found");
+  if (mediaError) throw new Error("No Media found");
 
   // If TV Show, fetch episode data (for episode title and still path)
   const { data: episode, error: episodeError } = useSWR<Episode>(
@@ -73,7 +73,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
 
   // fetch and set the distance the user is from the WatchParty
   useEffect(() => {
-    if (!watchParty?.geo.coordinates) return;
+    if (!watchParty?.geo?.coordinates) return;
     const coordinates = watchParty.geo.coordinates;
     getUserDistanceFrom(coordinates)
       .then((miles) => setDistance(miles))
