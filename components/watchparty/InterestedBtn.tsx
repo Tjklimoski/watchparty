@@ -77,7 +77,7 @@ export default function InterestedBtn({
         !following && "btn-outline"
       } hover:btn-active focus-visible:btn-active border-2 btn-circle grid place-items-center ${
         tooltip && "tooltip"
-      } tooltip-primary normal-case transition duration-300`}
+      } tooltip-secondary normal-case transition duration-300`}
       data-tip={following ? "Quit Following" : "Follow WatchParty"}
       aria-label={following ? "Quit Following" : "Follow WatchParty"}
       {...props}
