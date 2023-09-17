@@ -91,7 +91,7 @@ model User {
   password                    String?
   image                       String?
   // location is a city / town name with state.
-  location                    String
+  location                    String?
   radius                      Int            @default(50)
   accounts                    Account[]
   myWatchParties              WatchParty[]   @relation("myWatchParties")
