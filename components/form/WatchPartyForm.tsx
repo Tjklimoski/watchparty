@@ -98,7 +98,6 @@ export default function WatchPartyForm({
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) {
-    console.log("ON CHANGE CALLED");
     const field = e.target.name;
     const value =
       field === "season" ? parseInt(e.target.value) : e.target.value;
