@@ -24,9 +24,11 @@ import { IoClose } from "react-icons/io5";
 import Skeleton from "@/components/util/Skeleton";
 import UserListItem from "@/components/watchparty/UserListItem";
 import UserList from "@/components/watchparty/UserList";
+import Popup from "@/components/util/Popup";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
-  const partygoersDialogue = useRef<HTMLDialogElement>(null);
+  const partygoersPopup = useRef<HTMLDialogElement>(null);
+  const interestedPopup = useRef<HTMLDialogElement>(null);
   const [showAllPartygoers, setShowAllPartygoers] = useState(false);
   const [showAllInterested, setShowAllInterested] = useState(false);
   const [distance, setDistance] = useState(-1);
@@ -68,13 +70,9 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
   const warnDistance =
     distance === -1 || (user && user.radius < distance) ? true : false;
 
-  function togglePartygoers() {
-    if (!partygoersDialogue.current) return;
-    partygoersDialogue.current.showModal();
-  }
-
-  function toggleInterested() {
-    setShowAllInterested((current) => !current);
+  function openPopup(popup: HTMLDialogElement | null) {
+    if (!popup) return;
+    popup.showModal();
   }
 
   // fetch and set the distance the user is from the WatchParty
@@ -231,11 +229,16 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                   <ProfileIconGroup
                     userIds={watchParty?.partygoerIds}
                     size={50}
-                    handleClick={togglePartygoers}
+                    handleClick={() => openPopup(partygoersPopup.current)}
                   >
                     {/* Children are the fallback if userIds array is empty */}
                     Be the first Partygoer!
                   </ProfileIconGroup>
+                  <Popup
+                    title="Partygoers"
+                    userIds={watchParty?.partygoerIds}
+                    ref={partygoersPopup}
+                  />
                 </div>
 
                 <div>
@@ -251,51 +254,20 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                   <ProfileIconGroup
                     userIds={watchParty?.interestedUsersIds}
                     size={50}
-                    handleClick={toggleInterested}
+                    handleClick={() => openPopup(interestedPopup.current)}
                   >
                     No interested users.
                   </ProfileIconGroup>
+                  <Popup
+                    title="Interested"
+                    userIds={watchParty?.interestedUsersIds}
+                    ref={interestedPopup}
+                  />
                 </div>
               </div>
             </article>
           </div>
         </section>
-
-        <button
-          className="bg-primary px-4 py-2 text-black rounded-lg"
-          onClick={() => {
-            partygoersDialogue.current!.showModal();
-          }}
-        >
-          Open dialogue
-        </button>
-
-        <dialog
-          ref={partygoersDialogue}
-          className="backdrop:bg-black/50 bg-transparent px-4 border-0 w-full h-full max-w-xl max-h-[clamp(400px,60dvh,1000px)] rounded-xl overflow-hidden"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              e.currentTarget.close();
-            }
-          }}
-        >
-          <section className="h-full px-4 sm:px-6 py-2 sm:py-4 bg-primary rounded-xl flex flex-col">
-            <header className="flex flex-col-reverse xs:flex-row items-start mb-2 sm:mb-4">
-              <h3 className="uppercase text-2xl sm:text-3xl font-semibold">
-                Partygoers
-              </h3>
-              <div className="grow flex justify-end items-start self-stretch">
-                <button onClick={() => partygoersDialogue.current!.close()}>
-                  <IoClose size={30} />
-                </button>
-              </div>
-            </header>
-
-            <UserList userIds={watchParty?.partygoerIds} />
-          </section>
-        </dialog>
-
-        {/* Popup overlay boxes of party goers, and interested in. Each person on the list will be a clickable link to their profile, use dialogue element */}
       </Container>
     </main>
   );
