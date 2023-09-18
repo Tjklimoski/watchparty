@@ -21,6 +21,8 @@ import { getUserDistanceFrom } from "@/lib/Geocode";
 import AttendBtn from "@/components/watchparty/AttendBtn";
 import InterestedBtn from "@/components/watchparty/InterestedBtn";
 import { IoClose } from "react-icons/io5";
+import Skeleton from "@/components/util/Skeleton";
+import UserListItem from "@/components/watchparty/UserListItem";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const partygoersDialogue = useRef<HTMLDialogElement>(null);
@@ -276,8 +278,8 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
             }
           }}
         >
-          <section className="h-full px-6 py-4 bg-primary rounded-xl flex flex-col">
-            <header className="flex flex-col-reverse xs:flex-row items-start mb-4">
+          <section className="h-full px-4 sm:px-6 py-2 sm:py-4 bg-primary rounded-xl flex flex-col">
+            <header className="flex flex-col-reverse xs:flex-row items-start mb-2 sm:mb-4">
               <h3 className="uppercase text-2xl sm:text-3xl font-semibold">
                 Partygoers
               </h3>
@@ -290,18 +292,9 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
 
             <div className="grow overflow-y-auto scroll-auto scrollbar-thin scrollbar-thumb-secondary active:scrollbar-thumb-secondary-focus scrollbar-track-neutral scrollbar-thumb-rounded-full scrollbar-track-rounded-full overscroll-contain pe-2">
               <ul className="[&>*:not(:last-child)]:border-b-2">
-                <li className="border-base-100 py-1">
-                  <Link
-                    href="#"
-                    className="flex items-center hover:bg-white/20 px-4 sm:px-8 py-2 sm:py-4 rounded-md"
-                  >
-                    <ProfileIcon size={50} />
-                    {/* size 40 below sm breakpoint */}
-                    <span className="font-semibold text-md sm:text-lg ms-4">
-                      Torrance
-                    </span>
-                  </Link>
-                </li>
+                {watchParty?.partygoerIds.map((id) => (
+                  <UserListItem key={id} id={id} />
+                ))}
               </ul>
             </div>
           </section>
@@ -311,8 +304,4 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
       </Container>
     </main>
   );
-}
-
-{
-  /* <div className="fixed inset-0 bg-black/50 flex justify-center items-center"> */
 }
