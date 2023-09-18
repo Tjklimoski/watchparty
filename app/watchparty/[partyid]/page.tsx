@@ -293,91 +293,13 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                 <li className="border-base-100 py-1">
                   <Link
                     href="#"
-                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
+                    className="flex items-center hover:bg-white/20 px-4 sm:px-8 py-2 sm:py-4 rounded-md"
                   >
                     <ProfileIcon size={50} />
-                    <span className="font-semibold text-lg ms-4">Torrance</span>
-                  </Link>
-                </li>
-                <li className="border-base-100 py-1">
-                  <Link
-                    href="#"
-                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
-                  >
-                    <ProfileIcon size={50} />
-                    <span className="font-semibold text-lg ms-4">Torrance</span>
-                  </Link>
-                </li>
-                <li className="border-base-100 py-1">
-                  <Link
-                    href="#"
-                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
-                  >
-                    <ProfileIcon size={50} />
-                    <span className="font-semibold text-lg ms-4">Torrance</span>
-                  </Link>
-                </li>
-                <li className="border-base-100 py-1">
-                  <Link
-                    href="#"
-                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
-                  >
-                    <ProfileIcon size={50} />
-                    <span className="font-semibold text-lg ms-4">Torrance</span>
-                  </Link>
-                </li>
-                <li className="border-base-100 py-1">
-                  <Link
-                    href="#"
-                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
-                  >
-                    <ProfileIcon size={50} />
-                    <span className="font-semibold text-lg ms-4">Torrance</span>
-                  </Link>
-                </li>
-                <li className="border-base-100 py-1">
-                  <Link
-                    href="#"
-                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
-                  >
-                    <ProfileIcon size={50} />
-                    <span className="font-semibold text-lg ms-4">Torrance</span>
-                  </Link>
-                </li>
-                <li className="border-base-100 py-1">
-                  <Link
-                    href="#"
-                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
-                  >
-                    <ProfileIcon size={50} />
-                    <span className="font-semibold text-lg ms-4">Torrance</span>
-                  </Link>
-                </li>
-                <li className="border-base-100 py-1">
-                  <Link
-                    href="#"
-                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
-                  >
-                    <ProfileIcon size={50} />
-                    <span className="font-semibold text-lg ms-4">Torrance</span>
-                  </Link>
-                </li>
-                <li className="border-base-100 py-1">
-                  <Link
-                    href="#"
-                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
-                  >
-                    <ProfileIcon size={50} />
-                    <span className="font-semibold text-lg ms-4">Torrance</span>
-                  </Link>
-                </li>
-                <li className="border-base-100 py-1">
-                  <Link
-                    href="#"
-                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
-                  >
-                    <ProfileIcon size={50} />
-                    <span className="font-semibold text-lg ms-4">Torrance</span>
+                    {/* size 40 below sm breakpoint */}
+                    <span className="font-semibold text-md sm:text-lg ms-4">
+                      Torrance
+                    </span>
                   </Link>
                 </li>
               </ul>
