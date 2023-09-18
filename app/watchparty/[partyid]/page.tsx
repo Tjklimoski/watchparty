@@ -20,17 +20,11 @@ import ProfileIconGroup from "@/components/util/ProfileIconGroup";
 import { getUserDistanceFrom } from "@/lib/Geocode";
 import AttendBtn from "@/components/watchparty/AttendBtn";
 import InterestedBtn from "@/components/watchparty/InterestedBtn";
-import { IoClose } from "react-icons/io5";
-import Skeleton from "@/components/util/Skeleton";
-import UserListItem from "@/components/watchparty/UserListItem";
-import UserList from "@/components/watchparty/UserList";
 import Popup from "@/components/util/Popup";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const partygoersPopup = useRef<HTMLDialogElement>(null);
   const interestedPopup = useRef<HTMLDialogElement>(null);
-  const [showAllPartygoers, setShowAllPartygoers] = useState(false);
-  const [showAllInterested, setShowAllInterested] = useState(false);
   const [distance, setDistance] = useState(-1);
   const router = useRouter();
   const { partyid } = params;
