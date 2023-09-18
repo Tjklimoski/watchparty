@@ -15,13 +15,15 @@ import { getFirstName } from "@/lib/stringModifications";
 import ProfileIcon from "@/components/util/ProfileIcon";
 import Link from "next/link";
 import { formatDate, formatTime } from "@/lib/format";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ProfileIconGroup from "@/components/util/ProfileIconGroup";
 import { getUserDistanceFrom } from "@/lib/Geocode";
 import AttendBtn from "@/components/watchparty/AttendBtn";
 import InterestedBtn from "@/components/watchparty/InterestedBtn";
+import { IoClose } from "react-icons/io5";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
+  const partygoersDialogue = useRef<HTMLDialogElement>(null);
   const [showAllPartygoers, setShowAllPartygoers] = useState(false);
   const [showAllInterested, setShowAllInterested] = useState(false);
   const [distance, setDistance] = useState(-1);
@@ -64,7 +66,8 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
     distance === -1 || (user && user.radius < distance) ? true : false;
 
   function togglePartygoers() {
-    setShowAllPartygoers((current) => !current);
+    if (!partygoersDialogue.current) return;
+    partygoersDialogue.current.showModal();
   }
 
   function toggleInterested() {
@@ -255,8 +258,139 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
           </div>
         </section>
 
+        <button
+          className="bg-primary px-4 py-2 text-black rounded-lg"
+          onClick={() => {
+            partygoersDialogue.current!.showModal();
+          }}
+        >
+          Open dialogue
+        </button>
+
+        <dialog
+          ref={partygoersDialogue}
+          className="backdrop:bg-black/50 bg-transparent px-4 border-0 w-full h-full max-w-xl max-h-[clamp(400px,60dvh,1000px)] rounded-xl overflow-hidden"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              e.currentTarget.close();
+            }
+          }}
+        >
+          <section className="h-full px-6 py-4 bg-primary rounded-xl flex flex-col">
+            <header className="flex flex-col-reverse xs:flex-row items-start mb-4">
+              <h3 className="uppercase text-2xl sm:text-3xl font-semibold">
+                Partygoers
+              </h3>
+              <div className="grow flex justify-end items-start self-stretch">
+                <button onClick={() => partygoersDialogue.current!.close()}>
+                  <IoClose size={30} />
+                </button>
+              </div>
+            </header>
+
+            <div className="grow overflow-y-auto scroll-auto scrollbar-thin scrollbar-thumb-secondary active:scrollbar-thumb-secondary-focus scrollbar-track-neutral scrollbar-thumb-rounded-full scrollbar-track-rounded-full overscroll-contain pe-2">
+              <ul className="[&>*:not(:last-child)]:border-b-2">
+                <li className="border-base-100 py-1">
+                  <Link
+                    href="#"
+                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
+                  >
+                    <ProfileIcon size={50} />
+                    <span className="font-semibold text-lg ms-4">Torrance</span>
+                  </Link>
+                </li>
+                <li className="border-base-100 py-1">
+                  <Link
+                    href="#"
+                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
+                  >
+                    <ProfileIcon size={50} />
+                    <span className="font-semibold text-lg ms-4">Torrance</span>
+                  </Link>
+                </li>
+                <li className="border-base-100 py-1">
+                  <Link
+                    href="#"
+                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
+                  >
+                    <ProfileIcon size={50} />
+                    <span className="font-semibold text-lg ms-4">Torrance</span>
+                  </Link>
+                </li>
+                <li className="border-base-100 py-1">
+                  <Link
+                    href="#"
+                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
+                  >
+                    <ProfileIcon size={50} />
+                    <span className="font-semibold text-lg ms-4">Torrance</span>
+                  </Link>
+                </li>
+                <li className="border-base-100 py-1">
+                  <Link
+                    href="#"
+                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
+                  >
+                    <ProfileIcon size={50} />
+                    <span className="font-semibold text-lg ms-4">Torrance</span>
+                  </Link>
+                </li>
+                <li className="border-base-100 py-1">
+                  <Link
+                    href="#"
+                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
+                  >
+                    <ProfileIcon size={50} />
+                    <span className="font-semibold text-lg ms-4">Torrance</span>
+                  </Link>
+                </li>
+                <li className="border-base-100 py-1">
+                  <Link
+                    href="#"
+                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
+                  >
+                    <ProfileIcon size={50} />
+                    <span className="font-semibold text-lg ms-4">Torrance</span>
+                  </Link>
+                </li>
+                <li className="border-base-100 py-1">
+                  <Link
+                    href="#"
+                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
+                  >
+                    <ProfileIcon size={50} />
+                    <span className="font-semibold text-lg ms-4">Torrance</span>
+                  </Link>
+                </li>
+                <li className="border-base-100 py-1">
+                  <Link
+                    href="#"
+                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
+                  >
+                    <ProfileIcon size={50} />
+                    <span className="font-semibold text-lg ms-4">Torrance</span>
+                  </Link>
+                </li>
+                <li className="border-base-100 py-1">
+                  <Link
+                    href="#"
+                    className="flex items-center hover:bg-white/20 px-8 py-4 rounded-md"
+                  >
+                    <ProfileIcon size={50} />
+                    <span className="font-semibold text-lg ms-4">Torrance</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </dialog>
+
         {/* Popup overlay boxes of party goers, and interested in. Each person on the list will be a clickable link to their profile, use dialogue element */}
       </Container>
     </main>
   );
+}
+
+{
+  /* <div className="fixed inset-0 bg-black/50 flex justify-center items-center"> */
 }
