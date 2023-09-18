@@ -15,7 +15,7 @@ export default function UserListItem({ id }: UserListItemProps) {
 
   if (!user && !error)
     return (
-      <li className="py-1">
+      <li className="border-base-100/50 py-1">
         <div className="flex items-center px-4 sm:px-8 py-2 sm:py-4">
           <Skeleton className="rounded-full h-10 sm:h-12 w-10 sm:w-12" />
           <Skeleton className="w-1/4 min-w-[150px] ms-2 sm:ms-4" />
@@ -23,7 +23,7 @@ export default function UserListItem({ id }: UserListItemProps) {
       </li>
     );
 
-  if (!id || error) return null;
+  if (error) return null;
 
   return (
     // A border size / location is added conditionally on the li from the parent

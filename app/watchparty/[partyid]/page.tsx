@@ -23,6 +23,7 @@ import InterestedBtn from "@/components/watchparty/InterestedBtn";
 import { IoClose } from "react-icons/io5";
 import Skeleton from "@/components/util/Skeleton";
 import UserListItem from "@/components/watchparty/UserListItem";
+import UserList from "@/components/watchparty/UserList";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const partygoersDialogue = useRef<HTMLDialogElement>(null);
@@ -290,13 +291,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
               </div>
             </header>
 
-            <div className="grow overflow-y-auto scroll-auto scrollbar-thin scrollbar-thumb-secondary active:scrollbar-thumb-secondary-focus scrollbar-track-neutral scrollbar-thumb-rounded-full scrollbar-track-rounded-full overscroll-contain pe-2">
-              <ul className="[&>*:not(:last-child)]:border-b-2">
-                {watchParty?.partygoerIds.map((id) => (
-                  <UserListItem key={id} id={id} />
-                ))}
-              </ul>
-            </div>
+            <UserList userIds={watchParty?.partygoerIds} />
           </section>
         </dialog>
 
