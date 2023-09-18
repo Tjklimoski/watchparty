@@ -23,9 +23,9 @@ export default function ProfileIcon({
   return isLoading ? (
     <FaUser
       size={size}
-      className={`rounded-full bg-neutral ${
+      className={`rounded-full bg-neutral/60 ${
         group && "outline"
-      } outline-2 outline-primary group-focus:outline-primary-focus group-hover:outline-accent-focus p-1`}
+      } outline-2 outline-primary group-focus:outline-primary-focus group-hover:outline-accent-focus p-1 text-base-content`}
     />
   ) : userImage ? (
     <Image
@@ -40,9 +40,9 @@ export default function ProfileIcon({
   ) : (
     <FaUser
       size={size}
-      className={`rounded-full bg-neutral ${
+      className={`rounded-full bg-neutral/60 ${
         group && "outline"
-      } outline-2 outline-accent group-focus:outline-primary-focus group-hover:outline-accent-focus p-1`}
+      } outline-2 outline-accent group-focus:outline-primary-focus group-hover:outline-accent-focus p-1 text-base-content`}
     />
   );
 }
