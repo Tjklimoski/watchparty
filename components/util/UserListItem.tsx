@@ -5,15 +5,21 @@ import useSWR from "swr";
 import APIFetcher from "@/lib/APIFetcher";
 import Skeleton from "../util/Skeleton";
 import { getFirstName } from "@/lib/stringModifications";
+import { LimitedUser } from "@/types";
 
 interface UserListItemProps {
   id: string | undefined;
 }
 
 export default function UserListItem({ id }: UserListItemProps) {
-  const { data: user, error } = useSWR(id && `/users/${id}`, APIFetcher);
+  const { data: user, error } = useSWR<LimitedUser>(
+    id && `/users/${id}`,
+    APIFetcher
+  );
 
-  if (!user && !error)
+  if (error) return null;
+
+  if (!user)
     return (
       <li className="border-base-100/50 py-1">
         <div className="flex items-center px-4 sm:px-8 py-2 sm:py-4">
@@ -22,8 +28,6 @@ export default function UserListItem({ id }: UserListItemProps) {
         </div>
       </li>
     );
-
-  if (error) return null;
 
   return (
     // A border size / location is added conditionally on the li from the parent
@@ -37,7 +41,7 @@ export default function UserListItem({ id }: UserListItemProps) {
           <ProfileIcon id={id} size={48} />
         </div>
         <span className="font-semibold text-md sm:text-lg ms-4">
-          {getFirstName(user.name)}
+          {getFirstName(user.name ?? "")}
         </span>
       </Link>
     </li>

@@ -20,6 +20,7 @@ import ProfileIconGroup from "@/components/util/ProfileIconGroup";
 import { getUserDistanceFrom } from "@/lib/Geocode";
 import AttendBtn from "@/components/watchparty/AttendBtn";
 import InterestedBtn from "@/components/watchparty/InterestedBtn";
+import Skeleton from "@/components/util/Skeleton";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const [distance, setDistance] = useState(-1);
@@ -55,11 +56,10 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
   // Fetch WatchParty creator/host data
   const { user: host } = useUser(watchParty && watchParty?.userId);
 
-  const eventDate = new Date(watchParty?.date ?? "");
-
   // highlight distance in warning color if distance is -1 or outside user's radius
-  const warnDistance =
-    distance === -1 || (user && user.radius < distance) ? true : false;
+  const warnDistance = distance === -1 || (user && distance > user.radius);
+
+  const color = watchParty?.mediaType === "tv" ? "secondary" : "primary";
 
   // fetch and set the distance the user is from the WatchParty
   useEffect(() => {
@@ -80,10 +80,15 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
         <section>
           <div className="flex justify-between mb-4 sm:mb-8">
             <BackBtn />
-            <div className="flex gap-4 ms-4">
-              {user && watchParty && user.id === watchParty.userId ? (
+            <div className="flex gap-4 ms-4 items-center">
+              {!watchParty || !host ? (
+                <>
+                  <Skeleton className="w-12 h-12 rounded-full" />
+                  <Skeleton className="w-12 h-12 rounded-full" />
+                </>
+              ) : host.id === watchParty.userId ? (
                 <button
-                  className="btn btn-circle btn-primary btn-outline border-2 grid place-items-center tooltip normal-case"
+                  className="btn btn-circle btn-primary btn-outline border-2 grid place-items-center tooltip tooltip-info normal-case"
                   data-tip="Edit"
                   aria-label="Edit your WatchParty"
                   onClick={() =>
@@ -94,8 +99,8 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                 </button>
               ) : (
                 <>
-                  <InterestedBtn watchPartyId={watchParty?.id ?? ""} tooltip />
-                  <AttendBtn watchPartyId={watchParty?.id ?? ""} tooltip />
+                  <InterestedBtn watchPartyId={watchParty.id} tooltip />
+                  <AttendBtn watchPartyId={watchParty.id} tooltip />
                 </>
               )}
             </div>
@@ -106,49 +111,61 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
 
             <article className="flex-grow min-w-0 [&>*:not(:last-child)]:mb-4">
               <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
-                <p
-                  className={`font-semibold ${
-                    warnDistance ? "text-warning" : "text-success"
-                  } text-center sm:text-left`}
-                >
-                  {distance === -1 ? "NA" : distance} miles away
-                </p>
-                {host?.id === user?.id ? (
+                {watchParty && user ? (
+                  <p
+                    className={`font-semibold ${
+                      warnDistance ? "text-warning" : "text-success"
+                    } text-center sm:text-left`}
+                  >
+                    {distance === -1 ? "NA" : distance}{" "}
+                    {distance === 1 ? "mile" : "miles"} away
+                  </p>
+                ) : (
+                  <Skeleton className="max-w-[12ch]" />
+                )}
+                {!host || !user ? (
+                  <Skeleton className="max-w-[18ch]" />
+                ) : host.id === user.id ? (
                   <p className="ms-2 text-center sm:text-right">
                     Hosted by you
                   </p>
                 ) : (
                   <Link
-                    href={`/user/${host?.id}`}
+                    href={`/user/${host.id}`}
                     className="grid grid-flow-col place-items-center gap-2 group ms-2 text-center sm:text-right"
                   >
                     <p>
                       Hosted by{" "}
                       <span className="group-hover:text-primary group-focus:text-primary">
-                        {getFirstName(host?.name ?? "")}
+                        {getFirstName(host.name ?? "")}
                       </span>
                     </p>
-                    <ProfileIcon id={host?.id} size={30} />
+                    <ProfileIcon id={host.id} size={30} />
                   </Link>
                 )}
               </div>
 
-              <h3
-                className={`text-2xl sm:text-4xl font-semibold px-4 py-2 ${
-                  watchParty?.mediaType === "movie"
-                    ? "bg-primary"
-                    : "bg-secondary"
-                } text-base-100 rounded-md ${
-                  watchParty?.mediaType === "movie"
-                    ? "shadow-primary/25"
-                    : "shadow-secondary/25"
-                } shadow-lg`}
-              >
-                {watchParty?.title}
-              </h3>
+              {watchParty ? (
+                <h3
+                  className={`text-2xl sm:text-4xl font-semibold px-4 py-2 bg-${color} text-base-100 rounded-md shadow-${color}/25 shadow-lg`}
+                >
+                  {watchParty.title}
+                </h3>
+              ) : (
+                <Skeleton className="h-12 sm:h-14 mb-4" />
+              )}
 
               <div className="text-md xs:text-lg sm:text-xl leading-relaxed whitespace-pre-wrap bg-neutral/30 py-2 px-4 rounded-lg break-words">
-                <p>{watchParty?.description}</p>
+                {watchParty ? (
+                  <p>{watchParty.description}</p>
+                ) : (
+                  <>
+                    <Skeleton className="sm:h-6 sm:mb-4" />
+                    <Skeleton className="sm:h-6 sm:mb-4" />
+                    <Skeleton className="sm:h-6 sm:mb-4" />
+                    <Skeleton className="sm:h-6 max-w-[33%]" />
+                  </>
+                )}
               </div>
 
               <div className="text-md xs:text-lg sm:text-xl leading-relaxed whitespace-pre-wrap py-2 px-4 rounded-lg">
@@ -156,59 +173,65 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                   WatchParty Details
                 </p>
                 <div className="grid grid-flow-row xs:grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-6">
+                  {/* DATE */}
                   <div>
                     <div
-                      className={`font-semibold py-1 px-2 rounded-md mb-2 ${
-                        watchParty?.mediaType === "movie"
-                          ? "bg-primary/40"
-                          : "bg-secondary/40"
-                      }`}
+                      className={`font-semibold py-1 px-2 rounded-md mb-2 bg-${color}/40`}
                     >
                       Date
                     </div>
-                    <p className="mx-2">{formatDate(watchParty?.date)}</p>
+                    {watchParty ? (
+                      <p className="mx-2">{formatDate(watchParty.date)}</p>
+                    ) : (
+                      <Skeleton className="h-6 sm:h-8 max-w-[12ch]" />
+                    )}
                   </div>
+
+                  {/* TIME */}
                   <div>
                     <div
-                      className={`font-semibold py-1 px-2 rounded-md mb-2 ${
-                        watchParty?.mediaType === "movie"
-                          ? "bg-primary/40"
-                          : "bg-secondary/40"
-                      }`}
+                      className={`font-semibold py-1 px-2 rounded-md mb-2 bg-${color}/40`}
                     >
                       Time
                     </div>
-                    <p className="mx-2">{formatTime(watchParty?.date)}</p>
+                    {watchParty ? (
+                      <p className="mx-2">{formatTime(watchParty.date)}</p>
+                    ) : (
+                      <Skeleton className="h-6 sm:h-8 max-w-[7ch]" />
+                    )}
                   </div>
+
+                  {/* ADDRESS */}
                   <div>
                     <div
-                      className={`font-semibold py-1 px-2 rounded-md mb-2 ${
-                        watchParty?.mediaType === "movie"
-                          ? "bg-primary/40"
-                          : "bg-secondary/40"
-                      }`}
+                      className={`font-semibold py-1 px-2 rounded-md mb-2 bg-${color}/40`}
                     >
                       Address
                     </div>
-                    <p className="mx-2">
-                      {watchParty?.address}
-                      <br />
-                      {watchParty?.city}, {watchParty?.state}
-                      <br />
-                      {watchParty?.zip}
-                    </p>
+                    {watchParty ? (
+                      <p className="mx-2">
+                        {watchParty.address}
+                        <br />
+                        {watchParty.city}, {watchParty.state}
+                        <br />
+                        {watchParty.zip}
+                      </p>
+                    ) : (
+                      <>
+                        <Skeleton className="h-6 sm:h-8 max-w-[15ch]" />
+                        <Skeleton className="h-6 sm:h-8 max-w-[15ch]" />
+                        <Skeleton className="h-6 sm:h-8 max-w-[5ch]" />
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
 
               <div className="text-md xs:text-lg sm:text-xl leading-relaxed py-2 px-4 rounded-lg grid grid-flow-row xs:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
+                {/* PARTYGOERS */}
                 <div>
                   <div
-                    className={`font-semibold py-1 px-2 rounded-md mb-2 ${
-                      watchParty?.mediaType === "movie"
-                        ? "bg-primary/40"
-                        : "bg-secondary/40"
-                    }`}
+                    className={`font-semibold py-1 px-2 rounded-md mb-2 bg-${color}/40`}
                   >
                     Partygoers
                   </div>
@@ -222,13 +245,10 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                   </ProfileIconGroup>
                 </div>
 
+                {/* INTERESTED */}
                 <div>
                   <div
-                    className={`font-semibold py-1 px-2 rounded-md mb-2 ${
-                      watchParty?.mediaType === "movie"
-                        ? "bg-primary/40"
-                        : "bg-secondary/40"
-                    }`}
+                    className={`font-semibold py-1 px-2 rounded-md mb-2 bg-${color}/40`}
                   >
                     Interested Users
                   </div>
