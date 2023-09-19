@@ -8,9 +8,7 @@ import apiFetcher, { API } from "@/lib/APIFetcher";
 import fetcher from "@/lib/TMDBFetcher";
 import { Episode, MovieDetails, TVShowDetails, WatchParty } from "@/types";
 import useSWR from "swr";
-import { MdEdit } from "react-icons/md";
 import MediaDetails from "@/components/media/MediaDetails";
-import { useRouter } from "next/navigation";
 import { getFirstName } from "@/lib/stringModifications";
 import ProfileIcon from "@/components/util/ProfileIcon";
 import Link from "next/link";
@@ -25,7 +23,6 @@ import EditBtn from "@/components/watchparty/EditBtn";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const [distance, setDistance] = useState(-1);
-  const router = useRouter();
   const { partyid } = params;
 
   // Fetch watchParty Data
@@ -115,6 +112,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                 ) : (
                   <Skeleton className="max-w-[12ch]" />
                 )}
+
                 {!host || !user ? (
                   <Skeleton className="max-w-[18ch]" />
                 ) : host.id === user.id ? (
