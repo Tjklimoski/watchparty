@@ -20,11 +20,8 @@ import ProfileIconGroup from "@/components/util/ProfileIconGroup";
 import { getUserDistanceFrom } from "@/lib/Geocode";
 import AttendBtn from "@/components/watchparty/AttendBtn";
 import InterestedBtn from "@/components/watchparty/InterestedBtn";
-import Popup from "@/components/util/Popup";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
-  const partygoersPopup = useRef<HTMLDialogElement>(null);
-  const interestedPopup = useRef<HTMLDialogElement>(null);
   const [distance, setDistance] = useState(-1);
   const router = useRouter();
   const { partyid } = params;
@@ -63,11 +60,6 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
   // highlight distance in warning color if distance is -1 or outside user's radius
   const warnDistance =
     distance === -1 || (user && user.radius < distance) ? true : false;
-
-  function openPopup(popup: HTMLDialogElement | null) {
-    if (!popup) return;
-    popup.showModal();
-  }
 
   // fetch and set the distance the user is from the WatchParty
   useEffect(() => {
