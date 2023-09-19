@@ -17,6 +17,7 @@ import EventTitle from "@/components/watchparty/EventTitle";
 import Description from "@/components/watchparty/Description";
 import DateTile from "@/components/watchparty/DateTile";
 import TimeTile from "@/components/watchparty/TimeTile";
+import AddressTile from "@/components/watchparty/AddressTile";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const { partyid } = params;
@@ -80,30 +81,13 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                 <div className="grid grid-flow-row xs:grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-6">
                   <DateTile date={watchParty?.date} color={color} />
                   <TimeTile date={watchParty?.date} color={color} />
-
-                  {/* ADDRESS */}
-                  <div>
-                    <div
-                      className={`font-semibold py-1 px-2 rounded-md mb-2 bg-${color}/40`}
-                    >
-                      Address
-                    </div>
-                    {watchParty ? (
-                      <p className="mx-2">
-                        {watchParty.address}
-                        <br />
-                        {watchParty.city}, {watchParty.state}
-                        <br />
-                        {watchParty.zip}
-                      </p>
-                    ) : (
-                      <>
-                        <Skeleton className="h-6 sm:h-8 max-w-[15ch]" />
-                        <Skeleton className="h-6 sm:h-8 max-w-[15ch]" />
-                        <Skeleton className="h-6 sm:h-8 max-w-[5ch]" />
-                      </>
-                    )}
-                  </div>
+                  <AddressTile
+                    address={watchParty?.address}
+                    city={watchParty?.city}
+                    state={watchParty?.state}
+                    zip={watchParty?.zip}
+                    color={color}
+                  />
                 </div>
               </div>
 
