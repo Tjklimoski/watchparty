@@ -1,6 +1,6 @@
-import { forwardRef, MouseEvent } from "react";
+import { forwardRef } from "react";
 import PopupHeader from "./PopupHeader";
-import UserList from "../watchparty/UserList";
+import UserList from "./UserList";
 
 interface PopupProps {
   title: string;
