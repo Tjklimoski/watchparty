@@ -14,11 +14,9 @@ import ProfileIcon from "@/components/util/ProfileIcon";
 import Link from "next/link";
 import { formatDate, formatTime } from "@/lib/format";
 import ProfileIconGroup from "@/components/util/ProfileIconGroup";
-import AttendBtn from "@/components/watchparty/AttendBtn";
-import InterestedBtn from "@/components/watchparty/InterestedBtn";
 import Skeleton from "@/components/util/Skeleton";
-import EditBtn from "@/components/watchparty/EditBtn";
 import Distance from "@/components/watchparty/Distance";
+import ActionBtns from "@/components/watchparty/ActionBtns";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const { partyid } = params;
@@ -52,6 +50,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
   // Fetch WatchParty creator/host data
   const { user: host } = useUser(watchParty && watchParty?.userId);
 
+  // heading background color based on media type
   const color = watchParty?.mediaType === "tv" ? "secondary" : "primary";
 
   return (
@@ -62,21 +61,10 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
         <section>
           <div className="flex justify-between mb-4 sm:mb-8">
             <BackBtn />
-            <div className="flex gap-4 ms-4 items-center">
-              {!watchParty || !host || !user ? (
-                <>
-                  <Skeleton className="w-12 h-12 rounded-full" />
-                  <Skeleton className="w-12 h-12 rounded-full" />
-                </>
-              ) : user.id === host.id ? (
-                <EditBtn watchPartyId={watchParty.id} />
-              ) : (
-                <>
-                  <InterestedBtn watchPartyId={watchParty.id} tooltip />
-                  <AttendBtn watchPartyId={watchParty.id} tooltip />
-                </>
-              )}
-            </div>
+            <ActionBtns
+              watchPartyId={watchParty?.id}
+              hostId={watchParty?.userId}
+            />
           </div>
 
           <div className="flex md:flex-row flex-col-reverse gap-4">
