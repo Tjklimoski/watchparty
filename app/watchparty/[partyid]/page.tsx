@@ -8,7 +8,7 @@ import fetcher from "@/lib/TMDBFetcher";
 import { Episode, MovieDetails, TVShowDetails, WatchParty } from "@/types";
 import useSWR from "swr";
 import MediaDetails from "@/components/media/MediaDetails";
-import { formatDate, formatTime } from "@/lib/format";
+import { formatTime } from "@/lib/format";
 import ProfileIconGroup from "@/components/util/ProfileIconGroup";
 import Skeleton from "@/components/util/Skeleton";
 import Distance from "@/components/watchparty/Distance";
@@ -16,6 +16,7 @@ import ActionBtns from "@/components/watchparty/ActionBtns";
 import Host from "@/components/watchparty/Host";
 import EventTitle from "@/components/watchparty/EventTitle";
 import Description from "@/components/watchparty/Description";
+import DateTile from "@/components/watchparty/DateTile";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const { partyid } = params;
@@ -77,19 +78,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                   WatchParty Details
                 </p>
                 <div className="grid grid-flow-row xs:grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-6">
-                  {/* DATE */}
-                  <div>
-                    <div
-                      className={`font-semibold py-1 px-2 rounded-md mb-2 bg-${color}/40`}
-                    >
-                      Date
-                    </div>
-                    {watchParty ? (
-                      <p className="mx-2">{formatDate(watchParty.date)}</p>
-                    ) : (
-                      <Skeleton className="h-6 sm:h-8 max-w-[12ch]" />
-                    )}
-                  </div>
+                  <DateTile date={watchParty?.date} color={color} />
 
                   {/* TIME */}
                   <div>
