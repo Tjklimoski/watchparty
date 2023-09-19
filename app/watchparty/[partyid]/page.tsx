@@ -17,6 +17,7 @@ import ProfileIconGroup from "@/components/util/ProfileIconGroup";
 import Skeleton from "@/components/util/Skeleton";
 import Distance from "@/components/watchparty/Distance";
 import ActionBtns from "@/components/watchparty/ActionBtns";
+import Host from "@/components/watchparty/Host";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const { partyid } = params;
@@ -73,27 +74,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
             <article className="flex-grow min-w-0 [&>*:not(:last-child)]:mb-4">
               <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
                 <Distance watchPartyCoords={watchParty?.geo?.coordinates} />
-
-                {!host || !user ? (
-                  <Skeleton className="max-w-[18ch]" />
-                ) : host.id === user.id ? (
-                  <p className="ms-2 text-center sm:text-right">
-                    Hosted by you
-                  </p>
-                ) : (
-                  <Link
-                    href={`/user/${host.id}`}
-                    className="grid grid-flow-col place-items-center gap-2 group ms-2 text-center sm:text-right"
-                  >
-                    <p>
-                      Hosted by{" "}
-                      <span className="group-hover:text-primary group-focus:text-primary">
-                        {getFirstName(host.name ?? "")}
-                      </span>
-                    </p>
-                    <ProfileIcon id={host.id} size={30} />
-                  </Link>
-                )}
+                <Host hostId={watchParty?.userId} />
               </div>
 
               {watchParty ? (
@@ -106,7 +87,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                 <Skeleton className="h-12 sm:h-14 mb-4" />
               )}
 
-              <div className="text-md xs:text-lg sm:text-xl leading-relaxed whitespace-pre-wrap bg-neutral/30 py-2 px-4 rounded-lg break-words">
+              <div className="text-md xs:text-lg sm:text-xl leading-relaxed whitespace-pre-wrap bg-neutral py-2 px-4 rounded-lg break-words">
                 {watchParty ? (
                   <p>{watchParty.description}</p>
                 ) : (
