@@ -221,18 +221,13 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                     Partygoers
                   </div>
                   <ProfileIconGroup
+                    title="Partygoers"
                     userIds={watchParty?.partygoerIds}
-                    size={50}
-                    handleClick={() => openPopup(partygoersPopup.current)}
+                    iconSize={50}
                   >
                     {/* Children are the fallback if userIds array is empty */}
                     Be the first Partygoer!
                   </ProfileIconGroup>
-                  <Popup
-                    title="Partygoers"
-                    userIds={watchParty?.partygoerIds}
-                    ref={partygoersPopup}
-                  />
                 </div>
 
                 <div>
@@ -246,17 +241,12 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                     Interested Users
                   </div>
                   <ProfileIconGroup
+                    title="Interested"
                     userIds={watchParty?.interestedUsersIds}
-                    size={50}
-                    handleClick={() => openPopup(interestedPopup.current)}
+                    iconSize={50}
                   >
                     No interested users.
                   </ProfileIconGroup>
-                  <Popup
-                    title="Interested"
-                    userIds={watchParty?.interestedUsersIds}
-                    ref={interestedPopup}
-                  />
                 </div>
               </div>
             </article>
