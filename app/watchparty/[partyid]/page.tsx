@@ -81,12 +81,12 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
           <div className="flex justify-between mb-4 sm:mb-8">
             <BackBtn />
             <div className="flex gap-4 ms-4 items-center">
-              {!watchParty || !host ? (
+              {!watchParty || !host || !user ? (
                 <>
                   <Skeleton className="w-12 h-12 rounded-full" />
                   <Skeleton className="w-12 h-12 rounded-full" />
                 </>
-              ) : host.id === watchParty.userId ? (
+              ) : user.id === host.id ? (
                 <button
                   className="btn btn-circle btn-primary btn-outline border-2 grid place-items-center tooltip tooltip-info normal-case"
                   data-tip="Edit"
