@@ -15,6 +15,7 @@ import Distance from "@/components/watchparty/Distance";
 import ActionBtns from "@/components/watchparty/ActionBtns";
 import Host from "@/components/watchparty/Host";
 import EventTitle from "@/components/watchparty/EventTitle";
+import Description from "@/components/watchparty/Description";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const { partyid } = params;
@@ -69,19 +70,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
               </div>
 
               <EventTitle title={watchParty?.title} color={color} />
-
-              <div className="text-md xs:text-lg sm:text-xl leading-relaxed whitespace-pre-wrap bg-neutral py-2 px-4 rounded-lg break-words">
-                {watchParty ? (
-                  <p>{watchParty.description}</p>
-                ) : (
-                  <>
-                    <Skeleton className="sm:h-6 sm:mb-4" />
-                    <Skeleton className="sm:h-6 sm:mb-4" />
-                    <Skeleton className="sm:h-6 sm:mb-4" />
-                    <Skeleton className="sm:h-6 max-w-[33%]" />
-                  </>
-                )}
-              </div>
+              <Description description={watchParty?.description} />
 
               <div className="text-md xs:text-lg sm:text-xl leading-relaxed whitespace-pre-wrap py-2 px-4 rounded-lg">
                 <p className="text-xl sm:text-2xl font-semibold mb-4">
