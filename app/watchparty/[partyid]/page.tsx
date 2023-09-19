@@ -21,6 +21,7 @@ import { getUserDistanceFrom } from "@/lib/Geocode";
 import AttendBtn from "@/components/watchparty/AttendBtn";
 import InterestedBtn from "@/components/watchparty/InterestedBtn";
 import Skeleton from "@/components/util/Skeleton";
+import EditBtn from "@/components/watchparty/EditBtn";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const [distance, setDistance] = useState(-1);
@@ -87,16 +88,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                   <Skeleton className="w-12 h-12 rounded-full" />
                 </>
               ) : user.id === host.id ? (
-                <button
-                  className="btn btn-circle btn-primary btn-outline border-2 grid place-items-center tooltip tooltip-info normal-case"
-                  data-tip="Edit"
-                  aria-label="Edit your WatchParty"
-                  onClick={() =>
-                    router.push(`/watchparty/${watchParty.id}/edit`)
-                  }
-                >
-                  <MdEdit size={30} />
-                </button>
+                <EditBtn watchPartyId={watchParty.id} />
               ) : (
                 <>
                   <InterestedBtn watchPartyId={watchParty.id} tooltip />
