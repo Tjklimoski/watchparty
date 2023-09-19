@@ -3,21 +3,18 @@
 import Billboard from "@/components/media/Billboard";
 import BackBtn from "@/components/util/BackBtn";
 import Container from "@/components/util/Container";
-import useUser from "@/hooks/useUser";
-import apiFetcher, { API } from "@/lib/APIFetcher";
+import apiFetcher from "@/lib/APIFetcher";
 import fetcher from "@/lib/TMDBFetcher";
 import { Episode, MovieDetails, TVShowDetails, WatchParty } from "@/types";
 import useSWR from "swr";
 import MediaDetails from "@/components/media/MediaDetails";
-import { getFirstName } from "@/lib/stringModifications";
-import ProfileIcon from "@/components/util/ProfileIcon";
-import Link from "next/link";
 import { formatDate, formatTime } from "@/lib/format";
 import ProfileIconGroup from "@/components/util/ProfileIconGroup";
 import Skeleton from "@/components/util/Skeleton";
 import Distance from "@/components/watchparty/Distance";
 import ActionBtns from "@/components/watchparty/ActionBtns";
 import Host from "@/components/watchparty/Host";
+import EventTitle from "@/components/watchparty/EventTitle";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const { partyid } = params;
@@ -45,12 +42,6 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
   if (watchParty?.mediaType === "tv" && episodeError)
     throw new Error("Invalid episode");
 
-  // Fetch current user data
-  const { user } = useUser();
-
-  // Fetch WatchParty creator/host data
-  const { user: host } = useUser(watchParty && watchParty?.userId);
-
   // heading background color based on media type
   const color = watchParty?.mediaType === "tv" ? "secondary" : "primary";
 
@@ -77,15 +68,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                 <Host hostId={watchParty?.userId} />
               </div>
 
-              {watchParty ? (
-                <h3
-                  className={`text-2xl sm:text-4xl font-semibold px-4 py-2 bg-${color} text-base-100 rounded-md shadow-${color}/25 shadow-lg`}
-                >
-                  {watchParty.title}
-                </h3>
-              ) : (
-                <Skeleton className="h-12 sm:h-14 mb-4" />
-              )}
+              <EventTitle title={watchParty?.title} color={color} />
 
               <div className="text-md xs:text-lg sm:text-xl leading-relaxed whitespace-pre-wrap bg-neutral py-2 px-4 rounded-lg break-words">
                 {watchParty ? (
