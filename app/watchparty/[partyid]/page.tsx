@@ -13,16 +13,14 @@ import { getFirstName } from "@/lib/stringModifications";
 import ProfileIcon from "@/components/util/ProfileIcon";
 import Link from "next/link";
 import { formatDate, formatTime } from "@/lib/format";
-import { useEffect, useRef, useState } from "react";
 import ProfileIconGroup from "@/components/util/ProfileIconGroup";
-import { getUserDistanceFrom } from "@/lib/Geocode";
 import AttendBtn from "@/components/watchparty/AttendBtn";
 import InterestedBtn from "@/components/watchparty/InterestedBtn";
 import Skeleton from "@/components/util/Skeleton";
 import EditBtn from "@/components/watchparty/EditBtn";
+import Distance from "@/components/watchparty/Distance";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
-  const [distance, setDistance] = useState(-1);
   const { partyid } = params;
 
   // Fetch watchParty Data
@@ -54,21 +52,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
   // Fetch WatchParty creator/host data
   const { user: host } = useUser(watchParty && watchParty?.userId);
 
-  // highlight distance in warning color if distance is -1 or outside user's radius
-  const warnDistance = distance === -1 || (user && distance > user.radius);
-
   const color = watchParty?.mediaType === "tv" ? "secondary" : "primary";
-
-  // fetch and set the distance the user is from the WatchParty
-  useEffect(() => {
-    if (!watchParty?.geo?.coordinates) return;
-    const coordinates = watchParty.geo.coordinates;
-    getUserDistanceFrom(coordinates)
-      .then((miles) => setDistance(miles))
-      .catch((err: Error | any) => {
-        console.error(err?.message ?? err);
-      });
-  }, [watchParty]);
 
   return (
     <main className="mt-[max(calc(180px-4rem),_calc(35svh-4rem))] sm:mt-[max(calc(220px-5rem),_calc(45svh-5rem))] mb-10">
@@ -100,18 +84,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
 
             <article className="flex-grow min-w-0 [&>*:not(:last-child)]:mb-4">
               <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
-                {watchParty && user ? (
-                  <p
-                    className={`font-semibold ${
-                      warnDistance ? "text-warning" : "text-success"
-                    } text-center sm:text-left`}
-                  >
-                    {distance === -1 ? "NA" : distance}{" "}
-                    {distance === 1 ? "mile" : "miles"} away
-                  </p>
-                ) : (
-                  <Skeleton className="max-w-[12ch]" />
-                )}
+                <Distance watchPartyCoords={watchParty?.geo?.coordinates} />
 
                 {!host || !user ? (
                   <Skeleton className="max-w-[18ch]" />
