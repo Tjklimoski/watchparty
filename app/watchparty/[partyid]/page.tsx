@@ -8,8 +8,6 @@ import fetcher from "@/lib/TMDBFetcher";
 import { Episode, MovieDetails, TVShowDetails, WatchParty } from "@/types";
 import useSWR from "swr";
 import MediaDetails from "@/components/media/MediaDetails";
-import ProfileIconGroup from "@/components/util/ProfileIconGroup";
-import Skeleton from "@/components/util/Skeleton";
 import Distance from "@/components/watchparty/Distance";
 import ActionBtns from "@/components/watchparty/ActionBtns";
 import Host from "@/components/watchparty/Host";
