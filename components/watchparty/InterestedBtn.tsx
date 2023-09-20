@@ -63,15 +63,15 @@ export default function InterestedBtn({
       setFollowing((current) => !current);
 
       // Create optimistic data to update watchParty in advance
-      const optomisticInterestedUsersIds =
+      const optimisticInterestedUsersIds =
         watchParty.interestedUsersIds.includes(user.id)
           ? watchParty.interestedUsersIds.filter((id) => id !== user.id)
           : [...watchParty.interestedUsersIds, user.id];
-      const optomisticData = {
+      const optimisticData = {
         ...watchParty,
-        interestedUsersIds: optomisticInterestedUsersIds,
+        interestedUsersIds: optimisticInterestedUsersIds,
       };
-      updateWatchPartyData(optomisticData);
+      updateWatchPartyData(optimisticData);
 
       const updatedWatchParty = following
         ? await deleteUserFromList(id, user.id)
@@ -79,10 +79,10 @@ export default function InterestedBtn({
 
       if (!updatedWatchParty) throw new Error("No updated WatchParty");
     } catch (err: Error | any) {
-      // if error, revalidate watchparty data to remove optomistic update
+      // if error, revalidate watchparty data to remove optimistic update
       // passing in exisiting watchParty data to prevent loading state flash on revalidation.
       if (watchParty) updateWatchPartyData(watchParty);
-      // revalidate userData to remove optomistic state change on button
+      // revalidate userData to remove optimistic state change on button
       // Have to pass in the exisiting user spread in an object to force a change in user's referential equality to trigger useEffect to reset state
       if (user) userMutate({ ...user });
       console.error(err?.message ?? err);
