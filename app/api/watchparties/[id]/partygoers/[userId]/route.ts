@@ -18,6 +18,9 @@ export async function DELETE(req: NextRequest, { params }: Params) {
       return res.json(watchParty)
     }
 
+    // prevent host user from removing themselves as a partygoer
+    if (watchParty.userId === userId) throw new Error("Can't remove host from partygoers")
+
     // build new array for watchParty that doesn't contain the userId
     const partygoerIds = watchParty.partygoerIds.filter(partygoerId => partygoerId !== userId);
 
