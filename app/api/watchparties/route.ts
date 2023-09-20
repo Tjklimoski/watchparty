@@ -1,6 +1,9 @@
 import prisma from "@/prisma/client";
+import { WatchParty } from "@/types";
 import { NextRequest, NextResponse as res } from "next/server";
 
+// GET all WatchParties that meet the specified searchParams passed
+// Must pass a coordinates array [lon, lat] and mile radius
 export async function GET(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams
@@ -48,6 +51,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
+// Create a watchParty with the passed data
 export async function POST(req: NextRequest) {
   const data = await req.json();
 

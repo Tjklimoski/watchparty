@@ -68,6 +68,7 @@ export default function WatchPartyForm({
     `/${mediaType}/${mediaId}`,
     fetcher
   );
+
   const { user } = useUser();
 
   const title =
@@ -109,31 +110,33 @@ export default function WatchPartyForm({
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    setLoading(true);
-    setError("");
-    e.preventDefault();
-
-    // validateInputs returns false if an input is invalid.
-    if (!validateInputs()) {
-      setLoading(false);
-      return;
-    }
-
     try {
+      e.preventDefault();
+      setLoading(true);
+      setError("");
+
+      // validateInputs returns false if an input is invalid.
+      if (!validateInputs()) {
+        setLoading(false);
+        return;
+      }
+
+      if (!user) throw new Error("No current user");
       // Get lat and lon data based off event zip code.
       const coordinates = await getCoord({ zip: inputs.zip });
 
       // extract date and time fields from inputs
       const { date, time, ...data } = inputs;
-      // create GeoJSON - mongodb requires lon first in the coordinates array
+      // create GeoJSON - mongodb requires [lon,lat] format
       const geo = { coordinates };
       const watchPartyData = {
-        userId: user!.id,
+        userId: user.id,
         mediaId,
         mediaType,
         mediaTitle: title,
         geo,
         date: new Date(`${date} ${time}`).toISOString(),
+        partygoerIds: [user.id],
         ...data,
       };
 
