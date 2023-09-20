@@ -18,6 +18,7 @@ import Description from "@/components/watchparty/Description";
 import DateTile from "@/components/watchparty/DateTile";
 import TimeTile from "@/components/watchparty/TimeTile";
 import AddressTile from "@/components/watchparty/AddressTile";
+import PartygoersTile from "@/components/watchparty/PartygoersTile";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const { partyid } = params;
@@ -92,22 +93,10 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
               </div>
 
               <div className="text-md xs:text-lg sm:text-xl leading-relaxed py-2 px-4 rounded-lg grid grid-flow-row xs:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
-                {/* PARTYGOERS */}
-                <div>
-                  <div
-                    className={`font-semibold py-1 px-2 rounded-md mb-2 bg-${color}/40`}
-                  >
-                    Partygoers
-                  </div>
-                  <ProfileIconGroup
-                    title="Partygoers"
-                    userIds={watchParty?.partygoerIds}
-                    iconSize={50}
-                  >
-                    {/* Children are the fallback if userIds array is empty */}
-                    Be the first Partygoer!
-                  </ProfileIconGroup>
-                </div>
+                <PartygoersTile
+                  partygoerIds={watchParty?.partygoerIds}
+                  color={color}
+                />
 
                 {/* INTERESTED */}
                 <div>
