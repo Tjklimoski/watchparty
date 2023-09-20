@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Skeleton from "../util/Skeleton";
-import { Episode, MovieDetails, TVShowDetails, WatchParty } from "@/types";
+import { Episode, MovieDetails, TVShowDetails } from "@/types";
 
 interface BillboardProps {
   media: MovieDetails | TVShowDetails | undefined;
@@ -15,11 +15,12 @@ export default function Billboard({
   watchparty,
   episode,
 }: BillboardProps) {
+  console.log(episode);
   const baseImgPath = "https://image.tmdb.org/t/p/";
   const imgSize = "original";
   const imageUrl = media?.backdrop_path
     ? `${baseImgPath}${imgSize}${
-        media?.media_type === "tv" && watchparty && episode
+        media?.media_type === "tv" && watchparty && episode?.still_path
           ? episode.still_path
           : media.backdrop_path
       }`
