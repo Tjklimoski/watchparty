@@ -7,7 +7,7 @@ import { FaUser } from "react-icons/fa6";
 import useSWR from "swr";
 
 interface ProfileIconProps {
-  id?: string;
+  id: string | undefined;
   size?: number;
   group?: boolean;
 }

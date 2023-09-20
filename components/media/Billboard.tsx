@@ -15,7 +15,6 @@ export default function Billboard({
   watchparty,
   episode,
 }: BillboardProps) {
-  console.log(episode);
   const baseImgPath = "https://image.tmdb.org/t/p/";
   const imgSize = "original";
   const imageUrl = media?.backdrop_path

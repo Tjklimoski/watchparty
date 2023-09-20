@@ -1,11 +1,14 @@
 "use client";
 
+import useUser from "@/hooks/useUser";
 import ProfileIcon from "../util/ProfileIcon";
 import ProfileMenu from "./ProfileMenu";
 import { useState } from "react";
 
 export default function NavbarProfileContainer() {
   const [isOpen, setIsOpen] = useState(false);
+  // Fetch current user data to pass user id to ProfileIcon
+  const { user } = useUser();
 
   function toggleOpen() {
     setIsOpen((current) => !current);
@@ -25,7 +28,7 @@ export default function NavbarProfileContainer() {
         aria-label="Profile Menu"
         aria-expanded={isOpen}
       >
-        <ProfileIcon />
+        <ProfileIcon id={user?.id} />
       </button>
 
       <div
