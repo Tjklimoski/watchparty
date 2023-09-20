@@ -11,6 +11,7 @@ interface MyListBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   watchPartyId: string;
   sm?: boolean;
   tooltip?: boolean;
+  updateWatchPartyDate: (data: WatchParty) => void;
 }
 
 async function addUserToList(id: string, userId: string): Promise<WatchParty> {
@@ -32,6 +33,7 @@ export default function InterestedBtn({
   watchPartyId: id,
   sm,
   tooltip,
+  updateWatchPartyDate,
   ...props
 }: MyListBtnProps) {
   // Fetch current user
@@ -55,8 +57,20 @@ export default function InterestedBtn({
 
   async function handleClick() {
     try {
+      if (!watchParty) throw new Error("No watchparty");
       if (!user) throw new Error("No current user");
       setFollowing((current) => !current);
+
+      // Create optimistic data to update watchParty in advance
+      const optomisticInterestedUsersIds =
+        watchParty.interestedUsersIds.includes(user.id)
+          ? watchParty.interestedUsersIds.filter((id) => id !== user.id)
+          : [...watchParty.interestedUsersIds, user.id];
+      const optomisticData = {
+        ...watchParty,
+        interestedUsersIds: optomisticInterestedUsersIds,
+      };
+      updateWatchPartyDate(optomisticData);
 
       const updatedWatchParty = following
         ? await deleteUserFromList(id, user.id)
@@ -64,10 +78,13 @@ export default function InterestedBtn({
 
       if (!updatedWatchParty) throw new Error("No updated WatchParty");
     } catch (err: Error | any) {
+      // if error, revalidate watchparty data to remove optomistic update
+      // passing in exisiting watchParty data to prevent loading state flash on revalidation.
+      if (watchParty) updateWatchPartyDate(watchParty);
+      // revalidate userData to remove optomistic state change on button
+      // Have to pass in the exisiting user spread in an object to force a change in user's referential equality to trigger useEffect to reset state
+      if (user) userMutate({ ...user });
       console.error(err?.message ?? err);
-    } finally {
-      // force revalidation of user data
-      userMutate();
     }
   }
 

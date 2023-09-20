@@ -23,10 +23,11 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
   const { partyid } = params;
 
   // Fetch watchParty Data
-  const { data: watchParty, error: watchPartyError } = useSWR<WatchParty>(
-    `/watchparties/${partyid}`,
-    apiFetcher
-  );
+  const {
+    data: watchParty,
+    error: watchPartyError,
+    mutate: watchPartyMutate,
+  } = useSWR<WatchParty>(`/watchparties/${partyid}`, apiFetcher);
   if (watchPartyError) throw new Error("No WatchParty found");
 
   // Fetch media Data
@@ -45,6 +46,10 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
   if (watchParty?.mediaType === "tv" && episodeError)
     throw new Error("Invalid episode");
 
+  function updateWatchPartyDate(data: WatchParty) {
+    watchPartyMutate(data, { revalidate: false });
+  }
+
   // heading background color based on media type
   const color = watchParty?.mediaType === "tv" ? "secondary" : "primary";
 
@@ -59,6 +64,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
             <ActionBtns
               watchPartyId={watchParty?.id}
               hostId={watchParty?.userId}
+              updateWatchPartyDate={updateWatchPartyDate}
             />
           </div>
 

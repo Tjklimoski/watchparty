@@ -12,6 +12,7 @@ interface MyListBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   watchPartyId: string;
   sm?: boolean;
   tooltip?: boolean;
+  updateWatchPartyDate: (data: WatchParty) => void;
 }
 
 async function addUserToList(id: string, userId: string): Promise<WatchParty> {
@@ -33,6 +34,7 @@ export default function AttendBtn({
   watchPartyId: id,
   sm,
   tooltip,
+  updateWatchPartyDate,
   ...props
 }: MyListBtnProps) {
   // Fetch current user
@@ -57,6 +59,7 @@ export default function AttendBtn({
 
   async function handleClick() {
     try {
+      if (!watchParty) throw new Error("No watchparty");
       if (!user) throw new Error("No current user");
       setAttending((current) => {
         const isAttending = !current;
@@ -64,16 +67,29 @@ export default function AttendBtn({
         return isAttending;
       });
 
+      // Create optimistic data to update watchParty in advance
+      const optomisticPartygoerIds = watchParty.partygoerIds.includes(user.id)
+        ? watchParty.partygoerIds.filter((id) => id !== user.id)
+        : [...watchParty.partygoerIds, user.id];
+      const optomisticData = {
+        ...watchParty,
+        partygoerIds: optomisticPartygoerIds,
+      };
+      updateWatchPartyDate(optomisticData);
+
       const updatedWatchParty = attending
         ? await deleteUserFromList(id, user.id)
         : await addUserToList(id, user.id);
 
       if (!updatedWatchParty) throw new Error("No updated WatchParty");
     } catch (err: Error | any) {
+      // if error, revalidate watchparty data to remove optomistic update
+      // passing in exisiting watchParty data to prevent loading state flash on revalidation.
+      if (watchParty) updateWatchPartyDate(watchParty);
+      // revalidate userData to remove optomistic state change on button
+      // Have to pass in the exisiting user spread in an object to force a change in user's referential equality to trigger useEffect to reset state
+      if (user) userMutate({ ...user! });
       console.error(err?.message ?? err);
-    } finally {
-      // force revalidation of user data
-      userMutate();
     }
   }
 

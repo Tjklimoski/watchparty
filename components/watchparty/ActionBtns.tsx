@@ -5,14 +5,19 @@ import InterestedBtn from "./InterestedBtn";
 import AttendBtn from "./AttendBtn";
 import useSWR from "swr";
 import APIFetcher from "@/lib/APIFetcher";
-import { User } from "@/types";
+import { User, WatchParty } from "@/types";
 
 interface ActionBtnsProps {
   watchPartyId: string | undefined;
   hostId: string | undefined;
+  updateWatchPartyDate: (data: WatchParty) => void;
 }
 
-export default function ActionBtns({ watchPartyId, hostId }: ActionBtnsProps) {
+export default function ActionBtns({
+  watchPartyId,
+  hostId,
+  updateWatchPartyDate,
+}: ActionBtnsProps) {
   // fetch current user
   const { data: user, error } = useSWR<User>("/user", APIFetcher);
 
@@ -29,8 +34,16 @@ export default function ActionBtns({ watchPartyId, hostId }: ActionBtnsProps) {
         <EditBtn watchPartyId={watchPartyId} />
       ) : (
         <>
-          <InterestedBtn watchPartyId={watchPartyId} tooltip />
-          <AttendBtn watchPartyId={watchPartyId} tooltip />
+          <InterestedBtn
+            watchPartyId={watchPartyId}
+            updateWatchPartyDate={updateWatchPartyDate}
+            tooltip
+          />
+          <AttendBtn
+            watchPartyId={watchPartyId}
+            updateWatchPartyDate={updateWatchPartyDate}
+            tooltip
+          />
         </>
       )}
     </div>
