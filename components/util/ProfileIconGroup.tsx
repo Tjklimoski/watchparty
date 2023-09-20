@@ -26,6 +26,11 @@ export default function ProfileIconGroup({
     popupRef.current.showModal();
   }
 
+  const tailwindSize =
+    Math.round(iconSize / 4) % 2 === 0
+      ? Math.round(iconSize / 4)
+      : Math.round(iconSize / 4) - 1;
+
   return (
     <>
       <div className="ms-2 [&>*]:-ms-2 flex flex-wrap">
@@ -35,7 +40,7 @@ export default function ProfileIconGroup({
             .map((item, i) => (
               <Skeleton
                 key={i}
-                className={`w-[${iconSize}px] h-[${iconSize}px] rounded-full`}
+                className={`w-${tailwindSize} h-${tailwindSize} rounded-full`}
               />
             ))
         ) : userIds.length === 0 ? (
