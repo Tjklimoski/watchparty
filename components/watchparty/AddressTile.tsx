@@ -18,7 +18,11 @@ export default function AddressTile({
 }: AddressTileProps) {
   return (
     <div>
-      <div className={`font-semibold py-1 px-2 rounded-md mb-2 bg-${color}/40`}>
+      <div
+        className={`font-semibold py-1 px-2 rounded-md mb-2 ${
+          color === "primary" ? "bg-primary/40" : "bg-secondary/40"
+        }`}
+      >
         Address
       </div>
       {!address || !city || !state || !zip ? (
