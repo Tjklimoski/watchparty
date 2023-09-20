@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="bg-neutral bg-opacity-75 mt-10 text-sm w-full">
       <Container>
         <div className="my-8 flex flex-col sm:flex-row justify-between items-center gap-8">
-          <div>Created by TJ Klimoski</div>
+          <div className="text-center sm:text-left">Created by TJ Klimoski</div>
 
           <div className="sm:w-48 text-center sm:text-right">
             <Link href="https://www.themoviedb.org/">
