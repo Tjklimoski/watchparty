@@ -19,6 +19,7 @@ import DateTile from "@/components/watchparty/DateTile";
 import TimeTile from "@/components/watchparty/TimeTile";
 import AddressTile from "@/components/watchparty/AddressTile";
 import PartygoersTile from "@/components/watchparty/PartygoersTile";
+import InterestedUsersTile from "@/components/watchparty/InterestedUsersTile";
 
 export default function EventPage({ params }: { params: { partyid: string } }) {
   const { partyid } = params;
@@ -97,22 +98,10 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
                   partygoerIds={watchParty?.partygoerIds}
                   color={color}
                 />
-
-                {/* INTERESTED */}
-                <div>
-                  <div
-                    className={`font-semibold py-1 px-2 rounded-md mb-2 bg-${color}/40`}
-                  >
-                    Interested Users
-                  </div>
-                  <ProfileIconGroup
-                    title="Interested"
-                    userIds={watchParty?.interestedUsersIds}
-                    iconSize={50}
-                  >
-                    No interested users.
-                  </ProfileIconGroup>
-                </div>
+                <InterestedUsersTile
+                  interestedUsersIds={watchParty?.interestedUsersIds}
+                  color={color}
+                />
               </div>
             </article>
           </div>
