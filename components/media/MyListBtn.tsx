@@ -8,6 +8,7 @@ import useSWR from "swr";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import APIFetcher from "@/lib/APIFetcher";
+import useUser from "@/hooks/useUser";
 
 interface MyListBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   mediaId: string;
@@ -41,7 +42,7 @@ export default function MyListBtn({
   tooltip,
   ...props
 }: MyListBtnProps) {
-  const { data: user, mutate: userMutate } = useSWR<User>("/user", APIFetcher);
+  const { user, mutate: userMutate } = useUser();
   const [inMyList, setInMyList] = useState<boolean>(false);
 
   useEffect(() => {
@@ -80,7 +81,7 @@ export default function MyListBtn({
           userMutate({ ...user!, myList: updatedUser.myList });
         } catch (err) {
           // refresh the user data to revert the optomistic inMyList state change
-          userMutate({ ...user! });
+          if (user) userMutate({ ...user });
           console.log(err);
         }
       }}

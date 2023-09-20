@@ -3,7 +3,7 @@
 import useUser from "@/hooks/useUser";
 import { API } from "@/lib/APIFetcher";
 import { getUserCoord } from "@/lib/Geocode";
-import { User, WatchParty } from "@/types";
+import { WatchParty } from "@/types";
 import React, { useEffect, useState } from "react";
 
 export default function WatchPartyPage() {
@@ -11,28 +11,28 @@ export default function WatchPartyPage() {
   const [watchParties, setWatchParties] = useState<WatchParty[]>([]);
 
   useEffect(() => {
-    if (!user) return;
-
-    async function getWatchParties() {
-      if (!user) return;
+    async function getWatchPartiesNearBy() {
       try {
+        if (!user) throw new Error("No current user");
         const params = {
           radius: user.radius,
           coordinates: await getUserCoord(),
         };
 
-        return await API.get<WatchParty[]>("/watchparties", { params }).then(
-          (res) => res.data
-        );
+        const filteredWatchParties = await API.get<WatchParty[]>(
+          "/watchparties",
+          { params }
+        ).then((res) => res.data);
+
+        if (!filteredWatchParties) throw new Error("Invalid request");
+
+        setWatchParties(filteredWatchParties);
       } catch (err) {
         console.error(err);
       }
     }
 
-    getWatchParties().then((res) => {
-      if (!res) return;
-      setWatchParties(res);
-    });
+    getWatchPartiesNearBy();
   }, [user]);
 
   return <div>{JSON.stringify(watchParties)}</div>;

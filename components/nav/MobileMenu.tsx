@@ -7,12 +7,14 @@ import ProfileMenu from "./ProfileMenu";
 import MainMenu from "./MainMenu";
 import { useState } from "react";
 import AuthBtns from "./AuthBtns";
+import useUser from "@/hooks/useUser";
 
 interface MobileMenuProps {
   isAuth: boolean;
 }
 
 export default function MobileMenu({ isAuth }: MobileMenuProps) {
+  const { user } = useUser();
   const [isOpen, setIsOpen] = useState(false);
 
   function toggleOpen() {
@@ -46,7 +48,7 @@ export default function MobileMenu({ isAuth }: MobileMenuProps) {
           {isAuth ? (
             <>
               <div className="p-2 bg-neutral rounded-md flex flex-col items-center">
-                <ProfileIcon />
+                <ProfileIcon id={user?.id} />
                 <ProfileMenu />
               </div>
               <div className="w-full">

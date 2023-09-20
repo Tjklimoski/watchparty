@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Skeleton from "../util/Skeleton";
-import APIFetcher from "@/lib/APIFetcher";
-import useSWR from "swr";
 import { getUserDistanceFrom } from "@/lib/Geocode";
-import { User } from "@/types";
+import useUser from "@/hooks/useUser";
 
 interface DistanceProps {
   watchPartyCoords: [number, number] | undefined;
@@ -13,7 +11,7 @@ export default function Distance({ watchPartyCoords }: DistanceProps) {
   const [distance, setDistance] = useState(-1);
   const [loading, setLoading] = useState(true);
   // Fetch current user data
-  const { data: user } = useSWR<User>("/user", APIFetcher);
+  const { user } = useUser();
 
   // highlight distance in warning color if distance is -1 (unavailable) or outside user's radius
   const warnDistance = distance === -1 || (user && distance > user.radius);

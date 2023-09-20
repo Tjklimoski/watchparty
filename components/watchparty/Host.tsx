@@ -6,6 +6,7 @@ import { LimitedUser, User } from "@/types";
 import Link from "next/link";
 import ProfileIcon from "../util/ProfileIcon";
 import { getFirstName } from "@/lib/stringModifications";
+import useUser from "@/hooks/useUser";
 
 interface HostProps {
   hostId: string | undefined;
@@ -13,13 +14,12 @@ interface HostProps {
 
 export default function Host({ hostId }: HostProps) {
   // fetch current user to check if current user is also the host
-  const { data: user, error: userError } = useSWR<User>("/user", APIFetcher);
+  const { user } = useUser();
   const { data: host, error: hostError } = useSWR<LimitedUser>(
     hostId && `/users/${hostId}`,
     APIFetcher
   );
 
-  if (userError) throw new Error("No current user");
   if (hostError) throw new Error("Invalid host id");
 
   return !hostId || !user || !host ? (

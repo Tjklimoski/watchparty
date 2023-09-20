@@ -1,12 +1,13 @@
 "use client";
 
 import React from "react";
-import { User, WatchParty } from "@/types";
+import { WatchParty } from "@/types";
 import useSWR from "swr";
 import { useEffect, useState } from "react";
 import apiFetcher, { API } from "@/lib/APIFetcher";
 import { BsPersonFillAdd, BsPersonFillDash } from "react-icons/bs";
 import Confetti from "react-confetti-explosion";
+import useUser from "@/hooks/useUser";
 
 interface MyListBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   watchPartyId: string;
@@ -37,8 +38,7 @@ export default function AttendBtn({
   updateWatchPartyData,
   ...props
 }: MyListBtnProps) {
-  // Fetch current user
-  const { data: user, mutate: userMutate } = useSWR<User>("/user", apiFetcher);
+  const { user, mutate: userMutate } = useUser();
   const [attending, setAttending] = useState(false);
   const [animateConfetti, setAnimateConfetti] = useState(false);
 

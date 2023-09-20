@@ -6,10 +6,10 @@ export default function Home() {
     <main className="-mt-16 sm:-mt-20">
       <Container>
         <div className="flex gap-2 h-screen items-center justify-center">
-          <h1 className="text-5xl text-center -skew-y-3">
+          <h1 className="text-4xl sm:text-5xl text-center -skew-y-3">
             Welcome to
             <br />
-            <span className="text-6xl font-semibold">
+            <span className="text-6xl sm:text-8xl font-semibold">
               Watch<span className="text-primary">Party</span>!
             </span>
           </h1>

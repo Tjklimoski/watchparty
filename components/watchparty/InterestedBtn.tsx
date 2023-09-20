@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
-import { User, WatchParty } from "@/types";
+import { WatchParty } from "@/types";
 import useSWR from "swr";
 import { useEffect, useState } from "react";
 import apiFetcher, { API } from "@/lib/APIFetcher";
 import { BsFillEyeSlashFill, BsFillEyeFill } from "react-icons/bs";
+import useUser from "@/hooks/useUser";
 
 interface MyListBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   watchPartyId: string;
@@ -37,7 +38,7 @@ export default function InterestedBtn({
   ...props
 }: MyListBtnProps) {
   // Fetch current user
-  const { data: user, mutate: userMutate } = useSWR<User>("/user", apiFetcher);
+  const { user, mutate: userMutate } = useUser();
   const [following, setFollowing] = useState(false);
 
   // Fetch watchParty Data
