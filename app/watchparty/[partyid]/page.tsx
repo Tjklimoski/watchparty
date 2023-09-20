@@ -46,7 +46,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
   if (watchParty?.mediaType === "tv" && episodeError)
     throw new Error("Invalid episode");
 
-  function updateWatchPartyDate(data: WatchParty) {
+  function updateWatchPartyData(data: WatchParty) {
     watchPartyMutate(data, { revalidate: false });
   }
 
@@ -64,7 +64,7 @@ export default function EventPage({ params }: { params: { partyid: string } }) {
             <ActionBtns
               watchPartyId={watchParty?.id}
               hostId={watchParty?.userId}
-              updateWatchPartyDate={updateWatchPartyDate}
+              updateWatchPartyData={updateWatchPartyData}
             />
           </div>
 

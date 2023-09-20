@@ -11,7 +11,7 @@ interface MyListBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   watchPartyId: string;
   sm?: boolean;
   tooltip?: boolean;
-  updateWatchPartyDate: (data: WatchParty) => void;
+  updateWatchPartyData: (data: WatchParty) => void;
 }
 
 async function addUserToList(id: string, userId: string): Promise<WatchParty> {
@@ -33,7 +33,7 @@ export default function InterestedBtn({
   watchPartyId: id,
   sm,
   tooltip,
-  updateWatchPartyDate,
+  updateWatchPartyData,
   ...props
 }: MyListBtnProps) {
   // Fetch current user
@@ -70,7 +70,7 @@ export default function InterestedBtn({
         ...watchParty,
         interestedUsersIds: optomisticInterestedUsersIds,
       };
-      updateWatchPartyDate(optomisticData);
+      updateWatchPartyData(optomisticData);
 
       const updatedWatchParty = following
         ? await deleteUserFromList(id, user.id)
@@ -80,7 +80,7 @@ export default function InterestedBtn({
     } catch (err: Error | any) {
       // if error, revalidate watchparty data to remove optomistic update
       // passing in exisiting watchParty data to prevent loading state flash on revalidation.
-      if (watchParty) updateWatchPartyDate(watchParty);
+      if (watchParty) updateWatchPartyData(watchParty);
       // revalidate userData to remove optomistic state change on button
       // Have to pass in the exisiting user spread in an object to force a change in user's referential equality to trigger useEffect to reset state
       if (user) userMutate({ ...user });

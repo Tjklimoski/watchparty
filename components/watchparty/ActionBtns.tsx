@@ -10,13 +10,13 @@ import { User, WatchParty } from "@/types";
 interface ActionBtnsProps {
   watchPartyId: string | undefined;
   hostId: string | undefined;
-  updateWatchPartyDate: (data: WatchParty) => void;
+  updateWatchPartyData: (data: WatchParty) => void;
 }
 
 export default function ActionBtns({
   watchPartyId,
   hostId,
-  updateWatchPartyDate,
+  updateWatchPartyData,
 }: ActionBtnsProps) {
   // fetch current user
   const { data: user, error } = useSWR<User>("/user", APIFetcher);
@@ -36,12 +36,12 @@ export default function ActionBtns({
         <>
           <InterestedBtn
             watchPartyId={watchPartyId}
-            updateWatchPartyDate={updateWatchPartyDate}
+            updateWatchPartyData={updateWatchPartyData}
             tooltip
           />
           <AttendBtn
             watchPartyId={watchPartyId}
-            updateWatchPartyDate={updateWatchPartyDate}
+            updateWatchPartyData={updateWatchPartyData}
             tooltip
           />
         </>
