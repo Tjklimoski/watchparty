@@ -33,7 +33,21 @@ export default function EpisodeCard({
   function handleClick(e: React.MouseEvent<HTMLDivElement>) {
     if (!setEpisode) return;
     setEpisode(episode.episode_number);
-    const card = e.target as HTMLDivElement;
+    const card = e.currentTarget;
+    card.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+  }
+
+  // Enables keyboard accessabilty for episode selection
+  function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+    if (!setEpisode || !(e.key === " " || e.key === "Enter")) return;
+    // To prevent the spacebar from scrolling down the window
+    e.preventDefault();
+    setEpisode(episode.episode_number);
+    const card = e.currentTarget;
     card.scrollIntoView({
       behavior: "smooth",
       block: "nearest",
@@ -50,6 +64,7 @@ export default function EpisodeCard({
         isSelect ? "hover:cursor-pointer" : ""
       }`}
       onClick={isSelect ? handleClick : undefined}
+      onKeyDown={isSelect ? handleKeyDown : undefined}
     >
       <Image
         className="object-cover brightness-90 group-hover:brightness-100 group-focus-within:brightness-100 rounded-sm transition duration-150"
