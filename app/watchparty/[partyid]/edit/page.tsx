@@ -9,7 +9,7 @@ import { formatFullDate } from "@/lib/format";
 import useUser from "@/hooks/useUser";
 import { useState } from "react";
 
-export default function CreateWatchPartyPage({
+export default function EditWatchPartyPage({
   params,
 }: {
   params: { partyid: string };

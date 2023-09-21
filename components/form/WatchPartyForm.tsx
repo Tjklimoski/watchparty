@@ -9,7 +9,7 @@ import { stateAbrv } from "@/lib/stateAbrv";
 import EpisodeCarousel from "../media/EpisodeCarousel";
 import MediaDetails from "../media/MediaDetails";
 import { API } from "@/lib/APIFetcher";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { formatFullDate } from "@/lib/format";
 import Skeleton from "../util/Skeleton";
 import { getCoord } from "@/lib/Geocode";
@@ -31,6 +31,9 @@ export default function WatchPartyForm({
   update,
   inputValues,
 }: WatchPartyFormProps) {
+  const params = useParams();
+  // partyid will be undefined when not present (creating a watchParty)
+  const { partyid } = params;
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -146,6 +149,9 @@ export default function WatchPartyForm({
       };
 
       // CHECK FOR IF THIS IS AN UPDATE, AND IF SO SEND APPRORIATE API REQ
+      // if (update) {
+      //   const watchPartyRes = await API.put(`/watchparties/${}`)
+      // }
 
       // Send watchparty data to database via API
       const watchParty = await API.post("/watchparties", watchPartyData).then(
@@ -153,7 +159,11 @@ export default function WatchPartyForm({
       );
 
       if (!watchParty) {
-        setError("Failed to create watchParty, please try again");
+        setError(
+          `Failed to ${
+            update ? "update" : "create"
+          } watchParty, please try again`
+        );
         setLoading(false);
         return;
       }
