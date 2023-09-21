@@ -18,7 +18,6 @@ export default function Distance({ watchPartyCoords }: DistanceProps) {
 
   // fetch and set the distance the user is from the WatchParty
   useEffect(() => {
-    console.log("UE called: ", watchPartyCoords);
     if (!watchPartyCoords) return;
 
     // Create abort controller
@@ -26,10 +25,7 @@ export default function Distance({ watchPartyCoords }: DistanceProps) {
 
     // request data
     getUserDistanceFrom(watchPartyCoords, { controller })
-      .then((miles) => {
-        console.log(".then Miles recieved: ", miles);
-        setDistance(miles);
-      })
+      .then((miles) => setDistance(miles))
       .catch((err: Error | any) => {
         console.error(err?.message ?? err);
       })

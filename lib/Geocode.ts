@@ -89,7 +89,7 @@ export async function getUserDistanceFrom(target: [number, number], options: { c
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
     const distanceInKm = R * c;
 
-    // Using an abort controller to prevent out of date info being rendered on page
+    // check abort controller signal to prevent out of date info being rendered on page
     if (controller.signal.aborted) {
       throw new Error(`Aborted for ${target}`)
     } else {
