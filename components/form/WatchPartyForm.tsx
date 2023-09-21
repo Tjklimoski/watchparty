@@ -15,8 +15,8 @@ import Skeleton from "../util/Skeleton";
 import { getCoord } from "@/lib/Geocode";
 
 interface WatchPartyFormProps {
-  mediaId: string;
-  mediaType: string;
+  mediaId?: string;
+  mediaType?: string;
   season?: string | number;
   episode?: string | number;
   update?: boolean;
@@ -142,7 +142,6 @@ export default function WatchPartyForm({
         mediaTitle: title,
         geo,
         date: new Date(`${date} ${time}`).toISOString(),
-        partygoerIds: [user.id],
         ...data,
       };
 
@@ -253,7 +252,7 @@ export default function WatchPartyForm({
                 </Select>
                 {/* Pass picked episode to and from EpisodeCarousel componenet. register when episode picked. */}
                 <EpisodeCarousel
-                  id={parseInt(mediaId)}
+                  id={media.id}
                   season={inputs.season ?? 1}
                   selectedEpisodeNumber={inputs.episode ?? 1}
                   isSelect={true}

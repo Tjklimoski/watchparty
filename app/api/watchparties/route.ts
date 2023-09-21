@@ -60,6 +60,7 @@ export async function POST(req: NextRequest) {
     const watchParty = await prisma.watchParty.create({
       data: {
         ...data,
+        // Add the user who created the watchparty to the partygoers list by default
         partygoerIds: [data.userId],
       }
     });
