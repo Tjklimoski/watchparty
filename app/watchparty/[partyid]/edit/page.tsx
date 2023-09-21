@@ -21,7 +21,7 @@ export default function CreateWatchPartyPage({
   if (!watchParty) return null;
 
   // modify watchParty data into form Input values
-  const updateInputs: WatchPartyInputs = {
+  const inputValues: WatchPartyInputs = {
     ...watchParty,
     date: formatFullDate(new Date(watchParty.date)), // returns "YYYY-MM-DD"
     time: new Date(watchParty.date).toLocaleTimeString(),
@@ -31,7 +31,7 @@ export default function CreateWatchPartyPage({
   return (
     <main className="min-h-screen">
       <Container>
-        <WatchPartyForm {...watchParty} updateInputs={updateInputs} update />
+        <WatchPartyForm {...watchParty} inputValues={inputValues} update />
       </Container>
     </main>
   );

@@ -20,7 +20,7 @@ interface WatchPartyFormProps {
   season?: string | number;
   episode?: string | number;
   update?: boolean;
-  updateInputs?: WatchPartyInputs;
+  inputValues?: WatchPartyInputs;
 }
 
 export default function WatchPartyForm({
@@ -29,7 +29,7 @@ export default function WatchPartyForm({
   season = "",
   episode = "",
   update,
-  updateInputs,
+  inputValues,
 }: WatchPartyFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -37,7 +37,7 @@ export default function WatchPartyForm({
   const [success, setSuccess] = useState(false);
   const [inputs, setInputs] = useState<WatchPartyInputs>(() => {
     // If form is being used to edit existing WatchParty data return those existing values.
-    if (update && updateInputs) return updateInputs;
+    if (update && inputValues) return inputValues;
 
     const defaultInputs = {
       title: "",
@@ -93,6 +93,12 @@ export default function WatchPartyForm({
       }));
     }
   }, [media, inputs, update]);
+
+  // insure inputs state are set to inputValues if passed.
+  useEffect(() => {
+    if (!inputValues) return;
+    setInputs(inputValues);
+  }, [inputValues]);
 
   function handleChange(
     e: React.ChangeEvent<
