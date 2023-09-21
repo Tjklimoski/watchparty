@@ -1,4 +1,5 @@
 import prisma from "@/prisma/client";
+import { SubmitWatchPartyData } from "@/types";
 import { NextRequest, NextResponse as res } from "next/server";
 
 interface Params {
@@ -27,7 +28,17 @@ export async function GET(req: NextRequest, { params }: Params) {
 export async function PUT(req: NextRequest, { params }: Params) {
   const { id } = params;
   try {
-    const data = await req.json();
+    const data: SubmitWatchPartyData = await req.json();
+
+    // Find pre-existing WatchParty
+    const watchParty = await prisma.watchParty.findUniqueOrThrow({
+      where: {
+        id
+      }
+    });
+
+    // Confirm that the userId on the newly submitted WatchParty data matches the pre-exisiting WatchParty userId.
+    if (watchParty.userId !== data.userId) throw new Error('Unathorized')
 
     // Pass data to update() - any field not passed (left as undefiend) will not overwrite the current data in the document.
     const updatedWatchParty = await prisma.watchParty.update({
