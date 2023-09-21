@@ -156,6 +156,8 @@ export interface MyListItem {
   media_type: string;
 }
 
+export type SubmitWatchPartyData = Omit<WatchParty, 'id' | 'user' | 'partygoers' | 'interestedUsers' | 'createdAt' | 'UpdatedAt' | 'notifications'>
+
 export interface WatchPartyInputs {
   title: string;
   description: string;

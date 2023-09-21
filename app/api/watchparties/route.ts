@@ -1,5 +1,5 @@
 import prisma from "@/prisma/client";
-import { WatchParty } from "@/types";
+import { SubmitWatchPartyData, WatchParty } from "@/types";
 import { NextRequest, NextResponse as res } from "next/server";
 
 // GET all WatchParties that meet the specified searchParams passed
@@ -53,11 +53,15 @@ export async function GET(req: NextRequest) {
 
 // Create a watchParty with the passed data
 export async function POST(req: NextRequest) {
-  const data = await req.json();
+  const data: SubmitWatchPartyData = await req.json();
 
   try {
+    if (!data) throw new Error('No data passed')
     const watchParty = await prisma.watchParty.create({
-      data
+      data: {
+        ...data,
+        partygoerIds: [data.userId],
+      }
     });
 
     if (!watchParty) return new res('Invalid data', { status: 400 })
