@@ -28,12 +28,17 @@ export default function EditWatchPartyPage({
 
   let inputValues: WatchPartyInputs | undefined;
   if (watchParty) {
+    const { title, description, address, city, state, zip } = watchParty;
     // modify watchParty data into form Input values
     inputValues = {
-      ...watchParty,
+      title,
+      description,
+      address,
+      city,
+      state,
+      zip,
       date: formatFullDate(new Date(watchParty.date)), // returns "YYYY-MM-DD"
       time: new Date(watchParty.date).toLocaleTimeString(),
-      zip: watchParty.zip,
     };
   }
 
