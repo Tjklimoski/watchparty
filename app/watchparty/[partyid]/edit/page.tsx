@@ -6,6 +6,8 @@ import useSWR from "swr";
 import { WatchParty, WatchPartyInputs } from "@/types";
 import APIFetcher from "@/lib/APIFetcher";
 import { formatFullDate } from "@/lib/format";
+import useUser from "@/hooks/useUser";
+import { useState } from "react";
 
 export default function CreateWatchPartyPage({
   params,
@@ -18,6 +20,11 @@ export default function CreateWatchPartyPage({
     APIFetcher
   );
   if (error) throw new Error("Invalid WatchParty Id");
+
+  // Get current signed in user and validate that they're the host of this watchparty.
+  const { user } = useUser();
+  if (watchParty && user && watchParty.userId !== user.id)
+    throw new Error("Unauthorized");
 
   let inputValues: WatchPartyInputs | undefined;
   if (watchParty) {
