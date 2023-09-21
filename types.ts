@@ -184,11 +184,11 @@ export interface WatchParty {
   description: string;
   season?: number;
   episode?: number;
-  date: Date;
+  date: string;
   address: string;
   city: string;
   state: string;
-  zip: number;
+  zip: string;
   geo: GeoJSON;
   notifications?: Notification[];
   createdAt: Date;
