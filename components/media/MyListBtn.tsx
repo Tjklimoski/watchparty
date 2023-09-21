@@ -56,6 +56,24 @@ export default function MyListBtn({
     });
   }, [user, id, media_type]);
 
+  async function handleClick() {
+    try {
+      setInMyList((current) => !current);
+
+      const updatedUser = inMyList
+        ? await removeFromMyList(id, media_type)
+        : await addToMyList(id, media_type);
+
+      if (!updatedUser) throw new Error("No updated user");
+
+      userMutate();
+    } catch (err) {
+      // refresh the user data to revert the optimistic inMyList state change
+      if (user) userMutate({ ...user });
+      console.log(err);
+    }
+  }
+
   return (
     <button
       className={`${sm ? "btn-sm" : "btn"} btn-primary ${
@@ -66,25 +84,7 @@ export default function MyListBtn({
       data-tip={inMyList ? "Remove from My List" : "Add to My List"}
       aria-label={inMyList ? "Remove from My List" : "Add to My List"}
       {...props}
-      onClick={async () => {
-        try {
-          setInMyList((current) => !current);
-
-          const updatedUser = inMyList
-            ? await removeFromMyList(id, media_type)
-            : await addToMyList(id, media_type);
-
-          if (updatedUser === undefined) {
-            throw new Error("No updated user");
-          }
-
-          userMutate({ ...user!, myList: updatedUser.myList });
-        } catch (err) {
-          // refresh the user data to revert the optomistic inMyList state change
-          if (user) userMutate({ ...user });
-          console.log(err);
-        }
-      }}
+      onClick={handleClick}
     >
       {inMyList ? (
         <FaCheck size={sm ? 20 : 30} />
