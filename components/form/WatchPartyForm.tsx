@@ -1,6 +1,11 @@
 import useUser from "@/hooks/useUser";
 import fetcher from "@/lib/TMDBFetcher";
-import { MovieDetails, TVShowDetails, WatchPartyInputs } from "@/types";
+import {
+  MovieDetails,
+  TVShowDetails,
+  WatchParty,
+  WatchPartyInputs,
+} from "@/types";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import Input from "./Input";
@@ -148,15 +153,19 @@ export default function WatchPartyForm({
         ...data,
       };
 
-      // CHECK FOR IF THIS IS AN UPDATE, AND IF SO SEND APPRORIATE API REQ
-      // if (update) {
-      //   const watchPartyRes = await API.put(`/watchparties/${}`)
-      // }
-
-      // Send watchparty data to database via API
-      const watchParty = await API.post("/watchparties", watchPartyData).then(
-        (res) => res.data
-      );
+      let watchParty: WatchParty | undefined;
+      if (update) {
+        // Send PUT request to update WatchParty data
+        watchParty = await API.put(
+          `/watchparties/${partyid}`,
+          watchPartyData
+        ).then((res) => res.data);
+      } else {
+        // Send POST request to create a WatchParty
+        watchParty = await API.post("/watchparties", watchPartyData).then(
+          (res) => res.data
+        );
+      }
 
       if (!watchParty) {
         setError(
