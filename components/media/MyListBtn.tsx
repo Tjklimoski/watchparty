@@ -1,13 +1,10 @@
 "use client";
 
 import React from "react";
-import { MyListItem, User } from "@/types";
+import { User } from "@/types";
 import axios from "axios";
 import { FaCheck, FaPlus } from "react-icons/fa6";
-import useSWR from "swr";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import APIFetcher from "@/lib/APIFetcher";
 import useUser from "@/hooks/useUser";
 
 interface MyListBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -49,8 +46,8 @@ export default function MyListBtn({
     setInMyList(() => {
       if (!user || !id || !media_type) return false;
       const inMyList =
-        user?.myList.some(
-          (item: MyListItem) => item.id === id && item.media_type === media_type
+        user.myList.some(
+          (item) => item.id === id && item.media_type === media_type
         ) ?? false;
       return inMyList;
     });
@@ -58,15 +55,20 @@ export default function MyListBtn({
 
   async function handleClick() {
     try {
+      if (!user || !media_type) return;
       setInMyList((current) => !current);
+
+      // Optimstic update of user
+      const optimisticMyList = inMyList
+        ? user.myList.filter(({ id: mediaId }) => mediaId !== id)
+        : [...user.myList, { id, media_type }];
+      userMutate({ ...user, myList: optimisticMyList }, { revalidate: false });
 
       const updatedUser = inMyList
         ? await removeFromMyList(id, media_type)
         : await addToMyList(id, media_type);
 
       if (!updatedUser) throw new Error("No updated user");
-
-      userMutate();
     } catch (err) {
       // refresh the user data to revert the optimistic inMyList state change
       if (user) userMutate({ ...user });
