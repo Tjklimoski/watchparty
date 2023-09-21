@@ -180,7 +180,7 @@ export default function WatchPartyForm({
       setSuccess(true);
 
       // If watchParty succesfully created or updated, redirect user to WatchParty page.
-      router.push(`/watchparty/${watchParty.id}`);
+      router.replace(`/watchparty/${watchParty.id}`);
     } catch (err: Error | any) {
       setError(err?.message ?? "Invalid form submission");
       setLoading(false);
