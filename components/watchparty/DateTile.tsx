@@ -2,7 +2,7 @@ import Skeleton from "../util/Skeleton";
 import { formatDate } from "@/lib/format";
 
 interface DateTileProps {
-  date: Date | undefined;
+  date: string | undefined;
   color: "primary" | "secondary";
 }
 

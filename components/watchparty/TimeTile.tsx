@@ -3,7 +3,7 @@ import Skeleton from "../util/Skeleton";
 import { formatTime } from "@/lib/format";
 
 interface TimeTileProps {
-  date: Date | undefined;
+  date: string | undefined;
   color: "primary" | "secondary";
 }
 

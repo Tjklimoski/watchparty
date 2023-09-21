@@ -5,7 +5,7 @@ interface AddressTileProps {
   address: string | undefined;
   city: string | undefined;
   state: string | undefined;
-  zip: number | undefined;
+  zip: string | undefined;
   color: "primary" | "secondary";
 }
 
