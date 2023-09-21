@@ -18,13 +18,27 @@ export default function Distance({ watchPartyCoords }: DistanceProps) {
 
   // fetch and set the distance the user is from the WatchParty
   useEffect(() => {
+    console.log("UE called: ", watchPartyCoords);
     if (!watchPartyCoords) return;
-    getUserDistanceFrom(watchPartyCoords)
-      .then((miles) => setDistance(miles))
+
+    // Create abort controller
+    const controller = new AbortController();
+
+    // request data
+    getUserDistanceFrom(watchPartyCoords, { controller })
+      .then((miles) => {
+        console.log(".then Miles recieved: ", miles);
+        setDistance(miles);
+      })
       .catch((err: Error | any) => {
         console.error(err?.message ?? err);
       })
       .finally(() => setLoading(false));
+
+    // On unmount of useEffect call abort on currently running abort controller
+    return () => {
+      controller.abort();
+    };
   }, [watchPartyCoords]);
 
   return loading ? (

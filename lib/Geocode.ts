@@ -74,8 +74,9 @@ export async function getUserCoord(): Promise<[number, number]> {
   }
 }
 
-export async function getUserDistanceFrom(target: [number, number]): Promise<number> {
+export async function getUserDistanceFrom(target: [number, number], options: { controller: AbortController }): Promise<number> {
   try {
+    const { controller } = options;
     const [userLon, userLat] = await getUserCoord();
     const [targetLon, targetLat] = target;
 
@@ -87,7 +88,13 @@ export async function getUserDistanceFrom(target: [number, number]): Promise<num
     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(degreeToRadian(userLat)) * Math.cos(degreeToRadian(targetLat)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
     const distanceInKm = R * c;
-    return kmToMiles(distanceInKm);
+
+    // Using an abort controller to prevent out of date info being rendered on page
+    if (controller.signal.aborted) {
+      throw new Error(`Aborted for ${target}`)
+    } else {
+      return kmToMiles(distanceInKm);
+    }
   } catch (err: Error | any) {
     console.error(err?.message ?? err);
     throw new Error(err?.message ?? "Invalid request")
