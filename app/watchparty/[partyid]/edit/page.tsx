@@ -28,11 +28,14 @@ export default function EditWatchPartyPage({
 
   let inputValues: WatchPartyInputs | undefined;
   if (watchParty) {
-    const { title, description, address, city, state, zip } = watchParty;
+    const { title, description, address, city, state, zip, season, episode } =
+      watchParty;
     // modify watchParty data into form Input values
     inputValues = {
       title,
       description,
+      season,
+      episode,
       address,
       city,
       state,
