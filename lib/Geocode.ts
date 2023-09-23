@@ -109,6 +109,10 @@ function kmToMiles(km: number): number {
   return Math.round(km * 0.621371)
 }
 
+export function milesToMeters(miles: number): number {
+  return miles * 1609.344;
+}
+
 export function metersToMiles(meters: number): number {
   // divide the number of meters by how many meters are in a mile
   return Math.round(meters / 1609.344)
