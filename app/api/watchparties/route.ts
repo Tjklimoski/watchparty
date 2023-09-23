@@ -1,3 +1,5 @@
+import { milesToMeters } from "@/lib/Geocode";
+import convertToWatchParty from "@/lib/convertWatchPartyData";
 import prisma from "@/prisma/client";
 import { SubmitWatchPartyData, WatchParty } from "@/types";
 import { NextRequest, NextResponse as res } from "next/server";
@@ -22,12 +24,10 @@ export async function GET(req: NextRequest) {
 
     if (isNaN(radius) || coordinates.length !== 2) throw new Error('Invalid params sent')
 
-    // convert radius from miles to meters (for mongodb) - 1 mile = 1609.34 meters
-    const radiusMeters = radius * 1609.34
+    // convert radius from miles to meters (for mongodb)
+    const radiusMeters = milesToMeters(radius)
 
-    console.log('Request recieved: ', radius, coordinates)
-
-    const result = await prisma.watchParty.aggregateRaw({
+    const watchParties = await prisma.watchParty.aggregateRaw({
       pipeline: [
         {
           $geoNear: {
@@ -48,14 +48,12 @@ export async function GET(req: NextRequest) {
           }
         },
       ]
-    })
+    }).then(res => convertToWatchParty(res))
 
-    console.log('RESULT: ', result)
+    if (!watchParties) throw new Error('Invalid request')
 
-    if (!result) throw new Error('Invalid request');
-
-    // res can be an empty array - meaning nothing found in radius
-    return res.json(result)
+    // watchParties can be an empty array - meaning nothing found in radius
+    return res.json(watchParties)
   } catch (err: Error | any) {
     console.error(err?.message ?? err)
     return new res(err?.message ?? "request failed", { status: 400 })

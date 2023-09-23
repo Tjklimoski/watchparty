@@ -38,7 +38,7 @@ export default function WatchPartyPage() {
   return (
     <div>
       {JSON.stringify(watchParties)} and the date:{" "}
-      {watchParties.length > 0 && watchParties[0].date.$date}
+      {watchParties.length > 0 && watchParties[0].date}
     </div>
   );
 }
