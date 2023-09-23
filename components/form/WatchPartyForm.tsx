@@ -180,6 +180,7 @@ export default function WatchPartyForm({
       setSuccess(true);
 
       // If watchParty succesfully created or updated, redirect user to WatchParty page.
+      // use replace() to prevent a user navigating back to the page after succesfully creating or updating their event.
       router.replace(`/watchparty/${watchParty.id}`);
     } catch (err: Error | any) {
       setError(err?.message ?? "Invalid form submission");

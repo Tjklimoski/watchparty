@@ -11,11 +11,11 @@ export default function WatchPartyPage() {
   const [watchParties, setWatchParties] = useState<WatchParty[]>([]);
 
   useEffect(() => {
+    if (!user) return;
     async function getWatchPartiesNearBy() {
       try {
-        if (!user) throw new Error("No current user");
         const params = {
-          radius: user.radius,
+          radius: user!.radius,
           coordinates: await getUserCoord(),
         };
 
@@ -35,5 +35,10 @@ export default function WatchPartyPage() {
     getWatchPartiesNearBy();
   }, [user]);
 
-  return <div>{JSON.stringify(watchParties)}</div>;
+  return (
+    <div>
+      {JSON.stringify(watchParties)} and the date:{" "}
+      {watchParties.length > 0 && watchParties[0].date.$date}
+    </div>
+  );
 }

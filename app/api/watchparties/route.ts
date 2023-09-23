@@ -27,19 +27,30 @@ export async function GET(req: NextRequest) {
 
     console.log('Request recieved: ', radius, coordinates)
 
-    const result = await prisma.watchParty.findRaw({
-      filter: {
-        geo: {
-          $near: {
-            $geometry: {
-              type: "point",
-              coordinates
-            },
-            $maxDistance: radiusMeters,
+    const result = await prisma.watchParty.aggregateRaw({
+      pipeline: [
+        {
+          $geoNear: {
+            near: { type: "Point", coordinates },
+            distanceField: "dist.calculated", // This is required
+            maxDistance: radiusMeters,
           }
-        }
-      }
+        },
+        {
+          $match: {
+            // Only return upcoming events
+            $expr: {
+              $gte: [
+                "$date",
+                "$$NOW"
+              ],
+            },
+          }
+        },
+      ]
     })
+
+    console.log('RESULT: ', result)
 
     if (!result) throw new Error('Invalid request');
 
