@@ -1,5 +1,6 @@
 "use client";
 
+import SearchBar from "@/components/util/SearchBar";
 import useUser from "@/hooks/useUser";
 import { API } from "@/lib/APIFetcher";
 import { getUserCoord } from "@/lib/Geocode";
@@ -37,6 +38,8 @@ export default function WatchPartyPage() {
 
   return (
     <div>
+      {/* SearchBar just placeholder for now */}
+      <SearchBar />
       {JSON.stringify(watchParties)} and the date:{" "}
       {watchParties.length > 0 && watchParties[0].date}
     </div>
