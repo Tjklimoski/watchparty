@@ -57,6 +57,9 @@ export default function AttendBtn({
     });
   }, [user, id]);
 
+  // passed is set to true if the event has happened
+  const passed = new Date(watchParty?.date ?? "").getTime() < Date.now();
+
   async function handleClick() {
     try {
       if (!watchParty) throw new Error("No watchparty");
@@ -105,6 +108,7 @@ export default function AttendBtn({
         aria-label={attending ? "Quit Attending" : "Attend WatchParty"}
         {...props}
         onClick={handleClick}
+        disabled={passed}
       >
         {attending ? (
           <BsPersonFillDash size={sm ? 20 : 30} />
