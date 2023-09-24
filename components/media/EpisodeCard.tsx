@@ -20,7 +20,7 @@ export default function EpisodeCard({
   const baseImgPath = "https://image.tmdb.org/t/p/";
   const imgSize = "w300";
 
-  // Bring the selected episode card into view in the carousel when in /watchparty/create
+  // Bring the selected episode card into view in the carousel when in WatchPartyForm
   useEffect(() => {
     if (!selectedEpisodeCard.current) return;
     selectedEpisodeCard.current.scrollIntoView({

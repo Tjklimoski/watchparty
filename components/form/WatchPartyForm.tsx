@@ -131,6 +131,7 @@ export default function WatchPartyForm({
   }
 
   function setEpisode(episodeNumber: number) {
+    if (passed) return;
     setInputs((current) => ({ ...current, episode: episodeNumber }));
   }
 
@@ -308,6 +309,7 @@ export default function WatchPartyForm({
                   selectedEpisodeNumber={inputs.episode ?? 1}
                   isSelect={true}
                   setEpisode={setEpisode}
+                  disabled={passed}
                 />
               </>
             ))}
