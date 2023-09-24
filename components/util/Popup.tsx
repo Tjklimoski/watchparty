@@ -4,11 +4,12 @@ import UserList from "./UserList";
 
 interface PopupProps {
   title: string;
-  userIds: string[] | undefined;
+  userIds?: string[];
+  children?: React.ReactNode;
 }
 
 const Popup = forwardRef<HTMLDialogElement, PopupProps>(function Popup(
-  { title, userIds },
+  { title, userIds, children },
   ref
 ) {
   // Opening the modal with the ref is handled by the parent
@@ -32,9 +33,9 @@ const Popup = forwardRef<HTMLDialogElement, PopupProps>(function Popup(
         }
       }}
     >
-      <section className="h-full px-4 sm:px-6 py-2 sm:py-4 bg-primary rounded-lg sm:rounded-xl flex flex-col">
+      <section className="px-4 sm:px-6 py-2 sm:py-4 bg-primary rounded-lg sm:rounded-xl flex flex-col">
         <PopupHeader title={title} handleClose={handleClose} />
-        <UserList userIds={userIds} />
+        {children ? children : <UserList userIds={userIds} />}
       </section>
     </dialog>
   );
