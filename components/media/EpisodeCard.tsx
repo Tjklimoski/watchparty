@@ -33,7 +33,7 @@ export default function EpisodeCard({
   }, [selectedEpisodeCard]);
 
   function handleClick(e: React.MouseEvent<HTMLDivElement>) {
-    if (!setEpisode) return;
+    if (!setEpisode || disabled) return;
     setEpisode(episode.episode_number);
     const card = e.currentTarget;
     card.scrollIntoView({
@@ -45,7 +45,8 @@ export default function EpisodeCard({
 
   // Enables keyboard accessabilty for episode selection
   function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
-    if (!setEpisode || !(e.key === " " || e.key === "Enter")) return;
+    if (!setEpisode || disabled || !(e.key === " " || e.key === "Enter"))
+      return;
     // To prevent the spacebar from scrolling down the window
     e.preventDefault();
     setEpisode(episode.episode_number);
@@ -64,7 +65,7 @@ export default function EpisodeCard({
       tabIndex={isSelect ? 0 : undefined}
       className={`relative w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 aspect-video rounded-sm drop-shadow-lg snap-center group overflow-hidden focus:outline-none ${
         isSelect ? "hover:cursor-pointer" : ""
-      }`}
+      } ${disabled && "opacity-60"}`}
       onClick={isSelect ? handleClick : undefined}
       onKeyDown={isSelect ? handleKeyDown : undefined}
     >
@@ -106,9 +107,9 @@ export default function EpisodeCard({
       {/* Div to set borders to without shifting content inside episodeCard. Can't set outlines due to overflow hidden on parent element */}
       {isSelect && (
         <div
-          className={`absolute inset-0 group-focus:border-2 border-primary ${
-            selected ? "border-2" : ""
-          }`}
+          className={`absolute inset-0 ${
+            disabled || "group-focus:border-2"
+          } border-primary ${selected ? "border-2" : ""}`}
         />
       )}
     </div>
