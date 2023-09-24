@@ -13,7 +13,7 @@ import Select from "./Select";
 import { stateAbrv } from "@/lib/stateAbrv";
 import EpisodeCarousel from "../media/EpisodeCarousel";
 import MediaDetails from "../media/MediaDetails";
-import { API } from "@/lib/APIFetcher";
+import APIFetcher, { API } from "@/lib/APIFetcher";
 import { useParams, useRouter } from "next/navigation";
 import { formatFullDate } from "@/lib/format";
 import Skeleton from "../util/Skeleton";
@@ -76,6 +76,10 @@ export default function WatchPartyForm({
     `/${mediaType}/${mediaId}`,
     fetcher
   );
+
+  // If the event has passed, disable inputs on form
+  const passed =
+    update && new Date(inputs.date + "T" + inputs.time).getTime() < Date.now();
 
   const { user } = useUser();
 
@@ -225,17 +229,17 @@ export default function WatchPartyForm({
                 name="title"
                 onChange={handleChange}
                 value={inputs.title}
-                disabled={loading}
+                disabled={loading || passed}
                 required
               />
               <textarea
                 name="description"
                 rows={8}
-                className="w-full bg-neutral rounded-md px-4 sm:px-6 py-2 text-md sm:text-xl focus:outline outline-primary outline-offset-0 outline-2"
+                className="w-full bg-neutral rounded-md px-4 sm:px-6 py-2 text-md sm:text-xl focus:outline outline-primary outline-offset-0 outline-2 disabled:opacity-60 disabled:cursor-not-allowed"
                 placeholder="Description"
                 onChange={handleChange}
                 value={inputs.description}
-                disabled={loading}
+                disabled={loading || passed}
                 required
               />
             </>
@@ -250,7 +254,7 @@ export default function WatchPartyForm({
             ) : (
               <>
                 <Select
-                  className="max-w-min"
+                  className="max-w-min border-none disabled:bg-neutral disabled:opacity-60 disabled:cursor-not-allowed"
                   aria-label="TV Show Season Selector"
                   name="season"
                   onChange={(e) => {
@@ -261,7 +265,7 @@ export default function WatchPartyForm({
                       episode: 1,
                     }));
                   }}
-                  disabled={loading}
+                  disabled={loading || passed}
                   value={inputs.season}
                 >
                   {(media as TVShowDetails).seasons.map((season) => (
@@ -297,7 +301,7 @@ export default function WatchPartyForm({
                   min={formatFullDate()}
                   onChange={handleChange}
                   value={inputs.date}
-                  disabled={loading}
+                  disabled={loading || passed}
                   required
                 />
                 <Input
@@ -307,7 +311,7 @@ export default function WatchPartyForm({
                   name="time"
                   onChange={handleChange}
                   value={inputs.time}
-                  disabled={loading}
+                  disabled={loading || passed}
                   required
                 />
               </>
@@ -321,7 +325,7 @@ export default function WatchPartyForm({
               name="address"
               onChange={handleChange}
               value={inputs.address}
-              disabled={loading}
+              disabled={loading || passed}
               required
             />
           )}
@@ -338,15 +342,16 @@ export default function WatchPartyForm({
                   name="city"
                   onChange={handleChange}
                   value={inputs.city}
-                  disabled={loading}
+                  disabled={loading || passed}
                   required
                 />
                 <Select
+                  className="border-none disabled:bg-neutral disabled:opacity-60 disabled:cursor-not-allowed"
                   aria-label="State"
                   name="state"
                   onChange={handleChange}
                   value={inputs.state}
-                  disabled={loading}
+                  disabled={loading || passed}
                   required
                 >
                   {stateAbrv.map((state) => (
@@ -370,7 +375,7 @@ export default function WatchPartyForm({
               maxLength={5}
               onChange={handleChange}
               value={inputs.zip}
-              disabled={loading}
+              disabled={loading || passed}
               required
             />
           )}
@@ -384,7 +389,7 @@ export default function WatchPartyForm({
           <button
             type="submit"
             className="btn btn-accent mt-4"
-            disabled={loading || !media || success}
+            disabled={loading || !media || success || passed}
           >
             {loading ? (
               <span className="loading loading-primary loading-sm" />
