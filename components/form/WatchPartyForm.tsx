@@ -135,7 +135,6 @@ export default function WatchPartyForm({
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    console.log("handle submit called");
     try {
       e.preventDefault();
       setLoading(true);
@@ -201,6 +200,26 @@ export default function WatchPartyForm({
     }
 
     setLoading(false);
+  }
+
+  async function handleDelete() {
+    setLoading(true);
+    setError("");
+    try {
+      if (!user) throw new Error("No current user");
+
+      const deletedWatchParty = await API.delete(
+        `/watchparties/${partyid}`
+      ).then((res) => res.data);
+
+      if (!deletedWatchParty) throw new Error("Failed to delete watchParty");
+
+      setError("WatchParty Deleted. Redirecting...");
+      router.replace(`/user/${user.id}/myparties`);
+    } catch (err: Error | any) {
+      setError(err?.message ?? "Failed to delete WatchParty");
+      setLoading(false);
+    }
   }
 
   return (
@@ -418,6 +437,7 @@ export default function WatchPartyForm({
               form="none"
               className="btn btn-neutral"
               onClick={openPopup}
+              disabled={loading}
             >
               DELETE
             </button>
@@ -425,16 +445,24 @@ export default function WatchPartyForm({
         </form>
       </div>
 
-      {/* Popup must sit outside of form element, or it will trigger handle submit */}
+      {/* Popup must sit outside of form element, or it will trigger handle submit on close */}
       <Popup title="Are you sure?" ref={deletePopupRef}>
         <p className="sm:text-lg">This action cannot be undone</p>
         <div className="flex flex-col sm:flex-row gap-4 mt-4">
-          <button className="btn btn-error grow" onClick={handleDelete}>
+          <button
+            className="btn btn-error grow"
+            onClick={() => {
+              handleDelete();
+              deletePopupRef.current!.close();
+            }}
+            disabled={loading}
+          >
             Delete
           </button>
           <button
             className="btn btn-neutral grow"
-            onClick={() => deletePopupRef.current?.close()}
+            onClick={() => deletePopupRef.current!.close()}
+            disabled={loading}
           >
             cancel
           </button>
