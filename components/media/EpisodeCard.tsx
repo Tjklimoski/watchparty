@@ -8,6 +8,7 @@ interface EpisodeCardProps {
   isSelect?: boolean;
   selected?: boolean;
   setEpisode?: (episodeNumber: number) => void;
+  disabled?: boolean;
 }
 
 export default function EpisodeCard({
@@ -15,6 +16,7 @@ export default function EpisodeCard({
   isSelect = false,
   selected = false,
   setEpisode,
+  disabled,
 }: EpisodeCardProps) {
   const selectedEpisodeCard = useRef<HTMLDivElement>(null);
   const baseImgPath = "https://image.tmdb.org/t/p/";

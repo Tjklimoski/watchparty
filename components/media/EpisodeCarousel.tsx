@@ -11,6 +11,7 @@ interface EpisodeCarouselProps {
   selectedEpisodeNumber?: number;
   isSelect?: boolean;
   setEpisode?: (episodeNumber: number) => void;
+  disabled?: boolean;
 }
 
 export default function EpisodeCarousel({
@@ -19,6 +20,7 @@ export default function EpisodeCarousel({
   selectedEpisodeNumber,
   isSelect = false,
   setEpisode,
+  disabled,
 }: EpisodeCarouselProps) {
   const baseImgPath = "https://image.tmdb.org/t/p/";
   const imgSize = "w300";
@@ -37,6 +39,7 @@ export default function EpisodeCarousel({
             isSelect={isSelect}
             selected={episode.episode_number === selectedEpisodeNumber}
             setEpisode={setEpisode}
+            disabled={disabled}
           />
         ))}
     </Carousel>
