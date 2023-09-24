@@ -46,6 +46,8 @@ export async function PUT(req: NextRequest, { params }: Params) {
     // confirm the user making the request is the host
     if (watchParty.userId !== user.id) throw new Error('Unathorized')
 
+    if (watchParty.date.getTime() < Date.now()) throw new Error('Cannot update a WatchParty that has passed')
+
     // Pass data to update() - any field not passed (left as undefiend) will not overwrite the current data in the document.
     const updatedWatchParty = await prisma.watchParty.update({
       where: {
