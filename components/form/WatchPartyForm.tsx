@@ -6,7 +6,7 @@ import {
   WatchParty,
   WatchPartyInputs,
 } from "@/types";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import Input from "./Input";
 import Select from "./Select";
@@ -18,6 +18,7 @@ import { useParams, useRouter } from "next/navigation";
 import { formatFullDate } from "@/lib/format";
 import Skeleton from "../util/Skeleton";
 import { getCoord } from "@/lib/Geocode";
+import Popup from "../util/Popup";
 
 interface WatchPartyFormProps {
   mediaId?: string;
@@ -40,6 +41,7 @@ export default function WatchPartyForm({
   // partyid will be undefined when not present (creating a watchParty)
   const { partyid } = params;
   const router = useRouter();
+  const deletePopupRef = useRef<HTMLDialogElement>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -112,6 +114,11 @@ export default function WatchPartyForm({
     setInputs(inputValues);
   }, [inputValues]);
 
+  function openPopup() {
+    if (!deletePopupRef.current) return;
+    deletePopupRef.current.showModal();
+  }
+
   function handleChange(
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -128,6 +135,7 @@ export default function WatchPartyForm({
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    console.log("handle submit called");
     try {
       e.preventDefault();
       setLoading(true);
@@ -405,12 +413,33 @@ export default function WatchPartyForm({
             )}
           </button>
           {update && (
-            <button type="button" className="btn btn-neutral">
+            <button
+              type="button"
+              form="none"
+              className="btn btn-neutral"
+              onClick={openPopup}
+            >
               DELETE
             </button>
           )}
         </form>
       </div>
+
+      {/* Popup must sit outside of form element, or it will trigger handle submit */}
+      <Popup title="Are you sure?" ref={deletePopupRef}>
+        <p className="sm:text-lg">This action cannot be undone</p>
+        <div className="flex flex-col sm:flex-row gap-4 mt-4">
+          <button className="btn btn-error grow" onClick={handleDelete}>
+            Delete
+          </button>
+          <button
+            className="btn btn-neutral grow"
+            onClick={() => deletePopupRef.current?.close()}
+          >
+            cancel
+          </button>
+        </div>
+      </Popup>
     </section>
   );
 
