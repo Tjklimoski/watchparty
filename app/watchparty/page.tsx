@@ -11,7 +11,7 @@ export default function WatchPartyPage() {
   const { user } = useUser();
   const [watchParties, setWatchParties] = useState<WatchParty[]>([]);
 
-  const endpoint = "/watchparties";
+  const endpoint = "/watchparties/today";
 
   useEffect(() => {
     if (!user) return;
@@ -39,6 +39,7 @@ export default function WatchPartyPage() {
 
   return (
     <div>
+      <h1 className="text-3xl">{endpoint}</h1>
       {/* SearchBar just placeholder for now */}
       <SearchBar />
       {JSON.stringify(watchParties)}
