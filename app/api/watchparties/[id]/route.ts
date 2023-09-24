@@ -32,6 +32,10 @@ export async function PUT(req: NextRequest, { params }: Params) {
     // exclude userId from data, as userId can't be updated in the document.
     const { userId, ...data }: SubmitWatchPartyData = await req.json();
 
+    // get the currently signed in user that's making the request
+    const user = await auth()
+    if (!user) throw new Error('No authenticated user')
+
     // Find pre-existing WatchParty
     const watchParty = await prisma.watchParty.findUniqueOrThrow({
       where: {
@@ -40,7 +44,7 @@ export async function PUT(req: NextRequest, { params }: Params) {
     });
 
     // confirm the user making the request is the host
-    if (watchParty.userId !== userId) throw new Error('Unathorized')
+    if (watchParty.userId !== user.id) throw new Error('Unathorized')
 
     // Pass data to update() - any field not passed (left as undefiend) will not overwrite the current data in the document.
     const updatedWatchParty = await prisma.watchParty.update({
