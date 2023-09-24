@@ -380,6 +380,11 @@ export default function WatchPartyForm({
             />
           )}
           {error && <p className="text-error font-semibold text-lg">{error}</p>}
+          {passed && (
+            <p className="text-error font-semibold text-lg">
+              Unable to update a WatchParty that has passed
+            </p>
+          )}
           {success && (
             <p className="text-success font-semibold text-lg">
               Successfully {update ? "updated" : "created"} WatchParty!
@@ -399,6 +404,11 @@ export default function WatchPartyForm({
               "Create!"
             )}
           </button>
+          {update && (
+            <button type="button" className="btn btn-neutral">
+              DELETE
+            </button>
+          )}
         </form>
       </div>
     </section>
