@@ -56,6 +56,9 @@ export default function InterestedBtn({
     });
   }, [user, id]);
 
+  // passed is set to true if the event has happened
+  const passed = new Date(watchParty?.date ?? "").getTime() < Date.now();
+
   async function handleClick() {
     try {
       if (!watchParty) throw new Error("No watchparty");
@@ -100,6 +103,7 @@ export default function InterestedBtn({
       aria-label={following ? "Quit Following" : "Follow WatchParty"}
       {...props}
       onClick={handleClick}
+      disabled={passed}
     >
       {following ? (
         <BsFillEyeSlashFill size={sm ? 20 : 30} />
