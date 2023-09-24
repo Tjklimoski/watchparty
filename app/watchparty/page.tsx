@@ -11,6 +11,8 @@ export default function WatchPartyPage() {
   const { user } = useUser();
   const [watchParties, setWatchParties] = useState<WatchParty[]>([]);
 
+  const endpoint = "/watchparties";
+
   useEffect(() => {
     if (!user) return;
     async function getWatchPartiesNearBy() {
@@ -20,10 +22,9 @@ export default function WatchPartyPage() {
           coordinates: await getUserCoord(),
         };
 
-        const filteredWatchParties = await API.get<WatchParty[]>(
-          "/watchparties",
-          { params }
-        ).then((res) => res.data);
+        const filteredWatchParties = await API.get<WatchParty[]>(endpoint, {
+          params,
+        }).then((res) => res.data);
 
         if (!filteredWatchParties) throw new Error("Invalid request");
 
@@ -40,8 +41,7 @@ export default function WatchPartyPage() {
     <div>
       {/* SearchBar just placeholder for now */}
       <SearchBar />
-      {JSON.stringify(watchParties)} and the date:{" "}
-      {watchParties.length > 0 && watchParties[0].date}
+      {JSON.stringify(watchParties)}
     </div>
   );
 }
