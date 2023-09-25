@@ -43,11 +43,6 @@ export async function GET(req: NextRequest) {
               $gte: [
                 "$date",
                 "$$NOW"
-                // {
-                //   $dateFromString: {
-                //     dateString: new Date("2023-09-01").toISOString()
-                //   }
-                // }
               ],
             },
           }
