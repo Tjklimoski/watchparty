@@ -69,6 +69,10 @@ export async function GET(req: NextRequest) {
             },
           }
         },
+        {
+          // Only return the first 20 documents that match the above criteria
+          $limit: 20,
+        }
       ]
     }).then(res => convertToWatchParty(res))
 
