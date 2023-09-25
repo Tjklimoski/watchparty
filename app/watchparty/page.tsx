@@ -11,7 +11,7 @@ export default function WatchPartyPage() {
   const { user } = useUser();
   const [watchParties, setWatchParties] = useState<WatchParty[]>([]);
 
-  const endpoint = "/watchparties/new";
+  const endpoint = "/watchparties/all";
 
   useEffect(() => {
     if (!user) return;
