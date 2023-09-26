@@ -195,7 +195,7 @@ export interface WatchParty {
   notifications?: Notification[];
   createdAt: Date;
   updatedAt: Date;
-  distance?: { calculated: number }
+  dist?: { calculated: number }
 }
 
 export interface Notification {
