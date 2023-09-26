@@ -17,7 +17,7 @@ export default function getCarouselHeading(url: string) {
     case "/watchparties/popular":
       return "Popular WatchParties";
     case "/watchparties/today":
-      return "WatchParties Today";
+      return "Today's WatchParties";
     case "/watchparties/new":
       return "New WatchParties";
     case "/watchparties/all":
