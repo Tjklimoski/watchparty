@@ -24,6 +24,11 @@ export default function WatchPartyCard({ watchParty }: WatchPartyCardProps) {
     <Skeleton className="h-full w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 aspect-video rounded-sm" />
   ) : (
     <div className="group snap-center @lg:snap-start">
+      {/* User's distance from event above card */}
+      <div className="px-1 @lg:px-2 mb-1 flex justify-start">
+        <Distance knownDistance={watchParty.dist?.calculated} />
+      </div>
+
       <div className="relative w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 mb-1 aspect-video rounded-sm drop-shadow-lg overflow-hidden">
         <Image
           className="object-cover brightness-90 group-hover:brightness-100 group-focus-within:brightness-100 rounded-sm transition duration-150"
@@ -44,7 +49,7 @@ export default function WatchPartyCard({ watchParty }: WatchPartyCardProps) {
         )}
 
         {/* Title container */}
-        <div className="absolute left-0 bottom-0 right-0 h-1/2 bg-gradient-to-t from-black via-black via-45% to-transparent p-1 @lg:p-2 flex flex-col justify-end select-none">
+        <div className="absolute left-0 bottom-0 right-0 h-1/2 bg-gradient-to-t from-black via-black via-45% to-transparent p-1 @lg:p-2 flex items-end select-none">
           <h3 className="font-semibold text-md @lg:text-lg @3xl:text-xl break-balance webkit-truncate">
             {watchParty.title}
           </h3>
@@ -56,12 +61,10 @@ export default function WatchPartyCard({ watchParty }: WatchPartyCardProps) {
         />
       </div>
 
-      <p className="text-xs">
+      {/* Date and Time of Event below card */}
+      <p className="text-xs sm:text-sm px-1 @lg:px-2 text-neutral-500 group-hover:text-neutral-300 group-focus-within:text-neutral-300 transition duration-200">
         {formatDate(watchParty.date)} at {formatTime(watchParty.date)}
       </p>
-      {/* mongodb, when using aggreagate query with $geoSphere, adds a dist.calculated field to the data, which is the mile distance between the two points */}
-      <Distance knownDistance={watchParty.dist?.calculated} />
-      {/* <p className="text-xs">12/30/23 at 10:30pm</p> */}
     </div>
   );
 }

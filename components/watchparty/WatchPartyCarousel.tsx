@@ -61,15 +61,14 @@ export default function WatchPartyCarousel({
   if (!loading && error)
     return <p className="text-error font-semibold">{`ERROR ${endpoint}`}</p>;
 
-  // watchParties.length === 0 && loading
-  return true ? (
+  return watchParties.length === 0 && loading ? (
     <>
       <Skeleton className="h-8 w-1/6 min-w-[150px]" />
       <Carousel tight>{CardSkeletons}</Carousel>
     </>
   ) : (
     <>
-      <h3 className="text-xl sm:text-2xl mb-2 font-bold">
+      <h3 className="text-xl sm:text-2xl mb-2 font-bold break-balance">
         {getCarouselHeading(endpoint)}
       </h3>
       <Carousel tight>
