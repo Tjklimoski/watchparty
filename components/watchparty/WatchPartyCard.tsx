@@ -49,7 +49,7 @@ export default function WatchPartyCard({ watchParty }: WatchPartyCardProps) {
       </div>
 
       {/* mongodb, when using aggreagate query with $geoSphere, adds a dist.calculated field to the data, which is the mile distance between the two points */}
-      <Distance watchPartyCoords={watchParty.geo.coordinates} />
+      <Distance knownDistance={watchParty.dist?.calculated} />
     </div>
   );
 }

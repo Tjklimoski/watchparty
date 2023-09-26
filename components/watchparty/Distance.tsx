@@ -4,12 +4,23 @@ import { getUserDistanceFrom } from "@/lib/Geocode";
 import useUser from "@/hooks/useUser";
 
 interface DistanceProps {
-  watchPartyCoords: [number, number] | undefined;
+  watchPartyCoords?: [number, number];
+  knownDistance?: number;
 }
 
-export default function Distance({ watchPartyCoords }: DistanceProps) {
-  const [distance, setDistance] = useState(-1);
+export default function Distance({
+  watchPartyCoords,
+  knownDistance,
+}: DistanceProps) {
   const [loading, setLoading] = useState(true);
+  const [distance, setDistance] = useState(() => {
+    if (knownDistance) {
+      setLoading(false);
+      return knownDistance;
+    } else {
+      return -1;
+    }
+  });
   // Fetch current user data
   const { user } = useUser();
 
@@ -19,6 +30,13 @@ export default function Distance({ watchPartyCoords }: DistanceProps) {
   // fetch and set the distance the user is from the WatchParty
   useEffect(() => {
     if (!watchPartyCoords) return;
+
+    // for if the knownDistance prop updates while Distance component is already rendered
+    if (knownDistance) {
+      setLoading(false);
+      setDistance(knownDistance);
+      return;
+    }
 
     // Create abort controller
     const controller = new AbortController();
@@ -35,7 +53,7 @@ export default function Distance({ watchPartyCoords }: DistanceProps) {
     return () => {
       controller.abort();
     };
-  }, [watchPartyCoords]);
+  }, [watchPartyCoords, knownDistance]);
 
   return loading ? (
     <Skeleton className="max-w-[12ch]" />
