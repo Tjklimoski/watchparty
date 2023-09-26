@@ -2,6 +2,7 @@
 
 import SearchBar from "@/components/util/SearchBar";
 import WatchPartyCard from "@/components/watchparty/WatchPartyCard";
+import WatchPartyCarousel from "@/components/watchparty/WatchPartyCarousel";
 import useUser from "@/hooks/useUser";
 import { API } from "@/lib/APIFetcher";
 import { getUserCoord } from "@/lib/Geocode";
@@ -9,10 +10,16 @@ import { WatchParty } from "@/types";
 import React, { useEffect, useState } from "react";
 
 export default function WatchPartyPage() {
+  const APIEndpoints = [
+    "/watchparties",
+    "/watchparties/popular",
+    "/watchparties/today",
+    "/watchparties/new",
+    "/watchparties/all",
+  ];
+
   const { user } = useUser();
   const [watchParties, setWatchParties] = useState<WatchParty[]>([]);
-
-  const endpoint = "/watchparties/all";
 
   useEffect(() => {
     if (!user) return;
@@ -40,11 +47,10 @@ export default function WatchPartyPage() {
 
   return (
     <div>
-      <h1 className="text-3xl">{endpoint}</h1>
       {/* SearchBar just placeholder for now */}
       <SearchBar />
-      {watchParties.map((watchParty) => (
-        <WatchPartyCard key={watchParty.id} watchParty={watchParty} />
+      {APIEndpoints.map((endpoint) => (
+        <WatchPartyCarousel key={endpoint} endpoint={endpoint} />
       ))}
     </div>
   );
