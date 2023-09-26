@@ -23,7 +23,7 @@ export default function WatchPartyCard({ watchParty }: WatchPartyCardProps) {
   return !media || !watchParty ? (
     <Skeleton className="h-full w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 aspect-video rounded-sm" />
   ) : (
-    <div className="group snap-center @lg:snap-start mb-12">
+    <div className="group snap-center @lg:snap-start">
       <div className="relative w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 mb-1 aspect-video rounded-sm drop-shadow-lg overflow-hidden">
         <Image
           className="object-cover brightness-90 group-hover:brightness-100 group-focus-within:brightness-100 rounded-sm transition duration-150"

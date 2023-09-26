@@ -5,8 +5,7 @@ import Carousel from "../util/Carousel";
 import getCarouselHeading from "@/lib/getCarouselHeading";
 import { WatchParty } from "@/types";
 import Skeleton from "../util/Skeleton";
-import useSWR from "swr";
-import APIFetcher, { API } from "@/lib/APIFetcher";
+import { API } from "@/lib/APIFetcher";
 import WatchPartyCard from "./WatchPartyCard";
 import useUser from "@/hooks/useUser";
 import { getUserCoord } from "@/lib/Geocode";
@@ -52,19 +51,20 @@ export default function WatchPartyCarousel({
   const CardSkeletons = Array(6)
     .fill(null)
     .map((item, i) => (
-      <div key={i}>
-        <Skeleton className="h-full w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 aspect-video rounded-sm mb-1" />
-        <Skeleton className="w-4/5 h-2 mb-1" />
-        <Skeleton className="w-1/2" />
+      <div key={i} className="h-full flex flex-col">
+        <Skeleton className="w-48 h-full @lg:w-52 @3xl:w-64 @5xl:w-72 aspect-video rounded-sm mb-1" />
+        <Skeleton className="w-4/5 h-3 mb-1" />
+        <Skeleton className="w-1/2 h-6" />
       </div>
     ));
 
   if (!loading && error)
     return <p className="text-error font-semibold">{`ERROR ${endpoint}`}</p>;
 
-  return watchParties.length === 0 && loading ? (
+  // watchParties.length === 0 && loading
+  return true ? (
     <>
-      <Skeleton className="h-8 w-1/6" />
+      <Skeleton className="h-8 w-1/6 min-w-[150px]" />
       <Carousel tight>{CardSkeletons}</Carousel>
     </>
   ) : (
