@@ -1,6 +1,7 @@
 "use client";
 
 import SearchBar from "@/components/util/SearchBar";
+import WatchPartyCard from "@/components/watchparty/WatchPartyCard";
 import useUser from "@/hooks/useUser";
 import { API } from "@/lib/APIFetcher";
 import { getUserCoord } from "@/lib/Geocode";
@@ -42,7 +43,9 @@ export default function WatchPartyPage() {
       <h1 className="text-3xl">{endpoint}</h1>
       {/* SearchBar just placeholder for now */}
       <SearchBar />
-      {JSON.stringify(watchParties)}
+      {watchParties.map((watchParty) => (
+        <WatchPartyCard key={watchParty.id} watchParty={watchParty} />
+      ))}
     </div>
   );
 }
