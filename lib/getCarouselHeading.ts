@@ -12,6 +12,16 @@ export default function getCarouselHeading(url: string) {
       return "TV Shows Airing this Week";
     case "/tv/airing_today":
       return "TV Shows Airing Today";
+    case "/watchparties":
+      return "WatchParties Near You";
+    case "/watchparties/popular":
+      return "Popular WatchParties";
+    case "/watchparties/today":
+      return "WatchParties Today";
+    case "/watchparties/new":
+      return "New WatchParties";
+    case "/watchparties/all":
+      return "All WatchParties";
     default:
       return "Movies and TV Shows";
   }
