@@ -70,6 +70,12 @@ export async function GET(req: NextRequest) {
           }
         },
         {
+          $sort: {
+            // return documents sorted in ascending order based on date (soonest first)
+            date: 1,
+          }
+        },
+        {
           // Only return the first 20 documents that match the above criteria
           $limit: 20,
         }
