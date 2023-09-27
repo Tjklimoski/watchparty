@@ -44,8 +44,8 @@ export default function WatchPartyCard({ watchParty }: WatchPartyCardProps) {
 
         {/* tv show season and episode number */}
         {watchParty.mediaType === "tv" && (
-          <div className="absolute top-0 left-0 px-1 font-semibold bg-secondary bg-opacity-75 rounded-br-sm select-none">
-            S{watchParty.season}E{watchParty.episode}
+          <div className="absolute top-0 left-0 px-1 font-semibold bg-secondary bg-opacity-90 rounded-br-sm select-none text-base-100">
+            S{watchParty.season} E{watchParty.episode}
           </div>
         )}
 
