@@ -13,7 +13,7 @@ export default function getCarouselHeading(url: string) {
     case "/tv/airing_today":
       return "TV Shows Airing Today";
     case "/watchparties":
-      return "WatchParties Near You";
+      return "Near You";
     case "/watchparties/popular":
       return "Popular WatchParties";
     case "/watchparties/today":
