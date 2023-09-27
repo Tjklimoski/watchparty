@@ -39,6 +39,7 @@ export default function WatchPartyCard({ watchParty }: WatchPartyCardProps) {
           }
           alt={`${watchParty.title} Billboard`}
           fill
+          sizes="500px"
         />
 
         {/* tv show season and episode number */}
