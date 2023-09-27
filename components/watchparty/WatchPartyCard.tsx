@@ -20,10 +20,16 @@ export default function WatchPartyCard({ watchParty }: WatchPartyCardProps) {
   const baseImgPath = "https://image.tmdb.org/t/p/";
   const imgSize = "w780";
 
+  const passed = new Date(watchParty?.date ?? "").getTime() < Date.now();
+
   return !media || !watchParty ? (
     <Skeleton className="h-full w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 aspect-video rounded-sm" />
   ) : (
-    <div className="group snap-center @lg:snap-start">
+    <div
+      className={`group snap-center @lg:snap-start ${
+        passed && "brightness-50"
+      }`}
+    >
       {/* User's distance from event above card */}
       <div className="px-1 @lg:px-2 mb-1 flex justify-start">
         <Distance knownDistance={watchParty.dist?.calculated} />
@@ -31,7 +37,11 @@ export default function WatchPartyCard({ watchParty }: WatchPartyCardProps) {
 
       <div className="relative w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 mb-1 aspect-video rounded-sm drop-shadow-lg overflow-hidden">
         <Image
-          className="object-cover brightness-90 group-hover:brightness-100 group-focus-within:brightness-100 rounded-sm transition duration-150"
+          className={`object-cover ${
+            passed
+              ? "brightness-50"
+              : "brightness-90 group-hover:brightness-100 group-focus-within:brightness-100"
+          } rounded-sm transition duration-150`}
           src={
             media.backdrop_path
               ? baseImgPath + imgSize + media.backdrop_path
@@ -56,15 +66,23 @@ export default function WatchPartyCard({ watchParty }: WatchPartyCardProps) {
           </h3>
         </div>
 
-        <Link
-          href={`/watchparty/${watchParty.id}`}
-          className="absolute block inset-0 focus:border-2 border-primary"
-        />
+        {!passed && (
+          <Link
+            href={`/watchparty/${watchParty.id}`}
+            className="absolute block inset-0 focus:border-2 border-primary"
+          />
+        )}
       </div>
 
       {/* Date and Time of Event below card */}
-      <p className="text-xs sm:text-sm px-1 @lg:px-2 text-neutral-500 group-hover:text-neutral-300 group-focus-within:text-neutral-300 transition duration-200">
-        {formatDate(watchParty.date)} at {formatTime(watchParty.date)}
+      <p
+        className={`text-xs sm:text-sm px-1 @lg:px-2 ${
+          passed ? "text-neutral-300" : "text-neutral-500"
+        } group-hover:text-neutral-300 group-focus-within:text-neutral-300 transition duration-200`}
+      >
+        {passed
+          ? "Event Passed"
+          : `${formatDate(watchParty.date)} at ${formatTime(watchParty.date)}`}
       </p>
     </div>
   );
