@@ -81,7 +81,9 @@ export default function WatchPartyForm({
 
   // If the event has passed, disable inputs on form
   const passed =
-    update && new Date(inputs.date + "T" + inputs.time).getTime() < Date.now();
+    update &&
+    inputValues &&
+    new Date(inputValues.date + "T" + inputValues.time).getTime() < Date.now();
 
   const { user } = useUser();
 
