@@ -69,7 +69,7 @@ export default function WatchPartyCarousel({
       <Carousel tight>{CardSkeletons}</Carousel>
     </>
   ) : (
-    <>
+    <section>
       <h3 className="text-xl sm:text-2xl mb-2 font-bold break-balance">
         {getCarouselHeading(endpoint)}
       </h3>
@@ -79,6 +79,6 @@ export default function WatchPartyCarousel({
           <WatchPartyCard key={watchParty.id} watchParty={watchParty} />
         ))}
       </Carousel>
-    </>
+    </section>
   );
 }
