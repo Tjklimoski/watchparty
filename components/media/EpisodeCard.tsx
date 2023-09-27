@@ -78,6 +78,7 @@ export default function EpisodeCard({
         }
         alt={`${episode.name} Billboard`}
         fill
+        sizes="500px"
       />
 
       {/* Episode number */}

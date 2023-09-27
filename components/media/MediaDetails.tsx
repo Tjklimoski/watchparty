@@ -34,6 +34,7 @@ export default function MediaDetails({ media }: MediaDetailsProps) {
               media.media_type === "movie" ? media.title : media.name
             } poster`}
             fill
+            sizes="0px, (min-width: 640px) 50vw, (min-width: 768px) 300px"
           />
         )}
       </div>

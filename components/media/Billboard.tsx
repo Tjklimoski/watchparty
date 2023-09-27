@@ -35,6 +35,7 @@ export default function Billboard({
           fill
           className="object-cover object-top brightness-75"
           priority
+          sizes="100vw"
         />
       )}
 

@@ -30,6 +30,7 @@ export default function MediaCard({ media }: MediaCardProps) {
         }
         alt={`${title} Billboard`}
         fill
+        sizes="500px"
       />
 
       {/* Title and Interaction Buttons container */}
