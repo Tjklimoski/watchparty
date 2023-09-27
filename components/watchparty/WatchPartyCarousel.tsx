@@ -9,6 +9,8 @@ import { API } from "@/lib/APIFetcher";
 import WatchPartyCard from "./WatchPartyCard";
 import useUser from "@/hooks/useUser";
 import { getUserCoord } from "@/lib/Geocode";
+import Image from "next/image";
+import NoWatchPartiesCard from "./NoWatchPartiesCard";
 
 interface WatchPartyCarouselProps {
   endpoint: string;
@@ -61,7 +63,7 @@ export default function WatchPartyCarousel({
   if (!loading && error)
     return <p className="text-error font-semibold">{`ERROR ${endpoint}`}</p>;
 
-  return watchParties.length === 0 && loading ? (
+  return loading ? (
     <>
       <Skeleton className="h-8 w-1/6 min-w-[150px]" />
       <Carousel tight>{CardSkeletons}</Carousel>
@@ -72,6 +74,7 @@ export default function WatchPartyCarousel({
         {getCarouselHeading(endpoint)}
       </h3>
       <Carousel tight>
+        {watchParties.length === 0 && <NoWatchPartiesCard />}
         {watchParties.map((watchParty) => (
           <WatchPartyCard key={watchParty.id} watchParty={watchParty} />
         ))}
