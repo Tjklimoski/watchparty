@@ -15,6 +15,7 @@ export const API = axios.create({
 })
 
 export default async function fetcher(options: string | APIFetcherOptions) {
+  if (!options) return null;
   if (typeof options === "string") {
     const url = options
     return API.get(url).then(res => res.data).catch(err => { throw new Error(err?.response?.data?.message ?? 'Server error') });

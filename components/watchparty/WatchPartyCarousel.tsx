@@ -5,50 +5,54 @@ import Carousel from "../util/Carousel";
 import getCarouselHeading from "@/lib/getCarouselHeading";
 import { WatchParty } from "@/types";
 import Skeleton from "../util/Skeleton";
-import { API } from "@/lib/APIFetcher";
+import APIFetcher, { API } from "@/lib/APIFetcher";
 import WatchPartyCard from "./WatchPartyCard";
 import useUser from "@/hooks/useUser";
 import { getUserCoord } from "@/lib/Geocode";
-import Image from "next/image";
 import NoWatchPartiesCard from "./NoWatchPartiesCard";
+import useSWR from "swr";
 
 interface WatchPartyCarouselProps {
   endpoint: string;
+}
+
+interface APIParams {
+  radius: number;
+  coordinates: [number, number];
+  query?: string;
+  page?: number;
 }
 
 export default function WatchPartyCarousel({
   endpoint,
 }: WatchPartyCarouselProps) {
   const { user } = useUser();
-  const [watchParties, setWatchParties] = useState<WatchParty[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [params, setParams] = useState<APIParams | undefined>();
+  const {
+    data: watchParties,
+    isLoading,
+    error,
+  } = useSWR<WatchParty[]>(params && { url: endpoint, params }, APIFetcher);
 
+  // build and set params from user data.
   useEffect(() => {
-    if (!user) return;
-    async function getWatchParties() {
+    async function buildParams() {
       try {
-        const params = {
-          radius: user!.radius,
+        if (!user) return;
+
+        const myParams = {
+          radius: user.radius,
           coordinates: await getUserCoord(),
         };
 
-        const filteredWatchParties = await API.get<WatchParty[]>(endpoint, {
-          params,
-        }).then((res) => res.data);
-
-        if (!filteredWatchParties) throw new Error("Invalid request");
-
-        setWatchParties(filteredWatchParties);
+        setParams(myParams);
       } catch (err) {
-        setError(true);
-      } finally {
-        setLoading(false);
+        console.error(err);
       }
     }
 
-    getWatchParties();
-  }, [user, endpoint]);
+    buildParams();
+  }, [user]);
 
   const CardSkeletons = Array(6)
     .fill(null)
@@ -60,10 +64,10 @@ export default function WatchPartyCarousel({
       </div>
     ));
 
-  if (!loading && error)
+  if (!isLoading && error)
     return <p className="text-error font-semibold">{`ERROR ${endpoint}`}</p>;
 
-  return loading ? (
+  return !watchParties ? (
     <>
       <Skeleton className="h-8 w-1/6 min-w-[150px]" />
       <Carousel tight>{CardSkeletons}</Carousel>
