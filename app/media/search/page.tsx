@@ -53,6 +53,12 @@ export default function SearchPage({
         </div>
 
         {/* Search Results */}
+        {search && search.results.length === 0 && (
+          // Place the no reults message outside of the search results grid
+          <p className="text-error text-lg">
+            No results for &quot;{query}&quot;
+          </p>
+        )}
         <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(290px,1fr))] gap-2">
           {!search
             ? Array(12)
