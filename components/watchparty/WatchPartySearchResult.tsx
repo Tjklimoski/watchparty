@@ -12,8 +12,10 @@ interface WatchPartyCardProps {
   watchParty: WatchParty | undefined;
 }
 
-export default function WatchPartyCard({ watchParty }: WatchPartyCardProps) {
-  const { data: media, error: mediaError } = useSWR(
+export default function WatchPartySearchResult({
+  watchParty,
+}: WatchPartyCardProps) {
+  const { data: media } = useSWR(
     watchParty && `/${watchParty.mediaType}/${watchParty.mediaId}`,
     TMDBfetcher
   );
@@ -25,21 +27,17 @@ export default function WatchPartyCard({ watchParty }: WatchPartyCardProps) {
   return !media || !watchParty ? (
     <div className="h-full flex flex-col">
       <Skeleton className="w-1/2 h-6 max-w-[14ch]" />
-      <Skeleton className="w-48 h-full @lg:w-52 @3xl:w-64 @5xl:w-72 aspect-video rounded-sm mb-1" />
+      <Skeleton className="h-full aspect-video rounded-sm mb-1" />
       <Skeleton className="w-3/5 h-3 mb-1" />
     </div>
   ) : (
-    <div
-      className={`group snap-center @lg:snap-start ${
-        passed && "brightness-50"
-      }`}
-    >
+    <div className={`group ${passed && "brightness-50"} @container`}>
       {/* User's distance from event above card */}
-      <div className="px-1 @lg:px-2 mb-1 flex justify-start">
+      <div className="px-1 @xs:px-2 mb-1 flex justify-start">
         <Distance knownDistance={watchParty.dist?.calculated} />
       </div>
 
-      <div className="relative w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 mb-1 aspect-video rounded-sm drop-shadow-lg overflow-hidden">
+      <div className="relative mb-1 aspect-video rounded-sm drop-shadow-lg overflow-hidden">
         <Image
           className={`object-cover ${
             passed
@@ -58,14 +56,14 @@ export default function WatchPartyCard({ watchParty }: WatchPartyCardProps) {
 
         {/* tv show season and episode number */}
         {watchParty.mediaType === "tv" && (
-          <div className="absolute top-0 left-0 px-1 font-semibold bg-secondary bg-opacity-90 rounded-br-sm select-none text-base-100">
+          <div className="absolute top-0 left-0 px-1 font-semibold bg-secondary bg-opacity-90 rounded-br-sm select-none text-base-100 text-sm @xs:text-base">
             S{watchParty.season} E{watchParty.episode}
           </div>
         )}
 
         {/* Title container */}
-        <div className="absolute left-0 bottom-0 right-0 h-1/2 bg-gradient-to-t from-black via-black via-45% to-transparent p-1 @lg:p-2 flex items-end select-none">
-          <h3 className="font-semibold text-md @lg:text-lg @3xl:text-xl break-balance webkit-truncate">
+        <div className="absolute left-0 bottom-0 right-0 h-3/5 @xs:h-1/2 bg-gradient-to-t from-black via-black via-45% to-transparent p-1 @xs:p-2 flex items-end select-none">
+          <h3 className="font-semibold text-lg @xs:text-xl break-balance webkit-truncate">
             {watchParty.title}
           </h3>
         </div>
@@ -78,9 +76,9 @@ export default function WatchPartyCard({ watchParty }: WatchPartyCardProps) {
         )}
       </div>
 
-      {/* Date and Time of Event below card */}
+      {/* Date and Time of event below card */}
       <p
-        className={`text-xs sm:text-sm px-1 @lg:px-2 ${
+        className={`text-xs @xs:text-sm px-1 @xs:px-2 ${
           passed ? "text-neutral-300" : "text-neutral-500"
         } group-hover:text-neutral-300 group-focus-within:text-neutral-300 transition duration-200`}
       >
