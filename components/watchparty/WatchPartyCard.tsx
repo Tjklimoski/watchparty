@@ -23,7 +23,11 @@ export default function WatchPartyCard({ watchParty }: WatchPartyCardProps) {
   const passed = new Date(watchParty?.date ?? "").getTime() < Date.now();
 
   return !media || !watchParty ? (
-    <Skeleton className="h-full w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 aspect-video rounded-sm" />
+    <div className="h-full flex flex-col">
+      <Skeleton className="w-1/2 h-6 max-w-[14ch]" />
+      <Skeleton className="w-48 h-full @lg:w-52 @3xl:w-64 @5xl:w-72 aspect-video rounded-sm mb-1" />
+      <Skeleton className="w-4/5 h-3 mb-1" />
+    </div>
   ) : (
     <div
       className={`group snap-center @lg:snap-start ${
