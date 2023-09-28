@@ -6,12 +6,19 @@ import { WatchParty } from "@/types";
 import Skeleton from "@/components/util/Skeleton";
 import { useRouter } from "next/navigation";
 import BackBtn from "@/components/util/BackBtn";
-import WatchPartyCard from "@/components/watchparty/WatchPartyCard";
 import useUser from "@/hooks/useUser";
 import { useEffect, useState } from "react";
 import { getUserCoord } from "@/lib/Geocode";
-import { API } from "@/lib/APIFetcher";
+import APIFetcher, { API } from "@/lib/APIFetcher";
 import WatchPartySearchResult from "@/components/watchparty/WatchPartySearchResult";
+import useSWR from "swr";
+
+interface APIParams {
+  radius: number;
+  coordinates: [number, number];
+  query?: string;
+  page?: string;
+}
 
 interface SearchData {
   page: number;
@@ -25,12 +32,44 @@ export default function SearchPage({
 }: {
   searchParams: { query: string; page?: string };
 }) {
+  // TEMP - FOR TESTING
+  const endpoint = "/watchparties/all";
+
   const router = useRouter();
   // These are the search params on the frontend url - they will be passed to the API
   // But not all params passed to the API will be in the url (user info)
   const { query, page = "1" } = searchParams;
+  const { user } = useUser();
+  const [params, setParams] = useState<APIParams | undefined>();
+  const {
+    data: watchParties,
+    isLoading,
+    error,
+  } = useSWR<WatchParty[]>(params && { url: endpoint, params }, APIFetcher);
 
-  // Placeholder - this is the returned API results.
+  // build and set params from user data.
+  useEffect(() => {
+    async function buildParams() {
+      try {
+        if (!user) return;
+
+        const myParams = {
+          radius: user.radius,
+          coordinates: await getUserCoord(),
+          query,
+          page,
+        };
+
+        setParams(myParams);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    buildParams();
+  }, [user, page, query]);
+
+  // TEMP - this is to simulate the returned API results.
   const [search, setSearch] = useState<SearchData>({
     page: 1,
     results: [],
@@ -38,35 +77,11 @@ export default function SearchPage({
     total_results: 245,
   });
 
-  // TEMP - FOR TESTING
-  const endpoint = "/watchparties/all";
-  const { user } = useUser();
-
   useEffect(() => {
-    if (!user) return;
-    async function getWatchParties() {
-      try {
-        const params = {
-          radius: user!.radius,
-          coordinates: await getUserCoord(),
-        };
-
-        const filteredWatchParties = await API.get<WatchParty[]>(endpoint, {
-          params,
-        }).then((res) => res.data);
-
-        if (!filteredWatchParties) throw new Error("Invalid request");
-
-        setSearch((current) => ({ ...current, results: filteredWatchParties }));
-      } catch {
-        console.log("ERROR");
-      }
-    }
-
-    getWatchParties();
-  }, [user, endpoint]);
-
-  console.log(search);
+    if (!watchParties) return;
+    setSearch((current) => ({ ...current, results: watchParties }));
+  }, [watchParties]);
+  // END TEMP
 
   return (
     <main className="min-h-screen">

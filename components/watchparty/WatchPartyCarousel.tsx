@@ -20,7 +20,7 @@ interface APIParams {
   radius: number;
   coordinates: [number, number];
   query?: string;
-  page?: number;
+  page?: string;
 }
 
 export default function WatchPartyCarousel({
