@@ -47,7 +47,7 @@ export async function GET(req: NextRequest) {
           }
         },
         {
-          // Only return the first 20 documents that match the above criteria
+          // Only return at most 20 documents
           $limit: 20,
         }
       ]
