@@ -98,7 +98,7 @@ export default function SearchPage({
             No results for &quot;{query}&quot;
           </p>
         )}
-        <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(290px,1fr))] gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(290px,1fr))] gap-x-2 gap-y-4">
           {!search
             ? Array(12)
                 .fill(null)
