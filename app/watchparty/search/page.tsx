@@ -7,6 +7,11 @@ import Skeleton from "@/components/util/Skeleton";
 import { useRouter } from "next/navigation";
 import BackBtn from "@/components/util/BackBtn";
 import WatchPartyCard from "@/components/watchparty/WatchPartyCard";
+import useUser from "@/hooks/useUser";
+import { useEffect, useState } from "react";
+import { getUserCoord } from "@/lib/Geocode";
+import { API } from "@/lib/APIFetcher";
+import WatchPartySearchResult from "@/components/watchparty/WatchPartySearchResult";
 
 interface SearchData {
   page: number;
@@ -26,12 +31,42 @@ export default function SearchPage({
   const { query, page = "1" } = searchParams;
 
   // Placeholder - this is the returned API results.
-  const search: SearchData = {
+  const [search, setSearch] = useState<SearchData>({
     page: 1,
     results: [],
     total_pages: 12,
     total_results: 245,
-  };
+  });
+
+  // TEMP - FOR TESTING
+  const endpoint = "/watchparties/all";
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (!user) return;
+    async function getWatchParties() {
+      try {
+        const params = {
+          radius: user!.radius,
+          coordinates: await getUserCoord(),
+        };
+
+        const filteredWatchParties = await API.get<WatchParty[]>(endpoint, {
+          params,
+        }).then((res) => res.data);
+
+        if (!filteredWatchParties) throw new Error("Invalid request");
+
+        setSearch((current) => ({ ...current, results: filteredWatchParties }));
+      } catch {
+        console.log("ERROR");
+      }
+    }
+
+    getWatchParties();
+  }, [user, endpoint]);
+
+  console.log(search);
 
   return (
     <main className="min-h-screen">
@@ -68,7 +103,10 @@ export default function SearchPage({
                   />
                 ))
             : search.results.map((watchParty) => (
-                <WatchPartyCard key={watchParty.id} watchParty={watchParty} />
+                <WatchPartySearchResult
+                  key={watchParty.id}
+                  watchParty={watchParty}
+                />
               ))}
         </div>
 
