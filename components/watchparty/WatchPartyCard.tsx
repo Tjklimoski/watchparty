@@ -70,12 +70,10 @@ export default function WatchPartyCard({ watchParty }: WatchPartyCardProps) {
           </h3>
         </div>
 
-        {!passed && (
-          <Link
-            href={`/watchparty/${watchParty.id}`}
-            className="absolute block inset-0 focus:border-2 border-primary"
-          />
-        )}
+        <Link
+          href={`/watchparty/${watchParty.id}`}
+          className="absolute block inset-0 focus:border-2 border-primary"
+        />
       </div>
 
       {/* Date and Time of Event below card */}
