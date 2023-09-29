@@ -4,7 +4,12 @@ import { FormEvent, useEffect, useState } from "react";
 import Input from "../form/Input";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function SearchBar() {
+interface SearchBarProps {
+  searchPath: string;
+  label: string;
+}
+
+export default function SearchBar({ searchPath, label }: SearchBarProps) {
   const searchParams = useSearchParams();
   const [search, setSearch] = useState("");
   const router = useRouter();
