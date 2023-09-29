@@ -5,27 +5,30 @@ import Input from "../form/Input";
 import { useRouter, useSearchParams } from "next/navigation";
 
 interface SearchBarProps {
-  searchPath: string;
-  label: string;
+  searchPath?: string;
+  label?: string;
 }
 
-export default function SearchBar({ searchPath, label }: SearchBarProps) {
+export default function SearchBar({
+  searchPath = window.location.pathname,
+  label = "Search",
+}: SearchBarProps) {
   const searchParams = useSearchParams();
   const [search, setSearch] = useState("");
   const router = useRouter();
 
   useEffect(() => {
-    if (!searchParams || window.location.pathname !== "/media/search") return;
+    if (!searchParams || window.location.pathname !== searchPath) return;
     setSearch(() => {
       const query = searchParams.get("query");
       if (query) return query;
       return "";
     });
-  }, [searchParams]);
+  }, [searchParams, searchPath]);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const url = new URL("/media/search?", window.location.origin);
+    const url = new URL(searchPath, window.location.origin);
     url.searchParams.set("query", search);
     router.push(url.toString());
   }
@@ -36,7 +39,7 @@ export default function SearchBar({ searchPath, label }: SearchBarProps) {
       className="flex flex-col min-[450px]:flex-row justify-center items-center gap-2 py-10"
     >
       <Input
-        label="Search Movies & TV"
+        label={label}
         className="max-w-lg focus:shadow-xl focus:shadow-primary/30  hover:shadow-xl hover:shadow-primary/30 [&:not(:placeholder-shown)]:shadow-xl [&:not(:placeholder-shown)]:shadow-primary/30 transition duration-150 outline outline-1 outline-primary rounded-full"
         name="search"
         value={search}
