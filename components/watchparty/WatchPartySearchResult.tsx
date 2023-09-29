@@ -68,12 +68,10 @@ export default function WatchPartySearchResult({
           </h3>
         </div>
 
-        {!passed && (
-          <Link
-            href={`/watchparty/${watchParty.id}`}
-            className="absolute block inset-0 focus:border-2 border-primary"
-          />
-        )}
+        <Link
+          href={`/watchparty/${watchParty.id}`}
+          className="absolute block inset-0 focus:border-2 border-primary"
+        />
       </div>
 
       {/* Date and Time of event below card */}
