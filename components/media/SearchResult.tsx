@@ -56,6 +56,7 @@ export default function SearchResult({ media }: SearchResultProps) {
         }
         alt={`${title} billboard`}
         fill
+        sizes="500px"
       />
 
       {/* Top Bar Info */}
