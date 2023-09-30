@@ -85,6 +85,28 @@ export default function SearchPage({
   }, [watchParties]);
   // END TEMP
 
+  // valid value of page searchParam
+  useEffect(() => {
+    const pageAsNumber = parseInt(page);
+    if (
+      search &&
+      !isNaN(pageAsNumber) &&
+      pageAsNumber > 0 &&
+      pageAsNumber <= search.total_pages
+    )
+      return;
+
+    if (pageAsNumber > 0 && !search) return;
+
+    const url = new URL(window.location.href);
+    if (search && pageAsNumber > search.total_pages) {
+      url.searchParams.set("page", search.total_pages.toString());
+    } else {
+      url.searchParams.set("page", "1");
+    }
+    router.replace(url.href);
+  }, [page, search, router]);
+
   return (
     <main className="min-h-screen">
       <Container>
