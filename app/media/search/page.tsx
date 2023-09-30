@@ -10,6 +10,7 @@ import Skeleton from "@/components/util/Skeleton";
 import { useRouter } from "next/navigation";
 import BackBtn from "@/components/util/BackBtn";
 import PageNumbers from "@/components/util/PageNumbers";
+import { useEffect } from "react";
 
 interface SearchData {
   page: number;
@@ -29,6 +30,29 @@ export default function SearchPage({
     `/search/multi?query=${query}&page=${page}`,
     fetcher
   );
+
+  // If a user manually enters a value for page in the url that falls outside of the range of availbale pages for their query, or is NaN, redirect them to a valid page.
+  useEffect(() => {
+    const pageAsNumber = parseInt(page);
+    // Check is the value is valid, if so then return.
+    if (
+      search &&
+      !isNaN(pageAsNumber) &&
+      pageAsNumber > 0 &&
+      pageAsNumber <= search.total_pages
+    )
+      return;
+    if (pageAsNumber > 0 && !search) return;
+    const url = new URL(window.location.href);
+    // change the value of page - if over total pages - set to last page, else set to first page
+    if (search && pageAsNumber > search.total_pages) {
+      url.searchParams.set("page", search.total_pages.toString());
+    } else {
+      url.searchParams.set("page", "1");
+    }
+    // replace the users invalid url with a valid one when redirecting.
+    router.replace(url.href);
+  }, [page, search, router]);
 
   return (
     <main className="min-h-screen">
