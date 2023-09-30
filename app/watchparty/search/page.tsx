@@ -12,6 +12,8 @@ import { getUserCoord } from "@/lib/Geocode";
 import APIFetcher, { API } from "@/lib/APIFetcher";
 import WatchPartySearchResult from "@/components/watchparty/WatchPartySearchResult";
 import useSWR from "swr";
+import PageCount from "@/components/util/PageCount";
+import PageNumbers from "@/components/util/PageNumbers";
 
 interface APIParams {
   radius: number;
@@ -32,7 +34,7 @@ export default function SearchPage({
 }: {
   searchParams: { query: string; page?: string };
 }) {
-  // TEMP - FOR TESTING
+  // TEMP ENDPOINT - FOR TESTING
   const endpoint = "/watchparties/all";
 
   const router = useRouter();
@@ -90,20 +92,8 @@ export default function SearchPage({
 
         {/* Top info bar on Search Results Page */}
         <div className="text-lg flex justify-between items-center mb-4">
-          {!search ? (
-            <>
-              <Skeleton className="w-12 h-full aspect-square rounded-full" />
-              <Skeleton className="w-full h-5 max-w-[12ch]" />
-            </>
-          ) : (
-            <>
-              <BackBtn />
-              <span className="ml-2">
-                page <span className="font-semibold">{search.page}</span> of{" "}
-                <span className="font-semibold">{search.total_pages}</span>
-              </span>
-            </>
-          )}
+          <BackBtn />
+          <PageCount totalPages={search?.total_pages} />
         </div>
 
         {/* Search Results */}
@@ -132,43 +122,7 @@ export default function SearchPage({
         </div>
 
         {/* Page numbers to navigate with */}
-        <div className="flex justify-center mt-8">
-          <ul className="flex flex-wrap justify-center gap-4 max-w-lg">
-            {!search
-              ? Array(5)
-                  .fill(null)
-                  .map((item, i) => (
-                    <li key={`loading${i}`}>
-                      <Skeleton className="w-5 h-6 rounded-sm" />
-                    </li>
-                  ))
-              : Array(search.total_pages)
-                  .fill(null)
-                  .map((item, i) => {
-                    const pageNumber = i + 1;
-                    return (
-                      <li key={pageNumber}>
-                        <button
-                          onClick={() => {
-                            const newSearchParams = new URLSearchParams({
-                              query,
-                              page: pageNumber.toString(),
-                            }).toString();
-                            router.push(`/media/search?${newSearchParams}`);
-                          }}
-                          className={`cursor-pointer text-xl hover:text-primary focus:text-primary outline-none ${
-                            pageNumber.toString() === page
-                              ? "text-accent underline-offset-4 underline"
-                              : ""
-                          }`}
-                        >
-                          {pageNumber}
-                        </button>
-                      </li>
-                    );
-                  })}
-          </ul>
-        </div>
+        <PageNumbers totalPages={search?.total_pages} />
       </Container>
     </main>
   );
