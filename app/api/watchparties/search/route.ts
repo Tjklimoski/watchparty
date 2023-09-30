@@ -15,6 +15,8 @@ export async function GET(req: NextRequest) {
 
     const searchParamCoords: string[] = searchParams.getAll('coordinates[]')
     const radius: number = parseInt(searchParams.get('radius') as string)
+    const query: string = searchParams.get('query') as string;
+    const page: number = parseInt(searchParams.get('page') ?? '1')
 
     const coordinates = searchParamCoords.map(coord => {
       const coordinate = parseFloat(coord);
