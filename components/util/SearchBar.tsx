@@ -14,17 +14,13 @@ export default function SearchBar({
   label = "Search",
 }: SearchBarProps) {
   const searchParams = useSearchParams();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState<string>(() => {
+    if (!searchParams || window.location.pathname !== searchPath) return "";
+    const query = searchParams.get("query");
+    if (!query) return "";
+    return query;
+  });
   const router = useRouter();
-
-  useEffect(() => {
-    if (!searchParams || window.location.pathname !== searchPath) return;
-    setSearch(() => {
-      const query = searchParams.get("query");
-      if (query) return query;
-      return "";
-    });
-  }, [searchParams, searchPath]);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
