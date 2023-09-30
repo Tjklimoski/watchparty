@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import BackBtn from "@/components/util/BackBtn";
 import PageNumbers from "@/components/util/PageNumbers";
 import { useEffect } from "react";
+import PageCount from "@/components/util/PageCount";
 
 interface SearchData {
   page: number;
@@ -61,20 +62,8 @@ export default function SearchPage({
 
         {/* Top info bar on Search Results Page */}
         <div className="text-lg flex justify-between items-center mb-4">
-          {!search ? (
-            <>
-              <Skeleton className="w-12 h-full aspect-square rounded-full" />
-              <Skeleton className="w-full h-5 max-w-[12ch]" />
-            </>
-          ) : (
-            <>
-              <BackBtn />
-              <span className="ml-2">
-                page <span className="font-semibold">{search.page}</span> of{" "}
-                <span className="font-semibold">{search.total_pages}</span>
-              </span>
-            </>
-          )}
+          <BackBtn />
+          <PageCount totalPages={search?.total_pages} />
         </div>
 
         {/* Search Results */}
