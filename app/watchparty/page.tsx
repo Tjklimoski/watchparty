@@ -1,5 +1,3 @@
-"use client";
-
 import Container from "@/components/util/Container";
 import SearchBar from "@/components/util/SearchBar";
 import WatchPartyCarousel from "@/components/watchparty/WatchPartyCarousel";
@@ -16,7 +14,6 @@ export default function WatchPartyPage() {
   return (
     <div>
       <Container>
-        {/* SearchBar just placeholder for now */}
         <SearchBar
           searchPath="/watchparty/search"
           label="Search by Movies & TV"
