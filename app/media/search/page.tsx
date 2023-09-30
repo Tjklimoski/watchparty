@@ -9,6 +9,7 @@ import SearchResult from "@/components/media/SearchResult";
 import Skeleton from "@/components/util/Skeleton";
 import { useRouter } from "next/navigation";
 import BackBtn from "@/components/util/BackBtn";
+import PageNumbers from "@/components/util/PageNumbers";
 
 interface SearchData {
   page: number;
@@ -75,43 +76,7 @@ export default function SearchPage({
         </div>
 
         {/* Page numbers to navigate with */}
-        <div className="flex justify-center mt-8">
-          <ul className="flex flex-wrap justify-center gap-4 max-w-lg">
-            {!search
-              ? Array(5)
-                  .fill(null)
-                  .map((item, i) => (
-                    <li key={`loading${i}`}>
-                      <Skeleton className="w-5 h-6 rounded-sm" />
-                    </li>
-                  ))
-              : Array(search.total_pages)
-                  .fill(null)
-                  .map((item, i) => {
-                    const pageNumber = i + 1;
-                    return (
-                      <li key={pageNumber}>
-                        <button
-                          onClick={() => {
-                            const newSearchParams = new URLSearchParams({
-                              query,
-                              page: pageNumber.toString(),
-                            }).toString();
-                            router.push(`/media/search?${newSearchParams}`);
-                          }}
-                          className={`cursor-pointer text-xl hover:text-primary focus:text-primary outline-none ${
-                            pageNumber.toString() === page
-                              ? "text-accent underline-offset-4 underline"
-                              : ""
-                          }`}
-                        >
-                          {pageNumber}
-                        </button>
-                      </li>
-                    );
-                  })}
-          </ul>
-        </div>
+        <PageNumbers totalPages={search?.total_pages} />
       </Container>
     </main>
   );
