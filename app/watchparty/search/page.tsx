@@ -9,7 +9,7 @@ import BackBtn from "@/components/util/BackBtn";
 import useUser from "@/hooks/useUser";
 import { useEffect, useState } from "react";
 import { getUserCoord } from "@/lib/Geocode";
-import APIFetcher, { API } from "@/lib/APIFetcher";
+import APIFetcher from "@/lib/APIFetcher";
 import WatchPartySearchResult from "@/components/watchparty/WatchPartySearchResult";
 import useSWR from "swr";
 import PageCount from "@/components/util/PageCount";
@@ -35,7 +35,7 @@ export default function SearchPage({
   searchParams: { query: string; page?: string };
 }) {
   // TEMP ENDPOINT - FOR TESTING
-  const endpoint = "/watchparties/all";
+  const endpoint = "/watchparties/search";
 
   const router = useRouter();
   // These are the search params on the frontend url - they will be passed to the API
@@ -57,6 +57,7 @@ export default function SearchPage({
 
         const myParams = {
           radius: user.radius,
+          // must get coordinates through frontend since utalizing browser geolocation api
           coordinates: await getUserCoord(),
           query,
           page,

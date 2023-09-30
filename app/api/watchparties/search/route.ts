@@ -11,6 +11,7 @@ export async function GET(req: NextRequest) {
 
     if (!searchParams.has('coordinates[]')) throw new Error('no coordinates passed')
     if (!searchParams.has('radius')) throw new Error('No radius passed')
+    if (!searchParams.has('query')) throw new Error('No query passed')
 
     const searchParamCoords: string[] = searchParams.getAll('coordinates[]')
     const radius: number = parseInt(searchParams.get('radius') as string)
