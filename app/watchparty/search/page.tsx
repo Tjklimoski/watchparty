@@ -86,7 +86,7 @@ export default function SearchPage({
   return (
     <main className="min-h-screen">
       <Container>
-        <SearchBar />
+        <SearchBar label="Search by Movies & TV" />
 
         {/* Top info bar on Search Results Page */}
         <div className="text-lg flex justify-between items-center mb-4">

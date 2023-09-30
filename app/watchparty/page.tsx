@@ -17,7 +17,10 @@ export default function WatchPartyPage() {
     <div>
       <Container>
         {/* SearchBar just placeholder for now */}
-        <SearchBar />
+        <SearchBar
+          searchPath="/watchparty/search"
+          label="Search by Movies & TV"
+        />
         {APIEndpoints.map((endpoint) => (
           <WatchPartyCarousel key={endpoint} endpoint={endpoint} />
         ))}

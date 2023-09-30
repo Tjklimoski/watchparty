@@ -15,7 +15,7 @@ export default function MediaPage() {
   return (
     <main>
       <Container>
-        <SearchBar />
+        <SearchBar searchPath="/media/search" label="Search Movies & TV" />
 
         {APIEndpoints.map((endpoint) => (
           <MediaCarousel key={endpoint} endpoint={endpoint} />
