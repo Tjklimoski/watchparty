@@ -14,8 +14,8 @@ export default function PageNumbers({ totalPages }: PageNumbersProps) {
   const url = new URL(window.location.href);
 
   return (
-    <div className="flex justify-center mt-8">
-      <ul className="flex flex-wrap justify-center gap-4 max-w-lg">
+    <div className="flex justify-center mt-12">
+      <ul className="grid grid-cols-[repeat(auto-fit,minmax(min-content,5ch))] w-full max-w-2xl mx-8 place-content-center place-items-center gap-y-2">
         {!totalPages
           ? Array(5)
               .fill(null)
@@ -51,3 +51,5 @@ export default function PageNumbers({ totalPages }: PageNumbersProps) {
     </div>
   );
 }
+
+// <ul className="flex flex-wrap justify-center gap-4 max-w-lg">
