@@ -62,6 +62,8 @@ export async function getUserCoord(): Promise<[number, number]> {
 
     if (!location) {
       coordinates = await getBrowserCoord();
+
+      // TODO: make a request to my API to set user location based on coordinates - run getCityFromCoord - then pass that value and set on user.location.
     } else {
       coordinates = await getCoord({ location });
     }
