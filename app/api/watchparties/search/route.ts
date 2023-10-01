@@ -22,9 +22,6 @@ export async function GET(req: NextRequest) {
 
     // validate values from searchParams (as needed)
     const coordinates = searchParamCoords.map((coord, index) => {
-      // if more than 2 values are sent for coordinates, error.
-      if (index > 1) throw new Error('Coordinates only accepts 2 values');
-
       const coordinate = parseFloat(coord);
       if (isNaN(coordinate)) throw new Error('Invalid coordinate')
       if (index === 0 && (coordinate < -180 || coordinate > 180)) throw new Error('Invalid longitude')
@@ -37,6 +34,8 @@ export async function GET(req: NextRequest) {
 
     // convert radius from miles to meters (for mongodb)
     const radiusMeters = milesToMeters(radius)
+
+    const documentsPerPage = 20;
 
     const watchParties = await prisma.watchParty.aggregateRaw({
       pipeline: [
@@ -60,7 +59,7 @@ export async function GET(req: NextRequest) {
         },
         {
           // Only return at most 20 documents
-          $limit: 20,
+          $limit: documentsPerPage,
         }
       ]
     }).then(res => convertToWatchParty(res))
