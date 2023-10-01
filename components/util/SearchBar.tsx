@@ -1,8 +1,9 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import Input from "../form/Input";
 import { useRouter, useSearchParams } from "next/navigation";
+import useWindowLocation from "@/hooks/useWindowLocation";
 
 interface SearchBarProps {
   searchPath?: string;
@@ -10,23 +11,27 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({
-  searchPath = window.location.pathname,
+  searchPath,
   label = "Search",
 }: SearchBarProps) {
-  const searchParams = useSearchParams();
-  const [search, setSearch] = useState<string>(() => {
-    if (!searchParams || window.location.pathname !== searchPath) return "";
-    const query = searchParams.get("query");
-    if (!query) return "";
-    return query;
-  });
+  const windowLocation = useWindowLocation();
+  searchPath ??= windowLocation.pathname;
+  const searchBar = useRef<HTMLInputElement>(null);
+  const query = useSearchParams().get("query") ?? "";
   const router = useRouter();
 
-  function handleSubmit(e: FormEvent) {
+  // Set input value to current query, if client on searchPath
+  useEffect(() => {
+    if (!searchBar.current || searchPath !== windowLocation.pathname) return;
+    searchBar.current.value = query;
+  }, [query, searchPath, windowLocation]);
+
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const url = new URL(searchPath, window.location.origin);
-    url.searchParams.set("query", search);
-    router.push(url.toString());
+    if (!searchPath || !searchBar.current) return;
+    const url = new URL(searchPath, windowLocation.origin);
+    url.searchParams.set("query", searchBar.current.value);
+    router.push(url.href);
   }
 
   return (
@@ -35,11 +40,10 @@ export default function SearchBar({
       className="flex flex-col min-[450px]:flex-row justify-center items-center gap-2 py-10"
     >
       <Input
+        ref={searchBar}
         label={label}
         className="max-w-lg focus:shadow-xl focus:shadow-primary/30  hover:shadow-xl hover:shadow-primary/30 [&:not(:placeholder-shown)]:shadow-xl [&:not(:placeholder-shown)]:shadow-primary/30 transition duration-150 outline outline-1 outline-primary rounded-full"
         name="search"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
       />
       <button
         type="submit"
