@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef } from "react";
 import Input from "../form/Input";
 import { useRouter, useSearchParams } from "next/navigation";
 import useWindowLocation from "@/hooks/useWindowLocation";
