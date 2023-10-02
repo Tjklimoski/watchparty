@@ -29,25 +29,24 @@ interface SearchData {
   total_results: number;
 }
 
+const ENDPOINT = "/watchparties/search";
+
 export default function SearchPage({
   searchParams,
 }: {
   searchParams: { query: string; page?: string };
 }) {
-  // TEMP ENDPOINT - FOR TESTING
-  const endpoint = "/watchparties/search";
-
   const router = useRouter();
-  // These are the search params on the frontend url - they will be passed to the API
-  // But not all params passed to the API will be in the url (user info)
+  // These are the search params on the client url - they will be passed to the API
+  // But not all params passed to the API will be in the client url (user info)
   const { query, page = "1" } = searchParams;
   const { user } = useUser();
   const [params, setParams] = useState<APIParams | undefined>();
   const {
-    data: watchParties,
+    data: search,
     isLoading,
     error,
-  } = useSWR<WatchParty[]>(params && { url: endpoint, params }, APIFetcher);
+  } = useSWR<SearchData>(params && { url: ENDPOINT, params }, APIFetcher);
 
   // build and set params from user data.
   useEffect(() => {
@@ -72,21 +71,7 @@ export default function SearchPage({
     buildParams();
   }, [user, page, query]);
 
-  // TEMP - this is to simulate the returned API results.
-  const [search, setSearch] = useState<SearchData>({
-    page: 1,
-    results: [],
-    total_pages: 12,
-    total_results: 245,
-  });
-
-  useEffect(() => {
-    if (!watchParties) return;
-    setSearch((current) => ({ ...current, results: watchParties }));
-  }, [watchParties]);
-  // END TEMP
-
-  // valid value of page searchParam
+  // validate value of page searchParam
   useEffect(() => {
     const pageAsNumber = parseInt(page);
     if (
@@ -136,7 +121,7 @@ export default function SearchPage({
                     className="h-full rounded-sm aspect-video"
                   />
                 ))
-            : search.results.map((watchParty) => (
+            : search.results.map(watchParty => (
                 <WatchPartySearchResult
                   key={watchParty.id}
                   watchParty={watchParty}
