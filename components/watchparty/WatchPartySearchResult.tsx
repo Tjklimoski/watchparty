@@ -34,7 +34,10 @@ export default function WatchPartySearchResult({
     <div className={`group ${passed && "brightness-50"} @container`}>
       {/* User's distance from event above card */}
       <div className="px-1 @xs:px-2 mb-1 flex justify-start">
-        <Distance knownDistance={watchParty.dist?.calculated} />
+        <Distance
+          watchPartyCoords={watchParty.geo.coordinates}
+          knownDistance={watchParty.dist?.calculated}
+        />
       </div>
 
       <div className="relative mb-1 aspect-video rounded-sm drop-shadow-lg overflow-hidden">

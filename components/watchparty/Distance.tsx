@@ -29,21 +29,14 @@ export default function Distance({
 
   // fetch and set the distance the user is from the WatchParty
   useEffect(() => {
-    if (!watchPartyCoords) return;
-
-    // for if the knownDistance prop updates while Distance component is already rendered
-    if (knownDistance) {
-      setLoading(false);
-      setDistance(knownDistance);
-      return;
-    }
+    if (!watchPartyCoords || knownDistance) return;
 
     // Create abort controller
     const controller = new AbortController();
 
     // request data
     getUserDistanceFrom(watchPartyCoords, { controller })
-      .then((miles) => setDistance(miles))
+      .then(miles => setDistance(miles))
       .catch((err: Error | any) => {
         console.error(err?.message ?? err);
       })
