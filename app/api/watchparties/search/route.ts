@@ -70,6 +70,14 @@ export async function GET(req: NextRequest) {
                     },
                   },
                 ],
+                should: [
+                  {
+                    phrase: {
+                      path: "mediaTitle",
+                      query,
+                    },
+                  },
+                ],
               },
             },
           },
