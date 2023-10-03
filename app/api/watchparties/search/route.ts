@@ -82,15 +82,27 @@ export async function GET(req: NextRequest) {
           {
             $project: {
               results: 1,
-              total_results: { $arrayElemAt: ["$metadata.total", 0] },
+              // Check if $count was null, if so set to 0
+              total_results: {
+                $ifNull: [
+                  { $arrayElemAt: ["$metadata.total", 0] },
+                  { $literal: 0 },
+                ],
+              },
               page: { $toInt: page },
               total_pages: {
-                $ceil: {
-                  $divide: [
-                    { $arrayElemAt: ["$metadata.total", 0] },
-                    documentsPerPage,
-                  ],
-                },
+                // if $count was 0, set pages to 1 for "no results" message to be displayed.
+                $max: [
+                  { $literal: 1 },
+                  {
+                    $ceil: {
+                      $divide: [
+                        { $arrayElemAt: ["$metadata.total", 0] },
+                        documentsPerPage,
+                      ],
+                    },
+                  },
+                ],
               },
             },
           },
@@ -115,3 +127,10 @@ export async function GET(req: NextRequest) {
     return new res(err?.message ?? "request failed", { status: 400 });
   }
 }
+
+// {
+//   $facet: {
+//     results: [{ $skip: skip }, { $limit: documentsPerPage }],
+//     metadata: [{ $count: "total" }],
+//   },
+// },
