@@ -54,6 +54,26 @@ export async function GET(req: NextRequest) {
         pipeline: [
           // Create $Search stage - which will handle query search in the mediaTitle, near for user radius/coordinates, and date to pull events that are upcoming.
           {
+            $search: {
+              compound: {
+                must: [
+                  {
+                    text: {
+                      query,
+                      path: "mediaTitle",
+                      // fuzzy allows for the user to have typos
+                      fuzzy: {
+                        maxEdits: 2,
+                        // first letter for each term must match
+                        prefixLength: 1,
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          },
+          {
             $facet: {
               results: [{ $skip: skip }, { $limit: documentsPerPage }],
               metadata: [{ $count: "total" }],
