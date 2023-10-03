@@ -70,6 +70,19 @@ export async function GET(req: NextRequest) {
                     },
                   },
                 ],
+                // Boost the score for documents that include the media title in their watchparty title or description
+                should: [
+                  {
+                    text: {
+                      query,
+                      path: ["title", "description"],
+                      fuzzy: {
+                        maxEdits: 2,
+                        prefixLength: 1,
+                      },
+                    },
+                  },
+                ],
               },
             },
           },
