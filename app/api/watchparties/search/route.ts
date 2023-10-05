@@ -74,6 +74,18 @@ export async function GET(req: NextRequest) {
                       },
                     },
                   },
+                  {
+                    geoWithin: {
+                      circle: {
+                        center: {
+                          type: "Point",
+                          coordinates,
+                        },
+                        radius: radiusMeters,
+                      },
+                      path: "geo",
+                    },
+                  },
                 ],
                 should: [
                   {
