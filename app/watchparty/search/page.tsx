@@ -14,6 +14,7 @@ import WatchPartySearchResult from "@/components/watchparty/WatchPartySearchResu
 import useSWR from "swr";
 import PageCount from "@/components/util/PageCount";
 import PageNumbers from "@/components/util/PageNumbers";
+import Link from "next/link";
 
 interface APIParams {
   radius: number;
@@ -107,10 +108,18 @@ export default function SearchPage({
         </div>
 
         {/* Search Results */}
-        {search && search.results.length === 0 && (
+        {user && search && search.results.length === 0 && (
           // Place the no reults message outside of the search results grid
           <p className="text-error text-lg">
-            No results for &quot;{query}&quot;
+            No results for &quot;{query}&quot; near you. Check for typos or try
+            increasing your radius in{" "}
+            <Link
+              className="underline text-primary hover:text-primary-focus focue:text-primary-focus outline-none focus:outline-primary"
+              href={`/user/${user.id}/settings`}
+            >
+              settings
+            </Link>
+            .
           </p>
         )}
         <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(290px,1fr))] gap-x-2 gap-y-4">
