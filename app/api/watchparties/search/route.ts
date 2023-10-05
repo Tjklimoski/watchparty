@@ -42,6 +42,11 @@ export async function GET(req: NextRequest) {
     if (coordinates.length !== 2) throw new Error("Invalid coordinates");
     if (isNaN(radius) || radius < 1) throw new Error("Invalid radius");
     if (isNaN(page) || page < 1) throw new Error("Invalid page number");
+    if (query === "") {
+      // empty value for query sent, return data with an empty results array
+      const data = { results: [], total_results: 0, page: 1, total_pages: 1 };
+      return res.json(data);
+    }
 
     // convert radius from miles to meters (for mongodb)
     const radiusMeters = milesToMeters(radius);
