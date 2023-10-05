@@ -63,6 +63,7 @@ export async function GET(req: NextRequest) {
               compound: {
                 must: [
                   {
+                    // Find all documents whose mediaTitle matches the user's query
                     text: {
                       query,
                       path: "mediaTitle",
@@ -75,6 +76,7 @@ export async function GET(req: NextRequest) {
                     },
                   },
                   {
+                    // Find all documents whose location is within the user's radius
                     geoWithin: {
                       circle: {
                         center: {
@@ -89,12 +91,22 @@ export async function GET(req: NextRequest) {
                 ],
                 should: [
                   {
+                    // Boost score for documents whose mediaTitle matches the query exactly
                     phrase: {
                       path: "mediaTitle",
                       query,
                     },
                   },
                 ],
+              },
+            },
+          },
+          {
+            $match: {
+              // Only return upcoming watchparties - can't be done in $search stage
+              // unable to convert date string to ISODate() obj for mongodb with Prisma
+              $expr: {
+                $gte: ["$date", "$$NOW"],
               },
             },
           },
