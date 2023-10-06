@@ -108,14 +108,14 @@ export default function SearchPage({
         </div>
 
         {/* Search Results */}
-        {user && search && search.results.length === 0 && (
+        {search && search.results.length === 0 && (
           // Place the no reults message outside of the search results grid
           <p className="text-error text-lg">
             No results for &quot;{query}&quot; near you. Check for typos or try
             increasing your radius in{" "}
             <Link
               className="underline text-primary hover:text-primary-focus focue:text-primary-focus outline-none focus:outline-primary"
-              href={`/user/${user.id}/settings`}
+              href={`/user/settings`}
             >
               settings
             </Link>
