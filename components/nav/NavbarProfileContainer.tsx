@@ -11,7 +11,7 @@ export default function NavbarProfileContainer() {
   const { user } = useUser();
 
   function toggleOpen() {
-    setIsOpen((current) => !current);
+    setIsOpen(current => !current);
   }
 
   // set ProfileMenu to close if loses focus
@@ -37,7 +37,7 @@ export default function NavbarProfileContainer() {
           isOpen ? "scale-100" : ""
         }`}
       >
-        <ProfileMenu size="lg" />
+        <ProfileMenu />
       </div>
     </div>
   );

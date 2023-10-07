@@ -2,6 +2,7 @@ import { signOut } from "next-auth/react";
 import { BiLogOut, BiSolidParty } from "react-icons/bi";
 import { BsBellFill, BsFillGearFill } from "react-icons/bs";
 import { RiMovieFill } from "react-icons/ri";
+import { FaUser } from "react-icons/fa6";
 
 interface ProfileMenuProps {
   size?: "xs" | "sm" | "md" | "lg";
@@ -9,12 +10,11 @@ interface ProfileMenuProps {
 
 export default function ProfileMenu({ size = "md" }: ProfileMenuProps) {
   return (
-    <ul className={`menu menu-${size} w-full`}>
+    <ul className={`w-full menu menu-${size}`}>
       <li>
         <button>
-          <BsBellFill size={18} />
-          Notifications
-          <span className="badge badge-sm badge-accent">5+</span>
+          <FaUser size={18} />
+          My Profile
         </button>
       </li>
       <li>
