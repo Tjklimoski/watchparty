@@ -94,7 +94,7 @@ export default function SearchPage({
     router.replace(url.href);
   }, [page, search, router]);
 
-  console.log(search);
+  if (error) throw error;
 
   return (
     <main className="min-h-screen">
