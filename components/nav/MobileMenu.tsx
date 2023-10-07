@@ -44,10 +44,11 @@ export default function MobileMenu({ isAuth }: MobileMenuProps) {
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="w-full h-full bg-base-100 bg-opacity-75 backdrop-blur-2xl rounded-l-xl flex flex-col items-center p-4">
+        <div className="w-full h-full bg-base-100 bg-opacity-75 backdrop-blur-2xl rounded-l-xl flex flex-col items-center py-4 px-2">
           {isAuth ? (
             <>
-              <div className="p-2 bg-neutral rounded-md flex flex-col items-center">
+              {/*  calculating width as 100%-1rem in order to have edges of div line up with hover on MainMenu items below. MainMenu has a class of 'menu' that adds a padding inline of .5rem */}
+              <div className="p-2 bg-neutral rounded-md flex flex-col items-center w-[calc(100%-1rem)]">
                 <ProfileIcon id={user?.id} />
                 <ProfileMenu />
               </div>
