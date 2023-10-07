@@ -164,10 +164,3 @@ export async function GET(req: NextRequest) {
     return new res(err?.message ?? "request failed", { status: 400 });
   }
 }
-
-// {
-//   $facet: {
-//     results: [{ $skip: skip }, { $limit: documentsPerPage }],
-//     metadata: [{ $count: "total" }],
-//   },
-// },

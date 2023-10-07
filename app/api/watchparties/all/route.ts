@@ -9,24 +9,27 @@ export async function GET(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams;
 
+    // Check for required params for /today API route
     if (!searchParams.has("coordinates[]"))
       throw new Error("no coordinates passed");
     if (!searchParams.has("radius")) throw new Error("No radius passed");
 
+    // extract values from searchParams
     const searchParamCoords: string[] = searchParams.getAll("coordinates[]");
     const radius: number = parseInt(searchParams.get("radius") as string);
 
-    const coordinates = searchParamCoords.map(coord => {
+    // validate values from searchParams (as needed)
+    const coordinates = searchParamCoords.map((coord, index) => {
       const coordinate = parseFloat(coord);
       if (isNaN(coordinate)) throw new Error("Invalid coordinate");
+      if (index === 0 && (coordinate < -180 || coordinate > 180))
+        throw new Error("Invalid longitude");
+      if (index === 1 && (coordinate < -90 || coordinate > 90))
+        throw new Error("Invalid latitude");
       return coordinate;
     });
-
-    if (isNaN(radius) || coordinates.length !== 2)
-      throw new Error("Invalid params sent");
-
-    // convert radius from miles to meters (for mongodb)
-    const radiusMeters = milesToMeters(radius);
+    if (coordinates.length !== 2) throw new Error("Invalid coordinates");
+    if (isNaN(radius) || radius < 1) throw new Error("Invalid radius");
 
     const watchParties = await prisma.watchParty
       .aggregateRaw({
