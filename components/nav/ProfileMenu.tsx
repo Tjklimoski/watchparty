@@ -4,13 +4,9 @@ import { BsFillGearFill } from "react-icons/bs";
 import { RiMovieFill } from "react-icons/ri";
 import { FaUser } from "react-icons/fa6";
 
-interface ProfileMenuProps {
-  size?: "xs" | "sm" | "md" | "lg";
-}
-
-export default function ProfileMenu({ size = "md" }: ProfileMenuProps) {
+export default function ProfileMenu() {
   return (
-    <ul className={`w-full menu menu-${size} whitespace-nowrap`}>
+    <ul className={`w-full menu menu-md whitespace-nowrap`}>
       <li>
         <button>
           <FaUser size={18} />
