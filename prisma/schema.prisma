@@ -37,13 +37,13 @@ model Account {
 
 // Every user generated WatchParty will be it's own document, with a connection to the user that created it.
 model WatchParty {
-  id                 String         @id @default(auto()) @map("_id") @db.ObjectId
-  userId             String         @db.ObjectId
-  user               User           @relation("myWatchParties", fields: [userId], references: [id], onDelete: Cascade)
-  partygoerIds       String[]       @db.ObjectId
-  partygoers         User[]         @relation("goingToWatchParties", fields: [partygoerIds], references: [id])
-  interestedUsersIds String[]       @db.ObjectId
-  interestedUsers    User[]         @relation("interestedInWatchParties", fields: [interestedUsersIds], references: [id])
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId             String   @db.ObjectId
+  user               User     @relation("myWatchParties", fields: [userId], references: [id], onDelete: Cascade)
+  partygoerIds       String[] @db.ObjectId
+  partygoers         User[]   @relation("goingToWatchParties", fields: [partygoerIds], references: [id])
+  interestedUsersIds String[] @db.ObjectId
+  interestedUsers    User[]   @relation("interestedInWatchParties", fields: [interestedUsersIds], references: [id])
   mediaId            String
   mediaType          String
   mediaTitle         String
@@ -58,24 +58,13 @@ model WatchParty {
   state              String
   zip                String
   geo                GeoJSON
-  notifications      Notification[]
-  createdAt          DateTime       @default(now())
-  updatedAt          DateTime       @updatedAt
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }
 
 type GeoJSON {
   type        String    @default("Point")
   coordinates Decimal[]
-}
-
-model Notification {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
-  watchPartyId String     @db.ObjectId
-  watchParty   WatchParty @relation(fields: [watchPartyId], references: [id])
-  message      String
-  recipientIds String[]   @db.ObjectId
-  recipients   User[]     @relation(fields: [recipientIds], references: [id])
-  createdAt    DateTime   @default(now())
 }
 
 type MyListItem {
@@ -84,26 +73,24 @@ type MyListItem {
 }
 
 model User {
-  id                          String         @id @default(auto()) @map("_id") @db.ObjectId
+  id                          String       @id @default(auto()) @map("_id") @db.ObjectId
   name                        String?
-  email                       String?        @unique
+  email                       String?      @unique
   emailVerified               DateTime?
   password                    String?
   image                       String?
   // location is a city / town name with state.
   location                    String?
-  radius                      Int            @default(50)
+  radius                      Int          @default(50)
   accounts                    Account[]
-  myWatchParties              WatchParty[]   @relation("myWatchParties")
-  goingToWatchPartiesIds      String[]       @db.ObjectId
-  goingToWatchParties         WatchParty[]   @relation("goingToWatchParties", fields: [goingToWatchPartiesIds], references: [id])
-  interestedInWatchPartiesIds String[]       @db.ObjectId
-  interestedInWatchParties    WatchParty[]   @relation("interestedInWatchParties", fields: [interestedInWatchPartiesIds], references: [id])
+  myWatchParties              WatchParty[] @relation("myWatchParties")
+  goingToWatchPartiesIds      String[]     @db.ObjectId
+  goingToWatchParties         WatchParty[] @relation("goingToWatchParties", fields: [goingToWatchPartiesIds], references: [id])
+  interestedInWatchPartiesIds String[]     @db.ObjectId
+  interestedInWatchParties    WatchParty[] @relation("interestedInWatchParties", fields: [interestedInWatchPartiesIds], references: [id])
   myList                      MyListItem[]
-  notificationIds             String[]       @db.ObjectId
-  notifications               Notification[] @relation(fields: [notificationIds], references: [id])
-  createdAt                   DateTime       @default(now())
-  updatedAt                   DateTime       @updatedAt
+  createdAt                   DateTime     @default(now())
+  updatedAt                   DateTime     @updatedAt
 }
 
 model VerificationToken {
