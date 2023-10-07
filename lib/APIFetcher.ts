@@ -21,7 +21,7 @@ export default async function fetcher(options: string | APIFetcherOptions) {
     return API.get(url)
       .then(res => res.data)
       .catch(err => {
-        throw new Error(err?.response?.data?.message ?? "Server error");
+        throw new Error(err?.response?.data ?? err.message ?? "Server error");
       });
   } else {
     const url = options.url;
@@ -29,7 +29,7 @@ export default async function fetcher(options: string | APIFetcherOptions) {
     return API.get(url, { params })
       .then(res => res.data)
       .catch(err => {
-        throw new Error(err?.response?.data?.message ?? "Server error");
+        throw new Error(err?.response?.data ?? err.message ?? "Server error");
       });
   }
 }
