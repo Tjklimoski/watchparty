@@ -10,7 +10,11 @@ export default function Home() {
             Welcome to
             <br />
             <span className="text-6xl sm:text-8xl font-semibold">
-              Watch<span className="text-primary">Party</span>!
+              Watch
+              <span className="bg-gradient-to-tr from-primary to-accent via-secondary bg-clip-text text-transparent">
+                Party
+              </span>
+              !
             </span>
           </h1>
         </div>

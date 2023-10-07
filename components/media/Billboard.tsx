@@ -52,7 +52,10 @@ export default function Billboard({
               : episode && (
                   <Link href={`/media/${media.media_type}/${media.id}`}>
                     {`${mediaTitle} S${episode.season_number}E${episode.episode_number} - ${episode.name} `}
-                    Watch<span className="text-primary">Party</span>
+                    Watch
+                    <span className="bg-gradient-to-tr from-primary to-accent via-secondary bg-clip-text text-transparent">
+                      Party
+                    </span>
                   </Link>
                 )}
           </h2>

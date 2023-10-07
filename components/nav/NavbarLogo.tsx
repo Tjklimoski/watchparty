@@ -15,7 +15,9 @@ export default function NavbarLogo() {
         />
         <h1 className="text-2xl sm:text-4xl">
           Watch
-          <span className="text-primary">Party</span>
+          <span className="bg-gradient-to-tr from-primary to-accent via-secondary bg-clip-text text-transparent">
+            Party
+          </span>
         </h1>
       </div>
     </Link>
