@@ -1,6 +1,6 @@
 import { signOut } from "next-auth/react";
 import { BiLogOut, BiSolidParty } from "react-icons/bi";
-import { BsBellFill, BsFillGearFill } from "react-icons/bs";
+import { BsFillGearFill } from "react-icons/bs";
 import { RiMovieFill } from "react-icons/ri";
 import { FaUser } from "react-icons/fa6";
 
@@ -10,7 +10,7 @@ interface ProfileMenuProps {
 
 export default function ProfileMenu({ size = "md" }: ProfileMenuProps) {
   return (
-    <ul className={`w-full menu menu-${size}`}>
+    <ul className={`w-full menu menu-${size} whitespace-nowrap`}>
       <li>
         <button>
           <FaUser size={18} />
