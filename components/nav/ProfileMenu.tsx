@@ -1,10 +1,15 @@
+"use client";
+
 import { signOut } from "next-auth/react";
 import { BiLogOut, BiSolidParty } from "react-icons/bi";
 import { BsFillGearFill } from "react-icons/bs";
 import { RiMovieFill } from "react-icons/ri";
 import { FaUser } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
 
 export default function ProfileMenu() {
+  const router = useRouter();
+
   return (
     <ul className={`w-full menu menu-md whitespace-nowrap`}>
       <li>
