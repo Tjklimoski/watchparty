@@ -18,7 +18,7 @@ export default function MobileMenu({ isAuth }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   function toggleOpen() {
-    setIsOpen((current) => !current);
+    setIsOpen(current => !current);
   }
 
   return (
@@ -44,7 +44,7 @@ export default function MobileMenu({ isAuth }: MobileMenuProps) {
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="w-full h-full bg-base-100 bg-opacity-95 backdrop rounded-l-xl flex flex-col items-center p-4">
+        <div className="w-full h-full bg-base-100 bg-opacity-75 backdrop-blur-2xl rounded-l-xl flex flex-col items-center p-4">
           {isAuth ? (
             <>
               <div className="p-2 bg-neutral rounded-md flex flex-col items-center">
