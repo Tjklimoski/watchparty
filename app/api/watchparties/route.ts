@@ -35,29 +35,32 @@ export async function GET(req: NextRequest) {
     // convert radius from miles to meters (for mongodb)
     const radiusMeters = milesToMeters(radius);
 
+    // BUILD AGGREAGTION PIPELINE STAGES:
+    const geoStage = {
+      $geoNear: {
+        near: { type: "Point", coordinates },
+        distanceField: "dist.calculated", // This is required
+        maxDistance: radiusMeters,
+      },
+    };
+
+    const matchStage = {
+      $match: {
+        // Only return upcoming events
+        $expr: {
+          $gte: ["$date", "$$NOW"],
+        },
+      },
+    };
+
+    const limitStage = {
+      // Only return up to the first 20 documents
+      $limit: 20,
+    };
+
     const watchParties = await prisma.watchParty
       .aggregateRaw({
-        pipeline: [
-          {
-            $geoNear: {
-              near: { type: "Point", coordinates },
-              distanceField: "dist.calculated", // This is required
-              maxDistance: radiusMeters,
-            },
-          },
-          {
-            $match: {
-              // Only return upcoming events
-              $expr: {
-                $gte: ["$date", "$$NOW"],
-              },
-            },
-          },
-          {
-            // Only return the first 20 documents that match the above criteria
-            $limit: 20,
-          },
-        ],
+        pipeline: [geoStage, matchStage, limitStage],
       })
       .then(res => convertToWatchParty(res));
 

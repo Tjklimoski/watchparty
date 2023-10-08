@@ -54,96 +54,97 @@ export async function GET(req: NextRequest) {
     const documentsPerPage = 20;
     const skip = documentsPerPage * (page - 1);
 
+    // BUILD AGGREAGTION PIPELINE STAGES:
+    const textSearch = {
+      // Find all documents whose mediaTitle matches the user's query
+      text: {
+        query,
+        path: "mediaTitle",
+        // fuzzy allows for the user to have typos
+        fuzzy: {
+          maxEdits: 2,
+          // first letter for each term must match
+          prefixLength: 1,
+        },
+      },
+    };
+
+    const geoSearch = {
+      // Find all documents whose location is within the user's radius
+      geoWithin: {
+        circle: {
+          center: {
+            type: "Point",
+            coordinates,
+          },
+          radius: radiusMeters,
+        },
+        path: "geo",
+      },
+    };
+
+    const phraseSearch = {
+      // Boost score for documents whose mediaTitle matches the query exactly
+      phrase: {
+        path: "mediaTitle",
+        query,
+      },
+    };
+
+    const searchStage = {
+      $search: {
+        compound: {
+          must: [textSearch, geoSearch],
+          should: [phraseSearch],
+        },
+      },
+    };
+
+    const matchStage = {
+      $match: {
+        // Only return upcoming watchparties - can't be done in $search stage
+        // unable to convert date string to ISODate() obj for mongodb with Prisma
+        $expr: {
+          $gte: ["$date", "$$NOW"],
+        },
+      },
+    };
+
+    const facetStage = {
+      $facet: {
+        results: [{ $skip: skip }, { $limit: documentsPerPage }],
+        metadata: [{ $count: "total" }],
+      },
+    };
+
+    const projectStage = {
+      $project: {
+        results: 1,
+        // Check if $count was null, if so set to 0
+        total_results: {
+          $ifNull: [{ $arrayElemAt: ["$metadata.total", 0] }, { $literal: 0 }],
+        },
+        page: { $toInt: page },
+        total_pages: {
+          // if $count was 0, set pages to 1 for "no results" message to be displayed.
+          $max: [
+            { $literal: 1 },
+            {
+              $ceil: {
+                $divide: [
+                  { $arrayElemAt: ["$metadata.total", 0] },
+                  documentsPerPage,
+                ],
+              },
+            },
+          ],
+        },
+      },
+    };
+
     const watchParties = await prisma.watchParty
       .aggregateRaw({
-        pipeline: [
-          // Create $Search stage - which will handle query search in the mediaTitle, near for user radius/coordinates, and date to pull events that are upcoming.
-          {
-            $search: {
-              compound: {
-                must: [
-                  {
-                    // Find all documents whose mediaTitle matches the user's query
-                    text: {
-                      query,
-                      path: "mediaTitle",
-                      // fuzzy allows for the user to have typos
-                      fuzzy: {
-                        maxEdits: 2,
-                        // first letter for each term must match
-                        prefixLength: 1,
-                      },
-                    },
-                  },
-                  {
-                    // Find all documents whose location is within the user's radius
-                    geoWithin: {
-                      circle: {
-                        center: {
-                          type: "Point",
-                          coordinates,
-                        },
-                        radius: radiusMeters,
-                      },
-                      path: "geo",
-                    },
-                  },
-                ],
-                should: [
-                  {
-                    // Boost score for documents whose mediaTitle matches the query exactly
-                    phrase: {
-                      path: "mediaTitle",
-                      query,
-                    },
-                  },
-                ],
-              },
-            },
-          },
-          {
-            $match: {
-              // Only return upcoming watchparties - can't be done in $search stage
-              // unable to convert date string to ISODate() obj for mongodb with Prisma
-              $expr: {
-                $gte: ["$date", "$$NOW"],
-              },
-            },
-          },
-          {
-            $facet: {
-              results: [{ $skip: skip }, { $limit: documentsPerPage }],
-              metadata: [{ $count: "total" }],
-            },
-          },
-          {
-            $project: {
-              results: 1,
-              // Check if $count was null, if so set to 0
-              total_results: {
-                $ifNull: [
-                  { $arrayElemAt: ["$metadata.total", 0] },
-                  { $literal: 0 },
-                ],
-              },
-              page: { $toInt: page },
-              total_pages: {
-                // if $count was 0, set pages to 1 for "no results" message to be displayed.
-                $max: [
-                  { $literal: 1 },
-                  {
-                    $ceil: {
-                      $divide: [
-                        { $arrayElemAt: ["$metadata.total", 0] },
-                        documentsPerPage,
-                      ],
-                    },
-                  },
-                ],
-              },
-            },
-          },
-        ],
+        pipeline: [searchStage, matchStage, facetStage, projectStage],
       })
       .then(res => {
         // extract response from array, clean up results, return data.

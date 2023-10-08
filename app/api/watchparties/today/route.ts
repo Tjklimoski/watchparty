@@ -39,56 +39,60 @@ export async function GET(req: NextRequest) {
     // 24 hours in milliseconds = 1000 * 60 * 60 * 24
     const endOfDay = new Date(startOfDay.getTime() + 1000 * 60 * 60 * 24);
 
+    // BUILD AGGREAGTION PIPELINE STAGES:
+    const geoStage = {
+      $geoNear: {
+        near: { type: "Point", coordinates },
+        distanceField: "dist.calculated", // This is required
+        maxDistance: radiusMeters,
+      },
+    };
+
+    const matchStage = {
+      $match: {
+        // Only return events that are between the start of today and end of today
+        $expr: {
+          $and: [
+            {
+              $gte: [
+                "$date",
+                {
+                  $dateFromString: {
+                    dateString: startOfDay.toISOString(),
+                  },
+                },
+              ],
+            },
+            {
+              $lte: [
+                "$date",
+                {
+                  $dateFromString: {
+                    dateString: endOfDay.toISOString(),
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      },
+    };
+
+    const sortStage = {
+      $sort: {
+        // return documents sorted in ascending order based on date (soonest first)
+        date: 1,
+      },
+    };
+
+    const limitStage = {
+      // Only return the first 20 documents that match the above criteria
+      $limit: 20,
+    };
+
     const watchParties = await prisma.watchParty
       .aggregateRaw({
-        pipeline: [
-          {
-            $geoNear: {
-              near: { type: "Point", coordinates },
-              distanceField: "dist.calculated", // This is required
-              maxDistance: radiusMeters,
-            },
-          },
-          {
-            $match: {
-              // Only return events that are between the start of today and end of today
-              $expr: {
-                $and: [
-                  {
-                    $gte: [
-                      "$date",
-                      {
-                        $dateFromString: {
-                          dateString: startOfDay.toISOString(),
-                        },
-                      },
-                    ],
-                  },
-                  {
-                    $lte: [
-                      "$date",
-                      {
-                        $dateFromString: {
-                          dateString: endOfDay.toISOString(),
-                        },
-                      },
-                    ],
-                  },
-                ],
-              },
-            },
-          },
-          {
-            $sort: {
-              // return documents sorted in ascending order based on date (soonest first)
-              date: 1,
-            },
-          },
-          {
-            // Only return the first 20 documents that match the above criteria
-            $limit: 20,
-          },
-        ],
+        pipeline: [geoStage, matchStage, sortStage, limitStage],
       })
       .then(res => convertToWatchParty(res));
 
