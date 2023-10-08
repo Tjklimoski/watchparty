@@ -100,10 +100,11 @@ async function setUserCoord(coordinates: [number, number]): Promise<User> {
   try {
     const city = await getCityFromCoord(coordinates);
     const locationData = { city, coordinates };
-    const updatedUser = await API.post<User>(
-      "/user/location",
-      locationData
-    ).then(res => res.data);
+    const updatedUser = await API.post<User>("/user/location", locationData)
+      .then(res => res.data)
+      .catch(err => {
+        throw new Error(err?.response?.data ?? err.message ?? "Server error");
+      });
     if (!updatedUser) throw new Error("Failed to set user's location");
     return updatedUser;
   } catch (err: Error | any) {
