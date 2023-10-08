@@ -2,10 +2,12 @@ import {
   GeocodeDirectResponse,
   GeocodeReverseResponse,
   GeocodeZipResponse,
+  User,
 } from "@/types";
 import fetcher from "./GeocodingFetcher";
 import { stateAbrv } from "./stateAbrv";
 import auth from "./authenticate";
+import { API } from "./APIFetcher";
 
 // ALL coordinate arrays returned as [lon, lat] to match the mongodb GeoJSON format
 
@@ -94,7 +96,21 @@ export async function getUserCoord(): Promise<[number, number]> {
   }
 }
 
-async function setUserCoord(coordinates: [number, number]): Promise<void> {}
+async function setUserCoord(coordinates: [number, number]): Promise<User> {
+  try {
+    const city = await getCityFromCoord(coordinates);
+    const locationData = { city, coordinates };
+    const updatedUser = await API.post<User>(
+      "/user/location",
+      locationData
+    ).then(res => res.data);
+    if (!updatedUser) throw new Error("Failed to set user's location");
+    return updatedUser;
+  } catch (err: Error | any) {
+    console.error(err?.message ?? err);
+    throw new Error(err?.message ?? "Invalid request");
+  }
+}
 
 export async function getUserDistanceFrom(
   target: [number, number],
