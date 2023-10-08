@@ -13,7 +13,8 @@ export default function ProfileMenu() {
   const { user } = useUser();
 
   return (
-    <ul className={`w-full menu menu-md whitespace-nowrap`}>
+    // using '&_button' for chromium based browsers
+    <ul className={`w-full menu menu-md [&_button]:whitespace-nowrap`}>
       <li>
         <button
           onClick={() => {
