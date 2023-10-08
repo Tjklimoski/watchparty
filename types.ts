@@ -151,7 +151,7 @@ export interface User {
   email?: string | null;
   emailVerified?: Date | null;
   image?: string | null;
-  location: UserLocation;
+  location?: UserLocation;
   radius: number;
   myWatchParties?: WatchParty[];
   goingToWatchPartiesIds: string[];
@@ -165,6 +165,7 @@ export interface User {
 
 type UserLocation = {
   city?: string;
+  // will this be a type error as prisma only knows it as a int[] not a tuple?
   coordinates: [number, number];
 };
 
