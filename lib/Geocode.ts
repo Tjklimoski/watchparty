@@ -67,6 +67,12 @@ export async function getUserCoord(): Promise<[number, number]> {
     const user = await auth();
     if (!user) throw new Error("No user");
 
+    // If user has coordinates saved on their profile, return those
+    const userCoords = user?.location?.coordinates;
+    if (userCoords && userCoords.length === 2) {
+      return userCoords as [number, number];
+    }
+
     const city = user?.location?.city;
 
     if (!city) {

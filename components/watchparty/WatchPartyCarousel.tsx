@@ -79,7 +79,7 @@ export default function WatchPartyCarousel({
       </h3>
       <Carousel tight>
         {watchParties.length === 0 && <NoWatchPartiesCard />}
-        {watchParties.map((watchParty) => (
+        {watchParties.map(watchParty => (
           <WatchPartyCard key={watchParty.id} watchParty={watchParty} />
         ))}
       </Carousel>
