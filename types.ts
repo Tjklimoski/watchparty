@@ -1,9 +1,9 @@
 import { NumberLiteralType, StringLiteral } from "typescript";
 
 type GeoJSON = {
-  type: "Point",
-  coordinates: [number, number]
-}
+  type: "Point";
+  coordinates: [number, number];
+};
 
 export interface Movie {
   adult: boolean;
@@ -20,20 +20,25 @@ export interface Movie {
   video: boolean;
   vote_average: number;
   vote_count: number;
-  media_type: 'movie';
+  media_type: "movie";
 }
 
-export interface MovieDetails extends Omit<Movie, 'genre_ids'> {
+export interface MovieDetails extends Omit<Movie, "genre_ids"> {
   belongs_to_collection: string | null;
   budget: number | null;
-  genres: { id: number, name: string }[];
+  genres: { id: number; name: string }[];
   homepage: string;
   imdb_id: string;
-  production_companies: { id: number, logo_path: string, name: string, origin_country: string }[];
-  production_countries: { iso_3166_1: string, name: string }[];
+  production_companies: {
+    id: number;
+    logo_path: string;
+    name: string;
+    origin_country: string;
+  }[];
+  production_countries: { iso_3166_1: string; name: string }[];
   revenue: number;
   runtime: number | null;
-  spoken_language: { english_name: string, iso_639_1: string, name: string }[];
+  spoken_language: { english_name: string; iso_639_1: string; name: string }[];
   status: string;
   tagline: string;
 }
@@ -72,26 +77,37 @@ export interface TVShow {
   poster_path: string | null;
   vote_average: number;
   vote_count: number;
-  media_type: 'tv';
+  media_type: "tv";
 }
 
-export interface TVShowDetails extends Omit<TVShow, 'genre_ids'> {
+export interface TVShowDetails extends Omit<TVShow, "genre_ids"> {
   adult: boolean;
-  created_by: { id: number, credit_id: string, name: string, gender: number, profile_path: string | null }[];
+  created_by: {
+    id: number;
+    credit_id: string;
+    name: string;
+    gender: number;
+    profile_path: string | null;
+  }[];
   episode_run_time: number[];
-  genres: { id: number, name: string }[];
+  genres: { id: number; name: string }[];
   homepage: string;
   in_production: boolean;
   languages: string[];
   last_air_date: string;
   last_episode_to_air: Episode;
   next_episode_to_air: Episode | null;
-  networks: { id: number, logo_path: string, name: string, origin_country: string }[];
+  networks: {
+    id: number;
+    logo_path: string;
+    name: string;
+    origin_country: string;
+  }[];
   number_of_episodes: number;
   number_of_seasons: 5;
-  production_companies: { iso_3166_1: string, name: string }[]
+  production_companies: { iso_3166_1: string; name: string }[];
   seasons: Season[];
-  spoken_languages: { english_name: string, ios_639_1: string, name: string }[];
+  spoken_languages: { english_name: string; ios_639_1: string; name: string }[];
   status: string;
   tagline: string;
   type: string;
@@ -142,21 +158,22 @@ export interface User {
   goingToWatchParties?: WatchParty[];
   interestedInWatchPartiesIds: string[];
   interestedInWatchParties?: WatchParty[];
-  notificationIds: string[];
-  notifications?: Notification[];
   myList: MyListItem[];
   createdAt: Date;
   updatedAt: Date;
 }
 
-export type LimitedUser = Pick<User, "id" | "name" | "image"> | null
+export type LimitedUser = Pick<User, "id" | "name" | "image"> | null;
 
 export interface MyListItem {
   id: string;
   media_type: string;
 }
 
-export type SubmitWatchPartyData = Omit<WatchParty, 'id' | 'user' | 'partygoers' | 'interestedUsers' | 'createdAt' | 'UpdatedAt' | 'notifications'>
+export type SubmitWatchPartyData = Omit<
+  WatchParty,
+  "id" | "user" | "partygoers" | "interestedUsers" | "createdAt" | "UpdatedAt"
+>;
 
 export interface WatchPartyInputs {
   title: string;
@@ -192,20 +209,9 @@ export interface WatchParty {
   state: string;
   zip: string;
   geo: GeoJSON;
-  notifications?: Notification[];
   createdAt: Date;
   updatedAt: Date;
-  dist?: { calculated: number }
-}
-
-export interface Notification {
-  id: string;
-  watchPartyId: string;
-  watchParty?: WatchParty;
-  message: string;
-  recipientIds: string[];
-  recipients?: User[];
-  createdAt: Date;
+  dist?: { calculated: number };
 }
 
 export interface RegisterData {
