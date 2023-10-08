@@ -164,7 +164,7 @@ export interface User {
 }
 
 type UserLocation = {
-  city: string;
+  city?: string;
   coordinates: [number, number];
 };
 
