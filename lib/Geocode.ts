@@ -84,12 +84,17 @@ export async function getUserCoord(): Promise<[number, number]> {
     }
 
     if (!coordinates) throw new Error("No coordinates found for user");
+
+    await setUserCoord(coordinates);
+
     return coordinates;
   } catch (err: Error | any) {
     console.error(err?.message ?? err);
     throw new Error(err?.message ?? "Invalid request");
   }
 }
+
+async function setUserCoord(coordinates: [number, number]): Promise<void> {}
 
 export async function getUserDistanceFrom(
   target: [number, number],
