@@ -151,7 +151,7 @@ export interface User {
   email?: string | null;
   emailVerified?: Date | null;
   image?: string | null;
-  location: string;
+  location: UserLocation;
   radius: number;
   myWatchParties?: WatchParty[];
   goingToWatchPartiesIds: string[];
@@ -162,6 +162,11 @@ export interface User {
   createdAt: Date;
   updatedAt: Date;
 }
+
+type UserLocation = {
+  city: string;
+  coordinates: [number, number];
+};
 
 export type LimitedUser = Pick<User, "id" | "name" | "image"> | null;
 
