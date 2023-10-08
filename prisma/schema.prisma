@@ -72,6 +72,11 @@ type MyListItem {
   media_type String
 }
 
+type UserLocation {
+  city        String?
+  coordinates Int[]
+}
+
 model User {
   id                          String       @id @default(auto()) @map("_id") @db.ObjectId
   name                        String?
@@ -80,7 +85,7 @@ model User {
   password                    String?
   image                       String?
   // location is a city / town name with state.
-  location                    String?
+  location                    UserLocation
   radius                      Int          @default(50)
   accounts                    Account[]
   myWatchParties              WatchParty[] @relation("myWatchParties")
