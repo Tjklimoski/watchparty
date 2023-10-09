@@ -69,24 +69,25 @@ export async function getUserCoord(): Promise<[number, number]> {
     const user = await auth();
     if (!user) throw new Error("No user");
 
-    // If user has coordinates saved on their profile, return those
-    const userCoords = user?.location?.coordinates;
-    if (userCoords && userCoords.length === 2) {
-      return userCoords as [number, number];
+    // If user has coordinates saved on their user document, return those coords
+    const userCoords = user?.location?.coordinates as
+      | [number, number]
+      | undefined;
+    if (userCoords) {
+      return userCoords;
     }
 
     const city = user?.location?.city;
 
     if (!city) {
       coordinates = await getBrowserCoord();
-
-      // TODO: make a request to my API to set user location based on coordinates - run getCityFromCoord - then pass that value and set on user.location.
     } else {
       coordinates = await getCoord({ city });
     }
 
     if (!coordinates) throw new Error("No coordinates found for user");
 
+    // Save the returned user coordinates to the user document in the db
     await setUserCoord(coordinates);
 
     return coordinates;
