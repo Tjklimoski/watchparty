@@ -74,7 +74,7 @@ type MyListItem {
 
 type UserLocation {
   city        String?
-  coordinates Int[]
+  coordinates Decimal[]
 }
 
 model User {
