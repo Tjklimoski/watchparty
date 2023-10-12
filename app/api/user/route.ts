@@ -40,6 +40,10 @@ export async function DELETE(req: NextRequest) {
       .catch(err => {
         throw new Error(err);
       });
+
+    // Redirect client to homepage once account is deleted and they've been logged out of their session
+    const redirectUrl = new URL("/", req.nextUrl.origin);
+    return res.redirect(redirectUrl);
   } catch (err: Error | any) {
     return new res(
       err?.message ?? err?.response?.data ?? err ?? "Request failed",
