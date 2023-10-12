@@ -80,6 +80,13 @@ export async function POST(req: NextRequest) {
 
   try {
     if (!data) throw new Error("No data passed");
+
+    const validateUserId = await prisma.user.findUniqueOrThrow({
+      where: {
+        id: data.userId,
+      },
+    });
+
     const watchParty = await prisma.watchParty.create({
       data: {
         ...data,
