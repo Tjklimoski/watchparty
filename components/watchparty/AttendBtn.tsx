@@ -19,7 +19,7 @@ interface MyListBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 async function addUserToList(id: string, userId: string): Promise<WatchParty> {
   return API.post(`/watchparties/${id}/partygoers`, {
     userId,
-  }).then((res) => res.data);
+  }).then(res => res.data);
 }
 
 async function deleteUserFromList(
@@ -27,7 +27,7 @@ async function deleteUserFromList(
   userId: string
 ): Promise<WatchParty> {
   return API.delete(`/watchparties/${id}/partygoers/${userId}`).then(
-    (res) => res.data
+    res => res.data
   );
 }
 
@@ -64,7 +64,7 @@ export default function AttendBtn({
     try {
       if (!watchParty) throw new Error("No watchparty");
       if (!user) throw new Error("No current user");
-      setAttending((current) => {
+      setAttending(current => {
         const isAttending = !current;
         setAnimateConfetti(isAttending);
         return isAttending;
@@ -72,7 +72,7 @@ export default function AttendBtn({
 
       // Create optimistic data to update watchParty in advance
       const optimisticPartygoerIds = watchParty.partygoerIds.includes(user.id)
-        ? watchParty.partygoerIds.filter((id) => id !== user.id)
+        ? watchParty.partygoerIds.filter(id => id !== user.id)
         : [...watchParty.partygoerIds, user.id];
       const optimisticData = {
         ...watchParty,
@@ -91,7 +91,7 @@ export default function AttendBtn({
       if (watchParty) updateWatchPartyData(watchParty);
       // revalidate userData to remove optimistic state change on button
       // Have to pass in the exisiting user spread in an object to force a change in user's referential equality to trigger useEffect to reset state
-      if (user) userMutate({ ...user! });
+      if (user) userMutate({ ...user });
       console.error(err?.message ?? err);
     }
   }
