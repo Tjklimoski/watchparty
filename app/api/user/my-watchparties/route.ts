@@ -21,6 +21,8 @@ export async function GET(req: NextRequest) {
       where: {
         userId: user.id,
       },
+      skip,
+      take,
     });
 
     return res.json(userWithParties);
