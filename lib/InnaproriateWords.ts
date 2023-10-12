@@ -1,3 +1,5 @@
+"use server";
+
 const wordList = [
   "2g1c",
   "2girls1cup",
@@ -401,11 +403,11 @@ const wordList = [
   "yellowshowers",
   "yiffy",
   "zoophilia",
-  "🖕"
-]
+  "🖕",
+];
 
 export function checkForBadWord(word: string): boolean {
   const testString = word.toLowerCase();
   // Will return true on the first match, will only loop through entire array if no bad words found.
-  return wordList.some((word) => testString.includes(word))
+  return wordList.some(word => testString.includes(word));
 }
