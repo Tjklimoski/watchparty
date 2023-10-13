@@ -63,7 +63,6 @@ export async function getCoord({
 
 export async function getUserCoord(): Promise<[number, number]> {
   try {
-    console.log("im running on frontend");
     let coordinates: [number, number] | undefined;
 
     const user = await auth();
