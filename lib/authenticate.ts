@@ -3,7 +3,6 @@
 import { getServerSession } from "next-auth";
 import { config } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/prisma/client";
-import { User } from "@/types";
 
 // Return the logged in user, or null if not logged in
 export default async function auth() {
