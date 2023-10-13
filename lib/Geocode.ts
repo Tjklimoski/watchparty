@@ -69,9 +69,7 @@ export async function getUserCoord(): Promise<[number, number]> {
     if (!user) throw new Error("No user");
 
     // If user has coordinates saved on their user document, return those coords
-    const userCoords = user?.location?.coordinates as
-      | [number, number]
-      | undefined;
+    const userCoords = user?.location?.coordinates;
     if (userCoords) {
       return userCoords;
     }

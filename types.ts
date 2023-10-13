@@ -164,7 +164,7 @@ export interface User {
 }
 
 type UserLocation = {
-  city?: string;
+  city?: string | null;
   // will this be a type error as prisma only knows it as a int[] not a tuple?
   coordinates: [number, number];
 };
