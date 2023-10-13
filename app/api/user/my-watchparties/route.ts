@@ -21,9 +21,9 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    const watchParties = userWithWatchParties.goingToWatchParties;
+    const allWatchParties = userWithWatchParties.goingToWatchParties;
 
-    return res.json(watchParties);
+    return res.json(allWatchParties);
   } catch (err: Error | any) {
     console.error(err);
     return new res(err?.message ?? "Request Failed", { status: 400 });
