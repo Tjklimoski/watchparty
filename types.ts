@@ -150,6 +150,7 @@ export interface User {
   name?: string | null;
   email?: string | null;
   emailVerified?: Date | null;
+  password?: string | null;
   image?: string | null;
   location?: UserLocation;
   radius: number;
