@@ -45,7 +45,7 @@ export async function getCoord({
     if (city) {
       if (!city.includes(","))
         throw new Error("Location does not include a state");
-      const state = city.split(",")[1].trim();
+      const state = city.split(",")[1].trim().toUpperCase();
       if (!stateAbrv.some(abrv => abrv === state))
         throw new Error("Non US state");
       const q = `${city},US`;
