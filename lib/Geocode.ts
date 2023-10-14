@@ -5,7 +5,7 @@ import {
   User,
 } from "@/types";
 import fetcher from "./GeocodingFetcher";
-import { stateAbrv } from "./stateAbrv";
+import { getStateAbrv, stateAbrv } from "./stateAbrv";
 import auth from "./authenticate";
 import { API } from "./APIFetcher";
 
@@ -169,8 +169,9 @@ export async function getCityFromCoord(
   const [lon, lat] = coord;
   try {
     const res = await fetcher<GeocodeReverseResponse>("/reverse", { lat, lon });
-    if (!res) throw new Error("Invalid coordinates");
-    return `${res.name}${res?.state ? ", " + res.state : ""}`;
+    if (!res || !res.state) throw new Error("Invalid coordinates");
+    const stateAbrv = await getStateAbrv(res.state);
+    return `${res.name}, ${stateAbrv}`;
   } catch (err: Error | any) {
     console.error(err?.message ?? err);
     throw new Error(err?.message ?? "Invalid request");
