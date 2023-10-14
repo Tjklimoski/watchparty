@@ -1,6 +1,6 @@
 "use server";
 
-const stateInfo = {
+const stateInfo: Record<string, string> = {
   alabama: "AL",
   alaska: "AK",
   arizona: "AZ",
@@ -57,4 +57,11 @@ const stateInfo = {
 // all offical 50 US states + washington DC
 export const stateAbrv = Object.values(stateInfo);
 
-export async function getStateAbrv(stateLongForm: string): Promise<string> {}
+export function getStateAbrv(stateLongForm: string): Promise<string> {
+  return new Promise((res, rej) => {
+    const abrv =
+      stateInfo[stateLongForm.trim().replace(/\s/g, "_").toLowerCase()];
+    if (!abrv) rej("Invalid state passed");
+    res(abrv);
+  });
+}
