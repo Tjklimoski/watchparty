@@ -405,8 +405,34 @@ const wordList = [
   "zoophilia",
 ];
 
-export function checkForBadWord(word: string): boolean {
-  const testString = word.toLowerCase();
-  // Will return true on the first match, will only loop through entire array if no bad words found.
-  return wordList.some(word => testString.includes(word));
+export function censor(phrase: string): string {
+  const badWordsIn: string[] = [];
+  const testPhrase = phrase.toLowerCase();
+
+  wordList.forEach(word => {
+    if (testPhrase.includes(word)) badWordsIn.push(word);
+  });
+
+  if (badWordsIn.length === 0) return phrase;
+
+  return phrase
+    .split(" ")
+    .map(word => {
+      // remove any punction or numbers from within the word
+      const testWord = word
+        .toLowerCase()
+        .replace(/[.,@\/#!$%\^&\*;:{}=\-_`~()0-9]/g, "");
+      if (badWordsIn.includes(testWord)) {
+        // check for any removed puncutation
+        if (word.length <= 3) {
+          // replace all characters with * except first character
+          return word.replace(/(?<!^)./g, "*");
+        } else {
+          // replace all characters with * except first and last character
+          return word.replace(/(?<!^).(?!$)/g, "*");
+        }
+      }
+      return word;
+    })
+    .join(" ");
 }
