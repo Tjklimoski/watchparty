@@ -1,5 +1,3 @@
-"use server";
-
 const stateInfo: Record<string, string> = {
   alabama: "AL",
   alaska: "AK",
