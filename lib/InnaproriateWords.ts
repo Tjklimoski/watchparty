@@ -405,7 +405,7 @@ const wordList = [
   "zoophilia",
 ];
 
-export function censor(phrase: string): string {
+export async function censor(phrase: string): Promise<string> {
   const badWordsIn: string[] = [];
   const testPhrase = phrase.toLowerCase();
 

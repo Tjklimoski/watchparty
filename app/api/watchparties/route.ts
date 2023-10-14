@@ -1,4 +1,5 @@
 import { milesToMeters } from "@/lib/Geocode";
+import { censor } from "@/lib/InnaproriateWords";
 import convertToWatchParty from "@/lib/convertWatchPartyData";
 import prisma from "@/prisma/client";
 import { SubmitWatchPartyData, WatchParty } from "@/types";
@@ -91,6 +92,8 @@ export async function POST(req: NextRequest) {
     const watchParty = await prisma.watchParty.create({
       data: {
         ...data,
+        // censor watchparty title
+        title: await censor(data.title),
         // Add the user who created the watchparty to the partygoers list by default
         partygoerIds: [data.userId],
       },
