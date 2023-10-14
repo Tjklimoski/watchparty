@@ -403,7 +403,6 @@ const wordList = [
   "yellowshowers",
   "yiffy",
   "zoophilia",
-  "🖕",
 ];
 
 export function checkForBadWord(word: string): boolean {
