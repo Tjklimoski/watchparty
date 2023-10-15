@@ -54,6 +54,26 @@ export async function PATCH(req: NextRequest) {
       coordinates = await getCoord({ city });
       if (!coordinates) throw new Error("Invalid city passed");
     }
+
+    // if value is undefined the field will remain the same
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        name,
+        radius,
+        password: hashedPassword,
+        location: {
+          city,
+          coordinates,
+        },
+      },
+    });
+
+    if (!updatedUser) throw new Error("Failed to update user");
+
+    return res.json(updatedUser);
   } catch (err: Error | any) {
     return new res(err?.message ?? err ?? "Update failed", { status: 400 });
   }
