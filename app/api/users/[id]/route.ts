@@ -42,15 +42,36 @@ export async function GET(
       name,
       image,
       createdAt,
+      myWatchParties,
+      goingToWatchParties: attendedWatchParties,
+    } = user;
+    const city = user.location?.city ?? "NA";
+    // only return the 20 most recently added movies and tv shows
+    const myList = user.myList.slice(user.myList.length - 20).reverse();
+
+    const hosted_count = myWatchParties.filter(
+      watchParty => watchParty.date <= new Date()
+    ).length;
+    const hosting_count = myWatchParties.length - hosted_count;
+    // The database only returned the watchparties the user attended
+    const attended_count = attendedWatchParties.length;
+
+    // build limited user obj to be returned
+    const limitedUser = {
+      id,
+      name,
+      image,
+      city,
+      createdAt,
+      hosted_count,
+      hosting_count,
+      attended_count,
       myList,
       myWatchParties,
-      goingToWatchParties,
-    } = user;
-    const city = user.location?.city;
+      attendedWatchParties,
+    };
 
-    const limitedUser = {};
-
-    return res.json(user);
+    return res.json(limitedUser);
   } catch (err) {
     return new res("Invalid id", { status: 400 });
   }
