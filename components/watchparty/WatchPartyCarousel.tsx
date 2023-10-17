@@ -5,12 +5,12 @@ import Carousel from "../util/Carousel";
 import getCarouselHeading from "@/lib/getCarouselHeading";
 import { WatchParty } from "@/types";
 import Skeleton from "../util/Skeleton";
-import APIFetcher, { API } from "@/lib/APIFetcher";
+import APIFetcher from "@/lib/APIFetcher";
 import WatchPartyCard from "./WatchPartyCard";
 import useUser from "@/hooks/useUser";
 import { getUserCoord } from "@/lib/Geocode";
-import NoWatchPartiesCard from "./NoWatchPartiesCard";
 import useSWR from "swr";
+import EmptyListCard from "../util/EmptyListCard";
 
 interface WatchPartyCarouselProps {
   endpoint: string;
@@ -78,7 +78,9 @@ export default function WatchPartyCarousel({
         {getCarouselHeading(endpoint)}
       </h3>
       <Carousel tight>
-        {watchParties.length === 0 && <NoWatchPartiesCard />}
+        {watchParties.length === 0 && (
+          <EmptyListCard message="No WatchParties" />
+        )}
         {watchParties.map(watchParty => (
           <WatchPartyCard key={watchParty.id} watchParty={watchParty} />
         ))}
