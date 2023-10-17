@@ -172,6 +172,15 @@ type UserLocation = {
 
 export type LimitedUser = Pick<User, "id" | "name" | "image"> | null;
 
+export type ProfileUser = {
+  city: string;
+  hosted_count: number;
+  hosting_count: number;
+  attended_count: number;
+  attendedWatchParties: WatchParty[];
+  myWatchParties: WatchParty[];
+} & Pick<User, "id" | "name" | "image" | "createdAt" | "myList">;
+
 export interface MyListItem {
   id: string;
   media_type: string;

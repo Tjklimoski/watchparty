@@ -35,8 +35,6 @@ export async function GET(
 
     if (!user) throw new Error("Invalid id");
 
-    // Need to extract: id, name, image, location.city, hosted COUNT, hosting COUNT, attended COUNT, createdAT, myList
-
     const {
       id,
       name,
@@ -56,8 +54,8 @@ export async function GET(
     // The database only returned the watchparties the user attended
     const attended_count = attendedWatchParties.length;
 
-    // build limited user obj to be returned
-    const limitedUser = {
+    // build ProfileUser obj to be returned
+    const profileUser = {
       id,
       name,
       image,
@@ -71,7 +69,7 @@ export async function GET(
       attendedWatchParties,
     };
 
-    return res.json(limitedUser);
+    return res.json(profileUser);
   } catch (err) {
     return new res("Invalid id", { status: 400 });
   }
