@@ -13,6 +13,7 @@ import { ProfileUser } from "@/types";
 import { BiSolidEditAlt } from "react-icons/bi";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
+import MyListCarousel from "@/components/user/MyListCarousel";
 
 export default function UserProfilePage({
   params,
@@ -55,7 +56,7 @@ export default function UserProfilePage({
           )}
         </header>
 
-        <div className="flex flex-col sm:flex-row">
+        <div className="flex flex-col sm:flex-row gap-4">
           <aside className="w-full sm:min-w-[290px] md:max-w-[360px] bg-primary/20 p-4 rounded-md">
             <h3 className="font-bold uppercase text-2xl mb-4">About Me</h3>
             <ul className="[&>*>*:first-child]:font-bold [&>*:not(:last-child)]:mb-4 text-sm sm:text-md">
@@ -170,6 +171,7 @@ export default function UserProfilePage({
             </ul>
           </aside>
           <section>
+            <MyListCarousel list={user.myList} />
             {/* media carousel */}
             {/* watchparties they're hosting that are upcoming carousel */}
           </section>
