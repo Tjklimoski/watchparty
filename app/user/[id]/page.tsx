@@ -1,10 +1,25 @@
 // This is the publicly available page that's visible to any user. Will show what this user's myList is, their watchParties, and badges for their achievments (Create their first watchparty, attend their first watchparty, host 5 watchparties, attend 10 watchparties, add 10 movies to their list)
 
+"use client";
+
 import Container from "@/components/util/Container";
 import ProfileIcon from "@/components/util/ProfileIcon";
-import React from "react";
+import apiFetcher from "@/lib/APIFetcher";
+import { ProfileUser } from "@/types";
+import useSWR from "swr";
 
-export default function UserProfilePage() {
+export default function UserProfilePage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const { id } = params;
+  const {
+    data: user,
+    isLoading,
+    error,
+  } = useSWR<ProfileUser>(`/users/${id}/profile`, apiFetcher);
+
   return (
     <main className="min-h-screen">
       <Container>
@@ -23,7 +38,7 @@ export default function UserProfilePage() {
               <li>{/* joined  */}</li>
             </ul>
             <h2>Achievments</h2>
-            {/* Badges that show conditionally based on data */}
+            <div>{/* Badges that show conditionally based on data */}</div>
           </aside>
           <section>
             {/* media carousel */}
