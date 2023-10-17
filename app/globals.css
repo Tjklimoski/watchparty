@@ -16,6 +16,14 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
+  .webkit-truncate-one {
+    /* if non-webkit brower, will truncate on line 1 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
 }
 
 body {
