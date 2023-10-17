@@ -37,8 +37,8 @@ export default function UserProfilePage({
           </h2>
         </header>
 
-        <div className="flex">
-          <aside className="w-full max-w-md bg-neutral p-4 rounded-md">
+        <div className="flex flex-col sm:flex-row">
+          <aside className="w-full sm:max-w-md bg-primary/20 p-4 rounded-md">
             <h3 className="font-bold uppercase text-2xl mb-4">About Me</h3>
             <ul className="[&>*>*:first-child]:font-semibold [&>*>*:first-child]:text-lg [&>*:not(:last-child)]:mb-2">
               <li>
@@ -64,7 +64,7 @@ export default function UserProfilePage({
               <li>
                 <span>Achievments</span>
                 <br />
-                <div className="flex flex-wrap gap-x-2 gap-y-1">
+                <div className="flex flex-wrap gap-1 [&>*]:webkit-truncate [&>*]:truncate-one">
                   {/* Achievment for hosting 1 watchparty */}
                   {user.hosted_count >= 1 ? (
                     <span className="badge badge-secondary">
