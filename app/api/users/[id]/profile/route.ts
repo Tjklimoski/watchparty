@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse as res } from "next/server";
 import prisma from "@/prisma/client";
-import { LimitedUser, User } from "@/types";
 
 // Get specified user's data to be rendered on that user's profile page
 export async function GET(
