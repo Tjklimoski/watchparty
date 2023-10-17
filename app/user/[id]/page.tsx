@@ -1,15 +1,18 @@
-// This is the publicly available page that's visible to any user. Will show what this user's myList is, their watchParties, and badges for their achievments (Create their first watchparty, attend their first watchparty, host 5 watchparties, attend 10 watchparties, add 10 movies to their list)
+// This user profile page is visible to ANY logged in user
 
 "use client";
 
 import MediaCarousel from "@/components/media/MediaCarousel";
 import Container from "@/components/util/Container";
 import ProfileIcon from "@/components/util/ProfileIcon";
+import useUser from "@/hooks/useUser";
 import apiFetcher from "@/lib/APIFetcher";
 import { formatDate } from "@/lib/format";
 import { getFirstName } from "@/lib/stringModifications";
 import { ProfileUser } from "@/types";
+import { BiSolidEditAlt } from "react-icons/bi";
 import useSWR from "swr";
+import { useRouter } from "next/navigation";
 
 export default function UserProfilePage({
   params,
@@ -17,6 +20,8 @@ export default function UserProfilePage({
   params: { id: string };
 }) {
   const { id } = params;
+  const { user: currentUser } = useUser();
+  const router = useRouter();
   const {
     data: user,
     isLoading,
@@ -30,17 +35,30 @@ export default function UserProfilePage({
   ) : (
     <main className="min-h-screen">
       <Container>
-        <header className="flex gap-4 items-end mt-2 mb-8">
-          <ProfileIcon id={user.id} size={56} />
-          <h2 className="text-5xl font-bold">
-            {getFirstName(user.name ?? "User")}
-          </h2>
+        <header className="flex items-center mt-2 mb-8 justify-between">
+          <span className="flex gap-4 items-end me-2">
+            <ProfileIcon id={user.id} size={56} />
+            <h2 className="text-5xl font-bold">
+              {getFirstName(user.name ?? "User")}
+            </h2>
+          </span>
+
+          {currentUser?.id === id && (
+            <button
+              className="btn btn-circle btn-accent btn-outline border-2 tooltip tooltip-accent grid place-items-center"
+              aria-label="Edit your info"
+              data-tip="Edit"
+              onClick={() => router.push("/user/settings")}
+            >
+              <BiSolidEditAlt size={30} />
+            </button>
+          )}
         </header>
 
         <div className="flex flex-col sm:flex-row">
-          <aside className="w-full sm:max-w-md bg-primary/20 p-4 rounded-md">
+          <aside className="w-full sm:min-w-[290px] md:max-w-[360px] bg-primary/20 p-4 rounded-md">
             <h3 className="font-bold uppercase text-2xl mb-4">About Me</h3>
-            <ul className="[&>*>*:first-child]:font-semibold [&>*>*:first-child]:text-lg [&>*:not(:last-child)]:mb-2">
+            <ul className="[&>*>*:first-child]:font-bold [&>*:not(:last-child)]:mb-4 text-sm sm:text-md">
               <li>
                 <span>City</span>
                 <br />
