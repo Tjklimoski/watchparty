@@ -7,6 +7,7 @@ import useSWRImmutable from "swr/immutable";
 import { Movie, MyListItem, TVShow } from "@/types";
 import Skeleton from "../util/Skeleton";
 import MediaCard from "../media/MediaCard";
+import EmptyListCard from "../util/EmptyListCard";
 
 interface MyListCarouselProps {
   list: MyListItem[] | undefined;
@@ -37,6 +38,7 @@ export default function MyListCarousel({ list }: MyListCarouselProps) {
         Recently Added to My List
       </h3>
       <Carousel tight>
+        {list.length === 0 && <EmptyListCard message="No Movies or TV Shows" />}
         {list.map(listItem => (
           <FetchMediaContainer key={listItem.id} myListItem={listItem} />
         ))}
