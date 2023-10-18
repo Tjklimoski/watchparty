@@ -36,10 +36,7 @@ export default function UserListItem({ id }: UserListItemProps) {
         href={`/user/${id}`}
         className="flex items-center hover:bg-white/20 px-4 sm:px-8 py-2 sm:py-4 rounded-md"
       >
-        {/* ProfileIcon wrapped in div to allow for size changes at breakpoints */}
-        <div className="w-10 sm:w-12">
-          <ProfileIcon id={id} size={48} />
-        </div>
+        <ProfileIcon id={id} className="w-10 sm:w-12" />
         <span className="font-semibold text-md sm:text-lg ms-4">
           {getFirstName(user.name ?? "")}
         </span>

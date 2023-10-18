@@ -18,11 +18,7 @@ export default function InterestedUsersTile({
       >
         Interested Users
       </div>
-      <ProfileIconGroup
-        title="Interested"
-        userIds={interestedUsersIds}
-        iconSize={50}
-      >
+      <ProfileIconGroup title="Interested" userIds={interestedUsersIds}>
         {/* Children are the fallback if no users */}
         No interested users.
       </ProfileIconGroup>

@@ -19,7 +19,7 @@ export default function PartygoersTile({
       >
         Partygoers
       </div>
-      <ProfileIconGroup title="Partygoers" userIds={partygoerIds} iconSize={50}>
+      <ProfileIconGroup title="Partygoers" userIds={partygoerIds}>
         {/* Children are the fallback if userIds array is empty */}
         Be the first Partygoer!
       </ProfileIconGroup>

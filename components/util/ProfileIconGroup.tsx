@@ -7,7 +7,6 @@ import Popup from "./Popup";
 interface ProfileIconGroupProps {
   title: string;
   userIds: string[] | undefined;
-  iconSize?: number;
   numberOfIcons?: number;
   children: React.ReactNode;
 }
@@ -15,7 +14,6 @@ interface ProfileIconGroupProps {
 export default function ProfileIconGroup({
   title,
   userIds,
-  iconSize = 38,
   numberOfIcons = 5,
   children,
 }: ProfileIconGroupProps) {
@@ -26,11 +24,6 @@ export default function ProfileIconGroup({
     popupRef.current.showModal();
   }
 
-  const tailwindSize =
-    Math.round(iconSize / 4) % 2 === 0
-      ? Math.round(iconSize / 4)
-      : Math.round(iconSize / 4) - 1;
-
   return (
     <>
       <div className="ms-2 [&>*]:-ms-2 flex flex-wrap">
@@ -38,27 +31,24 @@ export default function ProfileIconGroup({
           Array(numberOfIcons + 1)
             .fill(null)
             .map((item, i) => (
-              <Skeleton
-                key={i}
-                className={`w-${tailwindSize} h-${tailwindSize} rounded-full`}
-              />
+              <Skeleton key={i} className={`w-12 h-12 rounded-full`} />
             ))
         ) : userIds.length === 0 ? (
           children
         ) : (
           <>
-            {userIds.slice(0, numberOfIcons).map((userId) => (
+            {userIds.slice(0, numberOfIcons).map(userId => (
               <Link
                 key={userId}
                 href={`/user/${userId}`}
                 className="outline-none group"
               >
-                <ProfileIcon id={userId} size={iconSize} group />
+                <ProfileIcon id={userId} className="w-12" group />
               </Link>
             ))}
             {userIds.length > numberOfIcons && (
               <button
-                className={`w-[${iconSize}px] aspect-square rounded-full grid place-items-center bg-neutral text-sm outline outline-2 outline-accent hover:outline-accent-focus focus:outline-primary-focus select-none`}
+                className={`w-12 aspect-square rounded-full grid place-items-center bg-neutral text-sm outline outline-2 outline-accent hover:outline-accent-focus focus:outline-primary-focus select-none`}
                 onClick={openPopup}
               >
                 +{userIds.length - numberOfIcons}

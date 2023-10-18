@@ -37,7 +37,7 @@ export default function Host({ hostId }: HostProps) {
           {getFirstName(host.name ?? "")}
         </span>
       </p>
-      <ProfileIcon id={hostId} size={30} />
+      <ProfileIcon id={hostId} className="w-8" />
     </Link>
   );
 }
