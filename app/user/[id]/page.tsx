@@ -36,9 +36,9 @@ export default function UserProfilePage({
   ) : (
     <main className="min-h-screen">
       <Container>
-        <header className="flex items-center sm:mt-2 mb-4 sm:mb-8 justify-between">
+        <header className="flex flex-col xs:flex-row items-center gap-2 sm:mt-2 mb-4 sm:mb-8 justify-between">
           <span className="flex gap-4 items-center">
-            <ProfileIcon id={user.id} size={56} />
+            <ProfileIcon id={user.id} className="w-8 xs:w-10 sm:w-12" />
             <h2 className="text-3xl xs:text-4xl sm:text-5xl font-bold">
               {getFirstName(user.name ?? "User")}
             </h2>
@@ -46,7 +46,7 @@ export default function UserProfilePage({
 
           {currentUser?.id === id && (
             <button
-              className="btn-sm sm:btn-md btn btn-circle btn-accent btn-outline border-2 tooltip tooltip-accent grid place-items-center ms-2"
+              className="btn-sm sm:btn-md btn btn-circle btn-accent btn-outline border-2 tooltip tooltip-accent grid place-items-center"
               aria-label="Edit your info"
               data-tip="Edit"
               onClick={() => router.push("/user/settings")}
