@@ -47,17 +47,21 @@ export default function Billboard({
           </div>
         ) : (
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold break-balance webkit-truncate w-full max-w-[1440px] mx-auto">
-            {!watchparty
-              ? mediaTitle
-              : episode && (
-                  <Link href={`/media/${media.media_type}/${media.id}`}>
-                    {`${mediaTitle} S${episode.season_number}E${episode.episode_number} - ${episode.name} `}
-                    Watch
-                    <span className="bg-gradient-to-tr from-primary to-accent via-secondary bg-clip-text text-transparent">
-                      Party
-                    </span>
-                  </Link>
-                )}
+            {!watchparty ? (
+              mediaTitle
+            ) : (
+              <Link href={`/media/${media.media_type}/${media.id}`}>
+                {`${mediaTitle}${
+                  episode
+                    ? ` S${episode.season_number}E${episode.episode_number} - ${episode.name}`
+                    : ""
+                } `}
+                Watch
+                <span className="bg-gradient-to-tr from-primary to-accent via-secondary bg-clip-text text-transparent">
+                  Party
+                </span>
+              </Link>
+            )}
           </h2>
         )}
       </div>
