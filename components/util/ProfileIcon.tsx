@@ -23,7 +23,7 @@ export default function ProfileIcon({
   const userImage = user?.image;
 
   return (
-    <div className={`${className ?? "w-9"} aspect-square`}>
+    <div className={`${className ?? "w-[38px]"} aspect-square`}>
       {isLoading ? (
         <FaUser
           className={`rounded-full ${
