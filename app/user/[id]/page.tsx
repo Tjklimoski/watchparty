@@ -2,7 +2,6 @@
 
 "use client";
 
-import MediaCarousel from "@/components/media/MediaCarousel";
 import Container from "@/components/util/Container";
 import ProfileIcon from "@/components/util/ProfileIcon";
 import useUser from "@/hooks/useUser";
@@ -174,7 +173,6 @@ export default function UserProfilePage({
           </aside>
           <section className="flex-grow min-w-0">
             <MyListCarousel list={user.myList} />
-            {/* media carousel */}
             {/* watchparties they're hosting that are upcoming carousel */}
           </section>
         </div>

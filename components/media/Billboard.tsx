@@ -40,7 +40,7 @@ export default function Billboard({
         />
       )}
 
-      <div className="absolute bottom-0 left-0 right-0 px-6 md:px-12 py-4 min-h-[14svh] flex items-end bg-gradient-to-t from-black via-black/75 via-30% to-transparent">
+      <div className="absolute bottom-0 left-0 right-0 px-2 xs:px-4 sm:px-6 md:px-12 py-4 min-h-[14svh] flex items-end bg-gradient-to-t from-black via-black/75 via-30% to-transparent">
         {!media ? (
           <div className="mx-auto w-full max-w-[1440px]">
             <Skeleton className="w-1/2 h-8 sm:h-12 md:h-16" />
