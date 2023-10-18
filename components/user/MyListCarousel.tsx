@@ -34,7 +34,7 @@ export default function MyListCarousel({ list }: MyListCarouselProps) {
     </>
   ) : (
     <>
-      <h3 className="text-xl sm:text-2xl mb-2 font-bold">
+      <h3 className="text-xl sm:text-2xl mb-2 font-bold break-balance">
         Recently Added to My List
       </h3>
       <Carousel tight>

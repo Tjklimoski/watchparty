@@ -36,30 +36,32 @@ export default function UserProfilePage({
   ) : (
     <main className="min-h-screen">
       <Container>
-        <header className="flex items-center mt-2 mb-8 justify-between">
-          <span className="flex gap-4 items-end me-2">
+        <header className="flex items-center sm:mt-2 mb-4 sm:mb-8 justify-between">
+          <span className="flex gap-4 items-center">
             <ProfileIcon id={user.id} size={56} />
-            <h2 className="text-5xl font-bold">
+            <h2 className="text-3xl xs:text-4xl sm:text-5xl font-bold">
               {getFirstName(user.name ?? "User")}
             </h2>
           </span>
 
           {currentUser?.id === id && (
             <button
-              className="btn btn-circle btn-accent btn-outline border-2 tooltip tooltip-accent grid place-items-center"
+              className="btn-sm sm:btn-md btn btn-circle btn-accent btn-outline border-2 tooltip tooltip-accent grid place-items-center ms-2"
               aria-label="Edit your info"
               data-tip="Edit"
               onClick={() => router.push("/user/settings")}
             >
-              <BiSolidEditAlt size={30} />
+              <BiSolidEditAlt className="relative text-[20px] sm:text-[30px]" />
             </button>
           )}
         </header>
 
         <div className="flex flex-col sm:flex-row gap-4">
-          <aside className="w-full sm:min-w-[290px] md:max-w-[360px] bg-primary/20 p-4 rounded-md">
-            <h3 className="font-bold uppercase text-2xl mb-4">About Me</h3>
-            <ul className="[&>*>*:first-child]:font-bold [&>*:not(:last-child)]:mb-4 text-sm sm:text-md">
+          <aside className="w-full sm:min-w-[220px] sm:max-w-[30%] bg-primary/20 p-2 md:p-4 rounded-md">
+            <h3 className="font-bold uppercase text-xl md:text-2xl mb-2 md:mb-4">
+              About Me
+            </h3>
+            <ul className="[&>*>*:first-child]:font-bold [&>*:not(:last-child)]:mb-2 md:[&>*:not(:last-child)]:mb-4 text-sm sm:text-md">
               <li>
                 <span>City</span>
                 <br />
@@ -170,7 +172,7 @@ export default function UserProfilePage({
               </li>
             </ul>
           </aside>
-          <section>
+          <section className="flex-grow min-w-0">
             <MyListCarousel list={user.myList} />
             {/* media carousel */}
             {/* watchparties they're hosting that are upcoming carousel */}
