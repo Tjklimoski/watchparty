@@ -25,9 +25,7 @@ export default function UserProfilePage({
 
   if (!isLoading && error) throw new Error("Invalid user id in URL");
 
-  return !user ? (
-    <span>Loading...</span>
-  ) : (
+  return (
     <main className="min-h-screen">
       <Container>
         <ProfileHeading user={user} />
@@ -35,17 +33,17 @@ export default function UserProfilePage({
         <div className="flex flex-col sm:flex-row gap-4">
           <UserDetails user={user} />
           <section className="flex-grow min-w-0">
-            <MyListCarousel list={user.myList} />
+            <MyListCarousel list={user?.myList} />
             {/* watchParties the user is hosting */}
             <UserWatchPartyCarousel
-              list={user.myWatchParties.filter(
+              list={user?.myWatchParties.filter(
                 watchParty => new Date(watchParty.date) > new Date()
               )}
               title="WatchParties I'm Hosting"
             />
             {/* WatchParties the user attended */}
             <UserWatchPartyCarousel
-              list={user.attendedWatchParties}
+              list={user?.attendedWatchParties}
               title="WatchParties I Attended"
             />
           </section>
