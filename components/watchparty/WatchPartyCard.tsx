@@ -36,7 +36,10 @@ export default function WatchPartyCard({ watchParty }: WatchPartyCardProps) {
     >
       {/* User's distance from event above card */}
       <div className="px-1 @lg:px-2 mb-1 flex justify-start">
-        <Distance knownDistance={watchParty.dist?.calculated} />
+        <Distance
+          knownDistance={watchParty.dist?.calculated}
+          watchPartyCoords={watchParty.geo.coordinates}
+        />
       </div>
 
       <div className="relative w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 mb-1 aspect-video rounded-sm drop-shadow-lg overflow-hidden">
