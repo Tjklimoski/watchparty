@@ -4,7 +4,7 @@ import Achievments from "./Achievments";
 import Skeleton from "../util/Skeleton";
 
 interface UserDetailsProps {
-  user: ProfileUser;
+  user: ProfileUser | undefined;
 }
 
 export default function UserDetails({ user }: UserDetailsProps) {

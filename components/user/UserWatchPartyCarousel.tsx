@@ -8,7 +8,7 @@ import { WatchParty } from "@/types";
 import WatchPartyCard from "../watchparty/WatchPartyCard";
 
 interface MyListCarouselProps {
-  list: WatchParty[];
+  list: WatchParty[] | undefined;
   title?: string;
 }
 

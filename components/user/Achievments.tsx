@@ -1,10 +1,12 @@
 import { ProfileUser } from "@/types";
 
 interface AchievmentsProps {
-  user: ProfileUser;
+  user: ProfileUser | undefined;
 }
 
 export default function Achievments({ user }: AchievmentsProps) {
+  if (!user) return null;
+
   return (
     <div className="flex flex-wrap gap-1 [&>*]:webkit-truncate [&>*]:truncate-one">
       {/* Achievment for hosting 1 watchparty */}
