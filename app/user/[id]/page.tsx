@@ -13,6 +13,7 @@ import { BiSolidEditAlt } from "react-icons/bi";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
 import MyListCarousel from "@/components/user/MyListCarousel";
+import UserWatchPartyCarousel from "@/components/user/UserWatchPartyCarousel";
 
 export default function UserProfilePage({
   params,
@@ -56,7 +57,7 @@ export default function UserProfilePage({
         </header>
 
         <div className="flex flex-col sm:flex-row gap-4">
-          <aside className="w-full sm:min-w-[220px] sm:max-w-[30%] bg-primary/20 p-2 md:p-4 rounded-md">
+          <aside className="w-full h-min sm:min-w-[220px] sm:max-w-[30%] bg-primary/20 p-2 md:p-4 rounded-md">
             <h3 className="font-bold uppercase text-xl md:text-2xl mb-2 md:mb-4">
               About Me
             </h3>
@@ -173,7 +174,18 @@ export default function UserProfilePage({
           </aside>
           <section className="flex-grow min-w-0">
             <MyListCarousel list={user.myList} />
-            {/* watchparties they're hosting that are upcoming carousel */}
+            {/* watchParties the user is hosting */}
+            <UserWatchPartyCarousel
+              list={user.myWatchParties.filter(
+                watchParty => new Date(watchParty.date) > new Date()
+              )}
+              title="WatchParties I'm Hosting"
+            />
+            {/* WatchParties the user attended */}
+            <UserWatchPartyCarousel
+              list={user.attendedWatchParties}
+              title="WatchParties I Attended"
+            />
           </section>
         </div>
       </Container>

@@ -37,7 +37,7 @@ export default function MyListCarousel({
       </h3>
       <Carousel tight>
         {list.length === 0 && <EmptyListCard message="No WatchParties" />}
-        {list.map(watchParty => (
+        {list.slice(0, 20).map(watchParty => (
           <WatchPartyCard key={watchParty.id} watchParty={watchParty} />
         ))}
       </Carousel>
