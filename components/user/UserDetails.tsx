@@ -1,6 +1,7 @@
 import { formatDate } from "@/lib/format";
 import { ProfileUser } from "@/types";
 import Achievments from "./Achievments";
+import Skeleton from "../util/Skeleton";
 
 interface UserDetailsProps {
   user: ProfileUser;
@@ -13,31 +14,44 @@ export default function UserDetails({ user }: UserDetailsProps) {
         About Me
       </h3>
       <ul className="[&>*>*:first-child]:font-bold [&>*:not(:last-child)]:mb-2 md:[&>*:not(:last-child)]:mb-4 text-sm sm:text-md">
-        <li>
-          <span>City</span>
-          <br />
-          {user.city}
-        </li>
-        <li>
-          <span>Joined</span>
-          <br />
-          {formatDate(user.createdAt)}
-        </li>
-        <li>
-          <span>Hosted</span>
-          <br />
-          {user.hosted_count}
-        </li>
-        <li>
-          <span>Attended</span>
-          <br />
-          {user.attended_count}
-        </li>
-        <li>
-          <span>Achievments</span>
-          <br />
-          <Achievments user={user} />
-        </li>
+        {!user ? (
+          Array(5)
+            .fill(null)
+            .map((item, i) => (
+              <li key={i}>
+                <Skeleton className="w-1/4" />
+                <Skeleton className="w-1/3" />
+              </li>
+            ))
+        ) : (
+          <>
+            <li>
+              <span>City</span>
+              <br />
+              {user.city}
+            </li>
+            <li>
+              <span>Joined</span>
+              <br />
+              {formatDate(user.createdAt)}
+            </li>
+            <li>
+              <span>Hosted</span>
+              <br />
+              {user.hosted_count}
+            </li>
+            <li>
+              <span>Attended</span>
+              <br />
+              {user.attended_count}
+            </li>
+            <li>
+              <span>Achievments</span>
+              <br />
+              <Achievments user={user} />
+            </li>
+          </>
+        )}
       </ul>
     </aside>
   );
