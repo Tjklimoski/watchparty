@@ -20,6 +20,7 @@ export async function GET(req: NextRequest) {
     const skip = (page - 1) * take;
 
     // Get myList field from current user - will return ALL MyListItems
+    // Can't use take and skip in prisma query because I need all the documents to build the rest of the return obj (total_resuilts, total_pages)
     const userWithMyList = await prisma.user.findUniqueOrThrow({
       where: {
         id: user.id,
