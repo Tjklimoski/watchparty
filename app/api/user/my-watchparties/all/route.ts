@@ -8,6 +8,16 @@ export async function GET(req: NextRequest) {
     const user = await auth();
     if (!user) throw new Error("No current user");
 
+    // parse Page searchParam value
+    let page: string | number | null = req.nextUrl.searchParams.get("page");
+    if (!page) throw new Error("No page searchParam passed");
+    page = parseInt(page);
+    if (isNaN(page)) throw new Error("Page serachParam must be a number");
+
+    // set pagination variables
+    const take = 20;
+    const skip = (page - 1) * take;
+
     // Get all the user's watchParties that are upcoming and order by date asc.
     const userUpcoming = await prisma.user.findUniqueOrThrow({
       where: {
