@@ -6,9 +6,17 @@ import PageCount from "@/components/util/PageCount";
 import PageNumbers from "@/components/util/PageNumbers";
 import Skeleton from "@/components/util/Skeleton";
 import APIFetcher from "@/lib/APIFetcher";
+import { MyListItem } from "@/types";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import useSWR from "swr";
+
+interface UserMyListData {
+  results: MyListItem[];
+  total_results: number;
+  total_pages: number;
+  page: number;
+}
 
 export default function UserMyListPage({
   searchParams,
@@ -17,7 +25,7 @@ export default function UserMyListPage({
 }) {
   const { page = "1" } = searchParams;
   const router = useRouter();
-  const { data, isLoading, error } = useSWR(
+  const { data, isLoading, error } = useSWR<UserMyListData>(
     `/user/my-list?page=${page}`,
     APIFetcher
   );
