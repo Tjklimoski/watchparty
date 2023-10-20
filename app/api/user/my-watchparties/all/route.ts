@@ -62,7 +62,18 @@ export async function GET(req: NextRequest) {
       ...userPassed.goingToWatchParties,
     ];
 
-    return res.json(allWatchParties);
+    // Build out data
+    const total_results = allWatchParties.length;
+    const results = allWatchParties.splice(skip, take);
+    const total_pages = Math.max(Math.ceil(total_results / take), 1);
+    const data = {
+      page,
+      total_results,
+      results,
+      total_pages,
+    };
+
+    return res.json(data);
   } catch (err: Error | any) {
     console.error(err);
     return new res(err?.message ?? "Request Failed", { status: 400 });
