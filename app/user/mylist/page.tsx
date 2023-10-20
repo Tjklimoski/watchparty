@@ -1,5 +1,6 @@
 "use client";
 
+import MyListItemCard from "@/components/user/MyListItemCard";
 import BackBtn from "@/components/util/BackBtn";
 import Container from "@/components/util/Container";
 import PageCount from "@/components/util/PageCount";
@@ -81,7 +82,11 @@ export default function UserMyListPage({
                     />
                   ))
               : data.results.map(myListItem => (
-                  // fetch media container
+                  <MyListItemCard
+                    key={myListItem.id}
+                    myListItem={myListItem}
+                    page
+                  />
                 ))}
           </div>
 
