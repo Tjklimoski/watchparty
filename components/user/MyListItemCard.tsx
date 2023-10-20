@@ -28,7 +28,7 @@ export default function MyListItemCard({
   return !page ? (
     <MediaCard media={media} />
   ) : !media ? (
-    <Skeleton className="w-full h-full aspect-video" />
+    <Skeleton className="w-full h-full rounded-sm aspect-video" />
   ) : (
     <SearchResult media={media as TVShow | Movie} />
   );
