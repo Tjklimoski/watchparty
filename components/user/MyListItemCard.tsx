@@ -14,18 +14,22 @@ export default function MyListItemCard({
   myListItem,
   page,
 }: MyListItemCardProps) {
-  const { data: media, isLoading } = useSWRImmutable<Movie | TVShow>(
+  const {
+    data: media,
+    isLoading,
+    error,
+  } = useSWRImmutable<Movie | TVShow>(
     `/${myListItem.media_type}/${myListItem.id}`,
     fetcher
   );
 
-  if (!media) return null;
+  if (!isLoading && error) return null;
 
-  return isLoading ? (
-    <Skeleton className="h-full w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 aspect-video rounded-sm" />
-  ) : page ? (
-    <SearchResult media={media} />
-  ) : (
+  return !page ? (
     <MediaCard media={media} />
+  ) : !media ? (
+    <Skeleton className="w-full h-full aspect-video" />
+  ) : (
+    <SearchResult media={media as TVShow | Movie} />
   );
 }
