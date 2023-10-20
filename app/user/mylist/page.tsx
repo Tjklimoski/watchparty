@@ -3,6 +3,8 @@
 import BackBtn from "@/components/util/BackBtn";
 import Container from "@/components/util/Container";
 import PageCount from "@/components/util/PageCount";
+import PageNumbers from "@/components/util/PageNumbers";
+import Skeleton from "@/components/util/Skeleton";
 import APIFetcher from "@/lib/APIFetcher";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -59,6 +61,24 @@ export default function UserMyListPage({
             <BackBtn />
             <PageCount totalPages={data?.total_pages} />
           </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(290px,1fr))] gap-2">
+            {!data
+              ? Array(12)
+                  .fill(null)
+                  .map((item, i) => (
+                    <Skeleton
+                      key={i}
+                      className="h-full rounded-sm aspect-video"
+                    />
+                  ))
+              : data.results.map(myListItem => (
+                  // fetch media container
+                ))}
+          </div>
+
+          {/* Page numbers to navigate with */}
+          <PageNumbers totalPages={data?.total_pages} />
         </section>
       </Container>
     </main>
