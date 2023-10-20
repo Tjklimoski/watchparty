@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
     const total_results = userWithMyList.myList.length;
     // !splice permanently mutates the myList array.
     const results = userWithMyList.myList.reverse().splice(skip, take);
-    const total_pages = Math.ceil(total_results / take);
+    const total_pages = Math.max(Math.ceil(total_results / take), 1);
     const data = { page, results, total_pages, total_results };
 
     return res.json(data);
