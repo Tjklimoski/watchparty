@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
     });
 
     // Build fields for data that will be returned.
-    const results = userWithMyList.myList.splice(skip, take);
+    const results = userWithMyList.myList.reverse().splice(skip, take);
     const total_results = userWithMyList.myList.length;
     const total_pages = Math.ceil(total_results / take);
     const data = { page, results, total_pages, total_results };
