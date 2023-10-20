@@ -8,20 +8,49 @@ export async function GET(req: NextRequest) {
     const user = await auth();
     if (!user) throw new Error("No current user");
 
-    const userWithWatchParties = await prisma.user.findUniqueOrThrow({
+    // Get all the user's watchParties that are upcoming and order by date asc.
+    const userUpcoming = await prisma.user.findUniqueOrThrow({
       where: {
         id: user.id,
       },
       include: {
         goingToWatchParties: {
+          where: {
+            date: {
+              gt: new Date(),
+            },
+          },
           orderBy: {
-            mediaTitle: "asc",
+            date: "asc",
           },
         },
       },
     });
 
-    const allWatchParties = userWithWatchParties.goingToWatchParties;
+    // Get all the user's watchParties that have passed, and order by date desc.
+    const userPassed = await prisma.user.findUniqueOrThrow({
+      where: {
+        id: user.id,
+      },
+      include: {
+        goingToWatchParties: {
+          where: {
+            date: {
+              lte: new Date(),
+            },
+          },
+          orderBy: {
+            date: "desc",
+          },
+        },
+      },
+    });
+
+    // compile WatchParties
+    const allWatchParties = [
+      ...userUpcoming.goingToWatchParties,
+      ...userPassed.goingToWatchParties,
+    ];
 
     return res.json(allWatchParties);
   } catch (err: Error | any) {
