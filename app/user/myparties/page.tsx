@@ -141,6 +141,7 @@ export default function UserMyPartiesPage({
                   <WatchPartySearchResult
                     key={watchparty.id}
                     watchParty={watchparty}
+                    editable
                   />
                 ))}
           </div>

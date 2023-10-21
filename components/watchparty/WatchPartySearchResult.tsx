@@ -7,13 +7,16 @@ import Link from "next/link";
 import Image from "next/image";
 import Distance from "./Distance";
 import { formatDate, formatTime } from "@/lib/format";
+import EditBtn from "./EditBtn";
 
 interface WatchPartyCardProps {
   watchParty: WatchParty | undefined;
+  editable?: boolean;
 }
 
 export default function WatchPartySearchResult({
   watchParty,
+  editable,
 }: WatchPartyCardProps) {
   const { data: media } = useSWR(
     watchParty && `/${watchParty.mediaType}/${watchParty.mediaId}`,
@@ -65,10 +68,11 @@ export default function WatchPartySearchResult({
         )}
 
         {/* Title container */}
-        <div className="absolute left-0 bottom-0 right-0 h-3/5 @xs:h-1/2 bg-gradient-to-t from-black via-black via-45% to-transparent p-1 @xs:p-2 flex items-end select-none">
+        <div className="absolute left-0 bottom-0 right-0 h-3/5 @xs:h-1/2 bg-gradient-to-t from-black via-black via-45% to-transparent p-1 @xs:p-2 flex items-end justify-between gap-2 select-none">
           <h3 className="font-semibold text-lg @xs:text-xl break-balance webkit-truncate">
             {watchParty.title}
           </h3>
+          {editable && <EditBtn watchPartyId={watchParty.id} />}
         </div>
 
         <Link
