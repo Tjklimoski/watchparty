@@ -5,6 +5,7 @@ import Container from "@/components/util/Container";
 import PageCount from "@/components/util/PageCount";
 import PageNumbers from "@/components/util/PageNumbers";
 import Skeleton from "@/components/util/Skeleton";
+import WatchPartySearchResult from "@/components/watchparty/WatchPartySearchResult";
 import APIFetcher from "@/lib/APIFetcher";
 import { WatchParty } from "@/types";
 import { useRouter } from "next/navigation";
@@ -136,7 +137,12 @@ export default function UserMyPartiesPage({
                       className="h-full rounded-sm aspect-video"
                     />
                   ))
-              : data.results.map(watchparty => <div key={watchparty.id}></div>)}
+              : data.results.map(watchparty => (
+                  <WatchPartySearchResult
+                    key={watchparty.id}
+                    watchParty={watchparty}
+                  />
+                ))}
           </div>
 
           {/* Page numbers to navigate with */}
