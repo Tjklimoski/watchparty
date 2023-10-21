@@ -8,6 +8,7 @@ import Image from "next/image";
 import Distance from "./Distance";
 import { formatDate, formatTime } from "@/lib/format";
 import EditBtn from "./EditBtn";
+import useUser from "@/hooks/useUser";
 
 interface WatchPartyCardProps {
   watchParty: WatchParty | undefined;
@@ -22,12 +23,13 @@ export default function WatchPartySearchResult({
     watchParty && `/${watchParty.mediaType}/${watchParty.mediaId}`,
     TMDBfetcher
   );
+  const { user } = useUser();
   const baseImgPath = "https://image.tmdb.org/t/p/";
   const imgSize = "w780";
 
   const passed = new Date(watchParty?.date ?? "").getTime() < Date.now();
 
-  return !media || !watchParty ? (
+  return !media || !watchParty || !user ? (
     <div className="h-full flex flex-col">
       <Skeleton className="w-1/2 h-6 max-w-[14ch]" />
       <Skeleton className="h-full aspect-video rounded-sm mb-1" />
@@ -72,7 +74,9 @@ export default function WatchPartySearchResult({
           <h3 className="font-semibold text-lg @xs:text-xl break-balance webkit-truncate">
             {watchParty.title}
           </h3>
-          {editable && <EditBtn watchPartyId={watchParty.id} />}
+          {editable && user.id === watchParty.userId && (
+            <EditBtn watchPartyId={watchParty.id} />
+          )}
         </div>
 
         <Link
