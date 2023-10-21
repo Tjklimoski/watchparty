@@ -56,7 +56,7 @@ export default function UserMyPartiesPage({
     router.replace(url.href);
   }, [page, data, router]);
 
-  if (!isLoading && error) throw new Error(error);
+  if (!isLoading && error) throw new Error("Invalid data request");
 
   return (
     <main className="min-h-screen">
@@ -68,8 +68,56 @@ export default function UserMyPartiesPage({
         </header>
 
         <section>
-          <div>
-            {/* Buttons to filter results: all, today, hosting, upcoming, following, attended */}
+          <div className="flex flex-wrap gap-2 mb-4 sm:mb-8">
+            {/* Buttons to filter results */}
+            <button
+              className="btn-sm xs:btn-md btn btn-primary btn-outline border-2 rounded-full"
+              value=""
+              aria-current={true}
+              onClick={() => {}}
+            >
+              All
+            </button>
+            <button
+              className="btn-sm xs:btn-md btn btn-primary btn-outline border-2 rounded-full"
+              value="/today"
+              aria-current={false}
+              onClick={() => {}}
+            >
+              Today
+            </button>
+            <button
+              className="btn-sm xs:btn-md btn btn-primary btn-outline border-2 rounded-full"
+              value="/hosting"
+              aria-current={false}
+              onClick={() => {}}
+            >
+              Hosting
+            </button>
+            <button
+              className="btn-sm xs:btn-md btn btn-primary btn-outline border-2 rounded-full"
+              value="/upcoming"
+              aria-current={false}
+              onClick={() => {}}
+            >
+              Upcoming
+            </button>
+            <button
+              className="btn-sm xs:btn-md btn btn-primary btn-outline border-2 rounded-full"
+              value="/following"
+              aria-current={false}
+              onClick={() => {}}
+            >
+              Following
+            </button>
+            <button
+              className="btn-sm xs:btn-md btn btn-primary btn-outline border-2 rounded-full"
+              value="/attended"
+              aria-current={false}
+              onClick={() => {}}
+            >
+              Attended
+            </button>
           </div>
 
           <div className="text-lg flex justify-between items-center mb-4">
