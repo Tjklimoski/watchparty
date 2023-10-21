@@ -127,6 +127,16 @@ export default function UserMyPartiesPage({
 
           <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(290px,1fr))] gap-2">
             {/* Place watchparties in cards here */}
+            {!data
+              ? Array(12)
+                  .fill(null)
+                  .map((item, i) => (
+                    <Skeleton
+                      key={i}
+                      className="h-full rounded-sm aspect-video"
+                    />
+                  ))
+              : data.results.map(watchparty => <div key={watchparty.id}></div>)}
           </div>
 
           {/* Page numbers to navigate with */}
