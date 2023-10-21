@@ -9,7 +9,7 @@ import WatchPartySearchResult from "@/components/watchparty/WatchPartySearchResu
 import APIFetcher from "@/lib/APIFetcher";
 import { WatchParty } from "@/types";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 
 interface MyWatchPartyData {
@@ -24,11 +24,11 @@ export default function UserMyPartiesPage({
 }: {
   searchParams: { page?: string };
 }) {
+  // move page into a useState?
   const { page = "1" } = searchParams;
   const router = useRouter();
+  const [route, setRoute] = useState("");
 
-  // Move this into a filteredResults component. route will be passed as a prop.
-  const route = "";
   const { data, isLoading, error } = useSWR<MyWatchPartyData>(
     `/user/my-watchparties${route}?page=${page}`,
     APIFetcher
@@ -75,7 +75,9 @@ export default function UserMyPartiesPage({
               className="btn-sm xs:btn-md btn btn-primary btn-outline border-2 rounded-full"
               value=""
               aria-current={true}
-              onClick={() => {}}
+              onClick={e => {
+                setRoute(e.currentTarget.value);
+              }}
             >
               All
             </button>
@@ -83,7 +85,9 @@ export default function UserMyPartiesPage({
               className="btn-sm xs:btn-md btn btn-primary btn-outline border-2 rounded-full"
               value="/today"
               aria-current={false}
-              onClick={() => {}}
+              onClick={e => {
+                setRoute(e.currentTarget.value);
+              }}
             >
               Today
             </button>
@@ -91,7 +95,9 @@ export default function UserMyPartiesPage({
               className="btn-sm xs:btn-md btn btn-primary btn-outline border-2 rounded-full"
               value="/hosting"
               aria-current={false}
-              onClick={() => {}}
+              onClick={e => {
+                setRoute(e.currentTarget.value);
+              }}
             >
               Hosting
             </button>
@@ -99,7 +105,9 @@ export default function UserMyPartiesPage({
               className="btn-sm xs:btn-md btn btn-primary btn-outline border-2 rounded-full"
               value="/upcoming"
               aria-current={false}
-              onClick={() => {}}
+              onClick={e => {
+                setRoute(e.currentTarget.value);
+              }}
             >
               Upcoming
             </button>
@@ -107,7 +115,9 @@ export default function UserMyPartiesPage({
               className="btn-sm xs:btn-md btn btn-primary btn-outline border-2 rounded-full"
               value="/following"
               aria-current={false}
-              onClick={() => {}}
+              onClick={e => {
+                setRoute(e.currentTarget.value);
+              }}
             >
               Following
             </button>
@@ -115,7 +125,9 @@ export default function UserMyPartiesPage({
               className="btn-sm xs:btn-md btn btn-primary btn-outline border-2 rounded-full"
               value="/attended"
               aria-current={false}
-              onClick={() => {}}
+              onClick={e => {
+                setRoute(e.currentTarget.value);
+              }}
             >
               Attended
             </button>
