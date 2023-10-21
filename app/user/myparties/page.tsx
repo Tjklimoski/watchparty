@@ -27,9 +27,9 @@ export default function UserMyPartiesPage({
   const router = useRouter();
 
   // Move this into a filteredResults component. route will be passed as a prop.
-  const route = "all";
+  const route = "";
   const { data, isLoading, error } = useSWR<MyWatchPartyData>(
-    `/user/my-watchparties/${route}?page=${page}`,
+    `/user/my-watchparties${route}?page=${page}`,
     APIFetcher
   );
 
