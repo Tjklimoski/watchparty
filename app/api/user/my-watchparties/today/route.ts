@@ -11,6 +11,16 @@ export async function GET(req: NextRequest) {
     const todayStart = new Date(new Date().toDateString());
     const todayEnd = new Date(todayStart.getTime() + 1000 * 60 * 60 * 24);
 
+    // parse Page searchParam value
+    let page: string | number | null = req.nextUrl.searchParams.get("page");
+    if (!page) throw new Error("No page searchParam passed");
+    page = parseInt(page);
+    if (isNaN(page)) throw new Error("Page serachParam must be a number");
+
+    // set pagination variables
+    const take = 20;
+    const skip = (page - 1) * take;
+
     const userWithWatchParties = await prisma.user.findUniqueOrThrow({
       where: {
         id: user.id,
@@ -40,7 +50,18 @@ export async function GET(req: NextRequest) {
 
     const todayWatchParties = userWithWatchParties.goingToWatchParties;
 
-    return res.json(todayWatchParties);
+    // Build out data
+    const total_results = todayWatchParties.length;
+    const results = todayWatchParties.splice(skip, take);
+    const total_pages = Math.max(Math.ceil(total_results / take), 1);
+    const data = {
+      page,
+      total_results,
+      results,
+      total_pages,
+    };
+
+    return res.json(data);
   } catch (err: Error | any) {
     console.error(err);
     return new res(err?.message ?? "Request Failed", { status: 400 });
