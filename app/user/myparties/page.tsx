@@ -1,7 +1,9 @@
 "use client";
 
+import UserPageHeading from "@/components/user/UserPageHeading";
 import BackBtn from "@/components/util/BackBtn";
 import Container from "@/components/util/Container";
+import FilterBtns from "@/components/util/FilterBtns";
 import PageCount from "@/components/util/PageCount";
 import PageNumbers from "@/components/util/PageNumbers";
 import Skeleton from "@/components/util/Skeleton";
@@ -9,8 +11,7 @@ import WatchPartySearchResult from "@/components/watchparty/WatchPartySearchResu
 import APIFetcher from "@/lib/APIFetcher";
 import { WatchParty } from "@/types";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { BsArrowReturnLeft } from "react-icons/bs";
+import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 
 interface MyWatchPartyData {
@@ -59,6 +60,7 @@ export default function UserMyPartiesPage({
 
   // Reset the URL everytime the params change
   useEffect(() => {
+    console.log("UE called: ", window.location.href);
     setUrl(new URL(window.location.href));
   }, [page, filter]);
 
@@ -102,28 +104,7 @@ export default function UserMyPartiesPage({
         </header>
 
         <section>
-          <div className="flex flex-wrap gap-2 mb-4 sm:mb-8">
-            {FILTER_BTNS.map(btn => (
-              <button
-                key={btn.value}
-                className={`btn-sm xs:btn-md btn btn-primary border-2 rounded-full ${
-                  filter === btn.value
-                    ? "shadow-lg shadow-primary/30"
-                    : "btn-outline"
-                }`}
-                value={btn.value}
-                aria-current={filter === btn.value}
-                onClick={e => {
-                  if (!url) return;
-                  url.searchParams.set("filter", e.currentTarget.value);
-                  url.searchParams.delete("page");
-                  router.push(url.href);
-                }}
-              >
-                {btn.name}
-              </button>
-            ))}
-          </div>
+          <FilterBtns filterBtns={FILTER_BTNS} />
 
           <div className="text-lg flex justify-between items-center mb-4">
             <BackBtn />
@@ -131,15 +112,15 @@ export default function UserMyPartiesPage({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(290px,1fr))] gap-2">
-            {/* Place watchparties in cards here */}
             {!data
               ? Array(12)
                   .fill(null)
                   .map((item, i) => (
-                    <Skeleton
-                      key={i}
-                      className="h-full rounded-sm aspect-video"
-                    />
+                    <div key={i} className="h-full flex flex-col">
+                      <Skeleton className="w-1/2 h-6 max-w-[14ch]" />
+                      <Skeleton className="h-full aspect-video rounded-sm mb-1" />
+                      <Skeleton className="w-3/5 h-3 mb-1" />
+                    </div>
                   ))
               : data.results.map(watchparty => (
                   <WatchPartySearchResult
