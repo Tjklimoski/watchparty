@@ -49,17 +49,24 @@ const FILTER_BTNS = [
 export default function UserMyPartiesPage({
   searchParams,
 }: {
-  searchParams: { page?: string };
+  searchParams: { page?: string; filter?: string };
 }) {
-  // move page into a useState?
-  const { page = "1" } = searchParams;
+  const { page = "1", filter = "" } = searchParams;
   const router = useRouter();
-  const [route, setRoute] = useState("");
+  // Create a url based off the current URL
+  const [url, setUrl] = useState<URL | null>(null);
+
+  // Reset the URL everytime the params change
+  useEffect(() => {
+    setUrl(new URL(window.location.href));
+  }, [page, filter]);
 
   const { data, isLoading, error } = useSWR<MyWatchPartyData>(
-    `/user/my-watchparties${route}?page=${page}`,
+    `/user/my-watchparties${filter}?page=${page}`,
     APIFetcher
   );
+
+  // If a user manually enters a value for filter in the url that is not valid, change the filter to the default
 
   // If a user manually enters a value for page in the url that falls outside of the range of availbale pages for their query, or is NaN, redirect them to a valid page.
   useEffect(() => {
@@ -101,14 +108,16 @@ export default function UserMyPartiesPage({
               <button
                 key={btn.value}
                 className={`btn-sm xs:btn-md btn btn-primary border-2 rounded-full ${
-                  route === btn.value
+                  filter === btn.value
                     ? "shadow-lg shadow-primary/30"
                     : "btn-outline"
                 }`}
                 value={btn.value}
-                aria-current={route === btn.value}
+                aria-current={filter === btn.value}
                 onClick={e => {
-                  setRoute(e.currentTarget.value);
+                  if (!url) return;
+                  url.searchParams.set("filter", e.currentTarget.value);
+                  router.push(url.href);
                 }}
               >
                 {btn.name}
