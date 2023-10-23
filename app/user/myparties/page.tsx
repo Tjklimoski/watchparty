@@ -19,6 +19,33 @@ interface MyWatchPartyData {
   page: number;
 }
 
+const FILTER_BTNS = [
+  {
+    name: "All",
+    value: "",
+  },
+  {
+    name: "Today",
+    value: "/today",
+  },
+  {
+    name: "Hosting",
+    value: "/hosting",
+  },
+  {
+    name: "Upcoming",
+    value: "/upcoming",
+  },
+  {
+    name: "Following",
+    value: "/following",
+  },
+  {
+    name: "Attended",
+    value: "/attended",
+  },
+];
+
 export default function UserMyPartiesPage({
   searchParams,
 }: {
