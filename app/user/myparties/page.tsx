@@ -116,6 +116,7 @@ export default function UserMyPartiesPage({
                 onClick={e => {
                   if (!url) return;
                   url.searchParams.set("filter", e.currentTarget.value);
+                  url.searchParams.delete("page");
                   router.push(url.href);
                 }}
               >
