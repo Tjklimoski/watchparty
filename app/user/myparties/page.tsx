@@ -11,7 +11,7 @@ import WatchPartySearchResult from "@/components/watchparty/WatchPartySearchResu
 import APIFetcher from "@/lib/APIFetcher";
 import { WatchParty } from "@/types";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
 import useSWR from "swr";
 
 interface MyWatchPartyData {
@@ -55,14 +55,6 @@ export default function UserMyPartiesPage({
 }) {
   const { page = "1", filter = "" } = searchParams;
   const router = useRouter();
-  // Create a url based off the current URL
-  const [url, setUrl] = useState<URL | null>(null);
-
-  // Reset the URL everytime the params change
-  useEffect(() => {
-    console.log("UE called: ", window.location.href);
-    setUrl(new URL(window.location.href));
-  }, [page, filter]);
 
   const { data, isLoading, error } = useSWR<MyWatchPartyData>(
     `/user/my-watchparties${filter}?page=${page}`,
@@ -72,7 +64,6 @@ export default function UserMyPartiesPage({
   // If a user manually enters a value for page in the url that falls outside of the range of availbale pages for their query, or is NaN, redirect them to a valid page.
   useEffect(() => {
     const pageAsNumber = parseInt(page);
-    if (!url) return;
     // Check is the value is valid, if so then return.
     if (
       data &&
@@ -82,6 +73,7 @@ export default function UserMyPartiesPage({
     )
       return;
     if (pageAsNumber > 0 && !data) return;
+    const url = new URL(window.location.href);
     // change the value of page - if over total pages - set to last page, else set to first page
     if (data && pageAsNumber > data.total_pages) {
       url.searchParams.set("page", data.total_pages.toString());
@@ -90,7 +82,7 @@ export default function UserMyPartiesPage({
     }
     // replace the users invalid url with a valid one when redirecting.
     router.replace(url.href);
-  }, [page, data, router, url]);
+  }, [page, data, router]);
 
   if (!isLoading && error) throw new Error("Invalid data request");
 
