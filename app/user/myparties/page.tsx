@@ -10,6 +10,7 @@ import APIFetcher from "@/lib/APIFetcher";
 import { WatchParty } from "@/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { BsArrowReturnLeft } from "react-icons/bs";
 import useSWR from "swr";
 
 interface MyWatchPartyData {
@@ -66,11 +67,10 @@ export default function UserMyPartiesPage({
     APIFetcher
   );
 
-  // If a user manually enters a value for filter in the url that is not valid, change the filter to the default
-
   // If a user manually enters a value for page in the url that falls outside of the range of availbale pages for their query, or is NaN, redirect them to a valid page.
   useEffect(() => {
     const pageAsNumber = parseInt(page);
+    if (!url) return;
     // Check is the value is valid, if so then return.
     if (
       data &&
@@ -80,7 +80,6 @@ export default function UserMyPartiesPage({
     )
       return;
     if (pageAsNumber > 0 && !data) return;
-    const url = new URL(window.location.href);
     // change the value of page - if over total pages - set to last page, else set to first page
     if (data && pageAsNumber > data.total_pages) {
       url.searchParams.set("page", data.total_pages.toString());
@@ -89,7 +88,7 @@ export default function UserMyPartiesPage({
     }
     // replace the users invalid url with a valid one when redirecting.
     router.replace(url.href);
-  }, [page, data, router]);
+  }, [page, data, router, url]);
 
   if (!isLoading && error) throw new Error("Invalid data request");
 
