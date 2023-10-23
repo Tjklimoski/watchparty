@@ -74,7 +74,7 @@ export default function UserMyPartiesPage({
       return;
     if (pageAsNumber > 0 && !data) return;
     const url = new URL(window.location.href);
-    // change the value of page - if over total pages - set to last page, else set to first page
+    // change the value of page: if over total pages then set to last page, else set to first page
     if (data && pageAsNumber > data.total_pages) {
       url.searchParams.set("page", data.total_pages.toString());
     } else {
