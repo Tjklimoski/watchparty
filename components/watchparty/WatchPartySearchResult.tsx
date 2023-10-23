@@ -75,7 +75,9 @@ export default function WatchPartySearchResult({
             {watchParty.title}
           </h3>
           {editable && user.id === watchParty.userId && (
-            <EditBtn watchPartyId={watchParty.id} />
+            <div className="z-10">
+              <EditBtn watchPartyId={watchParty.id} />
+            </div>
           )}
         </div>
 
