@@ -119,12 +119,12 @@ export async function getUserDistanceFrom(
   options: { controller: AbortController }
 ): Promise<number> {
   try {
+    const { controller } = options;
     const key = target.toString();
-    if (DISTANCE_CACHE.has(key)) {
+    if (DISTANCE_CACHE.has(key) && !controller.signal.aborted) {
       return DISTANCE_CACHE.get(key) as number;
     }
 
-    const { controller } = options;
     const [userLon, userLat] = await getUserCoord();
     const [targetLon, targetLat] = target;
 
