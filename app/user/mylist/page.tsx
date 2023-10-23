@@ -1,6 +1,7 @@
 "use client";
 
 import MyListItemCard from "@/components/user/MyListItemCard";
+import UserPageHeading from "@/components/user/UserPageHeading";
 import BackBtn from "@/components/util/BackBtn";
 import Container from "@/components/util/Container";
 import PageCount from "@/components/util/PageCount";
@@ -59,11 +60,7 @@ export default function UserMyListPage({
   return (
     <main className="min-h-screen">
       <Container>
-        <header className="flex justify-center xs:justify-start sm:mt-2 mb-4 sm:mb-8">
-          <h2 className="text-3xl xs:text-4xl sm:text-5xl font-bold">
-            My List
-          </h2>
-        </header>
+        <UserPageHeading title="My List" />
 
         <section>
           <div className="text-lg flex justify-between items-center mb-4">
