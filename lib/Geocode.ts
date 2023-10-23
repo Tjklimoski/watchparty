@@ -16,6 +16,9 @@ interface getCoordArgs {
   zip?: string;
 }
 
+// key as target coordinate (as string) and value as number of miles
+const DISTANCE_CACHE: Map<string, number> = new Map();
+
 function getBrowserCoord(): Promise<[number, number]> {
   return new Promise((res, rej) => {
     if ("geolocation" in navigator) {
@@ -116,6 +119,11 @@ export async function getUserDistanceFrom(
   options: { controller: AbortController }
 ): Promise<number> {
   try {
+    const key = target.toString();
+    if (DISTANCE_CACHE.has(key)) {
+      return DISTANCE_CACHE.get(key) as number;
+    }
+
     const { controller } = options;
     const [userLon, userLat] = await getUserCoord();
     const [targetLon, targetLat] = target;
@@ -138,7 +146,9 @@ export async function getUserDistanceFrom(
     if (controller.signal.aborted) {
       throw new Error(`Aborted for ${target}`);
     } else {
-      return kmToMiles(distanceInKm);
+      const distance = kmToMiles(distanceInKm);
+      DISTANCE_CACHE.set(key, distance);
+      return distance;
     }
   } catch (err: Error | any) {
     console.error(err?.message ?? err);
