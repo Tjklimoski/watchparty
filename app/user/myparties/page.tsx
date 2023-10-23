@@ -100,9 +100,13 @@ export default function UserMyPartiesPage({
             {FILTER_BTNS.map(btn => (
               <button
                 key={btn.value}
-                className="btn-sm xs:btn-md btn btn-primary btn-outline border-2 rounded-full"
+                className={`btn-sm xs:btn-md btn btn-primary border-2 rounded-full ${
+                  route === btn.value
+                    ? "shadow-lg shadow-primary/30"
+                    : "btn-outline"
+                }`}
                 value={btn.value}
-                aria-current={true}
+                aria-current={route === btn.value}
                 onClick={e => {
                   setRoute(e.currentTarget.value);
                 }}
