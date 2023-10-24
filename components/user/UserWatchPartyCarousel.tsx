@@ -3,7 +3,7 @@
 import React from "react";
 import Carousel from "../util/Carousel";
 import Skeleton from "../util/Skeleton";
-import EmptyListCard from "../util/EmptyListCard";
+import EmptyCarousel from "../util/EmptyCarousel";
 import { WatchParty } from "@/types";
 import WatchPartyCard from "../watchparty/WatchPartyCard";
 
@@ -36,7 +36,7 @@ export default function MyListCarousel({
         {title}
       </h3>
       <Carousel tight>
-        {list.length === 0 && <EmptyListCard message="No WatchParties" />}
+        {list.length === 0 && <EmptyCarousel message="No WatchParties" />}
         {list.slice(0, 20).map(watchParty => (
           <WatchPartyCard key={watchParty.id} watchParty={watchParty} />
         ))}

@@ -10,7 +10,7 @@ import WatchPartyCard from "./WatchPartyCard";
 import useUser from "@/hooks/useUser";
 import { getUserCoord } from "@/lib/Geocode";
 import useSWR from "swr";
-import EmptyListCard from "../util/EmptyListCard";
+import EmptyListCard from "../util/EmptyCarousel";
 
 interface WatchPartyCarouselProps {
   endpoint: string;

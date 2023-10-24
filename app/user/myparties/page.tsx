@@ -3,6 +3,7 @@
 import UserPageHeading from "@/components/user/UserPageHeading";
 import BackBtn from "@/components/util/BackBtn";
 import Container from "@/components/util/Container";
+import EmptyListCard from "@/components/util/EmptyCarousel";
 import FilterBtns from "@/components/util/FilterBtns";
 import PageCount from "@/components/util/PageCount";
 import PageNumbers from "@/components/util/PageNumbers";
@@ -117,6 +118,7 @@ export default function UserMyPartiesPage({
                     editable
                   />
                 ))}
+            {data && data.results.length === 0}
           </div>
 
           {/* Page numbers to navigate with */}

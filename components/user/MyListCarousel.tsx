@@ -4,7 +4,7 @@ import React from "react";
 import Carousel from "../util/Carousel";
 import { MyListItem } from "@/types";
 import Skeleton from "../util/Skeleton";
-import EmptyListCard from "../util/EmptyListCard";
+import EmptyCarousel from "../util/EmptyCarousel";
 import MyListItemCard from "./MyListItemCard";
 
 interface MyListCarouselProps {
@@ -32,7 +32,7 @@ export default function MyListCarousel({ list }: MyListCarouselProps) {
         Recently Added to My List
       </h3>
       <Carousel tight>
-        {list.length === 0 && <EmptyListCard message="No Movies or TV Shows" />}
+        {list.length === 0 && <EmptyCarousel message="No Movies or TV Shows" />}
         {list.map(listItem => (
           <MyListItemCard key={listItem.id} myListItem={listItem} />
         ))}

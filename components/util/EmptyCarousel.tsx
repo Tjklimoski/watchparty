@@ -1,12 +1,12 @@
 import Image from "next/image";
 
-interface EmptyListCardProps {
+interface EmptyCarouselProps {
   message?: string;
 }
 
-export default function EmptyListCard({
+export default function EmptyCarousel({
   message = "Empty",
-}: EmptyListCardProps) {
+}: EmptyCarouselProps) {
   return (
     <div className="relative w-48 @lg:w-52 @3xl:w-64 @5xl:w-72 aspect-video rounded-sm drop-shadow-lg overflow-hidden">
       <Image
