@@ -1,4 +1,6 @@
+import useWindowLocation from "@/hooks/useWindowLocation";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface FilterBtnsProps {
   filterBtns: { name: string; value: string }[];
@@ -9,10 +11,16 @@ export default function FilterBtns({ filterBtns }: FilterBtnsProps) {
   const router = useRouter();
   const params = useSearchParams();
   const currentFilter = params.get("filter") ?? "";
-  // Create a url object
-  const url = new URL(window.location.href);
+  const { href } = useWindowLocation();
+  const [url, setUrl] = useState<URL | null>(null);
+
+  useEffect(() => {
+    if (!href) return;
+    setUrl(new URL(href));
+  }, [href]);
 
   function handleClick(e: React.MouseEvent<HTMLButtonElement>): void {
+    if (!url) return;
     url.searchParams.set("filter", e.currentTarget.value);
     // remove page from serach params so it defaults to page 1 on filter change
     url.searchParams.delete("page");
