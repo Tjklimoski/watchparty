@@ -88,7 +88,7 @@ export default function UserMyListPage({
                 ))}
             {/* Display message if filtered results are empty: */}
             {data && data.results.length === 0 && (
-              <EmptySearch message="No WatchParties" />
+              <EmptySearch message="No Media" />
             )}
           </div>
 
