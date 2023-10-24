@@ -42,10 +42,10 @@ export async function getIsAuth() {
 
 export async function coordinatesToNumbers(
   coordinates: Prisma.Decimal[] | undefined
-): Promise<[number, number] | []> {
-  if (!coordinates) return [];
+): Promise<[number, number] | undefined> {
+  if (!coordinates) return undefined;
   const lon = Number(coordinates[0]);
   const lat = Number(coordinates[1]);
-  if (isNaN(lon) || isNaN(lat)) return [];
+  if (isNaN(lon) || isNaN(lat)) return undefined;
   return [lon, lat];
 }

@@ -1,6 +1,6 @@
 type GeoJSON = {
   type: "Point";
-  coordinates: [number, number] | [];
+  coordinates: [number, number] | undefined;
 };
 
 export interface Movie {
@@ -165,7 +165,7 @@ export interface User {
 type UserLocation = {
   city?: string | null;
   // will this be a type error as prisma only knows it as a int[] not a tuple?
-  coordinates: [number, number] | [];
+  coordinates: [number, number] | undefined;
 };
 
 export type LimitedUser = Pick<User, "id" | "name" | "image"> | null;
