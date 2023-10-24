@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { config } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/prisma/client";
 import { User } from "@/types";
-import Prisma from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 // Return the logged in user, or null if not logged in
 export default async function auth() {
@@ -24,7 +24,13 @@ export default async function auth() {
 
   // convert user into User type, turn coordinates from Decimal to Number type.
   // Couldnt return Decimal[] type from server action to client component.
-  const convertedUser = coordinatesToNumbers(user);
+  const convertedUser: User = {
+    ...user,
+    location: {
+      ...user.location,
+      coordinates: await coordinatesToNumbers(user.location?.coordinates),
+    },
+  };
 
   return convertedUser;
 }
@@ -34,16 +40,12 @@ export async function getIsAuth() {
   return !!user;
 }
 
-function coordinatesToNumbers(user: Prisma.User): User {
-  const coordinates = user.location?.coordinates;
-  if (!coordinates) return user as unknown as User;
-  const newCoords: [number, number] = [
-    Number(coordinates[0] ?? ""),
-    Number(coordinates[1] ?? ""),
-  ];
-  const newUser: User = {
-    ...user,
-    location: { ...user.location, coordinates: newCoords },
-  };
-  return newUser;
+export async function coordinatesToNumbers(
+  coordinates: Prisma.Decimal[] | undefined
+): Promise<[number, number] | []> {
+  if (!coordinates) return [];
+  const lon = Number(coordinates[0]);
+  const lat = Number(coordinates[1]);
+  if (isNaN(lon) || isNaN(lat)) return [];
+  return [lon, lat];
 }
