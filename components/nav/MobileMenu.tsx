@@ -42,7 +42,9 @@ export default function MobileMenu({ isAuth }: MobileMenuProps) {
         id="mobile-menu"
         className={`absolute top-16 sm:top-20 right-0 pt-1 z-20 transition duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        } `}
+        onClick={() => setIsOpen(false)}
+        aria-hidden={!isOpen}
       >
         <div className="w-full h-full bg-base-100 bg-opacity-75 backdrop-blur-2xl rounded-l-xl flex flex-col items-center py-4 px-2">
           {isAuth ? (
