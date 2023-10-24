@@ -4,6 +4,7 @@ import MyListItemCard from "@/components/user/MyListItemCard";
 import UserPageHeading from "@/components/user/UserPageHeading";
 import BackBtn from "@/components/util/BackBtn";
 import Container from "@/components/util/Container";
+import EmptySearch from "@/components/util/EmptySearch";
 import PageCount from "@/components/util/PageCount";
 import PageNumbers from "@/components/util/PageNumbers";
 import Skeleton from "@/components/util/Skeleton";
@@ -85,6 +86,10 @@ export default function UserMyListPage({
                     page
                   />
                 ))}
+            {/* Display message if filtered results are empty: */}
+            {data && data.results.length === 0 && (
+              <EmptySearch message="No WatchParties" />
+            )}
           </div>
 
           {/* Page numbers to navigate with */}

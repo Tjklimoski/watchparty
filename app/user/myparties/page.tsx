@@ -3,7 +3,7 @@
 import UserPageHeading from "@/components/user/UserPageHeading";
 import BackBtn from "@/components/util/BackBtn";
 import Container from "@/components/util/Container";
-import EmptyListCard from "@/components/util/EmptyCarousel";
+import EmptySearch from "@/components/util/EmptySearch";
 import FilterBtns from "@/components/util/FilterBtns";
 import PageCount from "@/components/util/PageCount";
 import PageNumbers from "@/components/util/PageNumbers";
@@ -118,7 +118,10 @@ export default function UserMyPartiesPage({
                     editable
                   />
                 ))}
-            {data && data.results.length === 0}
+            {/* Display message if filtered results are empty: */}
+            {data && data.results.length === 0 && (
+              <EmptySearch message="No WatchParties" />
+            )}
           </div>
 
           {/* Page numbers to navigate with */}
