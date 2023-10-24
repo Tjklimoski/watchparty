@@ -17,8 +17,9 @@ export default function ProfileMenu() {
     <ul className={`w-full menu menu-md [&_button]:whitespace-nowrap`}>
       <li>
         <button
-          onClick={() => {
+          onClick={e => {
             if (!user) return;
+            e.currentTarget.blur();
             router.push(`/user/${user.id}`);
           }}
         >
@@ -27,19 +28,34 @@ export default function ProfileMenu() {
         </button>
       </li>
       <li>
-        <button onClick={() => router.push("/user/myparties")}>
+        <button
+          onClick={e => {
+            router.push("/user/myparties");
+            e.currentTarget.blur();
+          }}
+        >
           <BiSolidParty size={18} />
           My Parties
         </button>
       </li>
       <li>
-        <button onClick={() => router.push("/user/mylist")}>
+        <button
+          onClick={e => {
+            router.push("/user/mylist");
+            e.currentTarget.blur();
+          }}
+        >
           <RiMovieFill size={18} />
           My List
         </button>
       </li>
       <li>
-        <button onClick={() => router.push("/user/settings")}>
+        <button
+          onClick={e => {
+            router.push("/user/settings");
+            e.currentTarget.blur();
+          }}
+        >
           <BsFillGearFill size={18} />
           Settings
         </button>
