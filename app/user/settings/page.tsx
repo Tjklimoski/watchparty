@@ -14,58 +14,61 @@ export default function SettingsPage() {
 
         <section className="w-full max-w-4xl mx-auto p-2 xs:p-4 bg-base-100 bg-opacity-60 backdrop-blur-md rounded-lg">
           <form className="[&>*:not(:last-child)]:mb-12">
-            <div className="items-center gap-2 grid grid-cols-[12ch,1fr]">
+            <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
               <label htmlFor="name" className="text-2xl font-semibold">
                 Name
               </label>
               <Input id="name" label=" " type="text" name="title" />
             </div>
 
-            <div className="items-center gap-2 grid grid-cols-[12ch,1fr,min-content]">
+            <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
               <label htmlFor="city" className="text-2xl font-semibold">
                 City
               </label>
-              <Input id="city" label=" " type="text" name="title" />
-              <Select
-                className="border-none disabled:bg-neutral disabled:opacity-60 disabled:cursor-not-allowed"
-                aria-label="State"
-                name="state"
-                required={true}
-                // required is conditional - based on if city contains a value or not.
-              >
-                {stateAbrv.map(state => (
-                  <option key={state} value={state}>
-                    {state}
-                  </option>
-                ))}
-              </Select>
+              <div className="flex flex-col xs:flex-row gap-2 xs:items-center">
+                <Input id="city" label=" " type="text" name="title" />
+                <Select
+                  className="border-none disabled:bg-neutral disabled:opacity-60 disabled:cursor-not-allowed"
+                  aria-label="State"
+                  name="state"
+                  required={true}
+                  // required is conditional - based on if city contains a value or not.
+                >
+                  {stateAbrv.map(state => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))}
+                </Select>
+              </div>
             </div>
 
-            <div className="items-center gap-2 grid grid-cols-[12ch,1fr,min-content]">
+            <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
               <label htmlFor="radius" className="text-2xl font-semibold">
                 Radius
               </label>
+              <div className="flex flex-row gap-2 items-center">
+                <Input
+                  id="radius"
+                  label=" "
+                  type="range"
+                  name="title"
+                  min={1}
+                  max={100}
+                  step={1}
+                  required
+                />
 
-              <Input
-                id="radius"
-                label=" "
-                type="range"
-                name="title"
-                min={1}
-                max={100}
-                step={1}
-                required
-              />
-
-              <div className="text-right text-xl font-light">
-                {/* display current input value */}
-                100
+                <span className="text-right text-xl font-light">
+                  {/* display current input value */}
+                  100
+                </span>
               </div>
             </div>
 
             {/* Only render password section if user is NOT Oauth */}
             <>
-              <div className="items-center gap-2 grid grid-cols-[12ch,1fr]">
+              <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
                 <label
                   htmlFor="password"
                   className="text-2xl font-semibold whitespace-break-spaces"
@@ -75,7 +78,7 @@ export default function SettingsPage() {
                 <Input id="password" label=" " type="text" name="title" />
               </div>
 
-              <div className="items-center gap-2 grid grid-cols-[12ch,1fr]">
+              <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
                 <label
                   htmlFor="confirmPassword"
                   className="text-2xl font-semibold whitespace-break-spaces"
@@ -92,7 +95,7 @@ export default function SettingsPage() {
                 />
               </div>
 
-              <div className="items-center gap-2 grid grid-cols-[12ch,1fr]">
+              <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
                 <label
                   htmlFor="currentPassword"
                   className="text-2xl font-semibold whitespace-break-spaces"
