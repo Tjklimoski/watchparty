@@ -6,7 +6,7 @@ import UserPageHeading from "@/components/user/UserPageHeading";
 import Container from "@/components/util/Container";
 import useUser from "@/hooks/useUser";
 import { stateAbrv } from "@/lib/stateAbrv";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface SettingsInputs {
   name?: string;
@@ -20,17 +20,20 @@ interface SettingsInputs {
 
 export default function SettingsPage() {
   const { user } = useUser();
-  const [inputs, setInputs] = useState<SettingsInputs>(() => {
-    if (!user) return {};
+  const [inputs, setInputs] = useState<SettingsInputs>({});
+
+  // Update inputs with user data once user data is available
+  useEffect(() => {
+    if (!user) return;
     // break location into array with city and state values seperated
     const location = user.location?.city?.split(",");
-    return {
+    setInputs({
       name: user.name ?? undefined,
       city: location?.length === 2 ? location[0].trim() : undefined,
       state: location?.length === 2 ? location[1].trim() : undefined,
       radius: user.radius,
-    };
-  });
+    });
+  }, [user]);
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -46,6 +49,8 @@ export default function SettingsPage() {
     // handle submit
   }
 
+  console.log(inputs);
+
   return (
     <main className="min-h-screen">
       <Container>
@@ -60,7 +65,13 @@ export default function SettingsPage() {
               <label htmlFor="name" className="text-2xl font-semibold">
                 Name
               </label>
-              <Input id="name" label=" " type="text" name="title" />
+              <Input
+                label="name"
+                type="text"
+                name="name"
+                value={inputs.name}
+                onChange={handleChange}
+              />
             </div>
 
             <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
@@ -68,13 +79,21 @@ export default function SettingsPage() {
                 City
               </label>
               <div className="flex flex-col xs:flex-row gap-2 xs:items-center">
-                <Input id="city" label=" " type="text" name="title" />
+                <Input
+                  label="city"
+                  type="text"
+                  name="city"
+                  value={inputs.city}
+                  onChange={handleChange}
+                />
                 <Select
                   className="border-none disabled:bg-neutral disabled:opacity-60 disabled:cursor-not-allowed"
-                  aria-label="State"
+                  aria-label="state"
                   name="state"
-                  required={true}
-                  // required is conditional - based on if city contains a value or not.
+                  value={inputs.state}
+                  // required if city has a value
+                  required={!!inputs.city}
+                  onChange={handleChange}
                 >
                   {stateAbrv.map(state => (
                     <option key={state} value={state}>
@@ -91,8 +110,7 @@ export default function SettingsPage() {
               </label>
               <div className="flex flex-row gap-2 items-center">
                 <Input
-                  id="radius"
-                  label=" "
+                  label="radius"
                   type="range"
                   name="radius"
                   min={1}
@@ -102,9 +120,8 @@ export default function SettingsPage() {
                   required
                 />
 
-                <span className="text-right text-xl font-light">
-                  {/* display current input value */}
-                  100
+                <span className="text-right text-xl font-light min-w-[3ch]">
+                  {inputs.radius}
                 </span>
               </div>
             </div>
@@ -118,7 +135,13 @@ export default function SettingsPage() {
                 >
                   Password
                 </label>
-                <Input id="password" label=" " type="text" name="title" />
+                <Input
+                  label="password"
+                  type="text"
+                  name="title"
+                  value={inputs.password}
+                  onChange={handleChange}
+                />
               </div>
 
               <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
@@ -129,10 +152,11 @@ export default function SettingsPage() {
                   Confirm Password
                 </label>
                 <Input
-                  id="confirmPassword"
-                  label=" "
+                  label="confirmPassword"
                   type="text"
                   name="title"
+                  value={inputs.confirmPassword}
+                  onChange={handleChange}
                   required={true}
                   // confirm password required if value in password
                 />
@@ -146,10 +170,11 @@ export default function SettingsPage() {
                   Current Password
                 </label>
                 <Input
-                  id="currentPassword"
-                  label=" "
+                  label="currentPassword"
                   type="password"
                   name="title"
+                  value={inputs.currentPassword}
+                  onChange={handleChange}
                   required={true}
                   // current password required if value in password
                 />
