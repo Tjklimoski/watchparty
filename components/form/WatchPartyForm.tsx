@@ -96,7 +96,7 @@ export default function WatchPartyForm({
     if (update) return;
     if (!media || media.media_type === "movie") return;
     if (inputs.season === undefined || inputs.episode === undefined) {
-      setInputs((current) => ({
+      setInputs(current => ({
         ...current,
         season:
           media.next_episode_to_air?.season_number ||
@@ -129,12 +129,12 @@ export default function WatchPartyForm({
     const field = e.target.name;
     const value =
       field === "season" ? parseInt(e.target.value) : e.target.value;
-    setInputs((current) => ({ ...current, [field]: value }));
+    setInputs(current => ({ ...current, [field]: value }));
   }
 
   function setEpisode(episodeNumber: number) {
     if (passed) return;
-    setInputs((current) => ({ ...current, episode: episodeNumber }));
+    setInputs(current => ({ ...current, episode: episodeNumber }));
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -173,11 +173,11 @@ export default function WatchPartyForm({
         watchParty = await API.put(
           `/watchparties/${partyid}`,
           watchPartyData
-        ).then((res) => res.data);
+        ).then(res => res.data);
       } else {
         // Send POST request to create a WatchParty
         watchParty = await API.post("/watchparties", watchPartyData).then(
-          (res) => res.data
+          res => res.data
         );
       }
 
@@ -213,7 +213,7 @@ export default function WatchPartyForm({
 
       const deletedWatchParty = await API.delete(
         `/watchparties/${partyid}`
-      ).then((res) => res.data);
+      ).then(res => res.data);
 
       if (!deletedWatchParty) throw new Error("Failed to delete watchParty");
 
@@ -287,10 +287,10 @@ export default function WatchPartyForm({
                   className="max-w-min border-none disabled:bg-neutral disabled:opacity-60 disabled:cursor-not-allowed"
                   aria-label="TV Show Season Selector"
                   name="season"
-                  onChange={(e) => {
+                  onChange={e => {
                     handleChange(e);
                     // When season changes, default episode to 1
-                    setInputs((current) => ({
+                    setInputs(current => ({
                       ...current,
                       episode: 1,
                     }));
@@ -298,7 +298,7 @@ export default function WatchPartyForm({
                   disabled={loading || passed}
                   value={inputs.season}
                 >
-                  {(media as TVShowDetails).seasons.map((season) => (
+                  {(media as TVShowDetails).seasons.map(season => (
                     <option key={season.id} value={season.season_number}>
                       {season.name}
                     </option>
@@ -385,7 +385,7 @@ export default function WatchPartyForm({
                   disabled={loading || passed}
                   required
                 >
-                  {stateAbrv.map((state) => (
+                  {stateAbrv.map(state => (
                     <option key={state} value={state}>
                       {state}
                     </option>
@@ -468,7 +468,7 @@ export default function WatchPartyForm({
             onClick={() => deletePopupRef.current!.close()}
             disabled={loading}
           >
-            cancel
+            Cancel
           </button>
         </div>
       </Popup>
