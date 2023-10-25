@@ -14,7 +14,6 @@ interface SettingsInputs {
   state?: string;
   radius?: number;
   password?: string;
-  confirmPassword?: string;
   currentPassword?: string;
 }
 
@@ -133,7 +132,7 @@ export default function SettingsPage() {
                   htmlFor="password"
                   className="text-2xl font-semibold whitespace-break-spaces"
                 >
-                  Password
+                  New Password
                 </label>
                 <Input
                   label="password"
@@ -146,31 +145,13 @@ export default function SettingsPage() {
 
               <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
                 <label
-                  htmlFor="confirmPassword"
-                  className="text-2xl font-semibold whitespace-break-spaces"
-                >
-                  Confirm Password
-                </label>
-                <Input
-                  label="confirmPassword"
-                  type="text"
-                  name="title"
-                  value={inputs.confirmPassword}
-                  onChange={handleChange}
-                  required={true}
-                  // confirm password required if value in password
-                />
-              </div>
-
-              <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
-                <label
-                  htmlFor="currentPassword"
+                  htmlFor="current-password"
                   className="text-2xl font-semibold whitespace-break-spaces"
                 >
                   Current Password
                 </label>
                 <Input
-                  label="currentPassword"
+                  label="current password"
                   type="password"
                   name="title"
                   value={inputs.currentPassword}
