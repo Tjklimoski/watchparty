@@ -32,6 +32,16 @@ export default function SettingsPage() {
     };
   });
 
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) {
+    const field = e.target.name;
+    const value =
+      field === "radius" ? parseInt(e.target.value) : e.target.value;
+    console.log(value, typeof value);
+    setInputs(current => ({ ...current, [field]: value }));
+  }
+
   function handleSubmit() {
     // handle submit
   }
@@ -84,10 +94,11 @@ export default function SettingsPage() {
                   id="radius"
                   label=" "
                   type="range"
-                  name="title"
+                  name="radius"
                   min={1}
                   max={100}
                   step={1}
+                  onChange={handleChange}
                   required
                 />
 
