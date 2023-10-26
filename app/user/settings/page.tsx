@@ -40,15 +40,12 @@ export default function SettingsPage() {
     const field = e.target.name;
     const value =
       field === "radius" ? parseInt(e.target.value) : e.target.value;
-    console.log(value, typeof value);
     setInputs(current => ({ ...current, [field]: value }));
   }
 
   function handleSubmit() {
     // handle submit
   }
-
-  console.log(inputs);
 
   return (
     <main className="min-h-screen">
@@ -107,8 +104,14 @@ export default function SettingsPage() {
               <label htmlFor="radius" className="text-2xl font-semibold">
                 Radius
               </label>
-              <div className="flex flex-row gap-2 items-center">
+              <div className="flex flex-row gap-2 items-center group">
+                {/* Focus input none on range input, focus outline moved to range thumb and span counting the numbers. */}
                 <Input
+                  className="bg-transparent cursor-grab appearance-none transition duration-100 focus:outline-none
+                  
+                  [&::-moz-range-track]:bg-neutral [&::-moz-range-track]:h-[3px] [&::-moz-range-track]:rounded-full [&::-moz-range-thumb]:border-none [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:w-[clamp(18px,3vw,25px)] [&::-moz-range-thumb]:h-[clamp(18px,3vw,25px)] [&::-moz-range-thumb]:bg-primary [&::-moz-range-thumb:active]:cursor-grabbing [&::-moz-range-thumb:active]:bg-primary-focus [&::-moz-range-thumb:active]:scale-110 [&::-moz-range-thumb:hover]:scale-110 [&::-moz-range-thumb:active]:shadow-md [&::-moz-range-thumb:active]:shadow-primary/50 [&::-moz-range-thumb:hover]:shadow-md [&::-moz-range-thumb:hover]:shadow-primary/50 [&:focus-visible::-moz-range-thumb]:outline [&:focus-visible::-moz-range-thumb]:outline-2 [&:focus-visible::-moz-range-thumb]:outline-offset-2 [&:focus-visible::-moz-range-thumb]:outline-primary [&:focus-visible::-moz-range-thumb]:scale-110
+                
+                  [&::-webkit-slider-runnable-track]:bg-neutral [&::-webkit-slider-runnable-track]:h-[3px] [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-[clamp(18px,3vw,25px)] [&::-webkit-slider-thumb]:aspect-square [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary [&::-webkit-slider-thumb:active]:cursor-grabbing [&::-webkit-slider-thumb:active]:bg-primary-focus [&::-webkit-slider-thumb:hover]:scale-110 [&::-webkit-slider-thumb:active]:scale-110 [&::-webkit-slider-thumb:active]:shadow-md [&::-webkit-slider-thumb:active]:shadow-primary/50 [&::-webkit-slider-thumb:hover]:shadow-md [&::-webkit-slider-thumb:hover]:shadow-primary/50 [&::-webkit-slider-thumb]:mt-[calc((3px/2)-(clamp(18px,3vw,25px)/2))] [&:focus-visible::-webkit-slider-thumb]:outline [&:focus-visible::-webkit-slider-thumb]:outline-2 [&:focus-visible::-webkit-slider-thumb]:outline-offset-2 [&:focus-visible::-webkit-slider-thumb]:outline-primary [&:focus-visible::-webkit-slider-thumb]:scale-110"
                   label="radius"
                   type="range"
                   name="radius"
@@ -119,7 +122,7 @@ export default function SettingsPage() {
                   required
                 />
 
-                <span className="text-right text-xl font-light min-w-[3ch]">
+                <span className="text-right text-xl font-light min-w-[3ch] rounded-md group-focus-within:outline group-focus-within:outline-2 group-focus-within:outline-primary group-focus-within:outline-offset-2 select-none">
                   {inputs.radius}
                 </span>
               </div>
