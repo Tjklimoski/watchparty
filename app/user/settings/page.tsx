@@ -73,7 +73,6 @@ export default function SettingsPage() {
 
       setSuccess("Successfully updated profile!");
     } catch (err: Error | any) {
-      console.error(err);
       setError(
         err?.message ??
           err?.response?.data ??
@@ -144,7 +143,7 @@ export default function SettingsPage() {
               <label htmlFor="radius" className="text-2xl font-semibold">
                 Radius
               </label>
-              <div className="flex flex-row gap-2 items-center group">
+              <div className="flex flex-row gap-2 items-center">
                 {/* Focus input none on range input, focus outline moved to range thumb and span counting the numbers. */}
                 <Input
                   className="bg-transparent cursor-grab appearance-none transition duration-100 focus:outline-none
@@ -164,7 +163,7 @@ export default function SettingsPage() {
                   disabled={loading}
                 />
 
-                <span className="text-right text-xl min-w-[3ch] rounded-md group-focus-within:outline group-focus-within:outline-2 group-focus-within:outline-primary group-focus-within:outline-offset-2 select-none leading-4">
+                <span className="text-right text-xl min-w-[3ch] rounded-md select-none leading-4">
                   {inputs.radius}
                   <br />
                   <span className="text-sm font-thin">miles</span>
