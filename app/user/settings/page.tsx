@@ -168,44 +168,47 @@ export default function SettingsPage() {
             </div>
 
             {/* Only render password section if user is NOT Oauth */}
-            <>
-              <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
-                <label
-                  htmlFor="password"
-                  className="text-2xl font-semibold whitespace-break-spaces"
-                >
-                  New Password
-                </label>
-                <Input
-                  label="password"
-                  type="text"
-                  name="password"
-                  value={inputs.password}
-                  onChange={handleChange}
-                  disabled={loading}
-                />
-              </div>
+            {user?.emailVerified && (
+              <>
+                <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
+                  <label
+                    htmlFor="password"
+                    className="text-2xl font-semibold whitespace-break-spaces"
+                  >
+                    New Password
+                  </label>
+                  <Input
+                    label="password"
+                    type="text"
+                    name="password"
+                    minLength={5}
+                    value={inputs.password}
+                    onChange={handleChange}
+                    disabled={loading}
+                  />
+                </div>
 
-              <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
-                <label
-                  htmlFor="current-password"
-                  className="text-2xl font-semibold whitespace-break-spaces"
-                >
-                  Current Password
-                </label>
-                <Input
-                  className="invalid:outline invalid:outline-2 invalid:outline-error"
-                  label="current password"
-                  type="password"
-                  name="currentPassword"
-                  value={inputs.currentPassword}
-                  onChange={handleChange}
-                  // current password required only if value in password
-                  required={!!inputs.password}
-                  disabled={loading}
-                />
-              </div>
-            </>
+                <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
+                  <label
+                    htmlFor="current-password"
+                    className="text-2xl font-semibold whitespace-break-spaces"
+                  >
+                    Current Password
+                  </label>
+                  <Input
+                    className="invalid:outline invalid:outline-2 invalid:outline-error"
+                    label="current password"
+                    type="password"
+                    name="currentPassword"
+                    value={inputs.currentPassword}
+                    onChange={handleChange}
+                    // current password required only if value in password
+                    required={!!inputs.password}
+                    disabled={loading}
+                  />
+                </div>
+              </>
+            )}
 
             {/* Error and Success messages: */}
             {error && (
