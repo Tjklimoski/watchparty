@@ -5,6 +5,7 @@ import Select from "@/components/form/Select";
 import UserPageHeading from "@/components/user/UserPageHeading";
 import Container from "@/components/util/Container";
 import useUser from "@/hooks/useUser";
+import { API } from "@/lib/APIFetcher";
 import { stateAbrv } from "@/lib/stateAbrv";
 import React, { useEffect, useState } from "react";
 
@@ -62,10 +63,13 @@ export default function SettingsPage() {
       const data = {
         ...inputs,
         city,
+        updatedPassword: inputs?.password,
       };
 
       // server API route handles validation of the data.
-      console.log("Data to submit to API: ", data);
+      await API.patch("/user/settings", data).catch(err => {
+        throw new Error(err.response.data);
+      });
 
       setSuccess("Successfully updated profile!");
     } catch (err: Error | any) {
@@ -154,6 +158,7 @@ export default function SettingsPage() {
                   min={1}
                   max={100}
                   step={1}
+                  value={inputs.radius}
                   onChange={handleChange}
                   required
                   disabled={loading}
