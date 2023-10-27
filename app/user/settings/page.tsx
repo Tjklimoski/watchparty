@@ -53,7 +53,7 @@ export default function SettingsPage() {
       setError(undefined);
       setSuccess(undefined);
 
-      // build city value from both city and state.
+      // build city value from both city and state -- "city, state".
       const city =
         inputs.city && inputs.state
           ? `${inputs.city}, ${inputs.state}`
@@ -99,6 +99,7 @@ export default function SettingsPage() {
                 type="text"
                 name="name"
                 value={inputs.name}
+                disabled={loading}
                 onChange={handleChange}
               />
             </div>
@@ -113,6 +114,7 @@ export default function SettingsPage() {
                   type="text"
                   name="city"
                   value={inputs.city}
+                  disabled={loading}
                   onChange={handleChange}
                 />
                 <Select
@@ -122,6 +124,7 @@ export default function SettingsPage() {
                   value={inputs.state}
                   // required if city has a value
                   required={!!inputs.city}
+                  disabled={loading}
                   onChange={handleChange}
                 >
                   {stateAbrv.map(state => (
@@ -153,6 +156,7 @@ export default function SettingsPage() {
                   step={1}
                   onChange={handleChange}
                   required
+                  disabled={loading}
                 />
 
                 <span className="text-right text-xl min-w-[3ch] rounded-md group-focus-within:outline group-focus-within:outline-2 group-focus-within:outline-primary group-focus-within:outline-offset-2 select-none leading-4">
@@ -178,6 +182,7 @@ export default function SettingsPage() {
                   name="password"
                   value={inputs.password}
                   onChange={handleChange}
+                  disabled={loading}
                 />
               </div>
 
@@ -196,6 +201,7 @@ export default function SettingsPage() {
                   onChange={handleChange}
                   // current password required only if value in password
                   required={!!inputs.password}
+                  disabled={loading}
                 />
               </div>
             </>
@@ -211,6 +217,7 @@ export default function SettingsPage() {
             <button
               type="submit"
               className="btn btn-accent w-full max-w-md block mx-auto"
+              disabled={loading}
             >
               Update Account
             </button>
@@ -219,6 +226,7 @@ export default function SettingsPage() {
           <button
             type="button"
             className="btn btn-neutral w-full max-w-md block mx-auto mt-4"
+            disabled={loading}
           >
             Delete Account
           </button>
