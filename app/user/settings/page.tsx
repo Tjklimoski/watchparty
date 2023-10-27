@@ -122,8 +122,10 @@ export default function SettingsPage() {
                   required
                 />
 
-                <span className="text-right text-xl font-light min-w-[3ch] rounded-md group-focus-within:outline group-focus-within:outline-2 group-focus-within:outline-primary group-focus-within:outline-offset-2 select-none">
+                <span className="text-right text-xl font-light min-w-[3ch] rounded-md group-focus-within:outline group-focus-within:outline-2 group-focus-within:outline-primary group-focus-within:outline-offset-2 select-none leading-4">
                   {inputs.radius}
+                  <br />
+                  <span className="text-sm font-thin">miles</span>
                 </span>
               </div>
             </div>
