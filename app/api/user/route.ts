@@ -28,18 +28,20 @@ export async function DELETE(req: NextRequest) {
     if (!deleteUser) throw new Error("Failed to delete user");
 
     // Fetch nextAuth CSRF token in order to make signout request
-    const csrfToken = API.get("/auth/csrf")
+    const csrfToken = await API.get("/auth/csrf")
       .then(res => res.data)
       .catch(err => {
         throw new Error(err);
       });
 
     // Make POST request to /auth/signout for nextAuth to sign out user
-    const signout = API.post("/auth/signout", { csrfToken })
+    const signout = await API.post("/auth/signout", { csrfToken })
       .then(res => res.data)
       .catch(err => {
         throw new Error(err);
       });
+
+    if (!signout) throw new Error("User not signed out");
 
     // Redirect client to homepage once account is deleted and they've been logged out of their session
     const redirectUrl = new URL("/", req.nextUrl.origin);
