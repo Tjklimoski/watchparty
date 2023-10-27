@@ -20,6 +20,9 @@ interface SettingsInputs {
 export default function SettingsPage() {
   const { user } = useUser();
   const [inputs, setInputs] = useState<SettingsInputs>({});
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [success, setSuccess] = useState<string | undefined>(undefined);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // Update inputs with user data once user data is available
   useEffect(() => {
