@@ -83,6 +83,10 @@ export default function SettingsPage() {
     }
   }
 
+  async function deleteUser() {
+    await API.delete("/user");
+  }
+
   return (
     <main className="min-h-screen">
       <Container>
@@ -239,6 +243,7 @@ export default function SettingsPage() {
             type="button"
             className="btn btn-neutral w-full max-w-md block mx-auto mt-4"
             disabled={loading}
+            onClick={deleteUser}
           >
             Delete Account
           </button>
