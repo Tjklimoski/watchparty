@@ -53,7 +53,19 @@ export default function SettingsPage() {
       setError(undefined);
       setSuccess(undefined);
 
-      // validate data, build data, and submit data to server
+      // build city value from both city and state.
+      const city =
+        inputs.city && inputs.state
+          ? `${inputs.city}, ${inputs.state}`
+          : undefined;
+
+      const data = {
+        ...inputs,
+        city,
+      };
+
+      // server API route handles validation of the data.
+      console.log("Data to submit to API: ", data);
 
       setSuccess("Successfully updated!");
     } catch (err: Error | any) {
@@ -163,7 +175,7 @@ export default function SettingsPage() {
                 <Input
                   label="password"
                   type="text"
-                  name="title"
+                  name="password"
                   value={inputs.password}
                   onChange={handleChange}
                 />
@@ -179,14 +191,22 @@ export default function SettingsPage() {
                 <Input
                   label="current password"
                   type="password"
-                  name="title"
+                  name="currentPassword"
                   value={inputs.currentPassword}
                   onChange={handleChange}
-                  required={true}
-                  // current password required if value in password
+                  // current password required only if value in password
+                  required={!!inputs.password}
                 />
               </div>
             </>
+
+            {/* Error and Success messages: */}
+            {error && (
+              <p className="font-semibold text-error uppercase">{error}</p>
+            )}
+            {success && (
+              <p className="font-semibold text-success uppercase">{success}</p>
+            )}
 
             <button
               type="submit"
