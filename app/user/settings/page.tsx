@@ -43,8 +43,12 @@ export default function SettingsPage() {
     setInputs(current => ({ ...current, [field]: value }));
   }
 
-  function handleSubmit() {
-    // handle submit
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    try {
+      e.preventDefault();
+    } catch (err: Error | any) {
+      // handle error
+    }
   }
 
   return (
