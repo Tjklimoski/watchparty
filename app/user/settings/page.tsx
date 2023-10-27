@@ -67,7 +67,7 @@ export default function SettingsPage() {
       // server API route handles validation of the data.
       console.log("Data to submit to API: ", data);
 
-      setSuccess("Successfully updated!");
+      setSuccess("Successfully updated profile!");
     } catch (err: Error | any) {
       console.error(err);
       setError(
@@ -194,6 +194,7 @@ export default function SettingsPage() {
                   Current Password
                 </label>
                 <Input
+                  className="invalid:outline invalid:outline-2 invalid:outline-error"
                   label="current password"
                   type="password"
                   name="currentPassword"
