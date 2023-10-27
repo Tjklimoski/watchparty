@@ -228,7 +228,11 @@ export default function SettingsPage() {
               className="btn btn-accent w-full max-w-md block mx-auto"
               disabled={loading}
             >
-              Update Account
+              {loading ? (
+                <span className="loading loading-spinner text-accent" />
+              ) : (
+                "Update Account"
+              )}
             </button>
           </form>
 
