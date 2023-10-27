@@ -49,8 +49,22 @@ export default function SettingsPage() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     try {
       e.preventDefault();
+      setLoading(true);
+      setError(undefined);
+      setSuccess(undefined);
+
+      // validate data, build data, and submit data to server
+
+      setSuccess("Successfully updated!");
     } catch (err: Error | any) {
-      // handle error
+      console.error(err);
+      setError(
+        err?.message ??
+          err?.response?.data ??
+          "Unable to update, please try again"
+      );
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -129,7 +143,7 @@ export default function SettingsPage() {
                   required
                 />
 
-                <span className="text-right text-xl font-light min-w-[3ch] rounded-md group-focus-within:outline group-focus-within:outline-2 group-focus-within:outline-primary group-focus-within:outline-offset-2 select-none leading-4">
+                <span className="text-right text-xl min-w-[3ch] rounded-md group-focus-within:outline group-focus-within:outline-2 group-focus-within:outline-primary group-focus-within:outline-offset-2 select-none leading-4">
                   {inputs.radius}
                   <br />
                   <span className="text-sm font-thin">miles</span>
