@@ -32,8 +32,10 @@ export async function PATCH(req: NextRequest) {
       // Check that they have a password to update
       if (!user.password)
         throw new Error("Logged in using OAuth, no password to update");
-      // throw error if currentPasswords do not match
+      if (updatedPassword.length <= 5)
+        throw new Error("Password must be longer than 5 characters");
       if (!(await bcrypt.compare(currentPassword, user.password)))
+        // throw error if currentPasswords do not match
         throw new Error("Unable to validate current user");
       hashedPassword = await bcrypt.hash(updatedPassword, 12);
     }

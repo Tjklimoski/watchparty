@@ -181,7 +181,7 @@ export default function SettingsPage() {
                     label="password"
                     type="text"
                     name="password"
-                    minLength={5}
+                    minLength={6}
                     value={inputs.password}
                     onChange={handleChange}
                     disabled={loading}
