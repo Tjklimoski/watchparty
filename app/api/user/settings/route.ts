@@ -49,7 +49,7 @@ export async function PATCH(req: NextRequest) {
       throw new Error("Name must be between 2 and 50 characters");
 
     // validate city and set coordinates based of city value.
-    if (city) {
+    if (city && city !== user.location?.city) {
       if (!city.includes(",")) throw new Error("City must include a state");
       if (city.split(",")[1].trim().length !== 2)
         throw new Error("State must be a 2 letter abreviation");
