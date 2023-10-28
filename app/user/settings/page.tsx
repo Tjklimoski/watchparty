@@ -23,7 +23,14 @@ interface SettingsInputs {
 export default function SettingsPage() {
   const router = useRouter();
   const { user } = useUser();
-  const [inputs, setInputs] = useState<SettingsInputs>({});
+  const [inputs, setInputs] = useState<SettingsInputs>({
+    name: "",
+    city: "",
+    state: "",
+    radius: 50,
+    password: "",
+    currentPassword: "",
+  });
   const [error, setError] = useState<string | undefined>(undefined);
   const [success, setSuccess] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
@@ -33,12 +40,13 @@ export default function SettingsPage() {
     if (!user) return;
     // break location into array with city and state values seperated
     const location = user.location?.city?.split(",");
-    setInputs({
-      name: user.name ?? undefined,
-      city: location?.length === 2 ? location[0].trim() : undefined,
-      state: location?.length === 2 ? location[1].trim() : undefined,
+    setInputs(current => ({
+      ...current,
+      name: user.name ?? "",
+      city: location?.length === 2 ? location[0].trim() : "",
+      state: location?.length === 2 ? location[1].trim() : "",
       radius: user.radius,
-    });
+    }));
   }, [user]);
 
   function handleChange(
@@ -123,6 +131,8 @@ export default function SettingsPage() {
                 value={inputs.name}
                 disabled={loading}
                 onChange={handleChange}
+                required
+                minLength={2}
               />
             </div>
 
