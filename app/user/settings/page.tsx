@@ -7,6 +7,8 @@ import Container from "@/components/util/Container";
 import useUser from "@/hooks/useUser";
 import { API } from "@/lib/APIFetcher";
 import { stateAbrv } from "@/lib/stateAbrv";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 interface SettingsInputs {
@@ -19,6 +21,7 @@ interface SettingsInputs {
 }
 
 export default function SettingsPage() {
+  const router = useRouter();
   const { user } = useUser();
   const [inputs, setInputs] = useState<SettingsInputs>({});
   const [error, setError] = useState<string | undefined>(undefined);
@@ -84,7 +87,19 @@ export default function SettingsPage() {
   }
 
   async function deleteUser() {
-    await API.delete("/user");
+    try {
+      setLoading(true);
+      setError(undefined);
+      await API.delete("/user").catch(err => {
+        throw new Error(err.response.data);
+      });
+      signOut();
+      router.push("/auth");
+    } catch (err: Error | any) {
+      setError(err?.message ?? "Error deleting user");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (

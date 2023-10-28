@@ -27,25 +27,27 @@ export async function DELETE(req: NextRequest) {
 
     if (!deleteUser) throw new Error("Failed to delete user");
 
-    // Fetch nextAuth CSRF token in order to make signout request
-    const csrfToken = await API.get("/auth/csrf")
-      .then(res => res.data)
-      .catch(err => {
-        throw new Error(err);
-      });
+    // // Fetch nextAuth CSRF token in order to make signout request
+    // const csrfToken = await API.get("/auth/csrf")
+    //   .then(res => res.data)
+    //   .catch(err => {
+    //     throw new Error(err);
+    //   });
 
-    console.log("CSRF token: ", csrfToken);
+    // console.log("CSRF token: ", csrfToken);
 
-    // Make POST request to /auth/signout for nextAuth to sign out user
-    const signout = await API.post("/auth/signout", csrfToken)
-      .then(res => res.data)
-      .catch(err => {
-        throw new Error(err);
-      });
+    // // Make POST request to /auth/signout for nextAuth to sign out user
+    // const signout = await API.post("/auth/signout", csrfToken)
+    //   .then(res => res.data)
+    //   .catch(err => {
+    //     throw new Error(err);
+    //   });
 
-    console.log("API /auth/signout response: ", signout);
+    // console.log("API /auth/signout response: ", signout);
 
-    if (!signout) throw new Error("User not signed out");
+    // if (!signout) throw new Error("User not signed out");
+
+    return res.json("User deleted");
   } catch (err: Error | any) {
     return new res(
       err?.message ?? err?.response?.data ?? err ?? "Request failed",
