@@ -80,18 +80,3 @@ export async function PATCH(req: NextRequest) {
     return new res(err?.message ?? err ?? "Update failed", { status: 400 });
   }
 }
-
-// const updatedUser = await prisma.user.update({
-//   where: {
-//     id: user.id,
-//   },
-//   data: {
-//     name: undefined,
-//     radius,
-//     password: hashedPassword,
-//     location: {
-//       city,
-//       coordinates,
-//     },
-//   },
-// });
