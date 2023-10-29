@@ -45,7 +45,7 @@ export async function PATCH(req: NextRequest) {
       throw new Error("Radius must be between 1 and 100");
 
     // limit name to be between 2 and 50 characters
-    if (name && (name.length < 2 || name.length > 50))
+    if ((name || name === "") && (name.length < 2 || name.length > 50))
       throw new Error("Name must be between 2 and 50 characters");
 
     // validate city and set coordinates based of city value.
