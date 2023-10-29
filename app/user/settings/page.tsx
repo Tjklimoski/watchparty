@@ -12,17 +12,17 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 interface SettingsInputs {
-  name?: string;
-  city?: string;
-  state?: string;
-  radius?: number;
-  password?: string;
-  currentPassword?: string;
+  name: string;
+  city: string;
+  state: string;
+  radius: number;
+  password: string;
+  currentPassword: string;
 }
 
 export default function SettingsPage() {
   const router = useRouter();
-  const { user } = useUser();
+  const { user, mutate } = useUser();
   const [inputs, setInputs] = useState<SettingsInputs>({
     name: "",
     city: "",
@@ -40,13 +40,14 @@ export default function SettingsPage() {
     if (!user) return;
     // break location into array with city and state values seperated
     const location = user.location?.city?.split(",");
-    setInputs(current => ({
-      ...current,
+    setInputs({
       name: user.name ?? "",
       city: location?.length === 2 ? location[0].trim() : "",
       state: location?.length === 2 ? location[1].trim() : "",
       radius: user.radius,
-    }));
+      password: "",
+      currentPassword: "",
+    });
   }, [user]);
 
   function handleChange(
@@ -83,6 +84,8 @@ export default function SettingsPage() {
       });
 
       setSuccess("Successfully updated profile!");
+      // call mutate to refetch new user data and reset inputs to new values.
+      mutate();
     } catch (err: Error | any) {
       setError(
         err?.message ??
