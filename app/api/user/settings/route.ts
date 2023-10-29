@@ -57,6 +57,9 @@ export async function PATCH(req: NextRequest) {
       if (!coordinates) throw new Error("Invalid city passed");
     }
 
+    // build location field only if new data to update it with
+    const location = coordinates ? { city, coordinates } : undefined;
+
     // if value is undefined the field will remain the same
     const updatedUser = await prisma.user.update({
       where: {
@@ -66,10 +69,7 @@ export async function PATCH(req: NextRequest) {
         name,
         radius,
         password: hashedPassword,
-        location: {
-          city,
-          coordinates,
-        },
+        location,
       },
     });
 
@@ -80,3 +80,18 @@ export async function PATCH(req: NextRequest) {
     return new res(err?.message ?? err ?? "Update failed", { status: 400 });
   }
 }
+
+// const updatedUser = await prisma.user.update({
+//   where: {
+//     id: user.id,
+//   },
+//   data: {
+//     name: undefined,
+//     radius,
+//     password: hashedPassword,
+//     location: {
+//       city,
+//       coordinates,
+//     },
+//   },
+// });
