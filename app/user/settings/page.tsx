@@ -144,7 +144,6 @@ export default function SettingsPage() {
                 minLength={2}
               />
             </div>
-
             <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
               <label htmlFor="city" className="text-2xl font-semibold">
                 City
@@ -176,7 +175,6 @@ export default function SettingsPage() {
                 </Select>
               </div>
             </div>
-
             <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
               <label htmlFor="radius" className="text-2xl font-semibold">
                 Radius
@@ -208,7 +206,6 @@ export default function SettingsPage() {
                 </span>
               </div>
             </div>
-
             {/* Only render password section if user is NOT Oauth */}
             {user?.emailVerified && (
               <>
@@ -230,24 +227,30 @@ export default function SettingsPage() {
                   />
                 </div>
 
-                <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
-                  <label
-                    htmlFor="current-password"
-                    className="text-2xl font-semibold whitespace-break-spaces"
-                  >
-                    Current Password
-                  </label>
-                  <Input
-                    className="invalid:outline invalid:outline-2 invalid:outline-error"
-                    label="current password"
-                    type="password"
-                    name="currentPassword"
-                    value={inputs.currentPassword}
-                    onChange={handleChange}
-                    // current password required only if value in password
-                    required={!!inputs.password}
-                    disabled={loading}
-                  />
+                <div
+                  className={`grid grid-rows-[0fr] transition-all duration-300 -mt-12 ${
+                    inputs.password && "grid-rows-[1fr] mt-0"
+                  }`}
+                >
+                  <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-1 overflow-hidden pe-[2px]">
+                    <label
+                      htmlFor="current-password"
+                      className="text-2xl font-semibold whitespace-break-spaces"
+                    >
+                      Current Password
+                    </label>
+                    <Input
+                      className="invalid:outline invalid:outline-2 invalid:outline-error"
+                      label="current password"
+                      type="password"
+                      name="currentPassword"
+                      value={inputs.currentPassword}
+                      onChange={handleChange}
+                      // current password required only if value in password
+                      required={!!inputs.password}
+                      disabled={loading}
+                    />
+                  </div>
                 </div>
               </>
             )}
@@ -259,7 +262,6 @@ export default function SettingsPage() {
             {success && (
               <p className="font-semibold text-success uppercase">{success}</p>
             )}
-
             <button
               type="submit"
               className="btn btn-accent w-full max-w-md block mx-auto"
