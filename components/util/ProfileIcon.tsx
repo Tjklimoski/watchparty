@@ -23,7 +23,7 @@ export default function ProfileIcon({
   const userImage = user?.image;
 
   return (
-    <div className={`${className ?? "w-[38px]"} aspect-square`}>
+    <div className={`${className ?? "w-[38px]"} aspect-square relative`}>
       {isLoading ? (
         <FaUser
           className={`rounded-full ${
@@ -31,7 +31,7 @@ export default function ProfileIcon({
           } outline-2 outline-primary group-focus:outline-primary-focus group-hover:outline-accent-focus p-1 text-base-content w-full h-full`}
         />
       ) : userImage ? (
-        <div className="relative w-full h-full">
+        <div className="w-full h-full">
           <Image
             fill
             sizes="100%"
