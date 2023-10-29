@@ -104,8 +104,7 @@ export default function SettingsPage() {
       await API.delete("/user").catch(err => {
         throw new Error(err.response.data);
       });
-      signOut();
-      router.push("/auth");
+      router.push("/auth?signin=true");
     } catch (err: Error | any) {
       setError(err?.message ?? "Error deleting user");
     } finally {

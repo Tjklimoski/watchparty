@@ -18,7 +18,6 @@ export async function DELETE(req: NextRequest) {
     if (!user) throw new Error("No user logged in");
 
     // prisma request to db to delete user
-    // check that cascading delete of watchparty works as intended
     const deleteUser = await prisma.user.delete({
       where: {
         id: user.id,
@@ -27,27 +26,13 @@ export async function DELETE(req: NextRequest) {
 
     if (!deleteUser) throw new Error("Failed to delete user");
 
-    // // Fetch nextAuth CSRF token in order to make signout request
-    // const csrfToken = await API.get("/auth/csrf")
-    //   .then(res => res.data)
-    //   .catch(err => {
-    //     throw new Error(err);
-    //   });
-
-    // console.log("CSRF token: ", csrfToken);
-
-    // // Make POST request to /auth/signout for nextAuth to sign out user
-    // const signout = await API.post("/auth/signout", csrfToken)
-    //   .then(res => res.data)
-    //   .catch(err => {
-    //     throw new Error(err);
-    //   });
-
-    // console.log("API /auth/signout response: ", signout);
-
-    // if (!signout) throw new Error("User not signed out");
-
-    return res.json("User deleted");
+    // remove the next auth session token cookie from the client's browser.
+    return new res("User Deleted", {
+      status: 200,
+      headers: {
+        "Set-Cookie": `next-auth.session-token=; Path=/; Max-Age=0`,
+      },
+    });
   } catch (err: Error | any) {
     return new res(
       err?.message ?? err?.response?.data ?? err ?? "Request failed",
