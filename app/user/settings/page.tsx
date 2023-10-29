@@ -228,10 +228,11 @@ export default function SettingsPage() {
                 </div>
 
                 <div
-                  className={`grid grid-rows-[0fr] transition-all duration-300 -mt-12 ${
-                    inputs.password && "grid-rows-[1fr] mt-0"
+                  className={`grid grid-rows-[0fr] transition-all duration-500 -mt-12 opacity-0 ${
+                    inputs.password && "grid-rows-[1fr] mt-0 opacity-100"
                   }`}
                 >
+                  {/* pe-[2px] is to allow input outline to not be cut off from overflow-hidden */}
                   <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-1 overflow-hidden pe-[2px]">
                     <label
                       htmlFor="current-password"
