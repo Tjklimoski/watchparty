@@ -4,12 +4,13 @@ import Input from "@/components/form/Input";
 import Select from "@/components/form/Select";
 import UserPageHeading from "@/components/user/UserPageHeading";
 import Container from "@/components/util/Container";
+import Popup from "@/components/util/Popup";
 import useUser from "@/hooks/useUser";
 import { API } from "@/lib/APIFetcher";
 import { stateAbrv } from "@/lib/stateAbrv";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface SettingsInputs {
   name: string;
@@ -22,6 +23,7 @@ interface SettingsInputs {
 
 export default function SettingsPage() {
   const router = useRouter();
+  const deletePopupRef = useRef<HTMLDialogElement>(null);
   const { user, mutate } = useUser();
   const [inputs, setInputs] = useState<SettingsInputs>({
     name: "",
@@ -49,6 +51,11 @@ export default function SettingsPage() {
       currentPassword: "",
     });
   }, [user]);
+
+  function openPopup() {
+    if (!deletePopupRef.current) return;
+    deletePopupRef.current.showModal();
+  }
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -104,7 +111,7 @@ export default function SettingsPage() {
       await API.delete("/user").catch(err => {
         throw new Error(err.response.data);
       });
-      router.push("/auth?signin=true");
+      router.push("/auth");
     } catch (err: Error | any) {
       setError(err?.message ?? "Error deleting user");
     } finally {
@@ -270,10 +277,35 @@ export default function SettingsPage() {
             type="button"
             className="btn btn-neutral w-full max-w-md block mx-auto mt-4"
             disabled={loading}
-            onClick={deleteUser}
+            onClick={openPopup}
           >
             Delete Account
           </button>
+
+          {/* Popup must sit outside of form element, or it will trigger handle submit on close */}
+          <Popup title="Are you sure?" ref={deletePopupRef}>
+            <p className="sm:text-lg">This action cannot be undone</p>
+            <div className="flex flex-col sm:flex-row gap-4 mt-4">
+              <button
+                className="btn btn-error grow"
+                onClick={deleteUser}
+                disabled={loading}
+              >
+                {loading ? (
+                  <span className="loading loading-spinner text-error" />
+                ) : (
+                  "Delete"
+                )}
+              </button>
+              <button
+                className="btn btn-neutral grow"
+                onClick={() => deletePopupRef.current!.close()}
+                disabled={loading}
+              >
+                Cancel
+              </button>
+            </div>
+          </Popup>
         </section>
       </Container>
     </main>
