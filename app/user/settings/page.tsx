@@ -214,7 +214,7 @@ export default function SettingsPage() {
                     htmlFor="password"
                     className="text-2xl font-semibold whitespace-break-spaces"
                   >
-                    New Password
+                    Update Password
                   </label>
                   <Input
                     label="password"
