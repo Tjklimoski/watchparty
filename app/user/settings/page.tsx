@@ -8,7 +8,6 @@ import Popup from "@/components/util/Popup";
 import useUser from "@/hooks/useUser";
 import { API } from "@/lib/APIFetcher";
 import { stateAbrv } from "@/lib/stateAbrv";
-import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -129,6 +128,7 @@ export default function SettingsPage() {
             className="[&>*:not(:last-child)]:mb-12"
             onSubmit={handleSubmit}
           >
+            {/* NAME FIELD */}
             <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
               <label htmlFor="name" className="text-2xl font-semibold">
                 Name
@@ -144,6 +144,8 @@ export default function SettingsPage() {
                 minLength={2}
               />
             </div>
+
+            {/* CITY AND STATE FIELD */}
             <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
               <label htmlFor="city" className="text-2xl font-semibold">
                 City
@@ -175,6 +177,8 @@ export default function SettingsPage() {
                 </Select>
               </div>
             </div>
+
+            {/* RADIUS FIELD */}
             <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
               <label htmlFor="radius" className="text-2xl font-semibold">
                 Radius
@@ -202,13 +206,17 @@ export default function SettingsPage() {
                 <span className="text-right text-xl min-w-[3ch] rounded-md select-none leading-4">
                   {inputs.radius}
                   <br />
-                  <span className="text-sm font-thin">miles</span>
+                  <span className="text-sm font-thin">
+                    {inputs.radius === 1 ? "mile" : "miles"}
+                  </span>
                 </span>
               </div>
             </div>
+
             {/* Only render password section if user is NOT Oauth */}
             {user?.emailVerified && (
               <>
+                {/* UPDATE PASSWORD FIELD */}
                 <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
                   <label
                     htmlFor="password"
@@ -227,6 +235,7 @@ export default function SettingsPage() {
                   />
                 </div>
 
+                {/* NEW PASSWORD FIELD */}
                 <div
                   className={`grid grid-rows-[0fr] transition-all duration-500 -mt-12 opacity-0 ${
                     inputs.password && "grid-rows-[1fr] mt-0 opacity-100"
@@ -263,6 +272,7 @@ export default function SettingsPage() {
             {success && (
               <p className="font-semibold text-success uppercase">{success}</p>
             )}
+
             <button
               type="submit"
               className="btn btn-accent w-full max-w-md block mx-auto"
