@@ -7,6 +7,7 @@ import Select from "@/components/form/Select";
 import UserPageHeading from "@/components/user/UserPageHeading";
 import Container from "@/components/util/Container";
 import Popup from "@/components/util/Popup";
+import SlideDownReveal from "@/components/util/SlideDownReveal";
 import useUser from "@/hooks/useUser";
 import { API } from "@/lib/APIFetcher";
 import { stateAbrv } from "@/lib/stateAbrv";
@@ -231,10 +232,9 @@ export default function SettingsPage() {
                 </FormGroup>
 
                 {/* NEW PASSWORD FIELD */}
-                <div
-                  className={`grid grid-rows-[0fr] transition-all duration-500 -mt-12 opacity-0 ${
-                    inputs.password && "grid-rows-[1fr] mt-0 opacity-100"
-                  }`}
+                <SlideDownReveal
+                  condition={!!inputs.password}
+                  className="-mt-12"
                 >
                   <FormGroup>
                     <label
@@ -255,7 +255,7 @@ export default function SettingsPage() {
                       disabled={loading}
                     />
                   </FormGroup>
-                </div>
+                </SlideDownReveal>
               </>
             )}
 
