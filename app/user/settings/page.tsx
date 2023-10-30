@@ -1,5 +1,6 @@
 "use client";
 
+import FormGroup from "@/components/form/FormGroup";
 import Input from "@/components/form/Input";
 import Range from "@/components/form/Range";
 import Select from "@/components/form/Select";
@@ -130,7 +131,7 @@ export default function SettingsPage() {
             onSubmit={handleSubmit}
           >
             {/* NAME FIELD */}
-            <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
+            <FormGroup>
               <label htmlFor="name" className="text-2xl font-semibold">
                 Name
               </label>
@@ -144,10 +145,10 @@ export default function SettingsPage() {
                 required
                 minLength={2}
               />
-            </div>
+            </FormGroup>
 
             {/* CITY AND STATE FIELD */}
-            <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
+            <FormGroup>
               <label htmlFor="city" className="text-2xl font-semibold">
                 City
               </label>
@@ -177,10 +178,10 @@ export default function SettingsPage() {
                   ))}
                 </Select>
               </div>
-            </div>
+            </FormGroup>
 
             {/* RADIUS FIELD */}
-            <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
+            <FormGroup>
               <label htmlFor="radius" className="text-2xl font-semibold">
                 Radius
               </label>
@@ -196,13 +197,13 @@ export default function SettingsPage() {
                 counter
                 unit="mile"
               />
-            </div>
+            </FormGroup>
 
             {/* Only render password section if user is NOT Oauth */}
             {user?.emailVerified && (
               <>
                 {/* UPDATE PASSWORD FIELD */}
-                <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-none">
+                <FormGroup>
                   <label
                     htmlFor="password"
                     className="text-2xl font-semibold whitespace-break-spaces"
@@ -218,7 +219,7 @@ export default function SettingsPage() {
                     onChange={handleChange}
                     disabled={loading}
                   />
-                </div>
+                </FormGroup>
 
                 {/* NEW PASSWORD FIELD */}
                 <div
@@ -226,8 +227,7 @@ export default function SettingsPage() {
                     inputs.password && "grid-rows-[1fr] mt-0 opacity-100"
                   }`}
                 >
-                  {/* p-[2px] is to allow input outline to not be cut off from overflow-hidden */}
-                  <div className="items-center gap-2 grid grid-cols-none sm:grid-cols-[12ch,1fr] grid-rows-[min-content,1fr] sm:grid-rows-1 overflow-hidden p-[2px]">
+                  <FormGroup>
                     <label
                       htmlFor="current-password"
                       className="text-2xl font-semibold whitespace-break-spaces"
@@ -245,7 +245,7 @@ export default function SettingsPage() {
                       required={!!inputs.password}
                       disabled={loading}
                     />
-                  </div>
+                  </FormGroup>
                 </div>
               </>
             )}
