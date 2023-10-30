@@ -10,6 +10,7 @@ import Range from "./Range";
 import { stateAbrv } from "@/lib/stateAbrv";
 import SlideDownReveal from "../util/SlideDownReveal";
 import DeleteAccountBtn from "../util/DeleteAccountBtn";
+import Skeleton from "../util/Skeleton";
 
 interface SettingsInputs {
   name: string;
@@ -100,128 +101,144 @@ export default function UserSettingsForm() {
   return (
     <section className="w-full max-w-4xl mx-auto p-2 xs:p-4 md:p-6 bg-base-100 bg-opacity-60 backdrop-blur-md rounded-lg">
       <form className="[&>*:not(:last-child)]:mb-12" onSubmit={handleSubmit}>
-        {/* NAME FIELD */}
-        <FormGroup>
-          <label
-            htmlFor="name"
-            className="text-lg xs:text-xl sm:text-2xl font-semibold"
-          >
-            Name
-          </label>
-          <Input
-            label="name"
-            type="text"
-            name="name"
-            value={inputs.name}
-            disabled={loading}
-            onChange={handleChange}
-            required
-            minLength={2}
-          />
-        </FormGroup>
-
-        {/* CITY AND STATE FIELD */}
-        <FormGroup>
-          <label
-            htmlFor="city"
-            className="text-lg xs:text-xl sm:text-2xl font-semibold"
-          >
-            City
-          </label>
-          <div className="flex flex-col xs:flex-row gap-2 xs:items-center">
-            <Input
-              label="city"
-              type="text"
-              name="city"
-              value={inputs.city}
-              disabled={loading}
-              onChange={handleChange}
-            />
-            <Select
-              className="border-none disabled:bg-neutral disabled:opacity-60 disabled:cursor-not-allowed"
-              aria-label="state"
-              name="state"
-              value={inputs.state}
-              // required if city has a value
-              required={!!inputs.city}
-              disabled={loading}
-              onChange={handleChange}
-            >
-              {stateAbrv.map(state => (
-                <option key={state} value={state}>
-                  {state}
-                </option>
-              ))}
-            </Select>
-          </div>
-        </FormGroup>
-
-        {/* RADIUS FIELD */}
-        <FormGroup>
-          <label
-            htmlFor="radius"
-            className="text-lg xs:text-xl sm:text-2xl font-semibold"
-          >
-            Radius
-          </label>
-          <Range
-            label="radius"
-            min={1}
-            max={100}
-            step={1}
-            value={inputs.radius}
-            onChange={handleChange}
-            required
-            disabled={loading}
-            counter
-            unit="mile"
-          />
-        </FormGroup>
-
-        {/* Only render password section if user is NOT Oauth */}
-        {user?.emailVerified && (
+        {!user ? (
+          Array(4)
+            .fill(null)
+            .map((_, i) => (
+              <FormGroup key={i}>
+                <Skeleton className="max-w-[10ch] h-6 xs:h-7 sm:h-11" />
+                <Skeleton className="h-10 sm:h-11" />
+              </FormGroup>
+            ))
+        ) : (
           <>
-            {/* UPDATE PASSWORD FIELD */}
+            {/* NAME FIELD */}
             <FormGroup>
               <label
-                htmlFor="password"
-                className="text-lg xs:text-xl sm:text-2xl font-semibold whitespace-break-spaces"
+                htmlFor="name"
+                className="text-lg xs:text-xl sm:text-2xl font-semibold"
               >
-                Update Password
+                Name
               </label>
               <Input
-                label="password"
+                label="name"
                 type="text"
-                name="password"
-                minLength={6}
-                value={inputs.password}
-                onChange={handleChange}
+                name="name"
+                value={inputs.name}
                 disabled={loading}
+                onChange={handleChange}
+                required
+                minLength={2}
               />
             </FormGroup>
 
-            {/* NEW PASSWORD FIELD */}
-            <SlideDownReveal condition={!!inputs.password} className="-mt-12">
-              <FormGroup>
-                <label
-                  htmlFor="current-password"
-                  className="text-lg xs:text-xl sm:text-2xl font-semibold whitespace-break-spaces"
-                >
-                  Current Password
-                </label>
+            {/* CITY AND STATE FIELD */}
+            <FormGroup>
+              <label
+                htmlFor="city"
+                className="text-lg xs:text-xl sm:text-2xl font-semibold"
+              >
+                City
+              </label>
+              <div className="flex flex-col xs:flex-row gap-2 xs:items-center">
                 <Input
-                  className="invalid:outline invalid:outline-2 invalid:outline-error"
-                  label="current password"
-                  type="password"
-                  name="currentPassword"
-                  value={inputs.currentPassword}
-                  onChange={handleChange}
-                  // current password required only if value in password
-                  required={!!inputs.password}
+                  label="city"
+                  type="text"
+                  name="city"
+                  value={inputs.city}
                   disabled={loading}
+                  onChange={handleChange}
                 />
-              </FormGroup>
-            </SlideDownReveal>
+                <Select
+                  className="border-none disabled:bg-neutral disabled:opacity-60 disabled:cursor-not-allowed"
+                  aria-label="state"
+                  name="state"
+                  value={inputs.state}
+                  // required if city has a value
+                  required={!!inputs.city}
+                  disabled={loading}
+                  onChange={handleChange}
+                >
+                  {stateAbrv.map(state => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))}
+                </Select>
+              </div>
+            </FormGroup>
+
+            {/* RADIUS FIELD */}
+            <FormGroup>
+              <label
+                htmlFor="radius"
+                className="text-lg xs:text-xl sm:text-2xl font-semibold"
+              >
+                Radius
+              </label>
+              <Range
+                label="radius"
+                min={1}
+                max={100}
+                step={1}
+                value={inputs.radius}
+                onChange={handleChange}
+                required
+                disabled={loading}
+                counter
+                unit="mile"
+              />
+            </FormGroup>
+
+            {/* Only render password section if user is NOT Oauth */}
+            {user?.emailVerified && (
+              <>
+                {/* UPDATE PASSWORD FIELD */}
+                <FormGroup>
+                  <label
+                    htmlFor="password"
+                    className="text-lg xs:text-xl sm:text-2xl font-semibold whitespace-break-spaces"
+                  >
+                    Update Password
+                  </label>
+                  <Input
+                    label="password"
+                    type="text"
+                    name="password"
+                    minLength={6}
+                    value={inputs.password}
+                    onChange={handleChange}
+                    disabled={loading}
+                  />
+                </FormGroup>
+
+                {/* NEW PASSWORD FIELD */}
+                <SlideDownReveal
+                  condition={!!inputs.password}
+                  className="-mt-12"
+                >
+                  <FormGroup>
+                    <label
+                      htmlFor="current-password"
+                      className="text-lg xs:text-xl sm:text-2xl font-semibold whitespace-break-spaces"
+                    >
+                      Current Password
+                    </label>
+                    <Input
+                      className="invalid:outline invalid:outline-2 invalid:outline-error"
+                      label="current password"
+                      type="password"
+                      name="currentPassword"
+                      value={inputs.currentPassword}
+                      onChange={handleChange}
+                      // current password required only if value in password
+                      required={!!inputs.password}
+                      disabled={loading}
+                    />
+                  </FormGroup>
+                </SlideDownReveal>
+              </>
+            )}
           </>
         )}
 
@@ -236,7 +253,7 @@ export default function UserSettingsForm() {
           className="btn btn-accent w-full max-w-md block mx-auto"
           disabled={loading}
         >
-          {loading ? (
+          {user && loading ? (
             <span className="loading loading-spinner text-accent" />
           ) : (
             "Update Account"
