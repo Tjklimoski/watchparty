@@ -132,7 +132,10 @@ export default function SettingsPage() {
           >
             {/* NAME FIELD */}
             <FormGroup>
-              <label htmlFor="name" className="text-2xl font-semibold">
+              <label
+                htmlFor="name"
+                className="text-lg xs:text-xl sm:text-2xl font-semibold"
+              >
                 Name
               </label>
               <Input
@@ -149,7 +152,10 @@ export default function SettingsPage() {
 
             {/* CITY AND STATE FIELD */}
             <FormGroup>
-              <label htmlFor="city" className="text-2xl font-semibold">
+              <label
+                htmlFor="city"
+                className="text-lg xs:text-xl sm:text-2xl font-semibold"
+              >
                 City
               </label>
               <div className="flex flex-col xs:flex-row gap-2 xs:items-center">
@@ -182,7 +188,10 @@ export default function SettingsPage() {
 
             {/* RADIUS FIELD */}
             <FormGroup>
-              <label htmlFor="radius" className="text-2xl font-semibold">
+              <label
+                htmlFor="radius"
+                className="text-lg xs:text-xl sm:text-2xl font-semibold"
+              >
                 Radius
               </label>
               <Range
@@ -206,7 +215,7 @@ export default function SettingsPage() {
                 <FormGroup>
                   <label
                     htmlFor="password"
-                    className="text-2xl font-semibold whitespace-break-spaces"
+                    className="text-lg xs:text-xl sm:text-2xl font-semibold whitespace-break-spaces"
                   >
                     Update Password
                   </label>
@@ -230,7 +239,7 @@ export default function SettingsPage() {
                   <FormGroup>
                     <label
                       htmlFor="current-password"
-                      className="text-2xl font-semibold whitespace-break-spaces"
+                      className="text-lg xs:text-xl sm:text-2xl font-semibold whitespace-break-spaces"
                     >
                       Current Password
                     </label>
