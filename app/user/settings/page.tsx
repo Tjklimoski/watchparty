@@ -1,6 +1,7 @@
 "use client";
 
 import Input from "@/components/form/Input";
+import Range from "@/components/form/Range";
 import Select from "@/components/form/Select";
 import UserPageHeading from "@/components/user/UserPageHeading";
 import Container from "@/components/util/Container";
@@ -183,34 +184,18 @@ export default function SettingsPage() {
               <label htmlFor="radius" className="text-2xl font-semibold">
                 Radius
               </label>
-              <div className="flex flex-row gap-2 items-center">
-                {/* Focus input none on range input, focus outline moved to range thumb and span counting the numbers. */}
-                <Input
-                  className="bg-transparent cursor-grab appearance-none transition duration-100 focus:outline-none
-                  
-                  [&::-moz-range-track]:bg-neutral [&::-moz-range-track]:h-[3px] [&::-moz-range-track]:rounded-full [&::-moz-range-thumb]:border-none [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:w-[clamp(18px,3vw,25px)] [&::-moz-range-thumb]:h-[clamp(18px,3vw,25px)] [&::-moz-range-thumb]:bg-primary [&::-moz-range-thumb:active]:cursor-grabbing [&::-moz-range-thumb:active]:bg-primary-focus [&::-moz-range-thumb:active]:scale-110 [&::-moz-range-thumb:hover]:scale-110 [&::-moz-range-thumb:active]:shadow-md [&::-moz-range-thumb:active]:shadow-primary/50 [&::-moz-range-thumb:hover]:shadow-md [&::-moz-range-thumb:hover]:shadow-primary/50 [&:focus-visible::-moz-range-thumb]:outline [&:focus-visible::-moz-range-thumb]:outline-2 [&:focus-visible::-moz-range-thumb]:outline-offset-2 [&:focus-visible::-moz-range-thumb]:outline-primary [&:focus-visible::-moz-range-thumb]:scale-110
-                
-                  [&::-webkit-slider-runnable-track]:bg-neutral [&::-webkit-slider-runnable-track]:h-[3px] [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-[clamp(18px,3vw,25px)] [&::-webkit-slider-thumb]:aspect-square [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary [&::-webkit-slider-thumb:active]:cursor-grabbing [&::-webkit-slider-thumb:active]:bg-primary-focus [&::-webkit-slider-thumb:hover]:scale-110 [&::-webkit-slider-thumb:active]:scale-110 [&::-webkit-slider-thumb:active]:shadow-md [&::-webkit-slider-thumb:active]:shadow-primary/50 [&::-webkit-slider-thumb:hover]:shadow-md [&::-webkit-slider-thumb:hover]:shadow-primary/50 [&::-webkit-slider-thumb]:mt-[calc((3px/2)-(clamp(18px,3vw,25px)/2))] [&:focus-visible::-webkit-slider-thumb]:outline [&:focus-visible::-webkit-slider-thumb]:outline-2 [&:focus-visible::-webkit-slider-thumb]:outline-offset-2 [&:focus-visible::-webkit-slider-thumb]:outline-primary [&:focus-visible::-webkit-slider-thumb]:scale-110"
-                  label="radius"
-                  type="range"
-                  name="radius"
-                  min={1}
-                  max={100}
-                  step={1}
-                  value={inputs.radius}
-                  onChange={handleChange}
-                  required
-                  disabled={loading}
-                />
-
-                <span className="text-right text-xl min-w-[3ch] rounded-md select-none leading-4">
-                  {inputs.radius}
-                  <br />
-                  <span className="text-sm font-thin">
-                    {inputs.radius === 1 ? "mile" : "miles"}
-                  </span>
-                </span>
-              </div>
+              <Range
+                label="radius"
+                min={1}
+                max={100}
+                step={1}
+                value={inputs.radius}
+                onChange={handleChange}
+                required
+                disabled={loading}
+                counter
+                unit="mile"
+              />
             </div>
 
             {/* Only render password section if user is NOT Oauth */}
