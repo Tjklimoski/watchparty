@@ -32,11 +32,12 @@ export default function UserSettingsForm() {
   });
   const [error, setError] = useState<string | undefined>(undefined);
   const [success, setSuccess] = useState<string | undefined>(undefined);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   // Update inputs with user data once user data is available
   useEffect(() => {
     if (!user) return;
+    setLoading(false);
     // break location into array with city and state values seperated
     const location = user.location?.city?.split(",");
     setInputs({
