@@ -218,7 +218,7 @@ export default function WatchPartyForm({
       if (!deletedWatchParty) throw new Error("Failed to delete watchParty");
 
       setError("WatchParty Deleted. Redirecting...");
-      router.replace(`/user/${user.id}/myparties`);
+      router.replace(`/user/myparties`);
     } catch (err: Error | any) {
       setError(err?.message ?? "Failed to delete WatchParty");
       setLoading(false);
