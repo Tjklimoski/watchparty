@@ -16,8 +16,34 @@
     -webkit-line-clamp: var(--lines, 2);
     -webkit-box-orient: vertical;
   }
+
   .truncate-one {
     --lines: 1;
+  }
+
+  .main-image {
+    position: relative;
+    width: 45vw;
+    max-width: 48rem;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 0.75rem;
+  }
+
+  .transform-main-image {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    transform-origin: left;
+  }
+
+  .transform-main-image-front {
+    z-index: 10;
+    transform: perspective(2000px) rotateY(-45deg);
+  }
+
+  .transform-main-image-back {
+    transform: perspective(2000px) translateZ(-100px) translateX(50%)
+      rotateY(-45deg);
   }
 }
 
