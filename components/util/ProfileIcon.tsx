@@ -31,7 +31,7 @@ export default function ProfileIcon({
           } outline-2 outline-primary group-focus:outline-primary-focus group-hover:outline-accent-focus p-1 text-base-content w-full h-full`}
         />
       ) : userImage ? (
-        <div className="w-full h-full">
+        <div className="relative w-full h-full">
           <Image
             fill
             sizes="100%"
