@@ -1,24 +1,29 @@
+import auth from "@/lib/authenticate";
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse as res } from "next/server";
 
 interface Params {
-  params: { id: string }
+  params: { id: string };
 }
 
 // POST request for adding a user to partygoerIds
 export async function POST(req: NextRequest, { params }: Params) {
   const { id } = params;
   try {
-    const { userId } = await req.json()
-    if (!userId) throw new Error('No userId');
+    const { userId } = await req.json();
+    if (!userId) throw new Error("No userId");
+
+    const user = await auth();
+    // check user making request is the same user being added to the array
+    if (user.id !== userId) throw new Error("Unauthorized");
 
     const watchParty = await prisma.watchParty.findUniqueOrThrow({
       where: {
-        id
+        id,
       },
       select: {
-        interestedUsersIds: true
-      }
+        interestedUsersIds: true,
+      },
     });
 
     if (watchParty.interestedUsersIds.includes(userId)) {
@@ -27,43 +32,39 @@ export async function POST(req: NextRequest, { params }: Params) {
       // Update the user to include the watchParty id in interestedIn list.
       const updatedUser = await prisma.user.update({
         where: {
-          id: userId
+          id: userId,
         },
         data: {
-          interestedInWatchPartiesIds: { push: id }
-        }
-      })
-      if (!updatedUser) throw new Error('invalid User id')
+          interestedInWatchPartiesIds: { push: id },
+        },
+      });
+      if (!updatedUser) throw new Error("invalid User id");
       return res.json(watchParty);
     }
 
     const updatedWatchParty = await prisma.watchParty.update({
       where: {
-        id
+        id,
       },
       data: {
         interestedUsersIds: { push: userId },
         interestedUsers: {
           update: {
             where: {
-              id: userId
+              id: userId,
             },
             data: {
-              interestedInWatchPartiesIds: { push: id }
-            }
-          }
-        }
+              interestedInWatchPartiesIds: { push: id },
+            },
+          },
+        },
       },
-      include: {
-        interestedUsers: true,
-      }
-    })
+    });
 
-    if (!updatedWatchParty) throw new Error('Failed to update watchparty')
+    if (!updatedWatchParty) throw new Error("Failed to update watchparty");
 
-    return res.json(updatedWatchParty)
+    return res.json(updatedWatchParty);
   } catch (err: Error | any) {
-    console.error(err?.message ?? err)
-    return new res(err?.message ?? "Failed", { status: 400 })
+    return new res(err?.message ?? "Failed", { status: 400 });
   }
 }

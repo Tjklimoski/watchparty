@@ -1,3 +1,4 @@
+import auth from "@/lib/authenticate";
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse as res } from "next/server";
 
@@ -11,6 +12,10 @@ export async function POST(req: NextRequest, { params }: Params) {
   try {
     const { userId } = await req.json();
     if (!userId) throw new Error("No userId");
+
+    const user = await auth();
+    // check user making request is the same user being added to the array
+    if (user.id !== userId) throw new Error("Unauthorized");
 
     const watchParty = await prisma.watchParty.findUniqueOrThrow({
       where: {
@@ -52,16 +57,12 @@ export async function POST(req: NextRequest, { params }: Params) {
           },
         },
       },
-      include: {
-        partygoers: true,
-      },
     });
 
     if (!updatedWatchParty) throw new Error("Failed to update watchparty");
 
     return res.json(updatedWatchParty);
   } catch (err: Error | any) {
-    console.error(err?.message ?? err);
     return new res(err?.message ?? "Failed", { status: 400 });
   }
 }

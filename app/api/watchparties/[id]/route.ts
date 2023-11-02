@@ -34,7 +34,6 @@ export async function PUT(req: NextRequest, { params }: Params) {
 
     // get the currently signed in user that's making the request
     const user = await auth();
-    if (!user) throw new Error("No authenticated user");
 
     // Find pre-existing WatchParty
     const watchParty = await prisma.watchParty.findUniqueOrThrow({
@@ -70,8 +69,6 @@ export async function DELETE(req: NextRequest, { params }: Params) {
   const { id } = params;
   try {
     const user = await auth();
-
-    if (!user) throw new Error("No authenticated user");
 
     // confirm the watchparty id exists
     const watchParty = await prisma.watchParty.findUniqueOrThrow({
