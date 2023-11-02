@@ -25,7 +25,6 @@
     "plur": "^5.1.0",
     "postcss": "^8.4.31",
     "react": "^18.2.0",
-    "react-confetti-explosion": "^2.1.2",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "swr": "^2.2.4",

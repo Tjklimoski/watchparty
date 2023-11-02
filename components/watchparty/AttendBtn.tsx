@@ -6,7 +6,6 @@ import useSWR from "swr";
 import { useEffect, useState } from "react";
 import apiFetcher, { API } from "@/lib/APIFetcher";
 import { BsPersonFillAdd, BsPersonFillDash } from "react-icons/bs";
-import Confetti from "react-confetti-explosion";
 import useUser from "@/hooks/useUser";
 
 interface MyListBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -40,7 +39,6 @@ export default function AttendBtn({
 }: MyListBtnProps) {
   const { user, mutate: userMutate } = useUser();
   const [attending, setAttending] = useState(false);
-  const [animateConfetti, setAnimateConfetti] = useState(false);
 
   // Fetch watchParty Data
   const { data: watchParty, error: watchPartyError } = useSWR<WatchParty>(
@@ -64,11 +62,7 @@ export default function AttendBtn({
     try {
       if (!watchParty) throw new Error("No watchparty");
       if (!user) throw new Error("No current user");
-      setAttending(current => {
-        const isAttending = !current;
-        setAnimateConfetti(isAttending);
-        return isAttending;
-      });
+      setAttending(current => !current);
 
       // Create optimistic data to update watchParty in advance
       const optimisticPartygoerIds = watchParty.partygoerIds.includes(user.id)
@@ -114,17 +108,6 @@ export default function AttendBtn({
           <BsPersonFillDash size={sm ? 20 : 30} />
         ) : (
           <BsPersonFillAdd size={sm ? 20 : 30} />
-        )}
-        {animateConfetti && (
-          <Confetti
-            className="absolute"
-            particleCount={50}
-            particleSize={10}
-            width={450}
-            force={0.43}
-            colors={["#3abff8", "#828df8", "#f471b5", "#2bd4bd"]}
-            onComplete={() => setAnimateConfetti(false)}
-          />
         )}
       </button>
     </>
