@@ -12,7 +12,8 @@ export default async function auth() {
   const session = await getServerSession(config);
   const email = session?.user?.email;
 
-  if (!email) return null;
+  // if (!email) return null;
+  if (!email) throw new Error("No user logged in");
 
   const user = await prisma.user.findUnique({
     where: {
@@ -20,7 +21,8 @@ export default async function auth() {
     },
   });
 
-  if (!user) return null;
+  // if (!user) return null;
+  if (!user) throw new Error("No user found");
 
   // convert user into User type, turn coordinates from Decimal to Number type.
   // Couldnt return Decimal[] type from server action to client component.
