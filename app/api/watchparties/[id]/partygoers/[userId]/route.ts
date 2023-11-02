@@ -1,13 +1,13 @@
 import auth from "@/lib/authenticate";
 import prisma from "@/prisma/client";
-import { NextResponse as res } from "next/server";
+import { NextRequest, NextResponse as res } from "next/server";
 
 interface Params {
   params: { id: string; userId: string };
 }
 
 // Delete a single userId from the partygoerIds array
-export async function DELETE({ params }: Params) {
+export async function DELETE(req: NextRequest, { params }: Params) {
   const { id, userId } = params;
 
   try {
