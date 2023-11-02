@@ -2,6 +2,7 @@ import { NextRequest, NextResponse as res } from "next/server";
 import prisma from "@/prisma/client";
 import { MyListItem } from "@/types";
 import auth from "@/lib/authenticate";
+import BuildPaginationResultsData from "@/lib/BuildData";
 
 // GET all MyListItem with pagination
 export async function GET(req: NextRequest) {
@@ -29,12 +30,11 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    // Build fields for data that will be returned.
-    const total_results = userWithMyList.myList.length;
-    // !splice permanently mutates the myList array.
-    const results = userWithMyList.myList.reverse().splice(skip, take);
-    const total_pages = Math.max(Math.ceil(total_results / take), 1);
-    const data = { page, results, total_pages, total_results };
+    const data = BuildPaginationResultsData(
+      userWithMyList.myList.reverse(),
+      skip,
+      take
+    );
 
     return res.json(data);
   } catch (err: Error | any) {

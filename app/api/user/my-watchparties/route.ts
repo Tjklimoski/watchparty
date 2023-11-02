@@ -1,3 +1,4 @@
+import BuildPaginationResultsData from "@/lib/BuildData";
 import auth from "@/lib/authenticate";
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse as res } from "next/server";
@@ -6,7 +7,6 @@ import { NextRequest, NextResponse as res } from "next/server";
 export async function GET(req: NextRequest) {
   try {
     const user = await auth();
-    if (!user) throw new Error("No current user");
 
     // parse Page searchParam value
     let page: string | number | null = req.nextUrl.searchParams.get("page");
@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
     const take = 20;
     const skip = (page - 1) * take;
 
-    // Get all the user's watchParties that are upcoming and order by date asc.
+    // Get all the user's watchParties that are UPCOMING and order by date ASC.
     const userUpcoming = await prisma.user.findUniqueOrThrow({
       where: {
         id: user.id,
@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    // Get all the user's watchParties that have passed, and order by date desc.
+    // Get all the user's watchParties that have PASSED, and order by date DESC.
     const userPassed = await prisma.user.findUniqueOrThrow({
       where: {
         id: user.id,
@@ -62,16 +62,7 @@ export async function GET(req: NextRequest) {
       ...userPassed.goingToWatchParties,
     ];
 
-    // Build out data
-    const total_results = allWatchParties.length;
-    const results = allWatchParties.splice(skip, take);
-    const total_pages = Math.max(Math.ceil(total_results / take), 1);
-    const data = {
-      page,
-      total_results,
-      results,
-      total_pages,
-    };
+    const data = BuildPaginationResultsData(allWatchParties, skip, take);
 
     return res.json(data);
   } catch (err: Error | any) {

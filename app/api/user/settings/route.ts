@@ -20,7 +20,6 @@ export async function PATCH(req: NextRequest) {
     let coordinates: [number, number] | undefined;
 
     const user = await auth();
-    if (!user) throw new Error("No current user");
 
     // If user passed a new password, authenticate user.
     if (updatedPassword) {
@@ -60,7 +59,7 @@ export async function PATCH(req: NextRequest) {
     // build location field only if new data to update it with
     const location = coordinates ? { city, coordinates } : undefined;
 
-    // if value is undefined the field will remain the same
+    // if value is undefined the field will remain as is
     const updatedUser = await prisma.user.update({
       where: {
         id: user.id,

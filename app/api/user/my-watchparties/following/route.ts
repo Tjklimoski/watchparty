@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse as res } from "next/server";
 import auth from "@/lib/authenticate";
 import prisma from "@/prisma/client";
+import BuildPaginationResultsData from "@/lib/BuildData";
 
 export async function GET(req: NextRequest) {
   try {
     const user = await auth();
-    if (!user) throw new Error("No current user");
 
     // parse Page searchParam value
     let page: string | number | null = req.nextUrl.searchParams.get("page");
@@ -38,16 +38,7 @@ export async function GET(req: NextRequest) {
 
     const followingWatchParties = userWithWatchParties.interestedInWatchParties;
 
-    // Build out data
-    const total_results = followingWatchParties.length;
-    const results = followingWatchParties.splice(skip, take);
-    const total_pages = Math.max(Math.ceil(total_results / take), 1);
-    const data = {
-      page,
-      total_results,
-      results,
-      total_pages,
-    };
+    const data = BuildPaginationResultsData(followingWatchParties, skip, take);
 
     return res.json(data);
   } catch (err: Error | any) {

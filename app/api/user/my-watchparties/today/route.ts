@@ -1,3 +1,4 @@
+import BuildPaginationResultsData from "@/lib/BuildData";
 import auth from "@/lib/authenticate";
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse as res } from "next/server";
@@ -6,7 +7,6 @@ import { NextRequest, NextResponse as res } from "next/server";
 export async function GET(req: NextRequest) {
   try {
     const user = await auth();
-    if (!user) throw new Error("No current user");
 
     const todayStart = new Date(new Date().toDateString());
     const todayEnd = new Date(todayStart.getTime() + 1000 * 60 * 60 * 24);
@@ -50,16 +50,7 @@ export async function GET(req: NextRequest) {
 
     const todayWatchParties = userWithWatchParties.goingToWatchParties;
 
-    // Build out data
-    const total_results = todayWatchParties.length;
-    const results = todayWatchParties.splice(skip, take);
-    const total_pages = Math.max(Math.ceil(total_results / take), 1);
-    const data = {
-      page,
-      total_results,
-      results,
-      total_pages,
-    };
+    const data = BuildPaginationResultsData(todayWatchParties, skip, take);
 
     return res.json(data);
   } catch (err: Error | any) {
