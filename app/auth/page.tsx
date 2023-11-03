@@ -1,10 +1,9 @@
-// is handling the errors returned by NextAuth too.
-// will be sent as a url query param:
+// errors sent by NextAuth will be sent as a URL query param:
 // ex. http://localhost:3000/auth?error=Configuration
-// Read what values can be sent for error here: https://next-auth.js.org/configuration/pages
-// Setup this page to handle both user sign in and sign up, along with handling errors being sent back by next auth.
+// The values that can be sent for error: https://next-auth.js.org/configuration/pages
+
+// This page handles both user sign in & sign up
 // Also use url query params to determine if coming for sign in or sign up.
-// for credential login, will need to pass a csrf Token with the login info: https://next-auth.js.org/configuration/pages
 
 "use client";
 
@@ -15,7 +14,7 @@ import Container from "@/components/util/Container";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import Input from "@/components/form/Input";
-import axios from "axios";
+import { API } from "@/lib/APIFetcher";
 
 export default function AuthPage() {
   const searchParams = useSearchParams();
@@ -78,13 +77,13 @@ export default function AuthPage() {
         if (password.length <= 5)
           throw new Error("Password must be longer than 5 characters");
 
-        await axios
-          .post("/api/auth/register", {
-            email,
-            password,
-          })
-          .then((res) => res.data)
-          .catch((error) => {
+        API;
+        await API.post("/auth/register", {
+          email,
+          password,
+        })
+          .then(res => res.data)
+          .catch(error => {
             throw new Error(error.response.data);
           });
 
@@ -120,7 +119,7 @@ export default function AuthPage() {
                 label="Email"
                 type="email"
                 name="email"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
                 value={email}
                 required
                 disabled={loading}
@@ -129,7 +128,7 @@ export default function AuthPage() {
                 label="Password"
                 type="password"
                 name="password"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
                 value={password}
                 required
                 disabled={loading}
@@ -140,7 +139,7 @@ export default function AuthPage() {
                   type="password"
                   name="confirmPassword"
                   required={!isSignIn}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onChange={e => setConfirmPassword(e.target.value)}
                   value={confirmPassword}
                   disabled={loading}
                 />
