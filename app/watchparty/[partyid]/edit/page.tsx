@@ -7,7 +7,6 @@ import { WatchParty, WatchPartyInputs } from "@/types";
 import APIFetcher from "@/lib/APIFetcher";
 import { formatFullDate } from "@/lib/format";
 import useUser from "@/hooks/useUser";
-import { useState } from "react";
 
 export default function EditWatchPartyPage({
   params,
@@ -16,7 +15,7 @@ export default function EditWatchPartyPage({
 }) {
   const { partyid: id } = params;
   const { data: watchParty, error } = useSWR<WatchParty>(
-    id && `/watchparties/${id}`,
+    `/watchparties/${id}`,
     APIFetcher
   );
   if (error) throw new Error("Invalid WatchParty Id");

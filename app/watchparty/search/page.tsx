@@ -43,11 +43,10 @@ export default function SearchPage({
   const { query, page = "1" } = searchParams;
   const { user } = useUser();
   const [params, setParams] = useState<APIParams | undefined>();
-  const {
-    data: search,
-    isLoading,
-    error,
-  } = useSWR<SearchData>(params && { url: ENDPOINT, params }, APIFetcher);
+  const { data: search, error } = useSWR<SearchData>(
+    params && { url: ENDPOINT, params },
+    APIFetcher
+  );
 
   // build and set params from user data.
   useEffect(() => {
