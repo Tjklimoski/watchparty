@@ -8,7 +8,7 @@ const rubik = Rubik({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "WatchParty",
-  description: "Watch movies with other's just as excited as you",
+  description: "Watch movies and TV Shows with other's just as excited as you!",
 };
 
 export default function RootLayout({
