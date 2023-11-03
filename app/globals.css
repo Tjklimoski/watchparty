@@ -53,5 +53,7 @@ body {
       #3abff830,
       transparent
     ),
+    radial-gradient(circle 750px at left 10% top 45%, #828df820, transparent),
+    radial-gradient(circle 850px at left 85% top 95%, #f471b520, transparent),
     url("/img/noise.png");
 }
