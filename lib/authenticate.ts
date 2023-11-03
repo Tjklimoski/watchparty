@@ -37,9 +37,13 @@ export default async function auth() {
   return convertedUser;
 }
 
-export async function getIsAuth() {
-  const user = await auth();
-  return !!user;
+export async function getIsAuth(): Promise<boolean> {
+  try {
+    const user = await auth();
+    return true;
+  } catch (err) {
+    return false;
+  }
 }
 
 export async function coordinatesToNumbers(
