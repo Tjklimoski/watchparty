@@ -17,8 +17,8 @@ import { useEffect } from "react";
 export default function MovieIdPage({ params }: { params: { id: string } }) {
   useEffect(() => window.scrollTo({ top: 0 }), []);
 
-  // making request for movie it's /movie/mediaid
-  // making request for tv it's /tv/mediaid
+  // making request for a movie: /movie/mediaid
+  // making request for a tv show: /tv/mediaid
   const { id } = params;
   const {
     data: movie,
@@ -26,11 +26,10 @@ export default function MovieIdPage({ params }: { params: { id: string } }) {
     error,
   } = useSWR<MovieDetails>(`/movie/${id}`, fetcher);
 
-  if (!isLoading && error)
-    return <p className="text-error">Invalid Movie ID</p>;
+  if (!isLoading && error) throw new Error("Invalid movie ID");
 
   return (
-    // margin-top on PageContainer is to push the content down
+    // margin-top on main element is to push the content down
     // to leave the space for the billboard image at the top. px sizes are the min-h
     // 4rem and 5rem come from the height of the navbar at those sizes.
     <main className="mt-[max(calc(180px-4rem),_calc(35svh-4rem))] sm:mt-[max(calc(220px-5rem),_calc(45svh-5rem))] mb-10">

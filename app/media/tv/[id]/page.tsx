@@ -18,8 +18,8 @@ import { useEffect } from "react";
 export default function TvIdPage({ params }: { params: { id: string } }) {
   useEffect(() => window.scrollTo({ top: 0 }), []);
 
-  // making request for movie it's /movie/mediaid
-  // making request for tv it's /tv/mediaid
+  // making request for a movie: /movie/mediaid
+  // making request for a tv show: /tv/mediaid
   const { id } = params;
   const {
     data: TVShow,
