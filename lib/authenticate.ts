@@ -12,7 +12,6 @@ export default async function auth() {
   const session = await getServerSession(config);
   const email = session?.user?.email;
 
-  // if (!email) return null;
   if (!email) throw new Error("No user logged in");
 
   const user = await prisma.user.findUnique({
