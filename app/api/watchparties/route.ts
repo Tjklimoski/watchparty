@@ -100,7 +100,7 @@ export async function POST(req: NextRequest) {
     if (!watchParty) throw new Error("Invalid data");
 
     // Update user document by pushing new watchparty id to goingToWatchPartiesIds field
-    const updatedUser = await prisma.user.update({
+    await prisma.user.update({
       where: {
         id: data.userId,
       },
