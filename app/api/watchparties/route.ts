@@ -1,11 +1,12 @@
 import { milesToMeters } from "@/lib/Geocode";
 import { censor } from "@/lib/InnaproriateWords";
+import auth from "@/lib/authenticate";
 import convertToWatchParty from "@/lib/convertWatchPartyData";
 import prisma from "@/prisma/client";
-import { SubmitWatchPartyData, WatchParty } from "@/types";
+import { SubmitWatchPartyData } from "@/types";
 import { NextRequest, NextResponse as res } from "next/server";
 
-// GET all WatchParties that meet the specified searchParams passed
+// GET all "Near Me" WatchParties that meet the specified searchParams passed
 // Must pass a coordinates array [lon, lat] and mile radius
 export async function GET(req: NextRequest) {
   try {
@@ -83,11 +84,8 @@ export async function POST(req: NextRequest) {
     if (!data) throw new Error("No data passed");
 
     // validate user id
-    await prisma.user.findUniqueOrThrow({
-      where: {
-        id: data.userId,
-      },
-    });
+    const user = await auth();
+    if (data.userId !== user.id) throw new Error("Unauthorized");
 
     const watchParty = await prisma.watchParty.create({
       data: {
@@ -99,7 +97,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    if (!watchParty) return new res("Invalid data", { status: 400 });
+    if (!watchParty) throw new Error("Invalid data");
 
     // Update user document by pushing new watchparty id to goingToWatchPartiesIds field
     const updatedUser = await prisma.user.update({
@@ -112,8 +110,7 @@ export async function POST(req: NextRequest) {
     });
 
     return res.json(watchParty);
-  } catch (err) {
-    console.error(err);
-    return new res("Invalid data", { status: 400 });
+  } catch (err: Error | any) {
+    return new res(err?.message ?? "Request failed", { status: 400 });
   }
 }

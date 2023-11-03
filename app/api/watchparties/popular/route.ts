@@ -3,8 +3,7 @@ import convertToWatchParty from "@/lib/convertWatchPartyData";
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse as res } from "next/server";
 
-// GET all WatchParties that are happening today.
-// And that meet the coordinates array [lon, lat] and mile radius passed
+// GET most popular WatchParties (within user's coordinates + radius)
 export async function GET(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams;
@@ -86,7 +85,6 @@ export async function GET(req: NextRequest) {
 
     if (!watchParties) throw new Error("Invalid request");
 
-    // watchParties can be an empty array - meaning nothing found in radius
     return res.json(watchParties);
   } catch (err: Error | any) {
     console.error(err?.message ?? err);

@@ -1,15 +1,13 @@
-import { milesToMeters } from "@/lib/Geocode";
 import convertToWatchParty from "@/lib/convertWatchPartyData";
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse as res } from "next/server";
 
-// GET all WatchParties that are happening today.
-// And that meet the coordinates array [lon, lat] and mile radius passed
+// GET all WatchParties
 export async function GET(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams;
 
-    // Check for required params for /today API route
+    // Check for required params
     if (!searchParams.has("coordinates[]"))
       throw new Error("no coordinates passed");
     if (!searchParams.has("radius")) throw new Error("No radius passed");
@@ -62,7 +60,6 @@ export async function GET(req: NextRequest) {
 
     if (!watchParties) throw new Error("Invalid request");
 
-    // watchParties can be an empty array - meaning nothing found in radius
     return res.json(watchParties);
   } catch (err: Error | any) {
     console.error(err?.message ?? err);

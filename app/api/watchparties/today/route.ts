@@ -98,7 +98,6 @@ export async function GET(req: NextRequest) {
 
     if (!watchParties) throw new Error("Invalid request");
 
-    // watchParties can be an empty array - meaning nothing found in radius
     return res.json(watchParties);
   } catch (err: Error | any) {
     console.error(err?.message ?? err);
