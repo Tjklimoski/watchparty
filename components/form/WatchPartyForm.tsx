@@ -121,6 +121,10 @@ export default function WatchPartyForm({
     deletePopupRef.current.showModal();
   }
 
+  function closePopup() {
+    deletePopupRef.current!.close();
+  }
+
   function handleChange(
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -135,6 +139,32 @@ export default function WatchPartyForm({
   function setEpisode(episodeNumber: number) {
     if (passed) return;
     setInputs(current => ({ ...current, episode: episodeNumber }));
+  }
+
+  function validateInputs(): boolean {
+    // Check if the input year is more or less then 4 digits. if so error.
+    if (inputs.date.split("-")[0].length !== 4) {
+      setError("Please provide a valid year for your WatchParty");
+      return false;
+    }
+
+    // Check if watchParty date + time are in the future of current time.
+    if (Date.now() > new Date(`${inputs.date} ${inputs.time}`).getTime()) {
+      setError("Please set the WatchParty date and time in the future");
+      return false;
+    }
+
+    if (isNaN(parseInt(inputs.zip)) || inputs.zip.length !== 5) {
+      setError("Zip must be a valid, 5 digit long, US zip code");
+      return false;
+    }
+
+    if (mediaType === "tv" && (!inputs.season || !inputs.episode)) {
+      setError("Please select an episode for the WathParty");
+      return false;
+    }
+
+    return true;
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -457,7 +487,7 @@ export default function WatchPartyForm({
             className="btn btn-error grow"
             onClick={() => {
               handleDelete();
-              deletePopupRef.current!.close();
+              closePopup();
             }}
             disabled={loading}
           >
@@ -465,7 +495,7 @@ export default function WatchPartyForm({
           </button>
           <button
             className="btn btn-neutral grow"
-            onClick={() => deletePopupRef.current!.close()}
+            onClick={closePopup}
             disabled={loading}
           >
             Cancel
@@ -474,30 +504,4 @@ export default function WatchPartyForm({
       </Popup>
     </section>
   );
-
-  function validateInputs(): boolean {
-    // Check if the input year is more or less then 4 digits. if so error.
-    if (inputs.date.split("-")[0].length !== 4) {
-      setError("Please provide a valid year for your WatchParty");
-      return false;
-    }
-
-    // Check if watchParty date + time are in the future of current time.
-    if (Date.now() > new Date(`${inputs.date} ${inputs.time}`).getTime()) {
-      setError("Please set the WatchParty date and time in the future");
-      return false;
-    }
-
-    if (isNaN(parseInt(inputs.zip)) || inputs.zip.length !== 5) {
-      setError("Zip must be a valid, 5 digit long, US zip code");
-      return false;
-    }
-
-    if (mediaType === "tv" && (!inputs.season || !inputs.episode)) {
-      setError("Please select an episode for the WathParty");
-      return false;
-    }
-
-    return true;
-  }
 }
