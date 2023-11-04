@@ -1,6 +1,6 @@
 import fetcher from "@/lib/TMDBFetcher";
 import useSWR from "swr";
-import { TVShowDetails, Video } from "@/types";
+import { Video } from "@/types";
 import Skeleton from "../util/Skeleton";
 import { useEffect, useState } from "react";
 

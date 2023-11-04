@@ -61,18 +61,3 @@ export default function MediaCard({ media }: MediaCardProps) {
     </div>
   );
 }
-
-// tmdb poster sizes:
-// "w92",
-// "w154",
-// "w185",
-// "w342",
-// "w500",
-// "w780",
-// "original"
-
-// tmdb backdrop sizes:
-// "w300",
-// "w780",
-// "w1280",
-// "original"

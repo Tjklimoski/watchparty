@@ -22,8 +22,6 @@ export default function EpisodeCarousel({
   setEpisode,
   disabled,
 }: EpisodeCarouselProps) {
-  const baseImgPath = "https://image.tmdb.org/t/p/";
-  const imgSize = "w300";
   const { data } = useSWR<{ episodes: Episode[] }>(
     `/tv/${id}/season/${season}`,
     fetcher
@@ -32,7 +30,7 @@ export default function EpisodeCarousel({
   return (
     <Carousel tight>
       {data?.episodes &&
-        data.episodes.map((episode) => (
+        data.episodes.map(episode => (
           <EpisodeCard
             key={episode.id}
             episode={episode}

@@ -11,7 +11,7 @@ interface CastCarouselProps {
 }
 
 export default function CastCarousel({ id, media_type }: CastCarouselProps) {
-  const { data: credits, isLoading: creditsIsLoading } = useSWR<{
+  const { data: credits } = useSWR<{
     cast: CastCredit[];
   }>(media_type && `/${media_type}/${id}/credits`, fetcher);
 
