@@ -59,15 +59,12 @@ export async function getCoord({
 
     throw new Error("No data sent");
   } catch (err: Error | any) {
-    console.error(err?.message ?? err);
     throw new Error(err?.message ?? "Invalid request");
   }
 }
 
 export async function getUserCoord(): Promise<[number, number]> {
   try {
-    let coordinates: [number, number] | undefined;
-
     const user = await auth();
     if (!user) throw new Error("No user");
 
@@ -77,13 +74,7 @@ export async function getUserCoord(): Promise<[number, number]> {
       return userCoords;
     }
 
-    const city = user?.location?.city;
-
-    if (!city) {
-      coordinates = await getBrowserCoord();
-    } else {
-      coordinates = await getCoord({ city });
-    }
+    const coordinates: [number, number] | undefined = await getBrowserCoord();
 
     if (!coordinates) throw new Error("No coordinates found for user");
 
@@ -92,7 +83,6 @@ export async function getUserCoord(): Promise<[number, number]> {
 
     return coordinates;
   } catch (err: Error | any) {
-    console.error(err?.message ?? err);
     throw new Error(err?.message ?? "Invalid request");
   }
 }
@@ -109,7 +99,6 @@ async function setUserCoord(coordinates: [number, number]): Promise<User> {
     if (!updatedUser) throw new Error("Failed to set user's location");
     return updatedUser;
   } catch (err: Error | any) {
-    console.error(err?.message ?? err);
     throw new Error(err?.message ?? "Invalid request");
   }
 }
@@ -151,7 +140,6 @@ export async function getUserDistanceFrom(
       return distance;
     }
   } catch (err: Error | any) {
-    console.error(err?.message ?? err);
     throw new Error(err?.message ?? "Invalid request");
   }
 }
@@ -183,7 +171,6 @@ export async function getCityFromCoord(
     const stateAbrv = await getStateAbrv(res.state);
     return `${res.name}, ${stateAbrv}`;
   } catch (err: Error | any) {
-    console.error(err?.message ?? err);
     throw new Error(err?.message ?? "Invalid request");
   }
 }
