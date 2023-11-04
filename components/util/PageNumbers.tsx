@@ -61,5 +61,3 @@ export default function PageNumbers({ totalPages }: PageNumbersProps) {
     </div>
   );
 }
-
-// <ul className="flex flex-wrap justify-center gap-4 max-w-lg">

@@ -1,5 +1,3 @@
-import Skeleton from "./Skeleton";
-
 interface CarouselProps {
   children: React.ReactNode;
   tight?: boolean;
