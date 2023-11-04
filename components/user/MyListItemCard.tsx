@@ -30,6 +30,6 @@ export default function MyListItemCard({
   ) : !media ? (
     <Skeleton className="w-full h-full rounded-sm aspect-video" />
   ) : (
-    <SearchResult media={media as TVShow | Movie} />
+    <SearchResult media={media} />
   );
 }
