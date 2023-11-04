@@ -48,7 +48,7 @@ export default function ProfileIconGroup({
             ))}
             {userIds.length > numberOfIcons && (
               <button
-                className={`w-12 aspect-square rounded-full grid place-items-center bg-neutral text-sm outline outline-2 outline-accent hover:outline-accent-focus focus:outline-primary-focus select-none`}
+                className={`relative w-12 aspect-square rounded-full grid place-items-center bg-neutral text-sm outline outline-2 outline-accent hover:outline-accent-focus focus:outline-primary-focus select-none`}
                 onClick={openPopup}
               >
                 +{userIds.length - numberOfIcons}
