@@ -13,7 +13,7 @@ import Select from "./Select";
 import { stateAbrv } from "@/lib/stateAbrv";
 import EpisodeCarousel from "../media/EpisodeCarousel";
 import MediaDetails from "../media/MediaDetails";
-import APIFetcher, { API } from "@/lib/APIFetcher";
+import { API } from "@/lib/APIFetcher";
 import { useParams, useRouter } from "next/navigation";
 import { formatFullDate } from "@/lib/format";
 import Skeleton from "../util/Skeleton";
@@ -44,7 +44,7 @@ export default function WatchPartyForm({
   const deletePopupRef = useRef<HTMLDialogElement>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState("");
   const [inputs, setInputs] = useState<WatchPartyInputs>(() => {
     // If form is being used to edit existing WatchParty data return those existing values.
     if (update && inputValues) return inputValues;
@@ -150,13 +150,14 @@ export default function WatchPartyForm({
       }
 
       if (!user) throw new Error("No current user");
+
       // Get lat and lon data based off event zip code.
       const coordinates = await getCoord({ zip: inputs.zip });
+      // create GeoJSON - mongodb requires [lon,lat] format
+      const geo = { coordinates };
 
       // extract date and time fields from inputs
       const { date, time, ...data } = inputs;
-      // create GeoJSON - mongodb requires [lon,lat] format
-      const geo = { coordinates };
       const watchPartyData = {
         userId: user.id,
         mediaId,
@@ -191,18 +192,20 @@ export default function WatchPartyForm({
         return;
       }
 
-      setSuccess(true);
+      setSuccess(
+        `Successfully ${
+          update ? "updated" : "created"
+        } WatchParty!Redirecting...`
+      );
 
       // If watchParty succesfully created or updated, redirect user to WatchParty page.
       // use replace() to prevent a user navigating back to the page after succesfully creating or updating their event.
       router.replace(`/watchparty/${watchParty.id}`);
     } catch (err: Error | any) {
       setError(err?.message ?? "Invalid form submission");
+    } finally {
       setLoading(false);
-      return;
     }
-
-    setLoading(false);
   }
 
   async function handleDelete() {
@@ -217,7 +220,7 @@ export default function WatchPartyForm({
 
       if (!deletedWatchParty) throw new Error("Failed to delete watchParty");
 
-      setError("WatchParty Deleted. Redirecting...");
+      setSuccess("WatchParty Deleted. Redirecting...");
       router.replace(`/user/myparties`);
     } catch (err: Error | any) {
       setError(err?.message ?? "Failed to delete WatchParty");
@@ -417,15 +420,12 @@ export default function WatchPartyForm({
             </p>
           )}
           {success && (
-            <p className="text-success font-semibold text-lg">
-              Successfully {update ? "updated" : "created"} WatchParty!
-              Redirecting...
-            </p>
+            <p className="text-success font-semibold text-lg">{success}</p>
           )}
           <button
             type="submit"
             className="btn btn-accent mt-4"
-            disabled={loading || !media || success || passed}
+            disabled={loading || !media || !!success || passed}
           >
             {loading ? (
               <span className="loading loading-primary loading-sm" />
@@ -488,7 +488,7 @@ export default function WatchPartyForm({
       return false;
     }
 
-    if (inputs.zip.length !== 5) {
+    if (isNaN(parseInt(inputs.zip)) || inputs.zip.length !== 5) {
       setError("Zip must be a valid, 5 digit long, US zip code");
       return false;
     }
