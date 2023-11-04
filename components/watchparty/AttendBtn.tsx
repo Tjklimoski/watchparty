@@ -68,10 +68,12 @@ export default function AttendBtn({
       const optimisticPartygoerIds = watchParty.partygoerIds.includes(user.id)
         ? watchParty.partygoerIds.filter(id => id !== user.id)
         : [...watchParty.partygoerIds, user.id];
+
       const optimisticData = {
         ...watchParty,
         partygoerIds: optimisticPartygoerIds,
       };
+
       updateWatchPartyData(optimisticData);
 
       const updatedWatchParty = attending

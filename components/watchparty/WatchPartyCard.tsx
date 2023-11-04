@@ -13,7 +13,7 @@ interface WatchPartyCardProps {
 }
 
 export default function WatchPartyCard({ watchParty }: WatchPartyCardProps) {
-  const { data: media, error: mediaError } = useSWR(
+  const { data: media } = useSWR(
     watchParty && `/${watchParty.mediaType}/${watchParty.mediaId}`,
     TMDBfetcher
   );

@@ -1,4 +1,3 @@
-import React from "react";
 import Skeleton from "../util/Skeleton";
 import { formatTime } from "@/lib/format";
 

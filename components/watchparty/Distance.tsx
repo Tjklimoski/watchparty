@@ -37,9 +37,6 @@ export default function Distance({
     // request data
     getUserDistanceFrom(watchPartyCoords, { controller })
       .then(miles => setDistance(miles))
-      .catch((err: Error | any) => {
-        console.error(err?.message ?? err);
-      })
       .finally(() => setLoading(false));
 
     // On unmount of useEffect call abort on currently running abort controller
