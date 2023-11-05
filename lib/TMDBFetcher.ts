@@ -28,27 +28,25 @@ export default async function fetcher(url: string) {
   // Set media type on data being returned.
   const media_type: string =
     url.split("/")[1] === "discover" ? "tv" : url.split("/")[1];
-  return TMDBApi.get(url)
-    .then(res => {
-      if (url.includes("search")) {
-        res.data.results = res.data.results
-          .map((result: APIDataResult) => {
-            const APIMediaType = result?.media_type;
-            if (!APIMediaType || APIMediaType === "person") return undefined;
-            return result;
-          })
-          .filter((result: APIDataResult) => result);
-        // return res.data and NOT res.data.results in order to retain the page information sent back by TMDB API.
-        return res.data;
-      }
-      if (Array.isArray(res.data?.results)) {
-        return res.data.results.map((result: APIDataResult) => {
-          if (!result?.media_type) return { ...result, media_type };
+  return TMDBApi.get(url).then(res => {
+    if (url.includes("search")) {
+      res.data.results = res.data.results
+        .map((result: APIDataResult) => {
+          const APIMediaType = result?.media_type;
+          if (!APIMediaType || APIMediaType === "person") return undefined;
           return result;
-        });
-      } else {
-        return { ...res.data, media_type };
-      }
-    })
-    .catch(err => console.log(url, err));
+        })
+        .filter((result: APIDataResult) => result);
+      // return res.data and NOT res.data.results in order to retain the page information sent back by TMDB API.
+      return res.data;
+    }
+    if (Array.isArray(res.data?.results)) {
+      return res.data.results.map((result: APIDataResult) => {
+        if (!result?.media_type) return { ...result, media_type };
+        return result;
+      });
+    } else {
+      return { ...res.data, media_type };
+    }
+  });
 }

@@ -11,8 +11,8 @@ interface EpisodesProps {
 export default function Episodes({ media }: EpisodesProps) {
   const seasons = media?.seasons;
   // First set requestedSeason to the most recent season
-  const [requestedSeason, setRequestedSeason] = useState<number>(() =>
-    !seasons ? 1 : seasons[seasons.length - 1].season_number
+  const [requestedSeason, setRequestedSeason] = useState<number | undefined>(
+    undefined
   );
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function Episodes({ media }: EpisodesProps) {
         value={requestedSeason}
         disabled={!media}
       >
-        {seasons?.map((season) => (
+        {seasons?.map(season => (
           <option
             key={season.id}
             selected={season.season_number === requestedSeason}
@@ -51,8 +51,8 @@ export default function Episodes({ media }: EpisodesProps) {
 
       <EpisodeCarousel
         key={requestedSeason}
-        id={media?.id || 0}
-        season={requestedSeason || 0}
+        id={media?.id}
+        season={requestedSeason}
       />
     </div>
   );
