@@ -186,7 +186,13 @@ export interface MyListItem {
 
 export type SubmitWatchPartyData = Omit<
   WatchParty,
-  "id" | "user" | "partygoers" | "interestedUsers" | "createdAt" | "UpdatedAt"
+  | "id"
+  | "user"
+  | "partygoers"
+  | "interestedUsers"
+  | "createdAt"
+  | "UpdatedAt"
+  | "dist"
 >;
 
 export interface WatchPartyInputs {
