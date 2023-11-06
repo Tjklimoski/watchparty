@@ -11,7 +11,7 @@ interface APIFetcherOptions {
 }
 
 export const API = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: `${process.env.NEXT_PUBLIC_ORIGIN}/api`,
 });
 
 export default async function fetcher(options: string | APIFetcherOptions) {
