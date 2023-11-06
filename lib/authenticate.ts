@@ -1,5 +1,3 @@
-"use server";
-
 import { getServerSession } from "next-auth";
 import { nextAuthConfig } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/prisma/client";
@@ -38,7 +36,7 @@ export default async function auth() {
 
 export async function getIsAuth(): Promise<boolean> {
   try {
-    const user = await auth();
+    await auth();
     return true;
   } catch (err) {
     return false;
