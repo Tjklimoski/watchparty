@@ -1,3 +1,5 @@
+"use server";
+
 import { getServerSession } from "next-auth";
 import { nextAuthConfig } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/prisma/client";
