@@ -26,7 +26,7 @@ export async function DELETE() {
       headers: {
         "Set-Cookie": `${
           process.env.NODE_ENV === "development" ? "" : "__Secure-"
-        }next-auth.session-token=; Path=/; Max-Age=0; HttpOnly; SameSite="Lax"; ${
+        }next-auth.session-token=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax; ${
           process.env.NODE_ENV === "development" ? "" : "Secure"
         };`,
       },
