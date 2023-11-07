@@ -27,3 +27,5 @@
 // export const config = {
 //   matcher: ['/api/((?!auth).*)', '/auth', '/media/:path*', '/user/:path*', '/watchparty/:path*']
 // }
+
+export async function middleware() {}
