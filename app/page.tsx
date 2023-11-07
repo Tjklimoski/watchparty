@@ -1,16 +1,9 @@
 "use client";
 
 import Container from "@/components/util/Container";
-import APIFetcher from "@/lib/APIFetcher";
 import Image from "next/image";
-import useSWR from "swr";
 
 export default function Home() {
-  const { data: watchparty } = useSWR(
-    "/watchparties/654a9924f466914c4c906fa4",
-    APIFetcher
-  );
-
   return (
     // Negative margin top is to offset the navbar, so content is centered on page
     <main className="-mt-16 sm:-mt-20">
@@ -50,12 +43,6 @@ export default function Home() {
               />
             </div>
           </div>
-        </div>
-
-        {/* TESTING: */}
-        <div>
-          <span>API watchparty id request</span>
-          {watchparty && <span>{JSON.stringify(watchparty)}</span>}
         </div>
       </Container>
     </main>
