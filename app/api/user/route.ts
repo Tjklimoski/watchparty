@@ -24,7 +24,9 @@ export async function DELETE() {
     return new res("User Deleted", {
       status: 200,
       headers: {
-        "Set-Cookie": `__Secure-next-auth.session-token=; Path=/; Max-Age=0`,
+        "Set-Cookie": `next-auth.session-token=; Path=/; Max-Age=0 HttpOnly=true Secure=${
+          process.env.NODE_ENV === "development" ? "false" : "true"
+        }`,
       },
     });
   } catch (err: Error | any) {
