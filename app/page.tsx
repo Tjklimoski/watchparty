@@ -1,4 +1,5 @@
-import MediaCarousel from "@/components/media/MediaCarousel";
+"use client";
+
 import Container from "@/components/util/Container";
 import Image from "next/image";
 
@@ -45,9 +46,7 @@ export default function Home() {
         </div>
 
         {/* TESTING: */}
-        <div>
-          <MediaCarousel endpoint="/movie/popular" />
-        </div>
+        <div></div>
       </Container>
     </main>
   );

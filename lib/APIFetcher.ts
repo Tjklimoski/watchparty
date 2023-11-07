@@ -11,7 +11,7 @@ interface APIFetcherOptions {
 }
 
 export const API = axios.create({
-  baseURL: `https://watchparty-six.vercel.app/api`,
+  baseURL: `${process.env.NEXT_PUBLIC_ORIGIN}/api`,
 });
 
 export default async function fetcher(options: string | APIFetcherOptions) {
