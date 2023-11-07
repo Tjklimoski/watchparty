@@ -1,9 +1,18 @@
 "use client";
 
 import Container from "@/components/util/Container";
+import APIFetcher from "@/lib/APIFetcher";
+import TMDBFetcher from "@/lib/TMDBFetcher";
 import Image from "next/image";
+import useSWR from "swr";
 
 export default function Home() {
+  const { data: movies } = useSWR("/movie/popular", TMDBFetcher);
+  const { data: watchparty } = useSWR(
+    "/watchparties/654a9924f466914c4c906fa4",
+    APIFetcher
+  );
+
   return (
     // Negative margin top is to offset the navbar, so content is centered on page
     <main className="-mt-16 sm:-mt-20">
@@ -46,7 +55,14 @@ export default function Home() {
         </div>
 
         {/* TESTING: */}
-        <div></div>
+        <div>
+          <span>TMDB request</span>
+          {movies && <span>{JSON.stringify(movies)}</span>}
+          <br />
+          <br />
+          <span>API watchparty id request</span>
+          {watchparty && <span>{JSON.stringify(watchparty)}</span>}
+        </div>
       </Container>
     </main>
   );
