@@ -6,10 +6,11 @@ import { NextRequest, NextResponse as res } from "next/server";
 // GET ATTENDED watchparties associated with the current user
 export async function GET(req: NextRequest) {
   try {
+    const searchParams = req.nextUrl.searchParams;
     const user = await auth();
 
     // parse Page searchParam value
-    let page: string | number | null = req.nextUrl.searchParams.get("page");
+    let page: string | number | null = searchParams.get("page");
     if (!page) throw new Error("No page searchParam passed");
     page = parseInt(page);
     if (isNaN(page)) throw new Error("Page serachParam must be a number");
