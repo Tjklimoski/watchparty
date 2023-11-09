@@ -3,6 +3,9 @@ import auth from "@/lib/authenticate";
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse as res } from "next/server";
 
+// To handle DynamicServerError at build time on Vercel
+export const dynamic = "force-dynamic";
+
 // GET ATTENDED watchparties associated with the current user
 export async function GET(req: NextRequest) {
   try {

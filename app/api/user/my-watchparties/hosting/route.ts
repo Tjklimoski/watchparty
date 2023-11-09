@@ -3,16 +3,16 @@ import auth from "@/lib/authenticate";
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse as res } from "next/server";
 
+// To handle DynamicServerError at build time on Vercel
 export const dynamic = "force-dynamic";
 
 // GET ATTENDED watchparties associated with the current user
 export async function GET(req: NextRequest) {
   try {
-    const searchParams = req.nextUrl.searchParams;
     const user = await auth();
 
     // parse Page searchParam value
-    let page: string | number | null = searchParams.get("page");
+    let page: string | number | null = req.nextUrl.searchParams.get("page");
     if (!page) throw new Error("No page searchParam passed");
     page = parseInt(page);
     if (isNaN(page)) throw new Error("Page serachParam must be a number");

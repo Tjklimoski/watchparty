@@ -3,6 +3,9 @@ import auth from "@/lib/authenticate";
 import prisma from "@/prisma/client";
 import BuildPaginationResultsData from "@/lib/BuildData";
 
+// To handle DynamicServerError at build time on Vercel
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     const user = await auth();
