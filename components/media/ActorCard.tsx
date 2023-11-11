@@ -15,7 +15,7 @@ export default function ActorCard({ actor }: ActorCardProps) {
     : "/img/placeholder-actor-md.jpg";
 
   return (
-    <div className="flex flex-col w-44 @lg:w-36 p-2 snap-center @lg:snap-start gap-2 bg-neutral bg-opacity-50 rounded-md">
+    <div className="flex flex-col w-44 @lg:w-36 p-2 snap-center @lg:snap-start gap-2 bg-base-100 bg-opacity-60 rounded-md">
       <Image
         className="w-full h-48 object-cover object-top rounded-sm"
         alt="Cast photo"
