@@ -37,6 +37,7 @@ export default function Episodes({ media }: EpisodesProps) {
         onChange={handleSelect}
         value={requestedSeason}
         disabled={!media}
+        dark
       >
         {seasons?.map(season => (
           <option
