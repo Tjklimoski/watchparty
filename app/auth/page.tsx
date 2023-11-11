@@ -166,7 +166,7 @@ export default function AuthPage() {
             <hr className="border-secondary" />
             <div className="flex flex-col items-center justify-center gap-2 my-6 sm:my-10">
               <OAuthProviderBtn provider="Google" disabled={loading} />
-              <OAuthProviderBtn provider="Facebook" disabled={loading} />
+              {/* <OAuthProviderBtn provider="Facebook" disabled={loading} /> */}
               <OAuthProviderBtn provider="Github" disabled={loading} />
             </div>
             <div className="mt-6 sm:mt-10 text-center text-sm sm:text-md">
