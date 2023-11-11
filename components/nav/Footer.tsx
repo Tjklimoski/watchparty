@@ -8,6 +8,30 @@ export default function Footer() {
       <Container>
         <div className="my-8 flex flex-col sm:flex-row justify-between items-center gap-8">
           <div className="text-center sm:text-left">Created by TJ Klimoski</div>
+          <div className="text-center sm:text-left">
+            <Link
+              href="/privacy-policy"
+              className="text-primary underline hover:text-primary-focus focus:text-primary-focus"
+            >
+              Privacy Policy
+            </Link>
+          </div>
+          <div className="text-center sm:text-left">
+            <Link
+              href="/terms-of-service"
+              className="text-primary underline hover:text-primary-focus focus:text-primary-focus"
+            >
+              Terms of Service
+            </Link>
+          </div>
+          <div className="text-center sm:text-left">
+            <Link
+              href="/delete-account"
+              className="text-primary underline hover:text-primary-focus focus:text-primary-focus"
+            >
+              Delete Account
+            </Link>
+          </div>
 
           <div className="sm:w-48 text-center sm:text-right">
             <Link href="https://www.themoviedb.org/">
