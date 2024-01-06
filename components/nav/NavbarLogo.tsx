@@ -1,9 +1,14 @@
+"use client";
+
+import useUser from "@/hooks/useUser";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function NavbarLogo() {
+  const { user } = useUser();
+
   return (
-    <Link href={"/"}>
+    <Link href={user ? "/media" : "/"}>
       <div className="flex items-center gap-2 group/logo hover:cursor-pointer">
         <Image
           src="/img/watchparty-logo.svg"
