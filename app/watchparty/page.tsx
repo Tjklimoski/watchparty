@@ -1,5 +1,6 @@
 import Container from "@/components/util/Container";
 import SearchBar from "@/components/util/SearchBar";
+import SetLocationWarning from "@/components/util/SetLocationWarning";
 import WatchPartyCarousel from "@/components/watchparty/WatchPartyCarousel";
 
 export default function WatchPartyPage() {
@@ -18,7 +19,8 @@ export default function WatchPartyPage() {
           searchPath="/watchparty/search"
           label="Search by Movies & TV"
         />
-        {APIEndpoints.map((endpoint) => (
+        <SetLocationWarning />
+        {APIEndpoints.map(endpoint => (
           <WatchPartyCarousel key={endpoint} endpoint={endpoint} />
         ))}
       </Container>
