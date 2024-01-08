@@ -5,6 +5,16 @@ export default function getCarouselHeading(url: string) {
   const endOfDay = new Date(startOfDay.getTime() + 1000 * 60 * 60 * 24);
   const endOfWeek = new Date(startOfDay.getTime() + 1000 * 60 * 60 * 24 * 7);
 
+  console.log("Carousel endpoint: ", url);
+  console.log(
+    "tv shows airing this week: ",
+    `/discover/tv?air_date.lte=${endOfWeek.toISOString()}&air_date.gte=${startOfDay.toISOString()}`
+  );
+  console.log(
+    "TV Shows Airing Today: ",
+    `/discover/tv?air_date.lte=${endOfDay.toISOString()}&air_date.gte=${startOfDay.toISOString()}`
+  );
+
   switch (url) {
     case "/movie/popular":
       return "Popular Movies";
