@@ -17,9 +17,9 @@ export default function MediaPage() {
     // to get popular tv shows:
     "/discover/tv",
     // to get tv shows airing this week:
-    `/discover/tv?air_date.lte=${DateData.endOfWeek.toISOString()}&air_date.gte=${DateData.startOfDay.toISOString()}`,
+    `/discover/tv?air_date.lte=${DateData.endOfWeek}&air_date.gte=${DateData.startOfDay}`,
     // to get tv shows airing today:
-    `/discover/tv?air_date.lte=${DateData.endOfDay.toISOString()}&air_date.gte=${DateData.startOfDay.toISOString()}`,
+    `/discover/tv?air_date.lte=${DateData.endOfDay}&air_date.gte=${DateData.startOfDay}`,
   ];
 
   return (

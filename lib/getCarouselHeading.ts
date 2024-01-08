@@ -10,11 +10,11 @@ export default function getCarouselHeading(url: string) {
   console.log("Carousel endpoint: ", url);
   console.log(
     "tv shows airing this week: ",
-    `/discover/tv?air_date.lte=${DateData.endOfWeek.toISOString()}&air_date.gte=${DateData.startOfDay.toISOString()}`
+    `/discover/tv?air_date.lte=${DateData.endOfWeek}&air_date.gte=${DateData.startOfDay}`
   );
   console.log(
     "TV Shows Airing Today: ",
-    `/discover/tv?air_date.lte=${DateData.endOfDay.toISOString()}&air_date.gte=${DateData.startOfDay.toISOString()}`
+    `/discover/tv?air_date.lte=${DateData.endOfDay}&air_date.gte=${DateData.startOfDay}`
   );
 
   switch (url) {
@@ -26,9 +26,9 @@ export default function getCarouselHeading(url: string) {
       return "Now Playing";
     case "/discover/tv":
       return "Popular TV Shows";
-    case `/discover/tv?air_date.lte=${DateData.endOfWeek.toISOString()}&air_date.gte=${DateData.startOfDay.toISOString()}`:
+    case `/discover/tv?air_date.lte=${DateData.endOfWeek}&air_date.gte=${DateData.startOfDay}`:
       return "TV Shows Airing this Week";
-    case `/discover/tv?air_date.lte=${DateData.endOfDay.toISOString()}&air_date.gte=${DateData.startOfDay.toISOString()}`:
+    case `/discover/tv?air_date.lte=${DateData.endOfDay}&air_date.gte=${DateData.startOfDay}`:
       return "TV Shows Airing Today";
     case "/watchparties":
       return "Near You";
